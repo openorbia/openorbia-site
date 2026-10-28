@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Launch List: 45 free AI tools | OpenOrbia</title>
+<meta name="description" content="45 free and open-source AI tools for small businesses, job seekers and security teams, each checked for license, recent updates and real AI features.">
+<link rel="canonical" href="https://openorbia.com/launch-list/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#05070f">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://openorbia.com/launch-list/">
+<meta property="og:title" content="The OpenOrbia Launch List: 45 free AI tools">
+<meta property="og:description" content="Free and open-source AI tools for small business, job seekers and cybersecurity. Every one checked.">
+<meta property="og:image" content="https://openorbia.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#05070f;--surface:rgba(18,24,48,.6);--ink:#eef2ff;--muted:#9aa6c8;--line:rgba(143,166,255,.18);
+  --blue:#5b7cff;--blue-l:#9fb2ff;--violet:#a07bff;--cyan:#7fe7ff;--yellow:#ffd84d;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
+  background-image:radial-gradient(60% 50% at 80% 0%,rgba(91,124,255,.30),transparent 70%),radial-gradient(45% 40% at 100% 25%,rgba(160,123,255,.22),transparent 70%),radial-gradient(50% 45% at 0% 100%,rgba(127,231,255,.09),transparent 70%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='14' cy='32' r='.9' opacity='.55'/%3E%3Ccircle cx='96' cy='14' r='.6' opacity='.35'/%3E%3Ccircle cx='180' cy='66' r='1.1' opacity='.5'/%3E%3Ccircle cx='236' cy='150' r='.7' opacity='.3'/%3E%3Ccircle cx='64' cy='130' r='.9' opacity='.45'/%3E%3Ccircle cx='140' cy='204' r='.6' opacity='.35'/%3E%3Ccircle cx='30' cy='226' r='.8' opacity='.3'/%3E%3Ccircle cx='214' cy='240' r='.7' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment:fixed}
+a{color:var(--blue-l)}
+:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+header{padding-block:22px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 22px/1 var(--display);letter-spacing:-.03em}
+.brand svg{width:38px;height:38px}
+.grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
+.btn.pri{background:linear-gradient(135deg,#8fa6ff,var(--blue) 55%,#7a4dff);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
+.btn.pri:hover{filter:brightness(1.1)}
+.btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
+.btn.ghost:hover{border-color:rgba(143,166,255,.45)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero2{padding-block:clamp(32px,7vh,72px) 18px}
+.hero2 h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.04em;margin:18px 0 14px;text-wrap:balance}
+.hero2 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero2 p{color:#c9d2ee;max-width:62ch;margin:0;font-size:clamp(16px,2vw,18px)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.nav .btn{padding:9px 16px;font-size:14px}
+.bar{position:sticky;top:0;z-index:5;background:rgba(5,7,15,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:-20px;padding:12px 20px;display:grid;gap:10px}
+.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap}
+.tab,.chip{font:500 14px var(--body);color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tab[aria-pressed="true"]{color:#fff;background:linear-gradient(135deg,rgba(143,166,255,.35),rgba(122,77,255,.35));border-color:rgba(143,166,255,.6)}
+.chip{font:500 12px var(--mono);letter-spacing:.06em;padding:6px 12px}
+.chip[aria-pressed="true"]{color:var(--cyan);border-color:rgba(127,231,255,.5);background:rgba(127,231,255,.08)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 220px;min-width:0;font:15px var(--body);color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.count{font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;padding-block:20px 32px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:rgba(143,166,255,.45);transform:translateY(-2px)}
+.top{display:flex;gap:12px;align-items:center}
+.logo{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font:800 18px var(--display);color:#fff}
+.card h3{font:700 18px/1.2 var(--display);margin:0;letter-spacing:-.02em}
+.card .by{font:500 12px var(--mono);color:var(--muted);overflow-wrap:anywhere}
+.card p{margin:0;color:#c9d2ee;font-size:15px;flex:1}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tg{font:500 11px var(--mono);letter-spacing:.04em;padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.tg.os{color:#62e3a8;border-color:rgba(98,227,168,.35)}
+.tg.fsh{color:var(--yellow);border-color:rgba(255,216,77,.35)}
+.tg.loc{color:var(--cyan);border-color:rgba(127,231,255,.35)}
+.tg.cat{color:var(--blue-l)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
+.foot a{text-decoration:none}
+.foot .claim{color:var(--muted);font-size:13px}
+.foot .claim:hover{color:var(--ink)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+.cta{border:1px solid var(--line);border-radius:20px;padding:26px;margin-bottom:48px;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05));display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.cta h2{font:800 clamp(22px,3vw,30px)/1.1 var(--display);margin:0 0 6px;letter-spacing:-.03em}
+.cta p{margin:0;color:#c9d2ee}
+.note{font-size:13px;color:var(--muted);margin:0 0 28px}
+</style>
+</head>
+<body>
+<header class="wrap"><div class="nav">
+  <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
+  <a class="btn ghost" href="/#join">Join the waitlist</a>
+</div></header>
+
+<main class="wrap">
+  <section class="hero2">
+    <span class="badge"><i></i>Launch List · Preview</span>
+    <h1>45 free AI tools, <em>checked</em> before they launch.</h1>
+    <p>Open-source and free AI tools for small businesses, job seekers and security teams. Every tool here has an open license or a real free plan, was updated in the last 6 months, and uses AI as a core feature. No trials, no paywalls.</p>
+  </section>
+
+  <div class="bar" role="region" aria-label="Filters">
+    <div class="tabs" id="tabs">
+      <button class="tab" data-c="all" aria-pressed="true">All</button>
+      <button class="tab" data-c="biz" aria-pressed="false">Small Business</button>
+      <button class="tab" data-c="job" aria-pressed="false">Job Seekers</button>
+      <button class="tab" data-c="sec" aria-pressed="false">Cybersecurity &amp; SOC</button>
+    </div>
+    <div class="row">
+      <input class="search" id="q" type="search" placeholder="Search tools…" aria-label="Search tools">
+      <div class="chips">
+        <button class="chip" data-f="os" aria-pressed="false">Open source</button>
+        <button class="chip" data-f="loc" aria-pressed="false">Runs locally</button>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid" aria-live="polite"></div>
+
+  <p class="note">Listed by OpenOrbia from public GitHub repositories, checked October 2026. Licenses can change, so check each repo before you deploy. Are you a maker? Claim your listing to add screenshots, a launch date and your story.</p>
+
+  <section class="cta">
+    <div><h2>Launching <span class="grad">weekly</span> soon.</h2><p>Makers launch, the community upvotes, the best free tools rise.</p></div>
+    <a class="btn pri" href="/#join">Join the waitlist</a>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>© <span id="yr">2026</span> OpenOrbia</span><span>Where free AI tools take off.</span></div></footer>
+
+<script>
+const T=[
+// Small Business
+["AnythingLLM","Mintplex-Labs/anything-llm","Chat with your business documents in a private AI app. Desktop or server.","biz","os","MIT",1],
+["Ollama","ollama/ollama","Run AI models privately on your own computer or server. Nothing leaves your machine.","biz","os","MIT",1],
+["Twenty","twentyhq/twenty","A modern CRM with a built-in AI assistant and AI steps in workflows.","biz","os","AGPL-3.0",0],
+["n8n","n8n-io/n8n","Automate business tasks with AI agents across 400+ apps.","biz","fsh","Sustainable Use",1],
+["Activepieces","activepieces/activepieces","Friendly no-code automation with AI steps and agents.","biz","os","MIT core",0],
+["Open WebUI","open-webui/open-webui","Your team's own private ChatGPT. Pairs with Ollama.","biz","fsh","Open WebUI License",1],
+["Dify","langgenius/dify","Build an AI support chatbot on your own docs and embed it on your site.","biz","fsh","Dify License",1],
+["Meetily","Zackriya-Solutions/meeting-minutes","Records, transcribes and summarizes meetings on your own laptop.","biz","os","MIT",1],
+["Postiz","gitroomhq/postiz-app","Schedule social media posts and write them with AI.","biz","os","AGPL-3.0",0],
+["Inbox Zero","elie222/inbox-zero","AI email assistant that sorts your inbox and drafts replies.","biz","os","AGPL-3.0",0],
+["paperless-gpt","icereed/paperless-gpt","AI reads, tags and files your scanned receipts and invoices.","biz","os","MIT",1],
+["Vane","ItzCrazyKns/Vane","Private Perplexity-style AI search with cited sources. Formerly Perplexica.","biz","os","MIT",1],
+["LibreChat","danny-avila/LibreChat","A team ChatGPT that works with any AI model, with user accounts.","biz","os","MIT",1],
+["RAGFlow","infiniflow/ragflow","Ask questions across large piles of PDFs, contracts and manuals.","biz","os","Apache-2.0",1],
+["Jan","janhq/jan","Offline ChatGPT-style desktop app. Zero setup, fully private.","biz","os","Apache-2.0",1],
+// Job Seekers
+["career-ops","santifer/career-ops","AI agent that scans job boards, scores your fit, tailors your CV and letters, and tracks your pipeline.","job","os","MIT",1],
+["Resume Matcher","srbhr/Resume-Matcher","Scores your resume against a job post, then tailors it and drafts a cover letter.","job","os","Apache-2.0",1],
+["Reactive Resume","AmruthPillai/Reactive-Resume","Privacy-first resume builder with optional AI writing help.","job","os","MIT",0],
+["JobSync","Gsync/jobsync","Self-hosted job application tracker with AI resume review and fit scoring.","job","os","MIT",1],
+["JobOps","DaKheera47/job-ops","Self-hosted job search pipeline: find jobs, AI-score them 0–100, tailor your resume.","job","fsh","AGPL + Commons Clause",1],
+["DeepInterview","ngoanpv/DeepInterview","Voice AI mock interviewer built from your CV and the job description.","job","os","Apache-2.0",1],
+["ResuLLMe","IvanIsCoding/ResuLLMe","Rewrites and enhances your resume with AI.","job","os","MIT",0],
+["MyResumo","AnalyticAce/myresumo","Tailors your resume and skills to a specific job description.","job","os","MIT",0],
+["GrillKit","grillkit/grillkit","Self-hosted voice trainer for technical interviews with real-time scoring.","job","os","Apache-2.0",1],
+["Interview Coach","J3rry320/interview-coach","Offline voice interview simulator with command-line and web modes.","job","os","MIT",1],
+["ElevateLI","prPMDev/elevateli","Chrome extension that scores your LinkedIn profile and suggests AI improvements.","job","os","MIT",1],
+["JobSync-Service","mayank-glitch-cpu/JobSync-Service","Finds jobs straight from company hiring systems (Greenhouse, Lever, Ashby) for your AI assistant.","job","os","MIT",0],
+["yourspeakreps","iamrishavraj1/yourspeakreps","Fully offline voice interview coach.","job","os","Apache-2.0",1],
+["Abhyas","Samyak9109/Abhyas","Voice mock interview based on your resume and the job description.","job","os","MIT",1],
+["ai-job-search","MadsLorentzen/ai-job-search","Turns Claude Code into a job search assistant: search, scoring, CV and interview prep.","job","os","MIT",0],
+// Cybersecurity & SOC
+["garak","NVIDIA/garak","Scans AI chatbots and LLM apps for jailbreaks, prompt injection and data leaks.","sec","os","Apache-2.0",1],
+["promptfoo","promptfoo/promptfoo","Tests and red-teams AI apps, agents and RAG for vulnerabilities.","sec","os","MIT",1],
+["PyRIT","microsoft/PyRIT","Microsoft's open framework for red-teaming generative AI systems.","sec","os","MIT",0],
+["Tracecat","TracecatHQ/tracecat","Security automation (SOAR) platform built around AI agents for SOC teams.","sec","os","AGPL-3.0",1],
+["Strix","usestrix/strix","AI agents that find and confirm vulnerabilities in your apps.","sec","os","Apache-2.0",1],
+["PentestGPT","GreyDGL/PentestGPT","AI penetration testing assistant from published security research.","sec","os","MIT",1],
+["PentAGI","vxcontrol/pentagi","Self-hosted, fully autonomous multi-agent pentest system.","sec","os","MIT",1],
+["NeMo Guardrails","NVIDIA-NeMo/Guardrails","Add programmable safety rules to AI chatbots.","sec","os","Apache-2.0",1],
+["Vigil","Vigil-SOC/vigil","AI SOC platform for alert triage and investigation with your own LLM.","sec","os","Apache-2.0",1],
+["Shannon","KeygraphHQ/shannon","Autonomous AI pentester for web apps and APIs.","sec","os","AGPL-3.0",1],
+["PurpleLlama","meta-llama/PurpleLlama","Meta's AI safety models, prompt-injection detection and security benchmarks.","sec","os","MIT + Llama",1],
+["AiSOC","beenuar/AiSOC","Self-hosted AI SOC: alert merging, AI triage and MITRE ATT&CK investigations.","sec","os","MIT",1],
+["HexStrike AI","0x4m4/hexstrike-ai","Connects AI agents to 150+ existing security tools through MCP.","sec","os","MIT",0],
+["Agentic SOC Platform","FunnyWolf/agentic-soc-platform","AI agents for alert triage, investigation and enrichment.","sec","os","MIT",0],
+["Nebula","berylliumsec/nebula","AI assistant for pentest operators. Works with local models.","sec","os","BSD-2-Clause",1]
+];
+
+const CAT={biz:"Small Business",job:"Job Seekers",sec:"Cybersecurity & SOC"};
+const COL={biz:["#5b7cff","#7a4dff"],job:["#2fb8a0","#5b7cff"],sec:["#ff6b8a","#7a4dff"]};
+const st={c:"all",q:"",os:false,loc:false};
+const grid=document.getElementById("grid"),count=document.getElementById("count");
+const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+function card(t){
+  const [name,repo,desc,c,badge,lic,local]=t,[a,b]=COL[c];
+  const claim="mailto:launch@openorbia.com?subject="+encodeURIComponent("Claim listing: "+name)+"&body="+encodeURIComponent("Hi OpenOrbia, I maintain "+name+" (https://github.com/"+repo+") and would like to claim the listing.");
+  return `<article class="card"><div class="top"><div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div><div><h3>${esc(name)}</h3><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p><div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Runs locally</span>':''}</div><div class="foot"><a href="https://github.com/${repo}" target="_blank" rel="noopener">View on GitHub ↗</a><a class="claim" href="${claim}">Claim listing</a></div></article>`;
+}
+function render(){
+  const q=st.q.toLowerCase();
+  const r=T.filter(t=>(st.c==="all"||t[3]===st.c)&&(!st.os||t[4]==="os")&&(!st.loc||t[6])&&(!q||(t[0]+" "+t[1]+" "+t[2]).toLowerCase().includes(q)));
+  grid.innerHTML=r.length?r.map(card).join(""):'<div class="empty">No tools match. Try another search.</div>';
+  count.textContent=r.length+" TOOLS";
+}
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;st.c=b.dataset.c;document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-pressed",x===b));render();});
+document.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{st[b.dataset.f]=!st[b.dataset.f];b.setAttribute("aria-pressed",st[b.dataset.f]);render();}));
+document.getElementById("q").addEventListener("input",e=>{st.q=e.target.value;render();});
+const h=location.hash.slice(1);if(CAT[h]){document.querySelector(`.tab[data-c="${h}"]`).click();}
+document.getElementById("yr").textContent=new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
