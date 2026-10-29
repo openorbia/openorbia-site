@@ -29,6 +29,8 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+button,input,select,textarea{font-family:inherit}
+.lig{letter-spacing:0;font-variant-ligatures:common-ligatures}
 html,body{margin:0;min-height:100%}
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
   background-image:radial-gradient(60% 50% at 80% 0%,rgba(91,124,255,.30),transparent 70%),radial-gradient(45% 40% at 100% 25%,rgba(160,123,255,.22),transparent 70%),radial-gradient(50% 45% at 0% 100%,rgba(127,231,255,.09),transparent 70%),
@@ -123,7 +125,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <section class="hero">
     <div>
       <span class="badge"><i></i>Launching soon</span>
-      <h1>Where free AI tools <em>take off</em>.</h1>
+      <h1>Where free AI tools <em>take <span class="lig">off</span></em>.</h1>
       <p class="lede">Clear free limits, the catch, and where your data goes. Checked by hand. No trial-only listings.</p>
       <div class="acts">
         <a class="btn pri" href="#join">Join the waitlist</a>
