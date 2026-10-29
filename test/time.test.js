@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { launchOpensAt, dayLabel, comingLabel } from '../lib/time.js';
+import { launchOpensAt, dayLabel, dayLabelLong, comingLabel } from '../lib/time.js';
 
 test('launch day opens at 12:01 AM Pacific: 08:01 UTC in winter (PST)', () => {
   assert.equal(launchOpensAt('2026-11-23'), Date.UTC(2026, 10, 23, 8, 1));
@@ -30,6 +30,7 @@ test('anything that is not a real YYYY-MM-DD date is NaN', () => {
 test('labels use the Pacific calendar, not UTC', () => {
   const opens = launchOpensAt('2026-11-23');
   assert.equal(dayLabel(opens), 'Monday Nov 23');
+  assert.equal(dayLabelLong(opens), 'Monday, Nov 23');
   assert.equal(comingLabel(opens), 'Coming Monday Nov 23');
   // two minutes earlier it is 11:59 PM Sunday in California, although the UTC clock already says Monday (07:59)
   assert.equal(new Date(opens - 2 * 60 * 1000).toISOString(), '2026-11-23T07:59:00.000Z');

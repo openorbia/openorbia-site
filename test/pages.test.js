@@ -6,6 +6,7 @@ import { currentWeek } from '../lib/launches.js';
 import { videoEmbed, esc, paragraphs, isOpenLicense } from '../lib/html.js';
 import { handleVote } from '../lib/vote.js';
 import { launchOpensAt } from '../lib/time.js';
+import { FIRST_LAUNCH_WEEK, MAKERS_CONFIRMED } from '../lib/site.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const SECRET = 'test-secret-0123456789abcdef';
@@ -203,10 +204,59 @@ test('once launch day has opened the leaderboard is ranked by votes, ties by nam
   assert.match(html, /Ranked by upvotes\. You get one upvote for each launch for the whole week\./);
 });
 
-test('no launches seeded: a friendly empty state', async () => {
+const plain = html => html.replace(/<[^>]+>/g, ' ').replace(/&#39;/g, "'").replace(/\s+/g, ' ');
+const attr = (html, name) => (new RegExp(`${name}="([^"]*)"`).exec(html) || [])[1];
+
+test('nothing scheduled yet, before launch day: the Launch Week 1 intro', async () => {
+  const { status, html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE }));
+  assert.equal(status, 200);
+  const text = plain(html);
+  assert.match(html, /<h1 id="lw-h">Launch Week <em>1<\/em><\/h1>/);
+  assert.ok(text.includes('Coming Monday, Nov 23. Voting opens 12:01 AM Pacific.'));
+  assert.ok(text.includes('How it works'));
+  const steps = [...html.matchAll(/<li><span class="n">0(\d)<\/span><b>([^<]+)<\/b><\/li>/g)].map(m => `${m[1]} ${m[2].replace('&#39;', "'")}`);
+  assert.deepEqual(steps, ['1 Makers launch free AI tools', '2 The community upvotes', "3 The week's top tools get featured"]);
+  assert.ok(text.includes(`Makers confirmed: ${MAKERS_CONFIRMED}`));
+  assert.match(html, /<a class="btn ghost" href="\/launch-list\/">Browse the Launch List<\/a>/);
+  assert.match(html, /<a class="btn pri" href="\/#join">Launch your tool<\/a>/);
+  assert.match(html, /<title>Launch Week 1 \| OpenOrbia<\/title>/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/launches\/">/);
+  assert.ok(!text.includes('Nothing has been scheduled'));
+  assert.ok(!html.includes('lrow'), 'no launch cards, and no maker names, are shown');
+  assert.equal(html.match(/Makers confirmed/g).length, 1);
+});
+
+test('the intro uses the same countdown as the homepage', async () => {
+  const { html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE }));
+  const home = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
+  assert.equal(attr(html, 'data-countdown'), attr(home, 'data-countdown'));
+  assert.equal(attr(html, 'data-countdown'), new Date(launchOpensAt(FIRST_LAUNCH_WEEK.date)).toISOString());
+  assert.equal(attr(html, 'data-on-zero'), 'reload');
+  const units = h => [...h.matchAll(/<b data-unit="(\w)">[^<]*<\/b><span>(\w+)<\/span>/g)].map(m => `${m[1]}:${m[2]}`);
+  assert.deepEqual(units(html), ['d:days', 'h:hours', 'm:min', 's:sec']);
+  assert.deepEqual(units(html), units(home));
+  assert.match(html, /<b data-unit="d">3<\/b>/); // three days to go from BEFORE
+});
+
+test('past the opening time with nothing scheduled: no countdown, an honest message, the rest stays', async () => {
   const { status, html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: AFTER }));
   assert.equal(status, 200);
-  assert.match(html, /Nothing has been scheduled yet/);
+  const text = plain(html);
+  assert.ok(text.includes('Launch Week 1 is open. The first launches are being added, so check back soon.'));
+  assert.ok(!text.includes('Coming Monday'));
+  assert.ok(!html.includes('data-countdown'));
+  assert.ok(text.includes('How it works') && text.includes(`Makers confirmed: ${MAKERS_CONFIRMED}`));
+  assert.ok(html.includes('href="/launch-list/"') && html.includes('href="/#join"'));
+});
+
+test('once launches exist, /launches/ keeps its normal behaviour instead of the intro', async () => {
+  seedThree();
+  for (const now of [BEFORE, AFTER]) {
+    const { html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now }));
+    assert.ok(!html.includes('class="lw"'), 'the empty-state intro is not shown');
+    assert.ok(!html.includes('Makers confirmed'));
+    assert.equal([...html.matchAll(/<li class="lrow/g)].length, 3);
+  }
 });
 
 test('the voted state on the leaderboard follows the visitor', async () => {
