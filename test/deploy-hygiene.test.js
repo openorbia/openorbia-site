@@ -25,6 +25,15 @@ test('no sample or placeholder file is in public/, so none can be deployed', () 
   if (existsSync(launches)) assert.deepEqual(readdirSync(launches).filter(n => n.startsWith('sample-')), []);
 });
 
+test('public/404.html exists: without it Cloudflare Pages answers every unknown URL with the homepage and a 200', () => {
+  const html = readFileSync(join(root, 'public', '404.html'), 'utf8');
+  assert.match(html, /<title>Page not found \| OpenOrbia<\/title>/);
+  assert.match(html, /<meta name="robots" content="noindex">/);
+  assert.match(html, /href="\/assets\/launch\.css"/);
+  assert.ok(!html.includes('rel="canonical"'), 'a 404 page has no canonical URL');
+  for (const link of ['href="/"', 'href="/launches/"', 'href="/launch-list/"']) assert.ok(html.includes(link), link);
+});
+
 test('the sample images live in test/fixtures/launches/ instead', () => {
   const dirs = readdirSync(join(root, 'test', 'fixtures', 'launches'));
   assert.deepEqual(dirs.sort(), ['sample-business-tool', 'sample-job-tool', 'sample-security-tool']);
