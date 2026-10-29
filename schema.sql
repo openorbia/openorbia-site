@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS launches (
   maker_story  TEXT NOT NULL DEFAULT '',
   license      TEXT NOT NULL,
   launch_week  INTEGER NOT NULL,
-  launch_date  TEXT NOT NULL                 -- YYYY-MM-DD; voting opens 12:01 AM Pacific that day
+  launch_date  TEXT NOT NULL,                -- YYYY-MM-DD; voting opens 12:01 AM Pacific that day
+  facts        TEXT NOT NULL DEFAULT '{}'    -- JSON "Free facts": freeTier, cardRequired, dataLocation, setup, catch, lastChecked, testedBy
 );
 CREATE INDEX IF NOT EXISTS idx_launches_week ON launches(launch_week);
 

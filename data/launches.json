@@ -20,18 +20,34 @@
       "website_url": "https://example.com/business-tool",
       "logo_url": "/launches/sample-business-tool/logo.svg",
       "screenshots": [
-        { "src": "/launches/sample-business-tool/shot-1.svg", "alt": "Sample screenshot of the dashboard" },
-        { "src": "/launches/sample-business-tool/shot-2.svg", "alt": "Sample screenshot of the settings screen" }
+        {
+          "src": "/launches/sample-business-tool/shot-1.svg",
+          "alt": "Sample screenshot of the dashboard"
+        },
+        {
+          "src": "/launches/sample-business-tool/shot-2.svg",
+          "alt": "Sample screenshot of the settings screen"
+        }
       ],
       "video_url": null,
       "maker_name": "Sample Maker",
       "maker_links": [
-        { "label": "Website", "url": "https://example.com/sample-maker" }
+        {
+          "label": "Website",
+          "url": "https://example.com/sample-maker"
+        }
       ],
       "maker_story": "This is a sample maker story. In a real launch the maker writes this in their own words, as the first comment on the page.\n\nIt can be a few short paragraphs about why they built the tool.",
       "license": "MIT",
       "launch_week": 1,
-      "launch_date": "2026-11-23"
+      "launch_date": "2026-11-23",
+      "freeTier": "Free forever for one workspace",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Sample text: team features are paid.",
+      "lastChecked": "2026-10-20",
+      "testedBy": "OpenOrbia"
     },
     {
       "sample": true,
@@ -44,7 +60,10 @@
       "website_url": null,
       "logo_url": "/launches/sample-job-tool/logo.svg",
       "screenshots": [
-        { "src": "/launches/sample-job-tool/shot-1.svg", "alt": "Sample screenshot of the resume editor" }
+        {
+          "src": "/launches/sample-job-tool/shot-1.svg",
+          "alt": "Sample screenshot of the resume editor"
+        }
       ],
       "video_url": null,
       "maker_name": "Sample Maker",
@@ -52,7 +71,10 @@
       "maker_story": "This is a sample maker story.",
       "license": "Apache-2.0",
       "launch_week": 1,
-      "launch_date": "2026-11-23"
+      "launch_date": "2026-11-23",
+      "freeTier": "Free, no limits",
+      "dataLocation": "Runs on your computer",
+      "lastChecked": "2026-10-20"
     },
     {
       "sample": true,
@@ -65,12 +87,18 @@
       "website_url": "https://example.com/security-tool",
       "logo_url": "/launches/sample-security-tool/logo.svg",
       "screenshots": [
-        { "src": "/launches/sample-security-tool/shot-1.svg", "alt": "Sample screenshot of the alert queue" }
+        {
+          "src": "/launches/sample-security-tool/shot-1.svg",
+          "alt": "Sample screenshot of the alert queue"
+        }
       ],
       "video_url": null,
       "maker_name": "Sample Maker",
       "maker_links": [
-        { "label": "GitHub", "url": "https://example.com/sample-maker/github" }
+        {
+          "label": "GitHub",
+          "url": "https://example.com/sample-maker/github"
+        }
       ],
       "maker_story": "This is a sample maker story.",
       "license": "AGPL-3.0",

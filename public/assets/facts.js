@@ -1,0 +1,40 @@
+// "Free facts": what is free, the catch, and where your data goes.
+// One module for both places that show them, so the labels, order and date format are the same everywhere: the
+// server-rendered launch pages import it from lib/pages.js, and the Launch List loads it in the browser.
+
+export const CARD_REQUIRED = ['yes', 'no'];
+export const DATA_LOCATIONS = ['Runs on your computer', 'Your server', 'Vendor cloud'];
+export const SETUPS = ['Browser, ready to use', 'Desktop app', 'Install & self-host'];
+export const TESTED_BY = 'OpenOrbia';
+
+const LABELS = { freeTier: 'Free tier', cardRequired: 'Card required', dataLocation: 'Your data', setup: 'Setup', catch: 'The catch' };
+const ORDER = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const text = v => (typeof v === 'string' ? v.trim() : '');
+
+// The rows to show, in a fixed order. A missing or empty field simply has no row.
+// -> [{ key, label, value }]
+export function factRows(facts) {
+  const f = facts && typeof facts === 'object' ? facts : {};
+  const rows = [];
+  for (const key of ORDER) {
+    const raw = key === 'cardRequired' ? ({ yes: 'Yes', no: 'No' })[f[key]] : f[key];
+    const value = text(raw);
+    if (value) rows.push({ key, label: LABELS[key], value });
+  }
+  return rows;
+}
+
+// "2026-11-10" -> "Nov 10, 2026"; anything that is not a real date -> ''
+export function formatChecked(date) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date ?? ''));
+  if (!m) return '';
+  const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const real = new Date(Date.UTC(y, mo - 1, d));
+  if (real.getUTCFullYear() !== y || real.getUTCMonth() !== mo - 1 || real.getUTCDate() !== d) return '';
+  return `${MONTHS[mo - 1]} ${d}, ${y}`;
+}
+
+// Only an exact "OpenOrbia" counts: it is a claim that we tested the tool, so nothing else switches the badge on
+export const isTested = facts => !!facts && typeof facts === 'object' && facts.testedBy === TESTED_BY;
