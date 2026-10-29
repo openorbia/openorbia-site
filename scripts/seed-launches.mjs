@@ -58,9 +58,15 @@ try { data = JSON.parse(readFileSync(file, 'utf8')); } catch (e) {
   process.exit(1);
 }
 
-const { launches, errors, localFiles } = validateLaunches(data);
-for (const f of new Set(localFiles)) {
-  if (!existsSync(join(root, 'public', f))) errors.push(`image or video not found: public${f}`);
+const { launches, errors } = validateLaunches(data);
+// Images must exist in public/ (that is what gets deployed). The images of sample entries live in test/fixtures/ instead,
+// so placeholders are never published.
+const localPaths = l => [l.logo_url, l.video_url, ...l.screenshots.map(s => s.src)].filter(p => p && p.startsWith('/'));
+for (const l of launches) {
+  for (const f of localPaths(l)) {
+    const found = existsSync(join(root, 'public', f)) || (l.sample && existsSync(join(root, 'test', 'fixtures', f)));
+    if (!found) errors.push(`${l.slug}: image or video not found: public${f}${l.sample ? ' (or test/fixtures)' : ''}`);
+  }
 }
 if (errors.length) {
   console.error(`${opts.file} has ${errors.length} problem${errors.length === 1 ? '' : 's'}:`);

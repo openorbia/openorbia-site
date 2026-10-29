@@ -19,8 +19,8 @@ The site is **not** connected to Git: it is deployed with wrangler (direct uploa
 - First time on a database: `npm run db:schema:remote` (safe to re-run)
 
 ## Launch Week
-1. Edit `data/launches.json` (one entry per tool) and put the maker's images in `public/launches/<slug>/`.
-2. `npm run seed:check` validates it, `npm run seed:local` / `npm run seed:remote` load it. Re-seeding updates entries in place and never touches votes; `--prune` also removes launches deleted from the file. Entries with `"sample": true` are placeholders: they are skipped for the live database unless you add `--include-samples`.
+1. Edit `data/launches.json` (one entry per tool) and put the maker's images in `public/launches/<slug>/` (images are static files, so adding them needs a deploy; the launch data itself does not).
+2. `npm run seed:check` validates it, `npm run seed:local` / `npm run seed:remote` load it. Re-seeding updates entries in place and never touches votes; `--prune` also removes launches deleted from the file. Entries with `"sample": true` are placeholders: they are skipped for the live database unless you add `--include-samples`, and their images live in `test/fixtures/launches/<slug>/`, not in `public/`, so they are never deployed.
 
 Voting opens at 12:01 AM Pacific on each launch's `launch_date`. A visitor gets one upvote per launch for the whole launch week. Visitors are told apart by an HMAC of IP address and user agent, salted with the launch week and `VOTE_SECRET`: only that hash is stored, never the IP or user agent, and there are no cookies. Vote requests are rate limited (20 per 10 minutes per visitor), same-origin and JSON only.
 
@@ -28,7 +28,7 @@ Voting opens at 12:01 AM Pacific on each launch's `launch_date`. A visitor gets 
     cp .dev.vars.example .dev.vars
     npm run db:schema:local
     npm run seed:local
-    npm run dev          # http://127.0.0.1:8788
+    npm run dev          # http://127.0.0.1:8788, serves public/ plus the sample images from test/fixtures/
 
 `npm test` runs the tests (Node 22.5 or newer, no dependencies to install).
 

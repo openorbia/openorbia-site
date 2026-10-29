@@ -16,11 +16,15 @@ const problems = over => check(good(over)).errors;
 
 test('data/launches.json is valid, its images exist, and it only holds clearly marked samples for now', () => {
   const data = JSON.parse(readFileSync(new URL('data/launches.json', root), 'utf8'));
-  const { launches, errors, localFiles } = validateLaunches(data);
+  const { launches, errors } = validateLaunches(data);
   assert.deepEqual(errors, []);
   assert.ok(launches.length >= 1);
-  assert.ok(localFiles.length >= launches.length);
-  for (const f of localFiles) assert.ok(existsSync(new URL(`public${f}`, root)), `missing public${f}`);
+  // real entries keep their images in public/ (deployed); sample entries keep them in test/fixtures/ (never deployed)
+  for (const l of launches) {
+    const files = [l.logo_url, l.video_url, ...l.screenshots.map(s => s.src)].filter(p => p && p.startsWith('/'));
+    assert.ok(files.length >= 1, `${l.slug} has no local images`);
+    for (const f of files) assert.ok(existsSync(new URL(`${l.sample ? 'test/fixtures' : 'public'}${f}`, root)), `${l.slug}: missing ${f}`);
+  }
   assert.ok(launches.every(l => l.sample), 'every shipped entry is a sample until the real launches are added');
 });
 

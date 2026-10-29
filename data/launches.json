@@ -5,7 +5,7 @@
     "  npm run seed:local    load it into the local D1 database (npx wrangler pages dev)",
     "  npm run seed:remote   load it into the live D1 database (skips entries with \"sample\": true unless you add --include-samples)",
     "Maker images go in public/launches/<slug>/ and are referenced as /launches/<slug>/logo.png etc.",
-    "Entries with \"sample\": true are placeholders for building and testing. Delete them when the real launches are in.",
+    "Entries with \"sample\": true are placeholders for building and testing. Their images live in test/fixtures/launches/<slug>/ (never deployed; npm run dev serves them). Delete them when the real launches are in.",
     "Re-running the seed updates entries in place and never touches votes. Use --prune to also remove launches deleted from this file."
   ],
   "launches": [
