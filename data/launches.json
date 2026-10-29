@@ -1,0 +1,81 @@
+{
+  "_readme": [
+    "Launch Week data. Edit this file, then:",
+    "  npm run seed:check    validate it and print what would be loaded (changes nothing)",
+    "  npm run seed:local    load it into the local D1 database (npx wrangler pages dev)",
+    "  npm run seed:remote   load it into the live D1 database (skips entries with \"sample\": true unless you add --include-samples)",
+    "Maker images go in public/launches/<slug>/ and are referenced as /launches/<slug>/logo.png etc.",
+    "Entries with \"sample\": true are placeholders for building and testing. Delete them when the real launches are in.",
+    "Re-running the seed updates entries in place and never touches votes. Use --prune to also remove launches deleted from this file."
+  ],
+  "launches": [
+    {
+      "sample": true,
+      "slug": "sample-business-tool",
+      "name": "Sample Business Tool",
+      "tagline": "Placeholder entry for previewing a Small Business launch",
+      "description": "This is sample content used to preview the layout of a launch page. It is not a real tool.\n\nReplace it with the maker's own description: what the tool does, who it is for, and what is free about it.",
+      "category": "biz",
+      "repo_url": "https://example.com/sample/business-tool",
+      "website_url": "https://example.com/business-tool",
+      "logo_url": "/launches/sample-business-tool/logo.svg",
+      "screenshots": [
+        { "src": "/launches/sample-business-tool/shot-1.svg", "alt": "Sample screenshot of the dashboard" },
+        { "src": "/launches/sample-business-tool/shot-2.svg", "alt": "Sample screenshot of the settings screen" }
+      ],
+      "video_url": null,
+      "maker_name": "Sample Maker",
+      "maker_links": [
+        { "label": "Website", "url": "https://example.com/sample-maker" }
+      ],
+      "maker_story": "This is a sample maker story. In a real launch the maker writes this in their own words, as the first comment on the page.\n\nIt can be a few short paragraphs about why they built the tool.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23"
+    },
+    {
+      "sample": true,
+      "slug": "sample-job-tool",
+      "name": "Sample Job Tool",
+      "tagline": "Placeholder entry for previewing a Job Seekers launch",
+      "description": "This is sample content used to preview the layout of a launch page. It is not a real tool.",
+      "category": "job",
+      "repo_url": "https://example.com/sample/job-tool",
+      "website_url": null,
+      "logo_url": "/launches/sample-job-tool/logo.svg",
+      "screenshots": [
+        { "src": "/launches/sample-job-tool/shot-1.svg", "alt": "Sample screenshot of the resume editor" }
+      ],
+      "video_url": null,
+      "maker_name": "Sample Maker",
+      "maker_links": [],
+      "maker_story": "This is a sample maker story.",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23"
+    },
+    {
+      "sample": true,
+      "slug": "sample-security-tool",
+      "name": "Sample Security Tool",
+      "tagline": "Placeholder entry for previewing a Cybersecurity & SOC launch",
+      "description": "This is sample content used to preview the layout of a launch page. It is not a real tool.",
+      "category": "sec",
+      "repo_url": "https://example.com/sample/security-tool",
+      "website_url": "https://example.com/security-tool",
+      "logo_url": "/launches/sample-security-tool/logo.svg",
+      "screenshots": [
+        { "src": "/launches/sample-security-tool/shot-1.svg", "alt": "Sample screenshot of the alert queue" }
+      ],
+      "video_url": null,
+      "maker_name": "Sample Maker",
+      "maker_links": [
+        { "label": "GitHub", "url": "https://example.com/sample-maker/github" }
+      ],
+      "maker_story": "This is a sample maker story.",
+      "license": "AGPL-3.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23"
+    }
+  ]
+}

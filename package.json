@@ -1,0 +1,18 @@
+{
+  "name": "openorbia-site",
+  "private": true,
+  "type": "module",
+  "description": "Source for https://openorbia.com: static site + Cloudflare Pages Functions + D1.",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "npx wrangler pages dev public",
+    "db:schema:local": "npx wrangler d1 execute openorbia-db --local --file=schema.sql",
+    "db:schema:remote": "npx wrangler d1 execute openorbia-db --remote --file=schema.sql",
+    "seed:check": "node scripts/seed-launches.mjs --dry-run",
+    "seed:local": "node scripts/seed-launches.mjs --local",
+    "seed:remote": "node scripts/seed-launches.mjs --remote"
+  }
+}
