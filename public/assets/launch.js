@@ -80,11 +80,29 @@
   if (root) {
     const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 
+    // The heading reads "Launch Week 1 is coming" until the week opens, then "This week's launches"
+    const heading = document.getElementById('week-h');
+    const setHeading = text => { if (heading) heading.textContent = text; };
+
     const show = data => {
-      if (!data || !data.ok || !data.week) return; // nothing scheduled: keep the static "Coming Monday Nov 23"
+      if (!data || !data.ok) return;
+      if (!data.week) {
+        // Nothing scheduled yet: keep the static "Coming Monday Nov 23" and countdown, unless that time has already passed
+        const cd = root.querySelector('[data-countdown]');
+        if (cd && Number.isFinite(data.now) && data.now >= Date.parse(cd.dataset.countdown)) {
+          setHeading("This week's launches");
+          const intro = root.querySelector('[data-week-intro]');
+          if (intro) intro.textContent = 'Launch Week 1 is open. The first launches are being added, so check back soon.';
+          const coming = root.querySelector('[data-week-coming]');
+          if (coming) coming.remove();
+          cd.remove();
+        }
+        return;
+      }
       const head = document.getElementById('week-badge');
       if (head) head.lastChild.textContent = `Launch Week ${data.week}`;
       if (!data.open) {
+        setHeading(`Launch Week ${data.week} is coming`);
         const coming = root.querySelector('[data-week-coming]');
         if (coming && data.label) coming.textContent = `Coming ${data.label}`;
         const intro = root.querySelector('[data-week-intro]');
@@ -93,6 +111,7 @@
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
         return;
       }
+      setHeading("This week's launches");
       const list = el('ol', 'mini');
       data.launches.forEach((l, i) => {
         const li = el('li');

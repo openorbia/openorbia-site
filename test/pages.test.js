@@ -324,6 +324,13 @@ test('the homepage section is wired up and its fallback date matches the launch 
   const home = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
   assert.match(home, /<section class="week" id="week"/);
   assert.match(home, /id="week-live"/);
+  // before launch day the heading says the week is coming; launch.js switches it to "This week's launches" when it opens
+  assert.match(home, /<h2 id="week-h">Launch Week 1 is coming<\/h2>/);
+  assert.ok(!home.includes(`<h2 id="week-h">This week's launches</h2>`));
+  const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
+  assert.ok(js.includes("setHeading(\"This week's launches\")"));
+  assert.ok(js.includes('setHeading(`Launch Week ${data.week} is coming`)'));
+  assert.match(home, /<span class="badge" id="week-badge"><i><\/i>Launch Week 1<\/span>/); // exactly this text, nothing after the 1
   assert.match(home, /Coming Monday Nov 23/);
   assert.match(home, new RegExp(`data-countdown="${new Date(OPENS).toISOString()}"`));
   assert.match(home, /<script src="\/assets\/launch\.js" defer><\/script>/);
