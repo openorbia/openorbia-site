@@ -34,6 +34,7 @@ body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='14' cy='32' r='.9' opacity='.55'/%3E%3Ccircle cx='96' cy='14' r='.6' opacity='.35'/%3E%3Ccircle cx='180' cy='66' r='1.1' opacity='.5'/%3E%3Ccircle cx='236' cy='150' r='.7' opacity='.3'/%3E%3Ccircle cx='64' cy='130' r='.9' opacity='.45'/%3E%3Ccircle cx='140' cy='204' r='.6' opacity='.35'/%3E%3Ccircle cx='30' cy='226' r='.8' opacity='.3'/%3E%3Ccircle cx='214' cy='240' r='.7' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment:fixed}
 a{color:var(--blue-l)}
+::placeholder{color:var(--muted);opacity:1}
 :focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 header{padding-block:22px}
@@ -44,8 +45,8 @@ header{padding-block:22px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
-.btn.pri{background:linear-gradient(135deg,#8fa6ff,var(--blue) 55%,#7a4dff);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
-.btn.pri:hover{filter:brightness(1.1)}
+.btn.pri{background:linear-gradient(135deg,#4258d8,#5a45e0 55%,#6840e0);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
+.btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
@@ -79,6 +80,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .tg.fsh{color:var(--yellow);border-color:rgba(255,216,77,.35)}
 .tg.loc{color:var(--cyan);border-color:rgba(127,231,255,.35)}
 .tg.fnd{color:#ffb3d1;border-color:rgba(255,179,209,.35)}
+.skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
 .tg.tested{color:var(--cyan);border-color:rgba(127,231,255,.4)}
 .ff{display:grid;gap:3px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(5,7,15,.45);font-size:12.5px;line-height:1.45}
 .ff b{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
@@ -100,12 +103,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="wrap"><div class="nav">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
   <a class="btn ghost" href="/#join">Join the waitlist</a>
 </div></header>
 
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <section class="hero2">
     <span class="badge"><i></i>Launch List · Preview</span>
     <h1>45 free AI tools, <em>checked</em> before they launch.</h1>

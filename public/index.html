@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpenOrbia: where free AI tools take off</title>
-<meta name="description" content="OpenOrbia is a launch platform for free and open-source AI tools, for small businesses, job seekers and security teams. Launching soon.">
+<meta name="description" content="A launch platform for free and open-source AI tools, for small businesses, job seekers and security teams. Launch Week 1: Monday, Nov 23.">
 <link rel="canonical" href="https://openorbia.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-512.png" type="image/png">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://openorbia.com/">
 <meta property="og:title" content="OpenOrbia: where free AI tools take off">
-<meta property="og:description" content="A launch platform for free and open-source AI tools. Launching soon.">
+<meta property="og:description" content="A launch platform for free and open-source AI tools, for small businesses, job seekers and security teams. Launch Week 1: Monday, Nov 23.">
 <meta property="og:image" content="https://openorbia.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +37,7 @@ body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='14' cy='32' r='.9' opacity='.55'/%3E%3Ccircle cx='96' cy='14' r='.6' opacity='.35'/%3E%3Ccircle cx='180' cy='66' r='1.1' opacity='.5'/%3E%3Ccircle cx='236' cy='150' r='.7' opacity='.3'/%3E%3Ccircle cx='64' cy='130' r='.9' opacity='.45'/%3E%3Ccircle cx='140' cy='204' r='.6' opacity='.35'/%3E%3Ccircle cx='30' cy='226' r='.8' opacity='.3'/%3E%3Ccircle cx='214' cy='240' r='.7' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment:fixed}
 a{color:var(--blue-l)}
+::placeholder{color:var(--muted);opacity:1}
 :focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 header{padding-block:22px}
@@ -53,8 +54,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .lede{font-size:clamp(17px,2vw,19px);color:#c9d2ee;max-width:56ch;margin:0 0 28px}
 .acts{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
-.btn.pri{background:linear-gradient(135deg,#8fa6ff,var(--blue) 55%,#7a4dff);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
-.btn.pri:hover{filter:brightness(1.1)}
+.btn.pri{background:linear-gradient(135deg,#4258d8,#5a45e0 55%,#6840e0);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
+.btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
 .orb{justify-self:center;width:100%;max-width:360px;aspect-ratio:1;position:relative}
@@ -93,6 +94,9 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .wl .btn{justify-content:center}
 .wl .btn[disabled]{opacity:.6;cursor:default}
 .msg{min-height:1.2em;font-size:14.5px}
+.nojs-msg{display:none}.nojs-msg:target{display:block}
+.skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
 .msg.ok{color:#62e3a8}.msg.err{color:#ff9b8f}
 .fine{font-size:13px;color:var(--muted)}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
@@ -117,11 +121,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="wrap">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <section class="hero">
     <div>
       <span class="badge"><i></i>Launching soon</span>
@@ -169,7 +174,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <h2 id="join-h">Get in before the first launch.</h2>
       <p>Makers: reserve a free spot in our first launch week. Everyone else: get Orbia Weekly, the best free AI launches in one Monday email.</p>
     </div>
-    <form id="wl" class="wl" novalidate>
+    <form id="wl" class="wl" method="post" action="/api/waitlist" novalidate>
       <fieldset class="roles"><legend>I am</legend>
         <label><input type="radio" name="role" value="maker" checked> A maker with a free AI tool</label>
         <label><input type="radio" name="role" value="reader"> Here for free AI tools</label>
@@ -179,6 +184,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" tabindex="-1" autocomplete="off"></label></div>
       <button class="btn pri" type="submit" id="wl-btn">Join the waitlist</button>
       <p class="msg" id="wl-msg" role="status" aria-live="polite"></p>
+      <p class="msg ok nojs-msg" id="wl-ok" role="status">You're on the list. We'll email you before Launch Week 1.</p>
+      <p class="msg ok nojs-msg" id="wl-already" role="status">You're already on the list. We'll be in touch.</p>
+      <p class="msg err nojs-msg" id="wl-bad-email" role="alert">Please enter a valid email address.</p>
+      <p class="msg err nojs-msg" id="wl-bad-link" role="alert">Your tool's website should start with https://</p>
+      <p class="msg err nojs-msg" id="wl-error" role="alert">Something went wrong. Please try again, or email launch@openorbia.com.</p>
       <p class="fine">No spam. One email a week at most, and you can leave any time.</p>
     </form>
   </section>

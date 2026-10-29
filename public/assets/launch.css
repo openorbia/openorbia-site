@@ -14,6 +14,7 @@ body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);overflow-wr
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='14' cy='32' r='.9' opacity='.55'/%3E%3Ccircle cx='96' cy='14' r='.6' opacity='.35'/%3E%3Ccircle cx='180' cy='66' r='1.1' opacity='.5'/%3E%3Ccircle cx='236' cy='150' r='.7' opacity='.3'/%3E%3Ccircle cx='64' cy='130' r='.9' opacity='.45'/%3E%3Ccircle cx='140' cy='204' r='.6' opacity='.35'/%3E%3Ccircle cx='30' cy='226' r='.8' opacity='.3'/%3E%3Ccircle cx='214' cy='240' r='.7' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment:fixed}
 a{color:var(--blue-l)}
+::placeholder{color:var(--muted);opacity:1}
 :focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
@@ -37,8 +38,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @keyframes pulse{50%{opacity:.35}}
 @media (prefers-reduced-motion:reduce){.badge i{animation:none}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
-.btn.pri{background:linear-gradient(135deg,#8fa6ff,var(--blue) 55%,#7a4dff);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
-.btn.pri:hover{filter:brightness(1.1)}
+.btn.pri{background:linear-gradient(135deg,#4258d8,#5a45e0 55%,#6840e0);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
+.btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
 .nav .btn{padding:9px 16px;font-size:14px}
@@ -189,3 +190,5 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media (max-width:560px){
   .lw-actions .btn{flex:1 1 100%}
 }
+.skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
