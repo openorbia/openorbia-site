@@ -78,6 +78,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .tg.os{color:#62e3a8;border-color:rgba(98,227,168,.35)}
 .tg.fsh{color:var(--yellow);border-color:rgba(255,216,77,.35)}
 .tg.loc{color:var(--cyan);border-color:rgba(127,231,255,.35)}
+.tg.fnd{color:#ffb3d1;border-color:rgba(255,179,209,.35)}
 .tg.cat{color:var(--blue-l)}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .foot a{text-decoration:none}
@@ -180,7 +181,7 @@ const T=[
 ["PurpleLlama","meta-llama/PurpleLlama","Meta's AI safety models, prompt-injection detection and security benchmarks.","sec","os","MIT + Llama",1],
 ["AiSOC","beenuar/AiSOC","Self-hosted AI SOC: alert merging, AI triage and MITRE ATT&CK investigations.","sec","os","MIT",1],
 ["HexStrike AI","0x4m4/hexstrike-ai","Connects AI agents to 150+ existing security tools through MCP.","sec","os","MIT",0],
-["Agentic SOC Platform","FunnyWolf/agentic-soc-platform","AI agents for alert triage, investigation and enrichment.","sec","os","MIT",0],
+["SOC Range","Khaja-syed-786/soc-range","SOC analyst training simulator with an optional local AI Triage Copilot: alert summaries, MITRE ATT&CK mapping and next steps, verified against intel.","sec","os","MIT",1,1],
 ["Nebula","berylliumsec/nebula","AI assistant for pentest operators. Works with local models.","sec","os","BSD-2-Clause",1]
 ];
 
@@ -190,9 +191,9 @@ const st={c:"all",q:"",os:false,loc:false};
 const grid=document.getElementById("grid"),count=document.getElementById("count");
 const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 function card(t){
-  const [name,repo,desc,c,badge,lic,local]=t,[a,b]=COL[c];
+  const [name,repo,desc,c,badge,lic,local,founder]=t,[a,b]=COL[c];
   const claim="mailto:launch@openorbia.com?subject="+encodeURIComponent("Claim listing: "+name)+"&body="+encodeURIComponent("Hi OpenOrbia, I maintain "+name+" (https://github.com/"+repo+") and would like to claim the listing.");
-  return `<article class="card"><div class="top"><div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div><div><h3>${esc(name)}</h3><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p><div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Runs locally</span>':''}</div><div class="foot"><a href="https://github.com/${repo}" target="_blank" rel="noopener">View on GitHub ↗</a><a class="claim" href="${claim}">Claim listing</a></div></article>`;
+  return `<article class="card"><div class="top"><div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div><div><h3>${esc(name)}</h3><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p><div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Runs locally</span>':''}${founder?`<span class="tg fnd">Built by OpenOrbia's founder</span>`:''}</div><div class="foot"><a href="https://github.com/${repo}" target="_blank" rel="noopener">View on GitHub ↗</a>${founder?'':`<a class="claim" href="${claim}">Claim listing</a>`}</div></article>`;
 }
 function render(){
   const q=st.q.toLowerCase();
