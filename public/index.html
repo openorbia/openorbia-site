@@ -95,6 +95,23 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .fine{font-size:13px;color:var(--muted)}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.week{border:1px solid var(--line);border-radius:20px;padding:26px;margin-bottom:48px;text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
+@media (max-width:820px){.week{padding:22px}}
+.week-head h2{font:800 clamp(26px,4vw,38px)/1.05 var(--display);letter-spacing:-.03em;margin:14px 0 8px;text-wrap:balance}
+.week-intro{color:#c9d2ee;margin:0 auto 14px;max-width:56ch}
+.week-coming{margin:0 0 12px;font:800 clamp(20px,3.4vw,28px)/1.1 var(--display);letter-spacing:-.03em}
+.countdown{display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:min(100%,400px);margin-bottom:18px}
+.countdown div{background:rgba(5,7,15,.6);border:1px solid var(--line);border-radius:12px;padding:10px 4px}
+.countdown b{display:block;font:500 clamp(22px,6vw,32px)/1.1 var(--mono);color:var(--ink)}
+.countdown span{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mini{list-style:none;margin:0 auto 16px;padding:0;display:grid;gap:10px;max-width:640px;text-align:left}
+.mini-row{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);background:rgba(5,7,15,.5);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.mini-row:hover{border-color:rgba(143,166,255,.45)}
+.mini-rank{flex:none;width:22px;text-align:center;font:500 16px var(--mono);color:var(--yellow)}
+.mini-text{flex:1;min-width:0;display:grid}
+.mini-text b{font:700 17px/1.2 var(--display);letter-spacing:-.02em}
+.mini-text span{color:var(--muted);font-size:14.5px}
+.mini-votes{flex:none;font:500 14px var(--mono);color:var(--blue-l)}
 </style>
 </head>
 <body>
@@ -120,6 +137,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div class="cat"><span class="k">For</span><h2>Small businesses</h2><p>Free AI that replaces paid software: private chat, automation, transcription and images.</p></div>
     <div class="cat"><span class="k">For</span><h2>Job seekers</h2><p>Free resume builders, ATS checks, writing help and offline interview practice.</p></div>
     <div class="cat"><span class="k">For</span><h2>Security teams</h2><p>Open-source monitoring, detection and AI red-teaming tools for defenders.</p></div>
+  </section>
+
+  <section class="week" id="week" aria-labelledby="week-h">
+    <div class="week-head">
+      <span class="badge" id="week-badge"><i></i>Launch Week 1</span>
+      <h2 id="week-h">This week's launches</h2>
+    </div>
+    <div id="week-live">
+      <p class="week-intro" data-week-intro>The first launch week goes live soon. Voting opens at 12:01 AM Pacific.</p>
+      <p class="week-coming" data-week-coming>Coming Monday Nov 23</p>
+      <div class="countdown" data-countdown="2026-11-23T08:01:00.000Z" role="timer" aria-label="Time until Launch Week 1 opens">
+        <div><b data-unit="d">0</b><span>days</span></div><div><b data-unit="h">00</b><span>hours</span></div><div><b data-unit="m">00</b><span>min</span></div><div><b data-unit="s">00</b><span>sec</span></div>
+      </div>
+      <div><a class="btn ghost" href="/launches/">See the lineup →</a></div>
+    </div>
   </section>
 
   <section class="how" id="makers" aria-label="How launching works">
@@ -173,5 +205,6 @@ form.addEventListener('submit',async e=>{
   btn.disabled=false;btn.textContent='Join the waitlist';
 });
 </script>
+<script src="/assets/launch.js" defer></script>
 </body>
 </html>

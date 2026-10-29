@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+// Load data/launches.json into the D1 database.
+//
+//   node scripts/seed-launches.mjs --dry-run          validate and print the SQL, change nothing
+//   node scripts/seed-launches.mjs --local            load into the local database used by `wrangler pages dev`
+//   node scripts/seed-launches.mjs --remote           load into the live openorbia-db (sample entries are skipped)
+//
+// Options: --file <path>  --db <name>  --include-samples  --prune  --yes
+// Entries marked "sample": true are placeholders: they are loaded locally, but only go to the live database with
+// --include-samples. Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
+// votes) that are no longer in the file.
+
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import { validateLaunches, toSql, forTarget } from '../lib/launch-data.js';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+function parseArgs(argv) {
+  const o = { mode: 'local', file: 'data/launches.json', db: 'openorbia-db', samples: false, prune: false, dryRun: false, yes: false };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--local') o.mode = 'local';
+    else if (a === '--remote') o.mode = 'remote';
+    else if (a === '--dry-run') o.dryRun = true;
+    else if (a === '--include-samples') o.samples = true;
+    else if (a === '--prune') o.prune = true;
+    else if (a === '--yes' || a === '-y') o.yes = true;
+    else if (a === '--file') o.file = argv[++i];
+    else if (a === '--db') o.db = argv[++i];
+    else { console.error(`Unknown option: ${a}`); process.exit(2); }
+  }
+  // The name is passed to wrangler (through cmd.exe on Windows), so accept only a plain database name
+  if (!/^[A-Za-z0-9_-]{1,64}$/.test(String(o.db))) { console.error('--db must be a database name like openorbia-db'); process.exit(2); }
+  return o;
+}
+
+// Run `npx wrangler <args>` without a shell. On Windows npx is a .cmd file, which cannot be started without one, so run npm's
+// own npx script with the current Node instead.
+function wrangler(args) {
+  const npxCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npx-cli.js');
+  const [cmd, cmdArgs] = process.platform === 'win32' && existsSync(npxCli)
+    ? [process.execPath, [npxCli, 'wrangler', ...args]]
+    : ['npx', ['wrangler', ...args]];
+  const r = spawnSync(cmd, cmdArgs, { cwd: root, stdio: 'inherit' });
+  if (r.error) console.error(`Could not run wrangler: ${r.error.message}`);
+  return r.status === 0;
+}
+
+const opts = parseArgs(process.argv.slice(2));
+const file = resolve(root, opts.file);
+
+let data;
+try { data = JSON.parse(readFileSync(file, 'utf8')); } catch (e) {
+  console.error(`Could not read ${opts.file}: ${e.message}`);
+  process.exit(1);
+}
+
+const { launches, errors, localFiles } = validateLaunches(data);
+for (const f of new Set(localFiles)) {
+  if (!existsSync(join(root, 'public', f))) errors.push(`image or video not found: public${f}`);
+}
+if (errors.length) {
+  console.error(`${opts.file} has ${errors.length} problem${errors.length === 1 ? '' : 's'}:`);
+  for (const e of errors) console.error(`  - ${e}`);
+  process.exit(1);
+}
+
+const samples = launches.filter(l => l.sample);
+const toLoad = forTarget(launches, { remote: opts.mode === 'remote', includeSamples: opts.samples });
+console.log(`${opts.file}: ${launches.length} launch${launches.length === 1 ? '' : 'es'} (${samples.length} sample, ${launches.length - samples.length} real)`);
+if (toLoad.length !== launches.length) {
+  console.log(`Skipping ${launches.length - toLoad.length} sample entr${launches.length - toLoad.length === 1 ? 'y' : 'ies'} for the live database (add --include-samples to load them).`);
+}
+for (const l of toLoad) console.log(`  - ${l.slug}  [${l.category}]  week ${l.launch_week}  ${l.launch_date}${l.sample ? '  (sample)' : ''}`);
+
+if (opts.prune && toLoad.length === 0) {
+  console.error('Refusing --prune: there is nothing to keep, so it would delete every launch and all votes.');
+  process.exit(1);
+}
+const sql = toSql(toLoad, { prune: opts.prune });
+if (opts.dryRun) {
+  console.log('\n-- SQL that would run --\n' + sql);
+  process.exit(0);
+}
+if (toLoad.length === 0 && !opts.prune) {
+  console.log('Nothing to load.');
+  process.exit(0);
+}
+
+const out = join(root, '.wrangler', 'tmp', 'seed-launches.sql');
+mkdirSync(dirname(out), { recursive: true });
+writeFileSync(out, sql, 'utf8');
+const target = opts.mode === 'remote' ? '--remote' : '--local';
+console.log(`\nLoading into ${opts.db} (${opts.mode})${opts.prune ? ' with --prune' : ''}...`);
+const args = ['d1', 'execute', opts.db, target, `--file=${join('.wrangler', 'tmp', 'seed-launches.sql')}`];
+if (opts.yes) args.push('--yes');
+if (!wrangler(args)) {
+  console.error(`\nThe load failed. If the tables are missing, run: npm run db:schema:${opts.mode}`);
+  process.exit(1);
+}
+console.log(`Done. ${toLoad.length} launch${toLoad.length === 1 ? '' : 'es'} loaded.`);
