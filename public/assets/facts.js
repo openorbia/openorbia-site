@@ -7,6 +7,15 @@ export const CARD_REQUIRED = ['yes', 'no', 'unknown'];
 const CARD_LABELS = { yes: 'Yes', no: 'No', unknown: 'Not confirmed' };
 export const DATA_LOCATIONS = ['Runs on your computer', 'Your server', 'Vendor cloud'];
 export const SETUPS = ['Browser, ready to use', 'Desktop app', 'Install & self-host'];
+
+// The longest "catch" line, in characters (one honest sentence, so it fits a card)
+export const CATCH_MAX = 160;
+
+// A data location is one of the three above, optionally followed by a short note in parentheses, e.g.
+// "Runs on your computer (cloud AI only if you pick one)". Anything else is not a data location.
+export const DATA_LOCATION_NOTE_MAX = 60;
+export const isDataLocation = v => typeof v === 'string' && DATA_LOCATIONS.some(base =>
+  v === base || (v.startsWith(base + ' (') && v.endsWith(')') && v.length - base.length - 3 >= 1 && v.length - base.length - 3 <= DATA_LOCATION_NOTE_MAX && !v.slice(base.length + 2, -1).includes('(')));
 export const TESTED_BY = 'OpenOrbia';
 
 const LABELS = { freeTier: 'Free tier', cardRequired: 'Card required', dataLocation: 'Your data', setup: 'Setup', catch: 'The catch' };

@@ -5,7 +5,7 @@ import { ROWS } from '../public/assets/tools.js';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
-import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS } from '../public/assets/facts.js';
+import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS, CATCH_MAX, isDataLocation, DATA_LOCATION_NOTE_MAX } from '../public/assets/facts.js';
 import { MIGRATIONS } from '../lib/migrations.js';
 import { launchOpensAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -79,7 +79,7 @@ test('validation: enums, lengths, dates and testedBy', () => {
   assert.deepEqual(errs({ ...FULL, testedBy: 'OpenOrbia' }), []);
   assert.deepEqual(errs({}), []);
   for (const bad of [{ cardRequired: 'maybe' }, { dataLocation: 'Mars' }, { setup: 'Magic' }, { lastChecked: '2026-02-31' }, { lastChecked: 'yesterday' },
-    { testedBy: 'Me' }, { freeTier: 'x'.repeat(81) }, { catch: 'x'.repeat(141) }]) {
+    { testedBy: 'Me' }, { freeTier: 'x'.repeat(81) }, { catch: 'x'.repeat(CATCH_MAX + 1) }, { dataLocation: 'Runs on your computer ()' }, { dataLocation: 'Your server (a (b))' }, { dataLocation: `Vendor cloud (${'x'.repeat(DATA_LOCATION_NOTE_MAX + 1)})` }, { dataLocation: 'Runs on your computer, mostly' }]) {
     assert.ok(errs(bad).length >= 1, JSON.stringify(bad));
   }
 });
@@ -110,16 +110,16 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
   assert.equal(rows.length, 45);
-  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level'];
+  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage'];
   for (const r of rows) {
     const f = r[8];
     assert.ok(f && typeof f === 'object', r[0]);
     assert.deepEqual(Object.keys(f).filter(k => !allowed.includes(k)), [], `${r[0]}: only the known fields (no confidence, no testedBy)`);
     assert.ok(f.freeTier && f.freeTier.length <= 80, `${r[0]}: freeTier`);
     if ('cardRequired' in f) assert.ok(CARD_REQUIRED.includes(f.cardRequired), `${r[0]}: cardRequired`);
-    if ('dataLocation' in f) assert.ok(DATA_LOCATIONS.includes(f.dataLocation), `${r[0]}: dataLocation`);
+    if ('dataLocation' in f) assert.ok(isDataLocation(f.dataLocation), `${r[0]}: dataLocation "${f.dataLocation}"`);
     if ('setup' in f) assert.ok(SETUPS.includes(f.setup), `${r[0]}: setup`);
-    if ('catch' in f) assert.ok(f.catch.length > 0 && f.catch.length <= 140, `${r[0]}: catch`);
+    if ('catch' in f) assert.ok(f.catch.length > 0 && f.catch.length <= CATCH_MAX, `${r[0]}: catch`);
     assert.match(f.lastChecked, /^\d{4}-\d{2}-\d{2}$/, `${r[0]}: lastChecked`);
     assert.ok(formatChecked(f.lastChecked), `${r[0]}: lastChecked is a real date`);
     // read from the official docs
@@ -191,7 +191,7 @@ test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pag
   assert.ok(html.includes('Card required</dt><dd>Not confirmed</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
-  assert.deepEqual([...unknown], ['JobSync-Service', 'Reactive Resume']);
+  assert.deepEqual([...unknown], ['Reactive Resume']);
 });
 
 test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also in the data file', () => {

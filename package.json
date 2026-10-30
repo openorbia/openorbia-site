@@ -15,6 +15,9 @@
     "db:migrate:remote": "node scripts/migrate.mjs --remote",
     "seed:check": "node scripts/seed-launches.mjs --dry-run",
     "seed:local": "node scripts/seed-launches.mjs --local",
-    "seed:remote": "node scripts/seed-launches.mjs --remote"
+    "seed:remote": "node scripts/seed-launches.mjs --remote",
+    "db:schema:preview": "npx wrangler d1 execute openorbia-db-preview --remote --file=schema.sql",
+    "db:migrate:preview": "node scripts/migrate.mjs --remote --db openorbia-db-preview",
+    "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --no-images --sample-date this-week --yes"
   }
 }

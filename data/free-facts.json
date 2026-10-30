@@ -13,7 +13,8 @@
     },
     "sources": [
       "https://github.com/Mintplex-Labs/anything-llm#readme",
-      "https://docs.anythingllm.com/introduction"
+      "https://anythingllm.com",
+      "https://docs.anythingllm.com/installation-desktop/system-requirements"
     ],
     "task": "Chat with your own documents and run AI agents on a private, local AI app",
     "level": "basic",
@@ -28,14 +29,15 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
-    "catch": "Speed and model size depend on your RAM/GPU",
+    "catch": "Local models run on your own hardware; cloud models are billed per token on pay as you go",
     "paidDeps": {
       "level": "none",
       "what": "None"
     },
     "sources": [
       "https://github.com/ollama/ollama#readme",
-      "https://ollama.com/pricing"
+      "https://ollama.com/pricing",
+      "https://docs.ollama.com/faq"
     ],
     "task": "Run open AI models on your own computer and chat with them or use them in apps",
     "level": "basic",
@@ -73,7 +75,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "SSO, Git version control and projects are paid-only; AI steps need API keys",
+    "catch": "SSO, Git version control and Projects are not in the free Community Edition; they need a paid Business or Enterprise plan",
     "paidDeps": {
       "level": "optional",
       "what": "None needed; AI steps can use paid OpenAI/Anthropic keys or open-source models"
@@ -113,17 +115,18 @@
   {
     "repo": "open-webui/open-webui",
     "name": "Open WebUI",
-    "freeTier": "Free when self-hosted (custom license with branding clause)",
+    "freeTier": "Self-hosted; Open WebUI License with a branding clause",
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs Ollama or an AI API key; removing branding for 50+ users needs a license",
+    "catch": "Has no models of its own: connect Ollama or an API. Removing branding needs permission or a license once users pass 50.",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama (free, local) or your own OpenAI/Anthropic key"
     },
     "sources": [
       "https://github.com/open-webui/open-webui#readme",
+      "https://github.com/open-webui/open-webui/blob/main/LICENSE",
       "https://docs.openwebui.com/getting-started/quick-start/"
     ],
     "task": "Chat with local or cloud AI models through a self-hosted web interface",
@@ -162,7 +165,7 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
-    "catch": "No Linux installer; local summaries need Ollama",
+    "catch": "No Linux installer (build from source); Ollama is the recommended local option for summaries",
     "paidDeps": {
       "level": "none",
       "what": "None; local Whisper/Parakeet and free Ollama (paid cloud AI is optional)"
@@ -224,7 +227,7 @@
   {
     "repo": "icereed/paperless-gpt",
     "name": "paperless-gpt",
-    "freeTier": "Free & unlimited when self-hosted (MIT)",
+    "freeTier": "Free and open source when self-hosted (MIT)",
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
@@ -245,7 +248,7 @@
   {
     "repo": "ItzCrazyKns/Vane",
     "name": "Vane (ex-Perplexica)",
-    "freeTier": "Free & unlimited when self-hosted (MIT)",
+    "freeTier": "Free and open source when self-hosted (MIT)",
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
@@ -266,7 +269,7 @@
   {
     "repo": "LibreChat-AI/LibreChat",
     "name": "LibreChat",
-    "freeTier": "Free & unlimited when self-hosted (MIT)",
+    "freeTier": "Open source (MIT license); you host it yourself",
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
@@ -277,6 +280,7 @@
     },
     "sources": [
       "https://github.com/LibreChat-AI/LibreChat#readme",
+      "https://github.com/LibreChat-AI/LibreChat/blob/main/LICENSE",
       "https://www.librechat.ai/docs"
     ],
     "task": "Chat with many AI models in one self-hosted ChatGPT-style app",
@@ -314,14 +318,15 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
-    "catch": "Local models need 8–32 GB RAM; cloud models need your own key",
+    "catch": "Needs 8 GB RAM minimum (16 GB recommended); cloud models need your own API key from that provider",
     "paidDeps": {
       "level": "none",
       "what": "None"
     },
     "sources": [
-      "https://github.com/janhq/jan#readme",
-      "https://docs.jan.ai/desktop"
+      "https://docs.jan.ai/desktop",
+      "https://docs.jan.ai/desktop/install/windows",
+      "https://docs.jan.ai/desktop/remote-models/openai"
     ],
     "task": "Chat with AI models that run privately on your own computer",
     "level": "basic",
@@ -356,9 +361,9 @@
     "name": "Resume Matcher",
     "freeTier": "Free when self-hosted (Apache-2.0)",
     "cardRequired": "no",
-    "dataLocation": "Your server",
+    "dataLocation": "Runs on your computer (cloud AI only if you pick one)",
     "setup": "Install & self-host",
-    "catch": "Needs Ollama locally or your own cloud AI key",
+    "catch": "You pick the model: local Ollama, your coding agent, or your own cloud API key",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama (free) or your own OpenAI/Anthropic/Gemini key"
@@ -377,7 +382,7 @@
     "name": "Reactive Resume",
     "freeTier": "All features free at rxresu.me; MIT self-host too",
     "cardRequired": "unknown",
-    "dataLocation": "Vendor cloud",
+    "dataLocation": "Vendor cloud (or your server if you self-host)",
     "setup": "Browser, ready to use",
     "catch": "AI writing help needs your own key or Ollama",
     "paidDeps": {
@@ -385,7 +390,9 @@
       "what": "None (AI help is optional; Ollama or your own key)"
     },
     "sources": [
-      "https://github.com/reactive-resume/reactive-resume#readme"
+      "https://github.com/reactive-resume/reactive-resume#readme",
+      "https://docs.rxresu.me/getting-started",
+      "https://docs.rxresu.me/guides/using-the-assistant"
     ],
     "task": "Build, edit and download resumes and cover letters, and track job applications",
     "level": "basic",
@@ -488,7 +495,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs a paid AI API key (DeepSeek/OpenAI) plus MongoDB",
+    "catch": "Needs an AI API key (DeepSeek by default, or OpenAI) and a MongoDB database",
     "paidDeps": {
       "level": "required",
       "what": "Paid AI API key (DeepSeek default; OpenAI also supported)"
@@ -528,7 +535,7 @@
     "name": "Interview Coach",
     "freeTier": "Free command-line tool with a local web dashboard",
     "cardRequired": "no",
-    "dataLocation": "Runs on your computer",
+    "dataLocation": "Runs on your computer (cloud AI only if you pick one)",
     "setup": "Install & self-host",
     "catch": "Use Ollama for offline use, or a cloud AI provider",
     "paidDeps": {
@@ -540,14 +547,14 @@
     ],
     "task": "Practice mock interviews in your terminal or a local web dashboard",
     "level": "basic",
-    "confidence": "low",
+    "confidence": "high",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
   {
     "repo": "prPMDev/elevateli",
     "name": "ElevateLI",
-    "freeTier": "Free Chrome extension (MIT); no account",
+    "freeTier": "MIT-licensed Chrome extension, no account; AI use billed by your provider",
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
@@ -569,20 +576,20 @@
     "repo": "mayank-glitch-cpu/JobSync-Service",
     "name": "JobSync-Service",
     "freeTier": "Free code (MIT); you deploy it yourself",
-    "cardRequired": "unknown",
+    "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "You bring your own AI model through an MCP client; Airtable is optional, jobs can be saved to a markdown file",
+    "catch": "Needs an AI app that supports MCP (Claude Desktop, Claude Code, Cursor); that app's plan limits apply",
     "paidDeps": {
       "level": "optional",
-      "what": "Your own AI chat app (e.g. Claude, Cursor); Airtable optional, markdown free"
+      "what": "An MCP AI app; Airtable optional (local markdown file works)"
     },
     "sources": [
       "https://github.com/mayank-glitch-cpu/JobSync-Service#readme"
     ],
     "task": "Find fresh job postings and save them to Airtable or a markdown file",
     "level": "basic",
-    "confidence": "low",
+    "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
@@ -656,7 +663,7 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
-    "catch": "Needs a target model: local (Hugging Face/Ollama) or a paid API",
+    "catch": "Needs a target model to test: a local Hugging Face model, or an API (OpenAI, Cohere, Groq and others) with your own key",
     "paidDeps": {
       "level": "optional",
       "what": "Local Hugging Face model (free) or a paid API like OpenAI"
@@ -708,7 +715,7 @@
     "sources": [
       "https://github.com/microsoft/PyRIT#readme",
       "https://microsoft.github.io/PyRIT/1.1.0/",
-      "https://github.com/microsoft/PyRIT/blob/main/doc/getting_started/configuration.md"
+      "https://github.com/microsoft/PyRIT/blob/main/LICENSE"
     ],
     "task": "Test generative AI systems for safety and security risks with a Python toolkit",
     "level": "basic",
@@ -752,8 +759,7 @@
       "what": "Local model via Ollama (free) or your own AI API key"
     },
     "sources": [
-      "https://github.com/usestrix/strix#readme",
-      "https://docs.strix.ai/llm-providers/overview"
+      "https://github.com/usestrix/strix#readme"
     ],
     "task": "Run AI agents that pentest your apps and code and report vulnerabilities",
     "level": "basic",
@@ -766,7 +772,7 @@
     "name": "PentestGPT",
     "freeTier": "Free (MIT); run locally or in Docker",
     "cardRequired": "no",
-    "dataLocation": "Runs on your computer",
+    "dataLocation": "Runs on your computer (anonymous usage stats are sent unless you opt out)",
     "setup": "Install & self-host",
     "catch": "Main mode needs a Claude Code/Codex login; Ollama only in legacy mode",
     "paidDeps": {
@@ -834,7 +840,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Pre-1.0; AI needs your own key or local Ollama",
+    "catch": "Runs several Docker services (PostgreSQL, Redis, Bifrost); AI needs your own provider key or local Ollama",
     "paidDeps": {
       "level": "optional",
       "what": "Local Ollama (free) or your own Anthropic/OpenAI key"
@@ -874,17 +880,18 @@
   {
     "repo": "meta-llama/PurpleLlama",
     "name": "PurpleLlama",
-    "freeTier": "Free evals, CodeShield and Llama Guard / Prompt Guard models",
+    "freeTier": "Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses",
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
-    "catch": "Models use Llama Community licenses, not OSI open source",
+    "catch": "Benchmarks test an LLM you supply, through a provider API key or a self-hosted model",
     "paidDeps": {
       "level": "none",
       "what": "None (open models and MIT-licensed evals)"
     },
     "sources": [
-      "https://github.com/meta-llama/PurpleLlama#readme"
+      "https://github.com/meta-llama/PurpleLlama#readme",
+      "https://github.com/meta-llama/PurpleLlama/blob/main/CybersecurityBenchmarks/README.md"
     ],
     "task": "Check AI models and their code for safety and cybersecurity risks",
     "level": "basic",
@@ -895,11 +902,11 @@
   {
     "repo": "beenuar/AiSOC",
     "name": "AiSOC",
-    "freeTier": "Free when self-hosted (MIT); demo works without a key",
+    "freeTier": "Open source and self-hostable (MIT); runs without an API key",
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Full stack runs Postgres, Redis and Kafka in Docker; AI needs a key or local model",
+    "catch": "Needs Docker Compose with 8 GB memory; the bundled local AI model is small, not a frontier model",
     "paidDeps": {
       "level": "none",
       "what": "None (ships with a free local model; hosted AI is optional)"
@@ -920,17 +927,18 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
-    "catch": "Needs an MCP AI client and the security tools installed; use an isolated VM",
+    "catch": "Needs an MCP AI app and the security tools installed; some optional tools are paid; run in an isolated VM on systems you're authorized to test",
     "paidDeps": {
       "level": "optional",
-      "what": "Any MCP AI client (Claude, GPT, Copilot examples); no free client documented"
+      "what": "An MCP AI app; optional commercial tools such as Binary Ninja, Shodan, Censys"
     },
     "sources": [
       "https://github.com/0x4m4/hexstrike-ai#readme"
     ],
     "task": "Let an AI assistant run 150+ security tools for penetration testing",
     "level": "basic",
-    "confidence": "low",
+    "featureOnHomepage": false,
+    "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
   },
@@ -963,13 +971,15 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
-    "catch": "Linux only; needs your own AI (Ollama/vLLM or API); voice uses paid OpenAI",
+    "catch": "Linux x86_64 preview installers only (DEB or AppImage); needs your own model (Ollama, vLLM, Claude, OpenRouter); voice incurs OpenAI charges",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama or vLLM (free), or Claude/OpenRouter/Codex; voice needs paid OpenAI key"
     },
     "sources": [
-      "https://github.com/berylliumsec/nebula#readme"
+      "https://github.com/berylliumsec/nebula#readme",
+      "https://github.com/berylliumsec/nebula/blob/main/docs/NEBULA3.md",
+      "https://github.com/berylliumsec/nebula/blob/main/LICENSE.md"
     ],
     "task": "Run and document security tests on authorized systems from one desktop app",
     "level": "basic",

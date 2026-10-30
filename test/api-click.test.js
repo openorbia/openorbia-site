@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { handleClick } from '../lib/click.js';
 import { goResponse } from '../lib/go.js';
+import { isOurOrigin, requestIsOurs } from '../lib/origin.js';
+import { CLICK_LIMIT } from '../lib/ratelimit.js';
 import { layout } from '../lib/layout.js';
 import { renderTool } from '../lib/tool-pages.js';
 import { renderLaunch } from '../lib/pages.js';
@@ -12,15 +14,22 @@ import { createDb } from './helpers/d1.js';
 
 const root = new URL('../', import.meta.url);
 const file = f => readFileSync(new URL(f, root), 'utf8');
+const SECRET = 'test-secret-0123456789abcdef';
 const NOV23_EVENING = Date.UTC(2026, 10, 24, 7, 30);   // 11:30 PM Pacific on Nov 23
 const NOV24_MORNING = Date.UTC(2026, 10, 24, 8, 30);   // 12:30 AM Pacific on Nov 24
 
-let db, env;
-beforeEach(() => { db = createDb(); env = { DB: db }; });
+let db, env, visitors;
+beforeEach(() => { db = createDb(); env = { DB: db, VOTE_SECRET: SECRET }; visitors = 0; });
 const rows = () => db.rows('SELECT slug, day, count FROM clicks ORDER BY slug, day').map(r => ({ ...r }));
-const click = (body, { headers = {}, now = NOV23_EVENING, e = env, type = 'application/json' } = {}) => handleClick({
+// every request is a different visitor unless the test says otherwise (one visitor is limited to 30 clicks a minute)
+const ip = () => `198.51.100.${(visitors++ % 250) + 1}`;
+const click = (body, { headers = {}, now = NOV23_EVENING, e = env, type = 'application/json', visitor } = {}) => handleClick({
   env: e, now,
-  request: new Request('https://openorbia.com/api/click', { method: 'POST', headers: { 'content-type': type, ...headers }, body: typeof body === 'string' ? body : JSON.stringify(body) }),
+  request: new Request('https://openorbia.com/api/click', {
+    method: 'POST',
+    headers: { 'content-type': type, origin: 'https://openorbia.com', 'cf-connecting-ip': visitor || ip(), 'user-agent': 'TestBrowser/1.0', ...headers },
+    body: typeof body === 'string' ? body : JSON.stringify(body),
+  }),
 });
 
 // ---- POST /api/click: the same table and upsert as /go/ ----
@@ -41,7 +50,7 @@ test('POST /api/click {slug} adds one to the tool\'s count for the day (same ups
 
 test('the beacon and /go/ write to the same row: a tool\'s count is the sum of both paths', async () => {
   await click({ slug: 'vigil' });
-  const go = await goResponse({ request: new Request('https://openorbia.com/go/vigil'), env, params: { slug: 'vigil' }, now: NOV23_EVENING });
+  const go = await goResponse({ request: new Request('https://openorbia.com/go/vigil', { headers: { 'cf-connecting-ip': ip() } }), env, params: { slug: 'vigil' }, now: NOV23_EVENING });
   assert.equal(go.status, 302);
   await click({ slug: 'vigil' });
   assert.deepEqual(rows(), [{ slug: 'vigil', day: '2026-11-23', count: 3 }]);
@@ -78,39 +87,125 @@ test('sendBeacon content types are accepted (JSON Blob, plain text string); othe
   assert.equal(rows()[0].count, 3);
 });
 
-test('only our own pages can count a click', async () => {
-  const cross = await click({ slug: 'meetily' }, { headers: { origin: 'https://evil.example' } });
-  assert.equal(cross.status, 403);
-  assert.equal((await cross.json()).code, 'forbidden_origin');
+// ---- only our own pages ----
+
+test('Origin must be openorbia.com or a preview host: no Origin and no Referer is refused, a Referer alone is enough', async () => {
+  const noOrigin = await handleClick({ env, now: NOV23_EVENING, request: new Request('https://openorbia.com/api/click', {
+    method: 'POST', headers: { 'content-type': 'application/json', 'cf-connecting-ip': ip() }, body: JSON.stringify({ slug: 'meetily' }) }) });
+  assert.equal(noOrigin.status, 403);
+  assert.equal((await noOrigin.json()).code, 'forbidden_origin');
+  assert.equal((await click({ slug: 'meetily' }, { headers: { origin: '' } })).status, 403, 'an empty Origin is not an origin');
+  for (const origin of ['https://openorbia.com', 'https://www.openorbia.com', 'https://launch-day.openorbia.pages.dev', 'https://71a3986a.openorbia.pages.dev', 'https://openorbia.pages.dev']) {
+    assert.equal((await click({ slug: 'meetily' }, { headers: { origin } })).status, 204, origin);
+  }
+  for (const origin of ['https://evil.example', 'https://openorbia.com.evil.example', 'https://notopenorbia.com', 'https://evil-openorbia.pages.dev', 'http://openorbia.com', 'null', 'https://user@openorbia.com@evil.example']) {
+    assert.equal((await click({ slug: 'meetily' }, { headers: { origin } })).status, 403, origin);
+  }
+  assert.equal((await click({ slug: 'meetily' }, { headers: { origin: 'https://evil.example', referer: 'https://openorbia.com/launch-list/' } })).status, 403, 'a bad Origin is not rescued by a good Referer');
+  const refererOnly = await handleClick({ env, now: NOV23_EVENING, request: new Request('https://openorbia.com/api/click', {
+    method: 'POST', headers: { 'content-type': 'application/json', referer: 'https://launch-day.openorbia.pages.dev/launch-list/?for=job', 'cf-connecting-ip': ip() }, body: JSON.stringify({ slug: 'meetily' }) }) });
+  assert.equal(refererOnly.status, 204);
+  assert.equal((await handleClick({ env, now: NOV23_EVENING, request: new Request('https://openorbia.com/api/click', {
+    method: 'POST', headers: { 'content-type': 'application/json', referer: 'https://evil.example/https://openorbia.com/', 'cf-connecting-ip': ip() }, body: JSON.stringify({ slug: 'meetily' }) }) })).status, 403);
   assert.equal((await click({ slug: 'meetily' }, { headers: { 'sec-fetch-site': 'cross-site' } })).status, 403);
-  assert.equal((await click({ slug: 'meetily' }, { headers: { origin: 'https://openorbia.com', 'sec-fetch-site': 'same-origin' } })).status, 204);
-  assert.equal((await click({ slug: 'meetily' })).status, 204, 'no Origin header (older browsers) is fine');
-  assert.equal(rows()[0].count, 2);
+  assert.equal((await click({ slug: 'meetily' }, { headers: { 'sec-fetch-site': 'same-site' } })).status, 403, 'same-site but another origin is not ours');
+  assert.equal((await click({ slug: 'meetily' }, { headers: { 'sec-fetch-site': 'same-origin' } })).status, 204);
+  assert.equal(rows()[0].count, 5 + 1 + 1, 'only the accepted requests counted');
 });
 
-test('no IP, user agent, referrer or cookie is read or kept, and the response sets no cookie', async () => {
-  const res = await click({ slug: 'vigil' }, { headers: {
-    'cf-connecting-ip': '203.0.113.77', 'user-agent': 'Mozilla/5.0 SecretBrowser/1.0', referer: 'https://elsewhere.example/page', cookie: 'sid=abc123', 'accept-language': 'xx-YY',
+test('isOurOrigin: exact hosts and our preview hosts only; localhost over http for development', () => {
+  for (const o of ['https://openorbia.com', 'https://www.openorbia.com/', 'https://launch-day.openorbia.pages.dev', 'http://localhost:8788', 'http://127.0.0.1:8788', 'https://openorbia.com/launch-list/']) assert.equal(isOurOrigin(o), true, o);
+  for (const o of ['', 'null', 'openorbia.com', 'https://openorbia.com.evil.example', 'https://evil.example/openorbia.com', 'https://a.b.openorbia.pages.dev.evil.example', 'http://openorbia.com', 'https://localhost', 'ftp://openorbia.com', 'https://openorbia.com@evil.example', 'javascript:alert(1)', undefined, null]) assert.equal(isOurOrigin(o), false, String(o));
+  assert.equal(requestIsOurs(new Request('https://x.test/', { headers: { origin: 'https://openorbia.com' } })), true);
+  assert.equal(requestIsOurs(new Request('https://x.test/')), false);
+});
+
+// ---- the rate limit: 30 clicks a minute per visitor, keyed by an HMAC ----
+
+test('a visitor is limited to 30 clicks a minute: the 31st is a 429 with Retry-After, counts nothing, and the window then resets', async () => {
+  assert.deepEqual(CLICK_LIMIT, { max: 30, windowSeconds: 60 });
+  const who = '203.0.113.9';
+  for (let i = 0; i < 30; i++) assert.equal((await click({ slug: 'meetily' }, { visitor: who })).status, 204, `click ${i + 1}`);
+  const over = await click({ slug: 'meetily' }, { visitor: who });
+  assert.equal(over.status, 429);
+  assert.equal((await over.json()).code, 'rate_limited');
+  const wait = Number(over.headers.get('retry-after'));
+  assert.ok(wait >= 1 && wait <= 60, `retry-after ${wait}`);
+  assert.equal(rows()[0].count, 30, 'the 31st counted nothing');
+  assert.equal((await click({ slug: 'meetily' }, { visitor: who })).status, 429, 'still limited in the same window');
+  assert.equal((await click({ slug: 'meetily' }, { visitor: '203.0.113.10' })).status, 204, 'another visitor is not affected');
+  assert.equal((await click({ slug: 'meetily' }, { visitor: who, now: NOV23_EVENING + 61 * 1000 })).status, 204, 'a new window starts');
+});
+
+test('bad requests count against the budget too, so junk cannot be used to get around it', async () => {
+  const who = '203.0.113.20';
+  for (let i = 0; i < 30; i++) await click('not json', { visitor: who });
+  const res = await click({ slug: 'meetily' }, { visitor: who });
+  assert.equal(res.status, 429);
+  assert.deepEqual(rows(), []);
+});
+
+test('the limit is per visitor (IP and user agent), an IPv6 /64 is one visitor, and /go/ shares the same budget', async () => {
+  const withUa = ua => click({ slug: 'meetily' }, { visitor: '203.0.113.30', headers: { 'user-agent': ua } });
+  for (let i = 0; i < 30; i++) await withUa('A/1');
+  assert.equal((await withUa('A/1')).status, 429);
+  assert.equal((await withUa('B/2')).status, 204, 'another user agent is another visitor');
+  for (let i = 0; i < 30; i++) await click({ slug: 'ollama' }, { visitor: `2001:db8:1:2:${i}::1` });
+  assert.equal((await click({ slug: 'ollama' }, { visitor: '2001:db8:1:2:ffff::9' })).status, 429, 'the same /64');
+  // /go/ draws on the same budget: after 28 beacons, two /go/ clicks count and the third does not
+  const who = '203.0.113.40';
+  for (let i = 0; i < 28; i++) await click({ slug: 'vigil' }, { visitor: who });
+  const go = () => goResponse({ request: new Request('https://openorbia.com/go/vigil', { headers: { 'cf-connecting-ip': who, 'user-agent': 'TestBrowser/1.0' } }), env, params: { slug: 'vigil' }, now: NOV23_EVENING });
+  for (let i = 0; i < 3; i++) assert.equal((await go()).status, 302, 'the visitor is always sent on');
+  assert.equal(rows().find(r => r.slug === 'vigil').count, 30, 'but only 30 were counted');
+});
+
+test('/go/ over the limit, or with nothing to key the limit with, still redirects and just does not count', async () => {
+  const who = '203.0.113.50';
+  const go = (e = env) => goResponse({ request: new Request('https://openorbia.com/go/ollama', { headers: { 'cf-connecting-ip': who } }), env: e, params: { slug: 'ollama' }, now: NOV23_EVENING });
+  for (let i = 0; i < 35; i++) assert.equal((await go()).status, 302);
+  assert.equal(rows()[0].count, 30);
+  assert.equal((await go({ DB: db })).status, 302, 'no VOTE_SECRET');
+  assert.equal(rows()[0].count, 30, 'and nothing was counted without a way to limit it');
+  const head = await goResponse({ request: new Request('https://openorbia.com/go/ollama', { method: 'HEAD', headers: { 'cf-connecting-ip': who } }), env, params: { slug: 'ollama' }, now: NOV23_EVENING + 120 * 1000 });
+  assert.equal(head.status, 302);
+  assert.equal(rows()[0].count, 30, 'HEAD is never counted');
+});
+
+test('/go/ has no same-origin rule: email and newsletter links arrive from elsewhere, often with no Referer', async () => {
+  for (const headers of [{}, { referer: 'https://mail.google.com/' }, { origin: 'https://evil.example' }]) {
+    const res = await goResponse({ request: new Request('https://openorbia.com/go/ollama', { headers: { 'cf-connecting-ip': ip(), ...headers } }), env, params: { slug: 'ollama' }, now: NOV23_EVENING });
+    assert.equal(res.status, 302, JSON.stringify(headers));
+  }
+  assert.equal(rows()[0].count, 3);
+});
+
+test('only hashes are kept for the limit: no raw IP, user agent or referrer in any table, and no cookie', async () => {
+  const res = await click({ slug: 'vigil' }, { visitor: '203.0.113.77', headers: {
+    'user-agent': 'Mozilla/5.0 SecretBrowser/1.0', referer: 'https://openorbia.com/launch-list/', cookie: 'sid=abc123', 'accept-language': 'xx-YY',
   } });
   assert.equal(res.status, 204);
   assert.equal(res.headers.get('set-cookie'), null);
   assert.ok(![...res.headers.keys()].some(k => /cookie|vary/i.test(k)));
   assert.equal(res.headers.get('cache-control'), 'no-store');
   assert.deepEqual(db.rows("SELECT name FROM pragma_table_info('clicks') ORDER BY cid").map(r => r.name), ['slug', 'day', 'count']);
-  const stored = JSON.stringify(db.rows('SELECT * FROM clicks'));
-  for (const secret of ['203.0.113.77', 'SecretBrowser', 'elsewhere.example', 'abc123', 'xx-YY']) assert.ok(!stored.includes(secret), secret);
-  const source = file('lib/click.js');
-  assert.ok(!/CF-Connecting-IP|User-Agent|Referer|\bcookie/i.test(source.replace(/^\/\/.*$/gm, '')), 'the handler never reads them');
+  const limits = db.rows('SELECT key, count FROM rate_limits').map(r => ({ ...r }));
+  assert.equal(limits.length, 1);
+  assert.match(limits[0].key, /^[0-9a-f]{64}$/, 'the key is an HMAC');
+  const stored = JSON.stringify([db.rows('SELECT * FROM clicks'), db.rows('SELECT * FROM rate_limits'), db.rows('SELECT * FROM votes'), db.rows('SELECT * FROM waitlist')]);
+  for (const secret of ['203.0.113.77', 'SecretBrowser', 'launch-list', 'abc123', 'xx-YY', 'openorbia.com']) assert.ok(!stored.includes(secret), secret);
+  assert.ok(!/cookie/i.test(file('lib/click.js').replace(/^\s*\/\/.*$/gm, '')), 'the handler never touches cookies');
 });
 
-test('no database or a failing one is reported, not hidden (there is no redirect to protect)', async () => {
+test('no database or no secret is reported, not hidden (there is no redirect to protect); a failing database is a 500', async () => {
   assert.equal((await click({ slug: 'meetily' }, { e: {} })).status, 503);
-  assert.equal((await click({ slug: 'meetily' }, { e: { DB: { prepare() { throw new Error('D1 is down'); } } } })).status, 500);
+  assert.equal((await click({ slug: 'meetily' }, { e: { DB: db } })).status, 503, 'no VOTE_SECRET: the limit cannot be keyed');
+  assert.equal((await click({ slug: 'meetily' }, { e: { DB: { prepare() { throw new Error('D1 is down'); } }, VOTE_SECRET: SECRET } })).status, 500);
 });
 
 test('the Pages Function takes POST and answers other methods with 405', async () => {
   const fn = await import('../functions/api/click.js');
-  const post = await fn.onRequestPost({ env, request: new Request('https://openorbia.com/api/click', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: 'ollama' }) }) });
+  const post = await fn.onRequestPost({ env, request: new Request('https://openorbia.com/api/click', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com', 'cf-connecting-ip': ip() }, body: JSON.stringify({ slug: 'ollama' }) }) });
   assert.equal(post.status, 204);
   assert.equal(rows().length, 1);
   const get = await fn.onRequest({ request: new Request('https://openorbia.com/api/click'), env });

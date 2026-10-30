@@ -5,7 +5,11 @@
 //   node scripts/seed-launches.mjs --local            load into the local database used by `wrangler pages dev`
 //   node scripts/seed-launches.mjs --remote           load into the live openorbia-db (sample entries are skipped)
 //
-// Options: --file <path>  --db <name>  --include-samples  --prune  --yes
+// Options: --file <path>  --db <name>  --include-samples  --prune  --yes  --sample-date <this-week|last-week|YYYY-MM-DD>  --no-images
+//
+// For the preview database (npm run seed:preview): --sample-date moves the SAMPLE entries (only) to a launch week that is open today
+// (this-week: the Monday of the current Pacific week, so voting works until Sunday 11:59 PM) or already closed (last-week: so the
+// final results page can be tried); --no-images drops the samples' images, which are not deployed (they live in test/fixtures).
 // Entries marked "sample": true are placeholders: they are loaded locally, but only go to the live database with
 // --include-samples. Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
 // votes) that are no longer in the file.
@@ -15,11 +19,12 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { validateLaunches, toSql, forTarget } from '../lib/launch-data.js';
+import { launchOpensAt, pacificDay } from '../lib/time.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function parseArgs(argv) {
-  const o = { mode: 'local', file: 'data/launches.json', db: 'openorbia-db', samples: false, prune: false, dryRun: false, yes: false };
+  const o = { mode: 'local', file: 'data/launches.json', db: 'openorbia-db', samples: false, prune: false, dryRun: false, yes: false, sampleDate: null, noImages: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--local') o.mode = 'local';
@@ -30,6 +35,8 @@ function parseArgs(argv) {
     else if (a === '--yes' || a === '-y') o.yes = true;
     else if (a === '--file') o.file = argv[++i];
     else if (a === '--db') o.db = argv[++i];
+    else if (a === '--sample-date') o.sampleDate = argv[++i];
+    else if (a === '--no-images') o.noImages = true;
     else { console.error(`Unknown option: ${a}`); process.exit(2); }
   }
   // The name is passed to wrangler (through cmd.exe on Windows), so accept only a plain database name
@@ -59,6 +66,22 @@ try { data = JSON.parse(readFileSync(file, 'utf8')); } catch (e) {
 }
 
 const { launches, errors } = validateLaunches(data);
+
+// Preview helpers. They only ever touch entries marked "sample": true, never a real launch.
+function sampleDate(spec) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(spec)) return spec;
+  if (spec !== 'this-week' && spec !== 'last-week') { console.error('--sample-date must be this-week, last-week or a date like 2026-11-23'); process.exit(2); }
+  const [y, m, d] = pacificDay(Date.now()).split('-').map(Number);
+  const day = new Date(Date.UTC(y, m - 1, d));
+  day.setUTCDate(day.getUTCDate() - ((day.getUTCDay() + 6) % 7) - (spec === 'last-week' ? 7 : 0));   // back to the Monday
+  return day.toISOString().slice(0, 10);
+}
+if (opts.sampleDate) {
+  const date = sampleDate(opts.sampleDate);
+  if (Number.isNaN(launchOpensAt(date))) { console.error(`--sample-date ${opts.sampleDate} is not a real date`); process.exit(2); }
+  for (const l of launches.filter(x => x.sample)) l.launch_date = date;
+}
+if (opts.noImages) for (const l of launches.filter(x => x.sample)) { l.logo_url = null; l.screenshots = []; l.video_url = null; }
 // Images must exist in public/ (that is what gets deployed). The images of sample entries live in test/fixtures/ instead,
 // so placeholders are never published.
 const localPaths = l => [l.logo_url, l.video_url, ...l.screenshots.map(s => s.src)].filter(p => p && p.startsWith('/'));

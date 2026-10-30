@@ -6,3 +6,11 @@ compatibility_date = "2026-10-01"
 binding = "DB"
 database_name = "openorbia-db"
 database_id = "8f21ec5b-2650-46df-a41f-d5742a59e69b"
+
+# The preview environment (every deployment that is not --branch main, such as the launch-day preview) has its own database, so testing
+# votes, clicks and signups there never touches the live data. Production keeps openorbia-db above. The preview's VOTE_SECRET is a
+# separate secret: npx wrangler pages secret put VOTE_SECRET --project-name openorbia --env preview
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "openorbia-db-preview"
+database_id = "a280dab0-fea9-4c09-9194-fba1017788d0"

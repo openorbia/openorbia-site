@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { ROWS } from '../public/assets/tools.js';
+import { CATCH_MAX } from '../public/assets/facts.js';
 
 // The catches the official docs contradicted or did not confirm, and what each one says now. Each correction cites the page that states it.
 const root = new URL('../', import.meta.url);
@@ -17,7 +18,7 @@ const CORRECTIONS = {
   'career-ops-hq/career-ops': ['rate limited', 'https://github.com/career-ops-hq/career-ops/blob/main/docs/RUNNING_ON_A_BUDGET.md', [/needs an AI coding CLI/i]],
   'activepieces/activepieces': ['SSO is on the paid Team plan', 'https://www.activepieces.com/pricing', [/SSO, audit logs and role controls are enterprise-only/i]],
   'TracecatHQ/tracecat': ['Free plan includes SSO and audit logs', 'https://tracecat.com/pricing', []],
-  'mayank-glitch-cpu/JobSync-Service': ['Airtable is optional', 'https://github.com/mayank-glitch-cpu/JobSync-Service#readme', [/paid Anthropic/i, /Needs a paid/i]],
+  'mayank-glitch-cpu/JobSync-Service': ['supports MCP', 'https://github.com/mayank-glitch-cpu/JobSync-Service#readme', [/paid Anthropic/i, /Airtable account/i]],
   'saeedkolivand/ai-job-hunter-app': ['Sentry by default', 'https://github.com/saeedkolivand/ai-job-hunter-app#readme', [/beta/i]],
   'DaKheera47/job-ops': ['anonymous usage analytics', 'https://github.com/DaKheera47/job-ops#readme', [/analytics on by default/i]],
   'NVIDIA-NeMo/Guardrails': ['DO_NOT_TRACK=1', 'https://github.com/NVIDIA-NeMo/Guardrails/blob/develop/docs/telemetry.mdx', [/on by default/i]],
@@ -36,7 +37,7 @@ test('each corrected catch says what the docs say, cites the page that says it, 
     assert.ok(e.sources.includes(source), `${e.name}: sources should include ${source}`);
     assert.ok(e.sources.length >= 1 && e.sources.length <= 3, `${e.name}: 1 to 3 sources`);
     for (const re of gone) assert.ok(!re.test(e.catch), `${e.name}: the old claim ${re} is gone`);
-    assert.ok(e.catch.length <= 140, `${e.name}: catch length ${e.catch.length}`);
+    assert.ok(e.catch.length <= CATCH_MAX, `${e.name}: catch length ${e.catch.length}`);
     assert.equal(e.lastChecked, '2026-10-30', `${e.name}: lastChecked updated`);
     // the Launch List row carries exactly the same catch, sources and date
     const r = row(repo);
@@ -54,10 +55,12 @@ test('no unverified claim is kept: nothing on the Launch List says "on by defaul
   }
 });
 
-test('yourspeakreps is gone from the data file, and Interview Coach, JobSync-Service and HexStrike AI stay at confidence low', () => {
+test('yourspeakreps is gone from the data file, and the three tools the founder checked have their new confidence', () => {
   assert.ok(!data.some(e => /yourspeakreps/i.test(JSON.stringify(e))));
   assert.equal(data.length, ROWS.length);
-  assert.deepEqual(data.filter(e => e.confidence === 'low').map(e => e.name).sort(), ['HexStrike AI', 'Interview Coach', 'JobSync-Service']);
+  const confidence = name => data.find(e => e.name === name).confidence;
+  assert.deepEqual([confidence('Interview Coach'), confidence('JobSync-Service'), confidence('HexStrike AI')], ['high', 'medium', 'medium']);
+  assert.deepEqual(data.filter(e => e.confidence === 'low').map(e => e.name), [], 'nothing is left at low');
 });
 
 test('tools that were not corrected keep their catch, their sources and their date', () => {

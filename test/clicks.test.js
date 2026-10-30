@@ -14,7 +14,8 @@ const NOV23_EVENING = Date.UTC(2026, 10, 24, 7, 30);   // 11:30 PM Pacific on No
 const NOV24_MORNING = Date.UTC(2026, 10, 24, 8, 30);   // 12:30 AM Pacific on Nov 24 (the Pacific day changed, the UTC day did not)
 
 let db, env;
-beforeEach(() => { db = createDb(); env = { DB: db }; });
+const SECRET = 'test-secret-0123456789abcdef';
+beforeEach(() => { db = createDb(); env = { DB: db, VOTE_SECRET: SECRET }; });
 const rows = () => db.rows('SELECT slug, day, count FROM clicks ORDER BY slug, day').map(r => ({ ...r }));
 const go = (slug, { method = 'GET', now = NOV23_EVENING, headers = {}, e = env } = {}) =>
   goResponse({ request: new Request(`https://openorbia.com/go/${slug}`, { method, headers }), env: e, params: { slug }, now });
@@ -40,8 +41,8 @@ test('one row per tool per Pacific day', async () => {
 });
 
 test('every tool has a /go/ target: its repo', async () => {
-  for (const t of TOOLS) {
-    const res = await go(t.slug);
+  for (const [i, t] of TOOLS.entries()) {
+    const res = await go(t.slug, { headers: { 'cf-connecting-ip': `198.51.100.${i + 1}` } });   // a different visitor each time: one visitor is limited to 30 a minute
     assert.equal(res.status, 302, t.slug);
     assert.equal(res.headers.get('location'), `https://github.com/${t.repo}`, t.slug);
     assert.equal(destination(t), t.github);
@@ -88,7 +89,8 @@ test('HEAD requests (link checkers, previews) are sent on without being counted'
 
 test('counting never gets in the way of the link: no database, or a failing one, still redirects', async () => {
   const failing = { prepare() { throw new Error('D1 is down'); } };
-  for (const e of [{}, { DB: failing }, { DB: { prepare: () => ({ bind: () => ({ run: async () => { throw new Error('write failed'); } }) }) } }]) {
+  const failingWrite = { prepare: sql => (/rate_limits/.test(sql) ? db.prepare(sql) : { bind: () => ({ run: async () => { throw new Error('write failed'); } }) }) };
+  for (const e of [{}, { DB: db }, { DB: failing, VOTE_SECRET: SECRET }, { DB: failingWrite, VOTE_SECRET: SECRET }]) {
     const res = await go('meetily', { e });
     assert.equal(res.status, 302);
     assert.equal(res.headers.get('location'), 'https://github.com/Zackriya-Solutions/meetily');
@@ -97,6 +99,7 @@ test('counting never gets in the way of the link: no database, or a failing one,
 
 test('the Pages Function exports GET and HEAD', async () => {
   const fn = await import('../functions/go/[slug].js');
+  env.VOTE_SECRET = SECRET;
   const res = await fn.onRequestGet({ request: new Request('https://openorbia.com/go/ollama'), env, params: { slug: 'ollama' } });
   assert.equal(res.status, 302);
   assert.equal(rows().length, 1);

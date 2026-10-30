@@ -20,6 +20,12 @@ The site is **not** connected to Git: it is deployed with wrangler (direct uploa
   `npx wrangler pages secret put BREVO_API_KEY --project-name openorbia`
 - First time on a database: `npm run db:schema:remote` (safe to re-run)
 
+
+### Preview environment
+Every deployment that is not `--branch main` (for example `npx wrangler pages deploy --project-name openorbia --branch launch-day`) is a preview. Previews have their own D1 database, `openorbia-db-preview`, bound in `wrangler.toml` under `[[env.preview.d1_databases]]`, and their own `VOTE_SECRET` (`npx wrangler pages secret put VOTE_SECRET --project-name openorbia --env preview`), so voting, clicks and signups on a preview never touch the live data. Production keeps `openorbia-db`. There is no `BREVO_API_KEY` on previews, so they send no email.
+- Set it up or bring it up to date: `npm run db:schema:preview` then `npm run db:migrate:preview`.
+- Fill it with the three sample launches in a launch week that is open now (voting works until Sunday 11:59 PM Pacific): `npm run seed:preview`. For a week that has already closed, so the final results page can be tried: `node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --no-images --sample-date last-week --yes`. The options only ever change entries marked `"sample": true`.
+
 ## Launch Week
 1. Edit `data/launches.json` (one entry per tool) and put the maker's images in `public/launches/<slug>/` (images are static files, so adding them needs a deploy; the launch data itself does not).
 2. `npm run seed:check` validates it, `npm run seed:local` / `npm run seed:remote` load it. Re-seeding updates entries in place and never touches votes; `--prune` also removes launches deleted from the file. Entries with `"sample": true` are placeholders: they are skipped for the live database unless you add `--include-samples`, and their images live in `test/fixtures/launches/<slug>/`, not in `public/`, so they are never deployed.
