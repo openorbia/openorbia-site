@@ -5,7 +5,7 @@ import { ROWS } from '../public/assets/tools.js';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
-import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS } from '../public/assets/facts.js';
+import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS } from '../public/assets/facts.js';
 import { MIGRATIONS } from '../lib/migrations.js';
 import { launchOpensAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -110,7 +110,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
   assert.equal(rows.length, 45);
-  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked'];
+  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level'];
   for (const r of rows) {
     const f = r[8];
     assert.ok(f && typeof f === 'object', r[0]);
@@ -122,6 +122,12 @@ test('Launch List: every row has valid Free facts (allowed values only, no teste
     if ('catch' in f) assert.ok(f.catch.length > 0 && f.catch.length <= 140, `${r[0]}: catch`);
     assert.match(f.lastChecked, /^\d{4}-\d{2}-\d{2}$/, `${r[0]}: lastChecked`);
     assert.ok(formatChecked(f.lastChecked), `${r[0]}: lastChecked is a real date`);
+    // read from the official docs
+    assert.ok(f.paidDeps && PAID_LEVELS.includes(f.paidDeps.level), `${r[0]}: paidDeps.level`);
+    assert.ok(f.paidDeps.what && f.paidDeps.what.length <= 90, `${r[0]}: paidDeps.what`);
+    assert.ok(f.task && f.task.length <= 80, `${r[0]}: task`);
+    assert.ok(FACT_LEVELS.includes(f.level), `${r[0]}: level`);
+    assert.ok(f.sources.length >= 1 && f.sources.length <= 3 && f.sources.every(u => u.startsWith('https://')), `${r[0]}: sources`);
   }
 });
 
@@ -138,6 +144,10 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
     assert.equal(f.catch, x.catch, `${r[0]}: catch`);
     assert.equal(f.lastChecked, x.lastChecked, `${r[0]}: lastChecked`);
     assert.equal(f.cardRequired, x.cardRequired, `${r[0]}: cardRequired`);
+    assert.deepEqual({ ...f.paidDeps }, x.paidDeps, `${r[0]}: paidDeps`);
+    assert.deepEqual([...f.sources], x.sources, `${r[0]}: sources`);
+    assert.equal(f.task, x.task, `${r[0]}: task`);
+    assert.equal(f.level, x.level, `${r[0]}: level`);
   }
   assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
   assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
@@ -189,7 +199,8 @@ test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also
   assert.ok(r, 'row exists');
   assert.deepEqual([r[0], r[3], r[4], r[5], r[6], r[7]], ['AI Job Hunter', 'job', 'os', 'Apache-2.0', 1, 0]);
   assert.equal(r[2], 'Desktop app that finds jobs, scores them against your résumé and writes tailored cover letters and résumés');
-  assert.deepEqual({ ...r[8] }, {
+  const { freeTier, cardRequired, dataLocation, setup, lastChecked } = r[8];
+  assert.deepEqual({ freeTier, cardRequired, dataLocation, setup, catch: r[8].catch, lastChecked }, {
     freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
     catch: 'Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
   });

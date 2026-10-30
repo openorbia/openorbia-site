@@ -33,6 +33,14 @@ While no launch is scheduled, `/launches/` shows the Launch Week intro (countdow
 
 Voting opens at 12:01 AM Pacific on each launch's `launch_date`. A visitor gets one upvote per launch for the whole launch week. Visitors are told apart by an HMAC of IP address and user agent, salted with the launch week and `VOTE_SECRET`: only that hash is stored, never the IP or user agent, and there are no cookies. Vote requests are rate limited (20 per 10 minutes per visitor), same-origin and JSON only.
 
+Voting closes at 11:59 PM Pacific on the Sunday of the launch week (the launch date plus 6 days, worked out on the Pacific clock, so a week with a daylight saving change still closes at 11:59 PM). After that `POST /api/vote` answers 403 `voting_closed`, launch pages say "Final results", and `/launches/week-<n>/results/` lists the final ranks per category: launches with the same number of upvotes share a rank and are listed by name.
+
+### Tool pages, filters and click counts
+- Every Launch List tool is a row in `public/assets/tools.js` (the Launch List page and the `/tool/<slug>/` pages both read it). `data/free-facts.json` holds the same facts plus how sure we are; a test keeps the two in step. The "docs" facts (`paidDeps`, `sources`, `task`, `level`) come from each tool's official README and docs. A tool with `paidDeps.level: "required"` gets the "Needs paid service" label and is hidden by the "Runs free" filter.
+- The Launch List filters live in the address bar, e.g. `/launch-list/?for=job&setup=browser&free=1`; the older `#job` style links still work.
+- Every tool link goes through `/go/<slug>`, which adds one to that tool's count for the day (table `clicks`: slug, Pacific day, count; no IP address, user agent, referrer or cookie) and answers 302. Run `npm run db:migrate:remote` once before deploying it to production, then read the counts with:
+  `npx wrangler d1 execute openorbia-db --remote --command "SELECT slug, SUM(count) AS clicks FROM clicks GROUP BY slug ORDER BY clicks DESC"`
+
 ## Local development
     cp .dev.vars.example .dev.vars
     npm run db:schema:local

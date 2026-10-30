@@ -35,7 +35,8 @@ test('every tool page has the full picture: name, description, category, license
     assert.ok(textOf(html).includes(CATEGORIES[t.category]), `${t.name}: category`);
     assert.ok(html.includes(`<span class="tg ${t.badge}">`) || html.includes('class="tg os"') || html.includes('class="tg fsh"'), `${t.name}: license badge`);
     assert.ok(textOf(html).includes(t.license), `${t.name}: license`);
-    assert.ok(html.includes(`href="${t.github}"`), `${t.name}: GitHub link`);
+    assert.ok(html.includes(`href="/go/${t.slug}"`), `${t.name}: the tool link goes through /go/`);
+    assert.ok(!html.includes(`href="${t.github}"`), `${t.name}: no direct link to the repo`);
     assert.match(html, new RegExp(`<link rel="canonical" href="https://openorbia\\.com/tool/${t.slug}/">`), `${t.name}: canonical`);
     // the whole Free facts box
     const f = t.facts;

@@ -40,3 +40,22 @@ export function formatChecked(date) {
 
 // Only an exact "OpenOrbia" counts: it is a claim that we tested the tool, so nothing else switches the badge on
 export const isTested = facts => !!facts && typeof facts === 'object' && facts.testedBy === TESTED_BY;
+
+// ---- paid dependencies ("Free facts from docs"): what a tool needs that costs money, read from its official docs ----
+
+export const PAID_LEVELS = ['none', 'optional', 'required'];
+export const FACT_LEVELS = ['basic'];
+export const FACT_LEVEL_LABELS = { basic: 'Basic' };
+export const NEEDS_PAID_LABEL = 'Needs paid service';
+
+// A tool whose core function does not work without paying for a service gets the "Needs paid service" label
+export const needsPaidService = facts => !!facts && typeof facts === 'object' && !!facts.paidDeps && facts.paidDeps.level === 'required';
+
+// -> '' (nothing known) or "None", "Optional: Ollama (free) or your own OpenAI key", "Required: Paid Claude plan or API credits"
+export function paidSummary(facts) {
+  const p = facts && typeof facts === 'object' ? facts.paidDeps : null;
+  if (!p || !PAID_LEVELS.includes(p.level)) return '';
+  const what = text(p.what);
+  if (p.level === 'none') return 'None';
+  return `${p.level === 'required' ? 'Required' : 'Optional'}${what ? `: ${what}` : ''}`;
+}

@@ -230,6 +230,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 /* /tool/<slug>/ and /how-we-check/ */
 .tg.loc{color:var(--cyan);border-color:rgba(127,231,255,.35)}
+.tg.paid{color:#ffb86b;border-color:rgba(255,184,107,.4)}
 .tg.fnd{color:#ffb3d1;border-color:rgba(255,179,209,.35)}
 .tool-note{margin:12px 0 0;font-size:14.5px;color:#c9d2ee;max-width:72ch}
 .tool-note a{color:var(--blue-l)}
@@ -284,3 +285,4 @@ html .countdown b,html .vote,html .rank{font-variant-numeric:tabular-nums}
 html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .vote-closes{margin-top:4px}
 @media (max-width:560px){.res-row{flex-wrap:wrap}.res-votes{margin-left:44px}}
+.docs-facts .facts .wide{grid-column:1/-1}

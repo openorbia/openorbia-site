@@ -46,3 +46,12 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   expires_at INTEGER NOT NULL                -- unix seconds
 );
 CREATE INDEX IF NOT EXISTS idx_rate_limits_expires ON rate_limits(expires_at);
+
+-- How many times each tool's link was followed through /go/<slug>, per day (Pacific). Only a count: no IP address, user agent,
+-- referrer or cookie is stored, and nothing in the table can be tied to a visitor.
+CREATE TABLE IF NOT EXISTS clicks (
+  slug  TEXT NOT NULL,                       -- a tool on the Launch List (public/assets/tools.js)
+  day   TEXT NOT NULL,                       -- YYYY-MM-DD, Pacific
+  count INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (slug, day)
+);

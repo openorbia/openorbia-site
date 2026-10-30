@@ -7,6 +7,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Multi-user and embed widget need the Docker version; local AI needs decent hardware",
+    "paidDeps": {
+      "level": "none",
+      "what": "None (built-in local model engine, or free Ollama)"
+    },
+    "sources": [
+      "https://github.com/Mintplex-Labs/anything-llm#readme",
+      "https://docs.anythingllm.com/introduction"
+    ],
+    "task": "Chat with your own documents and run AI agents on a private, local AI app",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -19,6 +29,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Speed and model size depend on your RAM/GPU",
+    "paidDeps": {
+      "level": "none",
+      "what": "None"
+    },
+    "sources": [
+      "https://github.com/ollama/ollama#readme",
+      "https://ollama.com/pricing"
+    ],
+    "task": "Run open AI models on your own computer and chat with them or use them in apps",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -31,6 +51,17 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "SSO, row-level permissions and audit logs are paid-only",
+    "paidDeps": {
+      "level": "none",
+      "what": "None"
+    },
+    "sources": [
+      "https://github.com/twentyhq/twenty#readme",
+      "https://twenty.com/pricing",
+      "https://docs.twenty.com/developers/self-host/capabilities/docker-compose"
+    ],
+    "task": "Run a customizable open-source CRM to track contacts, companies and deals",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -43,6 +74,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "SSO, Git version control and projects are paid-only; AI steps need API keys",
+    "paidDeps": {
+      "level": "optional",
+      "what": "None needed; AI steps can use paid OpenAI/Anthropic keys or open-source models"
+    },
+    "sources": [
+      "https://github.com/n8n-io/n8n#readme",
+      "https://docs.n8n.io/hosting/community-edition-features/"
+    ],
+    "task": "Build automated workflows and AI agents that connect your apps",
+    "level": "basic",
     "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -55,6 +96,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "SSO, audit logs and role controls are enterprise-only",
+    "paidDeps": {
+      "level": "none",
+      "what": "None (free self-hosted core; AI steps are optional)"
+    },
+    "sources": [
+      "https://github.com/activepieces/activepieces#readme",
+      "https://www.activepieces.com/pricing"
+    ],
+    "task": "Automate tasks between apps with a no-code workflow builder, like Zapier",
+    "level": "basic",
     "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -67,6 +118,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs Ollama or an AI API key; removing branding for 50+ users needs a license",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free, local) or your own OpenAI/Anthropic key"
+    },
+    "sources": [
+      "https://github.com/open-webui/open-webui#readme",
+      "https://docs.openwebui.com/getting-started/quick-start/"
+    ],
+    "task": "Chat with local or cloud AI models through a self-hosted web interface",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -79,6 +140,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Self-host is one workspace; logo can't be removed; needs your own AI model keys",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Your own AI model keys, or local models; paid cloud plans not needed"
+    },
+    "sources": [
+      "https://github.com/langgenius/dify#readme",
+      "https://dify.ai/pricing"
+    ],
+    "task": "Build and run AI apps, chatbots and agent workflows without much code",
+    "level": "basic",
     "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -91,7 +162,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "No Linux installer; local summaries need Ollama",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "none",
+      "what": "None; local Whisper/Parakeet and free Ollama (paid cloud AI is optional)"
+    },
+    "sources": [
+      "https://github.com/Zackriya-Solutions/meetily#readme"
+    ],
+    "task": "Record, transcribe and summarize meetings privately on your own computer",
+    "level": "basic",
+    "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
   },
@@ -103,7 +183,17 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "You register your own developer app per social network; approvals can take weeks",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Optional OpenAI key for AI features; paid Postiz Cloud not needed"
+    },
+    "sources": [
+      "https://github.com/gitroomhq/postiz-app#readme",
+      "https://docs.postiz.com/introduction"
+    ],
+    "task": "Schedule and analyze posts across your social media accounts from one place",
+    "level": "basic",
+    "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
   },
@@ -115,6 +205,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs Google/Microsoft OAuth setup and an AI key; check license terms for team use",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free, local) or your own paid AI key; Google/Microsoft sign-in setup"
+    },
+    "sources": [
+      "https://github.com/elie222/inbox-zero#readme",
+      "https://docs.getinboxzero.com/hosting/environment-variables"
+    ],
+    "task": "Sort your Gmail or Outlook inbox and pre-draft replies with AI",
+    "level": "basic",
     "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -127,6 +227,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs an existing paperless-ngx install plus an OpenAI key or Ollama",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free, local) or an OpenAI key; needs paperless-ngx (free)"
+    },
+    "sources": [
+      "https://github.com/icereed/paperless-gpt#readme"
+    ],
+    "task": "Auto-title, tag and OCR scanned documents in paperless-ngx using AI",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -139,6 +248,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs your own AI API key or a local model via Ollama",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free local models) or your own OpenAI/Claude/Groq key"
+    },
+    "sources": [
+      "https://github.com/ItzCrazyKns/Vane#readme"
+    ],
+    "task": "Search the web and get cited answers from AI models you run yourself",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -151,7 +269,17 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs your own AI API keys, or a local model via Ollama",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free) or your own OpenAI/Anthropic key"
+    },
+    "sources": [
+      "https://github.com/LibreChat-AI/LibreChat#readme",
+      "https://www.librechat.ai/docs"
+    ],
+    "task": "Chat with many AI models in one self-hosted ChatGPT-style app",
+    "level": "basic",
+    "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
   },
@@ -163,6 +291,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs a 16 GB RAM x86 server plus your own AI model key",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama or vLLM (free, local) or your own paid AI model key"
+    },
+    "sources": [
+      "https://github.com/infiniflow/ragflow#readme",
+      "https://github.com/infiniflow/ragflow/blob/main/docs/guides/models/deploy_local_llm.mdx"
+    ],
+    "task": "Build a searchable knowledge base from your documents and chat with it",
+    "level": "basic",
     "confidence": "high",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -175,6 +313,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Local models need 8–32 GB RAM; cloud models need your own key",
+    "paidDeps": {
+      "level": "none",
+      "what": "None"
+    },
+    "sources": [
+      "https://github.com/janhq/jan#readme",
+      "https://docs.jan.ai/desktop"
+    ],
+    "task": "Chat with AI models that run privately on your own computer",
+    "level": "basic",
     "confidence": "medium",
     "category": "biz",
     "lastChecked": "2026-10-30"
@@ -187,6 +335,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs an AI coding CLI; $0 only with a free Gemini key or local models",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Free Gemini key, OpenRouter free models or local Ollama; paid AI CLI is optional"
+    },
+    "sources": [
+      "https://github.com/career-ops-hq/career-ops#readme",
+      "https://github.com/career-ops-hq/career-ops/blob/main/docs/RUNNING_ON_A_BUDGET.md"
+    ],
+    "task": "Score job listings against your CV and draft tailored applications",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -199,6 +357,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs Ollama locally or your own cloud AI key",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free) or your own OpenAI/Anthropic/Gemini key"
+    },
+    "sources": [
+      "https://github.com/srbhr/Resume-Matcher#readme"
+    ],
+    "task": "Tailor your resume to each job description using AI",
+    "level": "basic",
     "confidence": "high",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -211,6 +378,15 @@
     "dataLocation": "Vendor cloud",
     "setup": "Browser, ready to use",
     "catch": "AI writing help needs your own key or Ollama",
+    "paidDeps": {
+      "level": "none",
+      "what": "None (AI help is optional; Ollama or your own key)"
+    },
+    "sources": [
+      "https://github.com/reactive-resume/reactive-resume#readme"
+    ],
+    "task": "Build, edit and download resumes and cover letters, and track job applications",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -223,6 +399,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Docker setup; AI uses Ollama by default, or your own cloud key",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free, default) or your own cloud AI key"
+    },
+    "sources": [
+      "https://github.com/Gsync/jobsync#readme"
+    ],
+    "task": "Track job applications and get AI resume reviews and job matches",
+    "level": "basic",
     "confidence": "high",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -235,7 +420,17 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs your own AI (key or Ollama); Commons Clause license; analytics on by default",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama/LM Studio (free) or your own OpenAI/Claude key; hosted Cloud is paid"
+    },
+    "sources": [
+      "https://github.com/DaKheera47/job-ops#readme",
+      "https://jobops.dakheera47.com/docs/"
+    ],
+    "task": "Find jobs, tailor your CV to each one and track applications",
+    "level": "basic",
+    "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
@@ -247,6 +442,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Live voice needs LiveKit plus speech and AI keys, or a fully local setup",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Free local models (Ollama, Whisper, Kokoro) or paid cloud voice/AI keys"
+    },
+    "sources": [
+      "https://github.com/ngoanpv/DeepInterview#readme",
+      "https://github.com/ngoanpv/DeepInterview/blob/main/docs/LOCAL_MODELS.md"
+    ],
+    "task": "Practice job interviews out loud with an AI interviewer and get a scored report",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -259,6 +464,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs your own OpenAI or Gemini key; no local-model option",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Self-hosted/Ollama model (free) or your own OpenAI/Gemini key"
+    },
+    "sources": [
+      "https://github.com/IvanIsCoding/ResuLLMe#readme",
+      "https://github.com/IvanIsCoding/ResuLLMe/blob/main/src/pages/03_FAQ.py"
+    ],
+    "task": "Rewrite and tailor your resume with AI and export it in nice templates",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -271,6 +486,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs a paid AI API key (DeepSeek/OpenAI) plus MongoDB",
+    "paidDeps": {
+      "level": "required",
+      "what": "Paid AI API key (DeepSeek default; OpenAI also supported)"
+    },
+    "sources": [
+      "https://github.com/AnalyticAce/myresumo#readme"
+    ],
+    "task": "Tailor your resume to a job posting using AI",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -283,6 +507,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Bring your own model: Ollama/vLLM locally or a cloud API key",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama or vLLM (free, local) or your own cloud model key"
+    },
+    "sources": [
+      "https://github.com/Forkfield/grillkit#readme"
+    ],
+    "task": "Practice technical interviews with AI follow-ups and scoring",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -295,6 +528,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Use Ollama for offline use, or a cloud AI provider",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free) or your own Groq/OpenAI/Anthropic key"
+    },
+    "sources": [
+      "https://github.com/J3rry320/interview-coach#readme"
+    ],
+    "task": "Practice mock interviews in your terminal or a local web dashboard",
+    "level": "basic",
     "confidence": "low",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -307,6 +549,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Not on the Chrome Web Store (load unpacked); AI needs your own key or Ollama",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Local model (free) or your own Gemini/OpenAI/Anthropic key"
+    },
+    "sources": [
+      "https://github.com/prPMDev/elevateli#readme"
+    ],
+    "task": "Score your LinkedIn profile and get AI suggestions to improve it",
+    "level": "basic",
     "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -319,7 +570,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs a paid Anthropic API key and an Airtable account",
-    "confidence": "medium",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Your own AI chat app (e.g. Claude, Cursor); Airtable optional, markdown free"
+    },
+    "sources": [
+      "https://github.com/mayank-glitch-cpu/JobSync-Service#readme"
+    ],
+    "task": "Find fresh job postings and save them to Airtable or a markdown file",
+    "level": "basic",
+    "confidence": "low",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
@@ -344,7 +604,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Voice needs your own Gemini/OpenAI key; local models are text-only",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Free local model (text only) or your own Gemini/OpenAI key for voice"
+    },
+    "sources": [
+      "https://github.com/Samyak9109/Abhyas#readme"
+    ],
+    "task": "Run voice mock interviews and get scored feedback on your answers",
+    "level": "basic",
+    "confidence": "medium",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
@@ -356,6 +625,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs a paid Claude plan or API credits",
+    "paidDeps": {
+      "level": "required",
+      "what": "Paid Claude Pro/Max/Team plan or Anthropic API credits"
+    },
+    "sources": [
+      "https://github.com/ai-job-search-dev/ai-job-search#readme"
+    ],
+    "task": "Evaluate job postings, tailor your CV and write cover letters with Claude Code",
+    "level": "basic",
     "confidence": "high",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -368,6 +646,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama (free, offline) or your own OpenAI/Anthropic/Gemini key"
+    },
+    "sources": [
+      "https://github.com/saeedkolivand/ai-job-hunter-app#readme"
+    ],
+    "task": "Find jobs and write tailored resumes and cover letters with AI",
+    "level": "basic",
     "confidence": "high",
     "category": "job",
     "lastChecked": "2026-10-30"
@@ -380,6 +667,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs a target model: local (Hugging Face/Ollama) or a paid API",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Local Hugging Face model (free) or a paid API like OpenAI"
+    },
+    "sources": [
+      "https://github.com/NVIDIA/garak#readme"
+    ],
+    "task": "Scan AI chatbots and language models for jailbreaks, leaks and other weaknesses",
+    "level": "basic",
     "confidence": "high",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -392,6 +688,17 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Red-team generation uses promptfoo's servers unless you set your own key or model",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Your own LLM key or local Ollama; promptfoo Community plan is free"
+    },
+    "sources": [
+      "https://github.com/promptfoo/promptfoo#readme",
+      "https://www.promptfoo.dev/docs/red-team/configuration/",
+      "https://www.promptfoo.dev/pricing/"
+    ],
+    "task": "Test and red-team your AI prompts, models and apps for failures",
+    "level": "basic",
     "confidence": "high",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -404,6 +711,17 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "You configure your own AI endpoints and keys",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama or HuggingFace (free), or your own OpenAI/Azure key"
+    },
+    "sources": [
+      "https://github.com/microsoft/PyRIT#readme",
+      "https://microsoft.github.io/PyRIT/1.1.0/",
+      "https://github.com/microsoft/PyRIT/blob/main/doc/getting_started/configuration.md"
+    ],
+    "task": "Test generative AI systems for safety and security risks with a Python toolkit",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -416,7 +734,18 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "REST API, Git sync, forms and metrics need the paid Team plan",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "None for core; Ollama (free) or your own AI key for agents"
+    },
+    "sources": [
+      "https://github.com/TracecatHQ/tracecat#readme",
+      "https://tracecat.com/pricing",
+      "https://github.com/TracecatHQ/tracecat/blob/main/docs/agents/llm-providers.mdx"
+    ],
+    "task": "Automate security and IT workflows with AI agents and case management",
+    "level": "basic",
+    "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
   },
@@ -428,7 +757,17 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs Docker plus an AI key or local model; authorized testing only",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Local model via Ollama (free) or your own AI API key"
+    },
+    "sources": [
+      "https://github.com/usestrix/strix#readme",
+      "https://docs.strix.ai/llm-providers/overview"
+    ],
+    "task": "Run AI agents that pentest your apps and code and report vulnerabilities",
+    "level": "basic",
+    "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
   },
@@ -440,6 +779,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Main mode needs a Claude Code/Codex login; Ollama only in legacy mode",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Claude Code/Codex login (paid plans likely) or free Ollama in legacy mode"
+    },
+    "sources": [
+      "https://github.com/GreyDGL/PentestGPT#readme"
+    ],
+    "task": "Get AI help running penetration tests and capture-the-flag challenges",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -452,6 +800,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Needs an AI key or a large local model; EULA applies; authorized use only",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama or vLLM local model (free), or your own cloud AI key"
+    },
+    "sources": [
+      "https://github.com/vxcontrol/pentagi#readme"
+    ],
+    "task": "Run automated, AI-driven penetration tests on systems you are authorized to test",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -464,6 +821,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs an AI model (your key or local); usage telemetry on by default",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama/vLLM (free, local) or a paid OpenAI/NVIDIA/Anthropic key"
+    },
+    "sources": [
+      "https://github.com/NVIDIA-NeMo/Guardrails#readme",
+      "https://docs.nvidia.com/nemo/guardrails/about-nemo-guardrails-library/supported-llms"
+    ],
+    "task": "Add safety rules and guardrails to chatbots built on AI language models",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -476,6 +843,16 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Pre-1.0; AI needs your own key or local Ollama",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Local Ollama (free) or your own Anthropic/OpenAI key"
+    },
+    "sources": [
+      "https://github.com/Vigil-SOC/vigil#readme",
+      "https://vigilsoc.org/docs/bifrost/"
+    ],
+    "task": "Triage security alerts and cases with AI agents in your own SOC",
+    "level": "basic",
     "confidence": "high",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -488,7 +865,17 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs your source code and an AI key; black-box testing is paid Pro",
-    "confidence": "high",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Your own AI key (Anthropic/OpenAI/xAI) or local Ollama/vLLM via custom config"
+    },
+    "sources": [
+      "https://github.com/KeygraphHQ/shannon#readme",
+      "https://github.com/KeygraphHQ/shannon/blob/main/docs/ai-providers.md"
+    ],
+    "task": "Run an AI pentester that finds and proves web app security flaws",
+    "level": "basic",
+    "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
   },
@@ -500,6 +887,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Models use Llama Community licenses, not OSI open source",
+    "paidDeps": {
+      "level": "none",
+      "what": "None (open models and MIT-licensed evals)"
+    },
+    "sources": [
+      "https://github.com/meta-llama/PurpleLlama#readme"
+    ],
+    "task": "Check AI models and their code for safety and cybersecurity risks",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -512,6 +908,15 @@
     "dataLocation": "Your server",
     "setup": "Install & self-host",
     "catch": "Full stack runs Postgres, Redis and Kafka in Docker; AI needs a key or local model",
+    "paidDeps": {
+      "level": "none",
+      "what": "None (ships with a free local model; hosted AI is optional)"
+    },
+    "sources": [
+      "https://github.com/beenuar/AiSOC#readme"
+    ],
+    "task": "Detect and investigate security threats with AI agents a human approves",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -524,7 +929,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Needs an MCP AI client and the security tools installed; use an isolated VM",
-    "confidence": "medium",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Any MCP AI client (Claude, GPT, Copilot examples); no free client documented"
+    },
+    "sources": [
+      "https://github.com/0x4m4/hexstrike-ai#readme"
+    ],
+    "task": "Let an AI assistant run 150+ security tools for penetration testing",
+    "level": "basic",
+    "confidence": "low",
     "category": "sec",
     "lastChecked": "2026-10-30"
   },
@@ -536,6 +950,16 @@
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
     "catch": "Simulated data only; the optional AI Copilot needs local Ollama",
+    "paidDeps": {
+      "level": "none",
+      "what": "None; the optional AI Copilot uses free local Ollama"
+    },
+    "sources": [
+      "https://github.com/Khaja-syed-786/soc-range#readme",
+      "https://github.com/Khaja-syed-786/soc-range/blob/main/docs/ai-copilot.md"
+    ],
+    "task": "Practice triaging simulated security alerts like a SOC analyst",
+    "level": "basic",
     "confidence": "high",
     "category": "sec",
     "lastChecked": "2026-10-30"
@@ -548,6 +972,15 @@
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
     "catch": "Linux only; needs your own AI (Ollama/vLLM or API); voice uses paid OpenAI",
+    "paidDeps": {
+      "level": "optional",
+      "what": "Ollama or vLLM (free), or Claude/OpenRouter/Codex; voice needs paid OpenAI key"
+    },
+    "sources": [
+      "https://github.com/berylliumsec/nebula#readme"
+    ],
+    "task": "Run and document security tests on authorized systems from one desktop app",
+    "level": "basic",
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-10-30"
