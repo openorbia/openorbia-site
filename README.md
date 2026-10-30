@@ -16,6 +16,8 @@ The site is **not** connected to Git: it is deployed with wrangler (direct uploa
 - D1 database `openorbia-db`, bound as `DB` in `wrangler.toml`
 - Secret `VOTE_SECRET` (any long random string; voting answers 503 without it):
   `npx wrangler pages secret put VOTE_SECRET --project-name openorbia`
+- Secret `BREVO_API_KEY` (optional): a Brevo API key. With it, each new waitlist signup gets a welcome email from launch@openorbia.com (`lib/email.js`); without it signups still work and no email is sent. launch@openorbia.com must be a verified sender in Brevo:
+  `npx wrangler pages secret put BREVO_API_KEY --project-name openorbia`
 - First time on a database: `npm run db:schema:remote` (safe to re-run)
 
 ## Launch Week

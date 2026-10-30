@@ -10,6 +10,8 @@ const json = (obj, status = 200) =>
     headers: { "content-type": "application/json; charset=utf-8" },
   });
 
+import { sendWelcome } from "../../lib/email.js";
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Result of a signup: { status, message } on success, { status, error } on failure; `page` is the id of the message shown after a form post
@@ -58,13 +60,14 @@ async function signup(body, request, env) {
     ).bind(email, role, tool, country).run();
 
     if (res.meta && res.meta.changes === 0) return MESSAGES.already;
-    return role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader;
+    // a new signup: tell the caller who to welcome (never sent for duplicates or bots)
+    return { ...(role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader), welcome: { to: email, role } };
   } catch (e) {
     return MESSAGES.failed;
   }
 }
 
-export async function handleWaitlist({ request, env }) {
+export async function handleWaitlist({ request, env, waitUntil, fetchImpl }) {
   const type = (request.headers.get("content-type") || "").toLowerCase();
   const isForm = type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
 
@@ -75,6 +78,12 @@ export async function handleWaitlist({ request, env }) {
     body = null;
   }
   const result = body && typeof body === "object" ? await signup(body, request, env) : MESSAGES.bad_request;
+
+  // The welcome email goes out after the answer where the platform allows it; it can never change the answer
+  if (result.welcome) {
+    const task = sendWelcome({ apiKey: env.BREVO_API_KEY, ...result.welcome, fetchImpl });
+    if (typeof waitUntil === "function") waitUntil(task); else await task;
+  }
 
   if (isForm) {
     // 303 so the browser follows with a GET; no-store so a back/forward never replays it

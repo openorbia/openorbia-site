@@ -1,3 +1,5 @@
 # Copy to .dev.vars for local development (wrangler pages dev). .dev.vars is gitignored.
 # In production set it once with: npx wrangler pages secret put VOTE_SECRET --project-name openorbia
 VOTE_SECRET=local-dev-only-change-me
+# Optional: leave empty locally so no real email is sent. In production: npx wrangler pages secret put BREVO_API_KEY --project-name openorbia
+BREVO_API_KEY=
