@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { sitemapXml, sitemapResponse, STATIC_PATHS } from '../lib/seo.js';
 import { launchResponse, leaderboardResponse, renderNotFound } from '../lib/pages.js';
 import { launchOpensAt } from '../lib/time.js';
+import { renderMakers } from '../lib/makers.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const root = new URL('../', import.meta.url);
@@ -26,6 +27,7 @@ test('the sitemap lists the fixed pages and every launch, and nothing else', asy
   assert.match(res.headers.get('content-type'), /application\/xml/);
   const xml = await res.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+  assert.ok(locs.includes('https://openorbia.com/makers/'));
   assert.deepEqual(locs, [...STATIC_PATHS, '/launch/alpha-tool/', '/launch/zeta-tool/'].map(p => `https://openorbia.com${p}`));
   assert.ok(!xml.includes('404'));
 });
@@ -45,7 +47,7 @@ const pages = async () => {
   const launch = await (await launchResponse({ request: get('/launch/t/'), env, params: { slug: 't' }, now: AFTER })).text();
   const board = await (await leaderboardResponse({ request: get('/launches/'), env, now: AFTER })).text();
   const file = f => readFileSync(new URL(f, root), 'utf8');
-  return { '/': file('public/index.html'), '/launch-list/': file('public/launch-list/index.html'), '/launches/': board, '/launch/t/': launch };
+  return { '/': file('public/index.html'), '/launch-list/': file('public/launch-list/index.html'), '/launches/': board, '/launch/t/': launch, '/makers/': renderMakers() };
 };
 
 test('every indexable page has its own title, description and a canonical URL for itself', async () => {

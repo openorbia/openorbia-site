@@ -42,6 +42,10 @@ a{color:var(--blue-l)}
 :focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 header{padding-block:22px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.nav .links{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
+.nav .links a:not(.btn){color:var(--muted);text-decoration:none;font-size:15px;padding:10px 4px}
+.nav .links a:not(.btn):hover{color:var(--ink)}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 22px/1 var(--display);letter-spacing:-.03em}
 .brand svg{width:38px;height:38px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -124,9 +128,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="wrap">
+<header class="wrap"><div class="nav">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
-</header>
+  <nav class="links" aria-label="Main"><a href="/launches/">Launches</a><a href="/launch-list/">Launch List</a><a href="/makers/">Makers</a><a class="btn ghost" href="/#join">Join the waitlist</a></nav>
+</div></header>
 
 <main class="wrap" id="main" tabindex="-1">
   <section class="hero">
@@ -167,7 +172,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div><span class="n">01</span><b>Launch for free</b><span>Submit your tool and get a permanent page and a backlink.</span></div>
     <div><span class="n">02</span><b>Get upvoted</b><span>The community ranks each week's launches. The top three earn a badge.</span></div>
     <div><span class="n">03</span><b>Get found</b><span>Reach small businesses, job seekers and security teams looking for free tools.</span></div>
-    <div class="contact" style="grid-column:1/-1">Prefer email? Makers can write to
+    <div class="contact" style="grid-column:1/-1">New here? <a href="/makers/">See how launching works</a>. Prefer email? Makers can write to
       <code id="mail">launch@openorbia.com</code><button class="copy" id="copyBtn" type="button">Copy</button></div>
   </section>
   <section class="join" id="join" aria-labelledby="join-h">

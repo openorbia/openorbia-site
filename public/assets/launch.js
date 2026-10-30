@@ -3,6 +3,16 @@
   'use strict';
   const pad = n => String(n).padStart(2, '0');
 
+  // ---- copy buttons: <button data-copy="text" data-copied="Copied"> ----
+  document.addEventListener('click', async e => {
+    const b = e.target.closest && e.target.closest('[data-copy]');
+    if (!b) return;
+    const was = b.textContent;
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = b.dataset.copied || 'Copied'; }
+    catch { const code = b.parentElement.querySelector('code'); if (code) { const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } b.textContent = 'Selected'; }
+    setTimeout(() => { b.textContent = was; }, 2000);
+  });
+
   // ---- countdowns: [data-countdown="<ISO time>"] with <b data-unit="d|h|m|s"> inside; data-now is the server's clock ----
   const timers = new WeakMap();
   function startCountdown(el) {
