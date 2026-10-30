@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives } from '../public/assets/tools.js';
 import { renderTool, toolTitle, toolDescription, toolResponse } from '../lib/tool-pages.js';
-import { renderHowWeCheck, howWeCheckResponse, RECHECK } from '../lib/how-we-check.js';
+import { renderHowWeCheck, howWeCheckResponse } from '../lib/how-we-check.js';
 import { renderMakers, BADGES } from '../lib/makers.js';
 import { layout } from '../lib/layout.js';
 import { renderNotFound } from '../lib/pages.js';
@@ -128,7 +128,8 @@ test('/how-we-check/ explains the rules, every fact, the recheck cycle, "Not con
   const text = textOf(html);
   for (const t of ['An open-source license, or a real free plan', 'Updated in the last 6 months', 'AI is a core part',
     'Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Last checked',
-    `We recheck every listed tool ${RECHECK}`, '"Not confirmed" means we could not verify',
+    "We check every tool's activity and license every month, and recheck the full Free facts at least every 3 months. Each card shows its last-checked date.",
+    '"Not confirmed" means we could not verify',
     'launch@openorbia.com', 'Built by OpenOrbia\'s founder', 'kept off the Launch Week leaderboard', 'Tested by OpenOrbia']) assert.ok(text.includes(t), t);
   assert.ok(html.includes('href="mailto:launch@openorbia.com"'));
   assert.equal((html.match(/<h1/g) || []).length, 1);
