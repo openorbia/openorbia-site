@@ -361,6 +361,18 @@
     "lastChecked": "2026-10-30"
   },
   {
+    "repo": "saeedkolivand/ai-job-hunter-app",
+    "name": "AI Job Hunter",
+    "freeTier": "Free and open source; runs offline with Ollama or uses your own API key",
+    "cardRequired": "no",
+    "dataLocation": "Runs on your computer",
+    "setup": "Desktop app",
+    "catch": "Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)",
+    "confidence": "high",
+    "category": "job",
+    "lastChecked": "2026-10-30"
+  },
+  {
     "repo": "NVIDIA/garak",
     "name": "garak",
     "freeTier": "Free command-line scanner (Apache-2.0)",

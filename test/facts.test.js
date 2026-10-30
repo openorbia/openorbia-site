@@ -109,7 +109,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
-  assert.equal(rows.length, 44);
+  assert.equal(rows.length, 45);
   const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked'];
   for (const r of rows) {
     const f = r[8];
@@ -154,7 +154,8 @@ test('Launch List: the counts in the title, meta, headline and og:title match th
   assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools`));
   assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} free AI tools"`));
   assert.match(html, new RegExp(`<h1>${n} free AI tools,`));
-  assert.ok(!/\b45 (free|AI)/.test(html), 'no stale 45');
+  const stated = [...html.matchAll(/(\d+) free (?:and open-source )?AI tools/g)].map(m => Number(m[1]));
+  assert.ok(stated.length >= 4 && stated.every(x => x === n), `every stated count is ${n}: ${stated}`);
 });
 
 test('Launch List: the cards show the facts, with Card required and the catch where known', () => {
@@ -180,4 +181,19 @@ test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pag
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
   assert.deepEqual([...unknown], ['JobSync-Service', 'Reactive Resume']);
+});
+
+test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also in the data file', () => {
+  const { rows } = listRows();
+  const r = rows.find(x => x[1] === 'saeedkolivand/ai-job-hunter-app');
+  assert.ok(r, 'row exists');
+  assert.deepEqual([r[0], r[3], r[4], r[5], r[6], r[7]], ['AI Job Hunter', 'job', 'os', 'Apache-2.0', 1, 0]);
+  assert.equal(r[2], 'Desktop app that finds jobs, scores them against your résumé and writes tailored cover letters and résumés');
+  assert.deepEqual({ ...r[8] }, {
+    freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
+    catch: 'Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
+  });
+  const x = factsFile.find(e => e.repo === 'saeedkolivand/ai-job-hunter-app');
+  assert.ok(x && x.confidence === 'high' && x.category === 'job');
+  assert.equal(new Set(rows.map(row => row[1].toLowerCase())).size, rows.length, 'no repo is listed twice');
 });
