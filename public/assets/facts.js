@@ -2,7 +2,9 @@
 // One module for both places that show them, so the labels, order and date format are the same everywhere: the
 // server-rendered launch pages import it from lib/pages.js, and the Launch List loads it in the browser.
 
-export const CARD_REQUIRED = ['yes', 'no'];
+// "unknown" is for tools whose card requirement we could not confirm; it is shown as "Not confirmed"
+export const CARD_REQUIRED = ['yes', 'no', 'unknown'];
+const CARD_LABELS = { yes: 'Yes', no: 'No', unknown: 'Not confirmed' };
 export const DATA_LOCATIONS = ['Runs on your computer', 'Your server', 'Vendor cloud'];
 export const SETUPS = ['Browser, ready to use', 'Desktop app', 'Install & self-host'];
 export const TESTED_BY = 'OpenOrbia';
@@ -19,7 +21,7 @@ export function factRows(facts) {
   const f = facts && typeof facts === 'object' ? facts : {};
   const rows = [];
   for (const key of ORDER) {
-    const raw = key === 'cardRequired' ? ({ yes: 'Yes', no: 'No' })[f[key]] : f[key];
+    const raw = key === 'cardRequired' ? CARD_LABELS[f[key]] : f[key];
     const value = text(raw);
     if (value) rows.push({ key, label: LABELS[key], value });
   }

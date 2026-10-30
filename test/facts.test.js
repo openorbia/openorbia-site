@@ -68,6 +68,8 @@ test('factRows and formatChecked', () => {
   assert.deepEqual(factRows({}), []);
   assert.deepEqual(factRows(null), []);
   assert.equal(factRows({ cardRequired: 'yes' })[0].value, 'Yes');
+  assert.equal(factRows({ cardRequired: 'unknown' })[0].value, 'Not confirmed');
+  assert.deepEqual(factRows({ cardRequired: 'maybe' }), [], 'anything else has no row');
   assert.equal(formatChecked('2026-11-10'), 'Nov 10, 2026');
   assert.equal(formatChecked(''), '');
   assert.equal(formatChecked('nope'), '');
@@ -135,8 +137,7 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
     assert.equal(f.setup, x.setup, `${r[0]}: setup`);
     assert.equal(f.catch, x.catch, `${r[0]}: catch`);
     assert.equal(f.lastChecked, x.lastChecked, `${r[0]}: lastChecked`);
-    // "unknown" is not a value we show: the row simply has no cardRequired
-    assert.equal(f.cardRequired, ['yes', 'no'].includes(x.cardRequired) ? x.cardRequired : undefined, `${r[0]}: cardRequired`);
+    assert.equal(f.cardRequired, x.cardRequired, `${r[0]}: cardRequired`);
   }
   assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
   assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
@@ -169,4 +170,14 @@ test('Launch List: the local-AI tag and filter chip say "Works with local AI", n
   assert.ok(!/>Runs locally</i.test(html), 'no tag or chip says Runs locally (a fact like "runs locally with Docker" is fine)');
   assert.match(html, /data-f="loc"[^>]*>Works with local AI</);
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);
+});
+
+test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pages and the Launch List', async () => {
+  assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'unknown' }), []);
+  assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'Unknown' }), [], 'case is normalized like yes/no');
+  const html = await render({ freeTier: 'Free', cardRequired: 'unknown' });
+  assert.ok(html.includes('Card required</dt><dd>Not confirmed</dd>'));
+  const { rows } = listRows();
+  const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
+  assert.deepEqual([...unknown], ['JobSync-Service', 'Reactive Resume']);
 });
