@@ -241,16 +241,23 @@ test('the voter hash depends on the secret: it cannot be recomputed without it',
 
 // ---- the Pages Function wiring ----
 
-test('the Pages Function handles POST with the real clock and answers other methods with 405', async () => {
-  addLaunch(db, { slug: 'long-open', name: 'Long Open', launch_week: 1, launch_date: '2020-01-06' });
-  const request = new Request('https://openorbia.com/api/vote', {
+test('the Pages Function handles POST with the real clock and answers other methods with 405', async (t) => {
+  // the Function reads Date.now() itself, so mock the clock: Wednesday of Launch Week 1, then the Monday after it closed
+  addLaunch(db, { slug: 'this-week', name: 'This Week', launch_week: 1, launch_date: '2026-11-23' });
+  t.mock.timers.enable({ apis: ['Date'], now: Date.UTC(2026, 10, 25, 18, 0) });
+  const post = who => onRequestPost({ env, request: new Request('https://openorbia.com/api/vote', {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'cf-connecting-ip': '198.51.100.70', 'user-agent': 'FnTest/1.0' },
-    body: JSON.stringify({ slug: 'long-open' }),
-  });
-  const res = await onRequestPost({ request, env });
+    headers: { 'content-type': 'application/json', 'cf-connecting-ip': who, 'user-agent': 'FnTest/1.0' },
+    body: JSON.stringify({ slug: 'this-week' }),
+  }) });
+  const res = await post('198.51.100.70');
   assert.equal(res.status, 200);
   assert.equal((await res.json()).count, 1);
+
+  t.mock.timers.setTime(Date.UTC(2026, 11, 1, 8, 0));   // Tuesday Dec 1: the week closed on Sunday Nov 29 at 11:59 PM Pacific
+  const late = await post('198.51.100.71');
+  assert.equal(late.status, 403);
+  assert.equal((await late.json()).code, 'voting_closed');
 
   const get = await onRequest({ request: new Request('https://openorbia.com/api/vote'), env });
   assert.equal(get.status, 405);
