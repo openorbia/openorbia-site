@@ -92,3 +92,15 @@ test('the "Submit a tool" issue form has every field and the homepage links to i
 test('the Submit a tool form applies the tool-submission label', () => {
   assert.match(readFileSync(new URL('.github/ISSUE_TEMPLATE/submit-a-tool.yml', root), 'utf8'), /^labels: \["tool-submission"\]$/m);
 });
+
+test('the Submit a tool dropdowns start empty: not required, "(required, please choose)", and "Not sure" kept', () => {
+  const yml = readFileSync(new URL('.github/ISSUE_TEMPLATE/submit-a-tool.yml', root), 'utf8');
+  const block = label => { const i = yml.indexOf(`label: ${label}`); const j = yml.indexOf('- type:', i); return yml.slice(i, j < 0 ? undefined : j); };
+  for (const label of ['Category', 'Card required', 'Where your data goes', 'Setup']) {
+    const b = block(label);
+    assert.ok(b.includes('(required, please choose)'), `${label}: description`);
+    assert.match(b, /required: false/, `${label}: not required, so it shows None by default`);
+  }
+  for (const label of ['Card required', 'Where your data goes', 'Setup']) assert.ok(block(label).includes('- Not sure'), `${label}: Not sure`);
+  for (const label of ['Are you the maker?', 'How does it use AI?']) assert.ok(yml.includes(`label: ${label}`), label);
+});

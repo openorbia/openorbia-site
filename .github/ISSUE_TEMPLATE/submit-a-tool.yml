@@ -30,17 +30,34 @@ body:
     id: category
     attributes:
       label: Category
+      description: (required, please choose)
       options:
         - Small Business
         - Job Seekers
         - Cybersecurity & SOC
     validations:
-      required: true
+      required: false
+  - type: dropdown
+    id: maker
+    attributes:
+      label: Are you the maker?
+      options:
+        - Yes, I am the maker
+        - No, I am suggesting someone else's tool
+    validations:
+      required: false
   - type: input
     id: license
     attributes:
       label: License
       description: For example MIT, Apache-2.0, AGPL-3.0.
+    validations:
+      required: true
+  - type: textarea
+    id: ai
+    attributes:
+      label: How does it use AI?
+      description: What does the AI do in the tool, and which models does it use or support?
     validations:
       required: true
   - type: textarea
@@ -54,35 +71,37 @@ body:
     id: card
     attributes:
       label: Card required
-      description: Do you need a credit card to use the free part?
+      description: Do you need a credit card to use the free part? (required, please choose)
       options:
         - "No"
         - "Yes"
         - Not sure
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: data
     attributes:
       label: Where your data goes
+      description: (required, please choose)
       options:
         - Runs on your computer
         - Your server
         - Vendor cloud
         - Not sure
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: setup
     attributes:
       label: Setup
+      description: (required, please choose)
       options:
         - Browser, ready to use
         - Desktop app
         - Install & self-host
         - Not sure
     validations:
-      required: true
+      required: false
   - type: input
     id: contact
     attributes:
