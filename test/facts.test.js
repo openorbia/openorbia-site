@@ -112,3 +112,10 @@ test('Launch List: 45 rows, facts only where known from research', () => {
     assert.equal(f.freeTier, `${r[4] === 'os' ? 'Open source' : 'Free to self-host'} (${r[5]})`);
   }
 });
+
+test('Launch List: the local-AI tag and filter chip say "Works with local AI", never "Runs locally"', () => {
+  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
+  assert.ok(!/Runs locally/i.test(html));
+  assert.match(html, /data-f="loc"[^>]*>Works with local AI</);
+  assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);
+});
