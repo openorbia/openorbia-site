@@ -105,31 +105,57 @@ const GRAD = 'linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet))
 // turns ligatures off names headings as "html [class] h1": it out-ranks every ".x h1" wherever it sits in the file.
 const NO_LIGATURES = 'html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}';
 
-test('the wordmark is Bricolage Grotesque 800 at -0.03em, the same on every page', () => {
-  const wordmark = 'font:800 22px/1 var(--display);letter-spacing:-.03em';
+test('the wordmark stays Bricolage Grotesque 800 at -0.03em, the same on every page, and nothing else uses Bricolage', () => {
+  const wordmark = 'font:800 22px/1 var(--wordmark);letter-spacing:-.03em';
   for (const [name, f] of Object.entries(PAGES)) {
-    const rule = rulesOf(file(f)).find(r => r.startsWith('.brand{'));
+    const text = file(f);
+    const rule = rulesOf(text).find(r => r.startsWith('.brand{'));
     assert.ok(rule && rule.includes(wordmark), `${name}: .brand rule`);
-    const grad = rulesOf(file(f)).find(r => r.startsWith('.grad{'));
+    assert.ok(text.includes('--wordmark:"Bricolage Grotesque",'), `${name}: --wordmark is Bricolage Grotesque`);
+    assert.equal(rulesOf(text).filter(r => r.includes('var(--wordmark)')).length, 1, `${name}: only the wordmark uses Bricolage`);
+    const grad = rulesOf(text).find(r => r.startsWith('.grad{'));
     assert.ok(grad && grad.includes(GRAD), `${name}: .grad is the wordmark gradient`);
   }
   assert.ok(file('public/404.html').includes('/assets/launch.css'), 'the 404 page shares the stylesheet');
 });
 
-test('every h1 uses the same font treatment as the wordmark: Bricolage 800, -0.03em, the wordmark gradient on highlighted words', () => {
+test('display text is Sora: h1 tracks at -0.01em and everything smaller at 0, with no leftover tracking from the old font', () => {
+  let seen = 0;
+  for (const [name, f] of Object.entries(PAGES)) {
+    const text = file(f);
+    assert.ok(text.includes('--display:"Sora",'), `${name}: --display is Sora`);
+    assert.ok(!text.includes('--display:"Bricolage'), `${name}: --display is no longer Bricolage`);
+    for (const rule of rulesOf(text)) {
+      if (!rule.includes('var(--display)')) continue;
+      const selector = rule.slice(0, rule.indexOf('{')).trim();
+      const tracking = rule.slice(rule.indexOf('{') + 1, -1).split(';').filter(d => d.startsWith('letter-spacing:'));
+      seen++;
+      if (selector.split(' ').pop() === 'h1') {
+        assert.deepEqual(tracking, ['letter-spacing:-.01em'], `${name}: ${selector} tracks at -0.01em`);
+        assert.ok(rule.includes('font:800 '), `${name}: ${selector} is weight 800`);
+      } else {
+        assert.deepEqual(tracking, [], `${name}: ${selector} has no tracking (0)`);
+      }
+    }
+  }
+  assert.ok(seen >= 25, `checked ${seen} display rules`);
+});
+
+test('every h1 uses Sora 800, with the wordmark gradient on highlighted words', () => {
   let seen = 0;
   for (const [name, f] of Object.entries(PAGES)) {
     for (const rule of rulesOf(file(f))) {
-      const selector = rule.slice(0, rule.indexOf('{'));
-      if (/(^|[ ,])h1$/.test(selector)) {
+      const selector = rule.slice(0, rule.indexOf('{')).trim();
+      const last = selector.split(' ').pop();
+      if (last === 'h1') {
         seen++;
-        assert.ok(/font:800 /.test(rule) && rule.includes('var(--display)'), `${name}: ${selector} is Bricolage 800`);
-        assert.ok(rule.includes('letter-spacing:-.03em'), `${name}: ${selector} tracks at -0.03em`);
+        assert.ok(rule.includes('font:800 ') && rule.includes('var(--display)'), `${name}: ${selector} is Sora 800`);
+        assert.ok(rule.includes('letter-spacing:-.01em'), `${name}: ${selector} tracks at -0.01em`);
       }
-      if (/h1 em$/.test(selector)) {
+      if (selector.endsWith(' h1 em') || selector === 'h1 em') {
         seen++;
         assert.ok(rule.includes(GRAD), `${name}: ${selector} uses the wordmark gradient`);
-        assert.ok(!/var\(--cyan\)/.test(rule), `${name}: ${selector} has no extra gradient stop`);
+        assert.ok(!rule.includes('var(--cyan)'), `${name}: ${selector} has no extra gradient stop`);
       }
     }
   }
@@ -145,22 +171,25 @@ test('ligatures are off on headings and the wordmark, and the "ff" workaround is
   assert.equal(h1.replace(/<[^>]+>/g, ''), 'Where free AI tools take off.', 'the headline still reads "take off" (a screen reader sees one word)');
 });
 
-test('the homepage headline has a little extra space after the first f of "off", and nowhere else', () => {
+test('the homepage headline is plain "take off" in Sora: the Bricolage-only spacing workaround is gone', () => {
   const home = file('public/index.html');
-  assert.ok(home.includes('<em>take o<span class="fsp">f</span>f</em>.</h1>'), 'only the first f is wrapped');
-  // -0.03em (the heading tracking) + 0.04em = +0.01em after that f, so the two hooks no longer touch
-  assert.ok(rulesOf(home).includes('.fsp{letter-spacing:.01em}'), 'the extra space is 0.04em on top of -0.03em');
-  assert.equal((home.match(/class="fsp"/g) || []).length, 1, 'one use on the homepage');
-  for (const f of ['public/launch-list/index.html', 'public/assets/launch.css', 'public/404.html', 'lib/layout.js', 'lib/makers.js', 'lib/pages.js']) {
-    assert.ok(!file(f).includes('fsp'), `${f}: no extra spacing anywhere else`);
+  assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
+  for (const f of [...Object.values(PAGES), 'public/404.html', 'lib/layout.js', 'lib/makers.js', 'lib/pages.js']) {
+    assert.ok(!file(f).includes('fsp'), `${f}: no .fsp spacing workaround`);
   }
-  assert.ok(rulesOf(home).some(r => r.startsWith('h1{') && r.includes('letter-spacing:-.03em')), 'the h1 itself keeps -0.03em');
 });
 
-test('every page asks for Bricolage Grotesque 800 and IBM Plex Sans', () => {
-  const link = 'family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400';
-  for (const f of ['public/index.html', 'public/launch-list/index.html', 'public/404.html']) assert.ok(file(f).includes(link), f);
-  assert.ok(layout({ title: 't', description: 'd', path: '/', body: '' }).includes(link), 'server-rendered pages');
+test('every page loads Sora 600/700/800 with display=swap alongside Bricolage 800, IBM Plex Sans and JetBrains Mono, and preconnects to Google Fonts', () => {
+  const needles = ['family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800', 'family=IBM+Plex+Sans:wght@400', 'family=JetBrains+Mono:wght@500', 'family=Sora:wght@600;700;800', '&display=swap'];
+  const pages = { home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'), layout: layout({ title: 't', description: 'd', path: '/', body: '' }) };
+  for (const [name, html] of Object.entries(pages)) {
+    const link = html.split('\n').find(l => l.includes('fonts.googleapis.com/css2'));
+    assert.ok(link, `${name}: fonts link`);
+    for (const n of needles) assert.ok(link.includes(n), `${name}: ${n}`);
+    assert.equal(link.split('family=Sora').length - 1, 1, `${name}: Sora once`);
+    assert.ok(html.includes('<link rel="preconnect" href="https://fonts.googleapis.com">'), `${name}: preconnect to googleapis`);
+    assert.ok(html.includes('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'), `${name}: preconnect to gstatic`);
+  }
 });
 
 // Specificity of a descendant selector as [classes and attributes, element names]; enough for the heading rules in these stylesheets
