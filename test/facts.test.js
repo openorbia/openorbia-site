@@ -1,7 +1,7 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import vm from 'node:vm';
+import { ROWS } from '../public/assets/tools.js';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
@@ -103,7 +103,7 @@ test('migration adds facts to an older launches table, once', () => {
 
 const listRows = () => {
   const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
-  return { html, rows: vm.runInNewContext(html.match(/const T=(\[[\s\S]*?\n\]);/)[1]) };
+  return { html, rows: ROWS };
 };
 const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
 
