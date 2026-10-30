@@ -29,6 +29,7 @@ header{padding-block:22px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 22px/1 var(--display);letter-spacing:-.03em}
 .brand svg{width:38px;height:38px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -72,7 +73,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .lhero{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:20px 8px}
 .lhero-main{display:flex;gap:20px;align-items:center;min-width:0}
 .lhero-text{min-width:0}
-.lhero h1{font:800 clamp(30px,5vw,52px)/1.04 var(--display);letter-spacing:-.04em;margin:10px 0 6px}
+.lhero h1{font:800 clamp(30px,5vw,52px)/1.04 var(--display);letter-spacing:-.03em;margin:10px 0 6px}
 .tagline{margin:0;font-size:clamp(17px,2.2vw,20px);color:#c9d2ee;max-width:60ch}
 .lhero-vote{flex:none;display:flex;flex-direction:column;align-items:center;max-width:180px}
 .actions{display:flex;gap:12px;flex-wrap:wrap;padding-block:12px}
@@ -113,8 +114,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 /* /launches/ */
 .lboard-hero{padding-block:clamp(28px,6vh,60px) 18px}
-.lboard-hero h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.04em;margin:18px 0 12px}
-.lboard-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.lboard-hero h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.03em;margin:18px 0 12px}
+.lboard-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
 .lboard-hero p{margin:0;color:#c9d2ee;max-width:62ch;font-size:clamp(16px,2vw,18px)}
 .soon-panel{border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:22px;text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
 .coming{margin:0 0 14px;font:800 clamp(22px,4vw,32px)/1.1 var(--display);letter-spacing:-.03em}
@@ -163,8 +164,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
    tall screens, two columns on desktop, stacked on phones. */
 .lw{min-height:calc(100svh - 215px);display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,6vh,64px);padding-block:clamp(12px,3vh,32px) clamp(24px,5vh,56px)}
 .lw-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:center}
-.lw-intro h1{font:800 clamp(46px,8vw,92px)/.98 var(--display);letter-spacing:-.045em;margin:18px 0 14px}
-.lw-intro h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.lw-intro h1{font:800 clamp(46px,8vw,92px)/.98 var(--display);letter-spacing:-.03em;margin:18px 0 14px}
+.lw-intro h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
 .lw-sub{margin:0 0 26px;font-size:clamp(17px,2.2vw,21px);color:#c9d2ee;max-width:34ch}
 .lw-actions{display:flex;gap:12px;flex-wrap:wrap}
 .lw-clock{border:1px solid var(--line);border-radius:22px;padding:clamp(20px,3vw,32px);text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
@@ -195,8 +196,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 /* /makers/ */
 .mk{display:grid;gap:clamp(28px,4vw,44px);padding-bottom:16px}
-.mk-hero h1{font:800 clamp(40px,6.4vw,72px)/1.02 var(--display);letter-spacing:-.04em;margin:18px 0 14px;text-wrap:balance}
-.mk-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.mk-hero h1{font:800 clamp(40px,6.4vw,72px)/1.02 var(--display);letter-spacing:-.03em;margin:18px 0 14px;text-wrap:balance}
+.mk-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
 .mk-sub{margin:0 0 26px;font-size:clamp(17px,2.2vw,20px);color:#c9d2ee;max-width:46ch}
 .mk-sec h2{margin:0 0 14px;font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
 .mk-note{margin:0 0 14px;color:#c9d2ee}
@@ -236,8 +237,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .alt b{display:block;font:700 17px/1.25 var(--display);letter-spacing:-.02em}
 .alt-d{display:block;margin-top:4px;font-size:14px;color:#c9d2ee}
 .hwc{display:grid;gap:clamp(26px,4vw,40px);padding-bottom:16px}
-.hwc h1{font:800 clamp(36px,6vw,64px)/1.03 var(--display);letter-spacing:-.04em;margin:18px 0 14px;text-wrap:balance}
-.hwc h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.hwc h1{font:800 clamp(36px,6vw,64px)/1.03 var(--display);letter-spacing:-.03em;margin:18px 0 14px;text-wrap:balance}
+.hwc h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
 .hwc-sub{margin:0;font-size:clamp(17px,2.2vw,20px);color:#c9d2ee;max-width:56ch}
 .hwc-sec h2{margin:0 0 12px;font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
 .hwc-sec p{margin:0 0 12px;color:#dbe2f7;max-width:70ch}

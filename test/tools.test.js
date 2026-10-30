@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives } from '../public/assets/tools.js';
 import { renderTool, toolTitle, toolDescription, toolResponse } from '../lib/tool-pages.js';
 import { renderHowWeCheck, howWeCheckResponse } from '../lib/how-we-check.js';
-import { renderMakers, BADGES } from '../lib/makers.js';
+import { renderMakers } from '../lib/makers.js';
 import { layout } from '../lib/layout.js';
 import { renderNotFound } from '../lib/pages.js';
 
@@ -147,35 +147,4 @@ test('/how-we-check/ is linked from every footer, the Launch List and /makers/',
   assert.ok(renderMakers().includes(link), '/makers/ footer');
 });
 
-// ---- the Featured on OpenOrbia badge ----
-
-test('the badge SVGs exist, are self-contained and say "Featured on OpenOrbia"', () => {
-  const ids = new Set();
-  for (const f of ['featured.svg', 'featured-dark.svg', 'featured-light.svg']) {
-    assert.ok(existsSync(new URL(`public/badge/${f}`, root)), f);
-    const svg = file(`public/badge/${f}`);
-    assert.match(svg, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="224" height="56" viewBox="0 0 224 56"/);
-    assert.ok(svg.includes('<title id="') && svg.includes('Featured on OpenOrbia</title>'), `${f}: accessible name`);
-    assert.ok(svg.includes('Featured on') && svg.includes('>Open<') && svg.includes('>Orbia<'));
-    assert.ok(!/<script|href=|<image|url\(http|@import|onload/i.test(svg), `${f}: nothing external or active`);
-    const mine = [...svg.matchAll(/id="([a-z]+-[a-z])"/g)].map(m => m[1]);
-    for (const id of mine) { assert.ok(!ids.has(id), `${f}: gradient id ${id} is unique across badges`); ids.add(id); }
-  }
-  assert.equal(file('public/badge/featured.svg').includes('#0b1020'), true, 'featured.svg is the dark badge');
-  assert.ok(file('public/badge/featured-light.svg').includes('#ffffff'));
-});
-
-test('/makers/ has copy-paste Markdown and HTML for both badges, linking to openorbia.com', () => {
-  const html = renderMakers();
-  assert.ok(html.includes('<h2 id="badge-h">Featured on OpenOrbia badge</h2>'));
-  assert.equal(BADGES.length, 2);
-  for (const b of BADGES) {
-    assert.equal(b.markdown, `[![Featured on OpenOrbia](https://openorbia.com/badge/${b.file})](https://openorbia.com/)`);
-    assert.equal(b.html, `<a href="https://openorbia.com/"><img src="https://openorbia.com/badge/${b.file}" alt="Featured on OpenOrbia" width="224" height="56"></a>`);
-    assert.ok(existsSync(new URL(`public/badge/${b.file}`, root)), b.file);
-    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    assert.ok(html.includes(`<code>${esc(b.markdown)}</code>`) && html.includes(`<code>${esc(b.html)}</code>`), `${b.key}: snippets on the page`);
-    assert.ok(html.includes(`data-copy="${esc(b.markdown)}"`) && html.includes(`data-copy="${esc(b.html)}"`), `${b.key}: copy buttons`);
-    assert.ok(html.includes(`<img src="/badge/${b.file}"`), `${b.key}: preview`);
-  }
-});
+// The badge SVGs and the badge section of /makers/ are tested in brand.test.js

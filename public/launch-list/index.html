@@ -41,6 +41,7 @@ header{padding-block:22px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 22px/1 var(--display);letter-spacing:-.03em}
 .brand svg{width:38px;height:38px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
 .badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
@@ -52,14 +53,14 @@ header{padding-block:22px}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .hero2{padding-block:clamp(32px,7vh,72px) 18px}
-.hero2 h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.04em;margin:18px 0 14px;text-wrap:balance}
-.hero2 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 40%,var(--violet) 75%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero2 h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.03em;margin:18px 0 14px;text-wrap:balance}
+.hero2 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero2 p{color:#c9d2ee;max-width:62ch;margin:0;font-size:clamp(16px,2vw,18px)}
 .nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .nav .links{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
 .nav .links a:not(.btn){color:var(--muted);text-decoration:none;font-size:15px;padding:10px 4px}
 .nav .links a:not(.btn):hover{color:var(--ink)}
-.nav .btn{padding:9px 16px;font-size:14px}
+.nav .btn{min-height:44px;padding:9px 16px;font-size:14px}
 .bar{position:sticky;top:0;z-index:5;background:rgba(5,7,15,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:-20px;padding:12px 20px;display:grid;gap:10px}
 .tabs,.chips{display:flex;gap:8px;flex-wrap:wrap}
 .tab,.chip{font:500 14px var(--body);color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
