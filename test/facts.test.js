@@ -107,7 +107,8 @@ test('Launch List: 45 rows, facts only where known from research', () => {
   for (const r of rows) {
     const f = r[8];
     assert.ok(f && f.freeTier, r[0]);
-    assert.deepEqual(Object.keys(f), ['freeTier'], `${r[0]}: only the free tier is known; dataLocation stays empty until verified per tool`);
+    assert.deepEqual(Object.keys(f), ['freeTier', 'lastChecked'], `${r[0]}: only the free tier and the check date are known; dataLocation stays empty until verified per tool`);
+    assert.equal(f.lastChecked, '2026-10-30');
     assert.equal(f.freeTier, `${r[4] === 'os' ? 'Open source' : 'Free to self-host'} (${r[5]})`);
   }
 });

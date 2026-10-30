@@ -1,6 +1,7 @@
 name: Submit a tool
 description: Suggest a free or open-source AI tool for the OpenOrbia Launch List or a Launch Week.
 title: "Submit: "
+labels: ["tool-submission"]
 body:
   - type: markdown
     attributes:

@@ -88,3 +88,7 @@ test('the "Submit a tool" issue form has every field and the homepage links to i
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
   assert.match(html, /id="wl-btn">Join the waitlist<\/button>\s*<a class="btn ghost" href="https:\/\/github\.com\/openorbia\/openorbia-site\/issues\/new\?template=submit-a-tool\.yml"/);
 });
+
+test('the Submit a tool form applies the tool-submission label', () => {
+  assert.match(readFileSync(new URL('.github/ISSUE_TEMPLATE/submit-a-tool.yml', root), 'utf8'), /^labels: \["tool-submission"\]$/m);
+});
