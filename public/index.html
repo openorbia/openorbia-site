@@ -95,6 +95,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .wl .btn{justify-content:center}
 .wl .btn[disabled]{opacity:.6;cursor:default}
 .msg{min-height:1.2em;font-size:14.5px}
+.wl-actions{display:flex;flex-wrap:wrap;gap:12px}
 .nojs-msg{display:none}.nojs-msg:target{display:block}
 .skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
 .skip:focus{top:12px}
@@ -183,7 +184,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <label class="f" for="wl-email">Email<input id="wl-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
       <label class="f" id="toolRow" for="wl-tool">Your tool's website <span class="opt">(optional)</span><input id="wl-tool" name="tool" type="url" inputmode="url" placeholder="https://"></label>
       <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" tabindex="-1" autocomplete="off"></label></div>
-      <button class="btn pri" type="submit" id="wl-btn">Join the waitlist</button>
+      <div class="wl-actions"><button class="btn pri" type="submit" id="wl-btn">Join the waitlist</button>
+        <a class="btn ghost" href="https://github.com/openorbia/openorbia-site/issues/new?template=submit-a-tool.yml" target="_blank" rel="noopener">Submit via GitHub</a></div>
       <p class="msg" id="wl-msg" role="status" aria-live="polite"></p>
       <p class="msg ok nojs-msg" id="wl-ok" role="status">You're on the list. We'll email you before Launch Week 1.</p>
       <p class="msg ok nojs-msg" id="wl-already" role="status">You're already on the list. We'll be in touch.</p>

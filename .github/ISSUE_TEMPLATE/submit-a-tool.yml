@@ -1,0 +1,89 @@
+name: Submit a tool
+description: Suggest a free or open-source AI tool for the OpenOrbia Launch List or a Launch Week.
+title: "Submit: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting! OpenOrbia lists free and open-source AI tools. Every tool needs a real free option, so no trial-only tools.
+
+        **This issue is public.** Only put contact details here that you are happy to share publicly. If you prefer, email launch@openorbia.com instead.
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repo URL
+      description: Link to the source code, if it is open source.
+      placeholder: https://github.com/owner/repo
+  - type: input
+    id: website
+    attributes:
+      label: Website
+      placeholder: https://
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Small Business
+        - Job Seekers
+        - Cybersecurity & SOC
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: For example MIT, Apache-2.0, AGPL-3.0.
+    validations:
+      required: true
+  - type: textarea
+    id: free
+    attributes:
+      label: What's free
+      description: What can someone use for free, and what are the limits? If there are paid parts, say so.
+    validations:
+      required: true
+  - type: dropdown
+    id: card
+    attributes:
+      label: Card required
+      description: Do you need a credit card to use the free part?
+      options:
+        - "No"
+        - "Yes"
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: data
+    attributes:
+      label: Where your data goes
+      options:
+        - Runs on your computer
+        - Your server
+        - Vendor cloud
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: setup
+    attributes:
+      label: Setup
+      options:
+        - Browser, ready to use
+        - Desktop app
+        - Install & self-host
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Maker contact
+      description: Public handle or email, so we can reach you before launch. Leave empty if you would rather email launch@openorbia.com.

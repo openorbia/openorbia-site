@@ -74,3 +74,17 @@ test('every page has a skip link to a main that can take focus', async () => {
   assert.ok(html.includes('class="skip"') && /<main [^>]*id="main"/.test(html));
   assert.match(readFileSync(new URL('public/assets/launch.css', root), 'utf8'), /\.skip:focus\{top:12px\}/);
 });
+
+test('the "Submit a tool" issue form has every field and the homepage links to it next to the waitlist button', () => {
+  const yml = readFileSync(new URL('.github/ISSUE_TEMPLATE/submit-a-tool.yml', root), 'utf8');
+  assert.match(yml, /^name: Submit a tool$/m);
+  for (const label of ['Tool name', 'Repo URL', 'Website', 'Category', 'License', "What's free", 'Card required', 'Where your data goes', 'Setup', 'Maker contact']) {
+    assert.ok(yml.includes(`label: ${label}`), label);
+  }
+  for (const option of ['Small Business', 'Job Seekers', 'Cybersecurity & SOC', 'Runs on your computer', 'Your server', 'Vendor cloud', 'Browser, ready to use', 'Desktop app', 'Install & self-host']) {
+    assert.ok(yml.includes(`- ${option}`), option);
+  }
+  assert.ok(yml.includes('This issue is public'), 'tells makers the contact details are public');
+  const html = readFileSync(new URL('public/index.html', root), 'utf8');
+  assert.match(html, /id="wl-btn">Join the waitlist<\/button>\s*<a class="btn ghost" href="https:\/\/github\.com\/openorbia\/openorbia-site\/issues\/new\?template=submit-a-tool\.yml"/);
+});
