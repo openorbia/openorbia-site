@@ -56,5 +56,6 @@ export function matchesRow(t, state) {
   if (state.os && badge !== 'os') return false;
   if (state.local && !local) return false;
   const q = String(state.q || '').trim().toLowerCase();
-  return !q || `${name} ${repo} ${desc}`.toLowerCase().includes(q);
+  // the search looks in the name, the repo, the description and the plain-language task line ("Tailor your resume to each job...")
+  return !q || `${name} ${repo} ${desc} ${(facts && facts.task) || ''}`.toLowerCase().includes(q);
 }

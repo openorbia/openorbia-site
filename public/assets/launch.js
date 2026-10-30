@@ -45,8 +45,7 @@
   document.querySelectorAll('[data-countdown]').forEach(startCountdown);
 
   // ---- upvotes ----
-  const status = document.getElementById('vote-status');
-  const say = msg => { if (status) status.textContent = msg; };
+  const say = msg => { const status = document.getElementById('vote-status'); if (status) status.textContent = msg; };
 
   function markVoted(slug, count) {
     document.querySelectorAll('button.vote').forEach(b => {
@@ -121,20 +120,41 @@
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
         return;
       }
-      setHeading("This week's launches");
+      const ended = !!data.closed;
+      setHeading(ended ? `Launch Week ${data.week} results` : "This week's launches");
+      const voted = new Set(Array.isArray(data.voted) ? data.voted : []);
+      const num = n => new Intl.NumberFormat('en-US').format(n || 0);
       const list = el('ol', 'mini');
       data.launches.forEach((l, i) => {
         const li = el('li');
-        const a = el('a', 'mini-row');
-        a.href = `/launch/${encodeURIComponent(l.slug)}/`;
-        a.append(el('span', 'mini-rank', String(i + 1)), el('span', 'mini-text'), el('span', 'mini-votes', `▲ ${new Intl.NumberFormat('en-US').format(l.votes || 0)}`));
-        a.querySelector('.mini-text').append(el('b', '', l.name), el('span', '', l.tagline));
-        li.append(a);
+        const row = el('div', 'mini-row');
+        const link = el('a', 'mini-text');
+        link.href = `/launch/${encodeURIComponent(l.slug)}/`;
+        link.append(el('b', '', l.name), el('span', '', l.tagline));
+        const state = ended ? 'ended' : voted.has(l.slug) ? 'voted' : 'ready';
+        const btn = el('button', 'vote');
+        btn.type = 'button';
+        btn.dataset.slug = l.slug;
+        btn.dataset.state = state;
+        btn.setAttribute('aria-pressed', state === 'voted' ? 'true' : 'false');
+        btn.disabled = ended;
+        const sr = el('span', 'sr', ended ? `Voting for ${l.name} is closed. Final result: ${num(l.votes)} upvotes` : `Upvote ${l.name}. ${num(l.votes)} upvotes${state === 'voted' ? ', you have upvoted' : ''}`);
+        sr.dataset.sr = '';
+        const n = el('span', 'n', num(l.votes));
+        n.dataset.count = '';
+        btn.append(el('span', 'arrow', '▲'), n, sr);
+        row.append(el('span', 'mini-rank', String(i + 1)), link, btn);
+        li.append(row);
         list.append(li);
       });
-      const more = el('a', 'btn ghost', `See all ${data.total} launch${data.total === 1 ? '' : 'es'} →`);
-      more.href = '/launches/';
-      root.replaceChildren(el('p', 'week-intro', 'Ranked by community upvotes. Launch week is live.'), list, more);
+      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : 'Voting closes Sunday 11:59 PM PT');
+      const more = el('a', 'btn ghost', ended ? 'See the final results →' : `See all ${data.total} launch${data.total === 1 ? '' : 'es'} →`);
+      more.href = ended ? `/launches/week-${data.week}/results/` : '/launches/';
+      const status = el('p', 'vote-note', '');
+      status.id = 'vote-status';
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-live', 'polite');
+      root.replaceChildren(note, list, status, more);
     };
 
     const load = () => fetch('/api/launches?limit=3', { headers: { accept: 'application/json' } })

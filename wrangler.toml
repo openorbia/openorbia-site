@@ -14,3 +14,12 @@ database_id = "8f21ec5b-2650-46df-a41f-d5742a59e69b"
 binding = "DB"
 database_name = "openorbia-db-preview"
 database_id = "a280dab0-fea9-4c09-9194-fba1017788d0"
+
+# The Turnstile site key is public (it is in the page source). The matching secret, TURNSTILE_SECRET_KEY, is set with:
+#   npx wrangler pages secret put TURNSTILE_SECRET_KEY --project-name openorbia            (production)
+#   npx wrangler pages secret put TURNSTILE_SECRET_KEY --project-name openorbia --env preview
+[vars]
+TURNSTILE_SITE_KEY = "0x4AAAAAAFs-XgBfIiYO5loz"
+
+[env.preview.vars]
+TURNSTILE_SITE_KEY = "0x4AAAAAAFs-XgBfIiYO5loz"

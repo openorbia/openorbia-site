@@ -49,19 +49,19 @@ header{padding-block:22px}
 .nav .links{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap}
 .nav .links a:not(.btn){color:var(--muted);text-decoration:none;font-size:15px;padding:10px 4px}
 .nav .links a:not(.btn):hover{color:var(--ink)}
-@media (max-width:560px){.nav .links .hide-sm{display:none}}
+@media (max-width:420px){.nav .links{gap:4px 10px}.nav .links a:not(.btn){padding:10px 2px}}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 22px/1 var(--wordmark);letter-spacing:-.03em}
 .brand svg{width:38px;height:38px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
-.hero{padding-block:clamp(48px,10vh,110px) 40px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:center}
-@media (max-width:820px){.hero{grid-template-columns:1fr;padding-block:28px 24px;gap:28px}.hero .orb{max-width:180px}}
+.hero{padding-block:clamp(16px,3vh,24px) 12px;display:grid;grid-template-columns:minmax(0,1fr) 190px;grid-template-areas:"badge orb" "h1 orb" "lede orb" "acts orb";column-gap:40px;align-items:center;justify-items:start}
+@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr) 68px;grid-template-areas:"badge orb" "h1 h1" "lede lede" "acts acts";column-gap:12px;padding-block:12px 8px}.hero .orb{max-width:68px}.hero .acts{width:100%}.hero .acts .btn{flex:1 1 0;justify-content:center;padding:11px 12px;font-size:14px}.hero .badge{font-size:11px;letter-spacing:.08em}}
 .badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
-h1{font:800 clamp(40px,7vw,78px)/1.0 var(--display);letter-spacing:-.01em;margin:20px 0 18px;text-wrap:balance}
+h1{font:800 clamp(34px,4.6vw,52px)/1.02 var(--display);letter-spacing:-.01em;margin:14px 0 12px;text-wrap:balance}
 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
-.lede{font-size:clamp(17px,2vw,19px);color:#c9d2ee;max-width:56ch;margin:0 0 28px}
+.lede{font-size:clamp(16px,1.5vw,17px);color:#c9d2ee;max-width:84ch;margin:0 0 16px}
 .acts{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
 .nav .btn{min-height:44px;padding:9px 16px;font-size:14px}
@@ -69,17 +69,39 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
-.orb{justify-self:center;width:100%;max-width:360px;aspect-ratio:1;position:relative}
+.hero .badge{grid-area:badge}.hero h1{grid-area:h1}.hero .lede{grid-area:lede}.hero .acts{grid-area:acts}
+.orb{grid-area:orb;justify-self:center;width:100%;max-width:190px;aspect-ratio:1;position:relative}
 .orb svg{width:100%;height:100%;filter:drop-shadow(0 0 40px rgba(91,124,255,.35))}
 @media (prefers-reduced-motion:no-preference){.orb svg{animation:float 7s ease-in-out infinite}}
 @keyframes float{50%{transform:translateY(-10px) rotate(-1.5deg)}}
-.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding-block:24px 40px}
-@media (max-width:820px){.cats{grid-template-columns:1fr}}
-.cat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;backdrop-filter:blur(6px)}
-.cat .k{font:500 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
-.cat h2{font:700 20px/1.2 var(--display);margin:8px 0 6px}
+.cats{padding-block:8px 28px}
+.sec-h{font:700 clamp(22px,3vw,28px)/1.15 var(--display);margin:0 0 6px}
+.sec-sub{color:var(--muted);margin:0 0 16px;font-size:15px}
+.cat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+@media (max-width:820px){.cat-row{grid-template-columns:1fr}}
+.cat{display:block;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;color:var(--ink);text-decoration:none;backdrop-filter:blur(6px)}
+.cat:hover{border-color:rgba(143,166,255,.5)}
+.k{font:500 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
+.cat h3{font:700 20px/1.2 var(--display);margin:6px 0 6px}
 .cat p{margin:0;color:var(--muted);font-size:15px}
-.how{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:48px}
+.tasks{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tasks a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);color:var(--ink);text-decoration:none;font-size:14.5px}
+.tasks a:hover{border-color:rgba(143,166,255,.5);background:rgba(91,124,255,.1)}
+.featured{padding-block:4px 28px}
+.feat{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px}
+.ft{display:grid;gap:8px;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
+.ft h3{font:700 19px/1.2 var(--display);margin:0}
+.ft h3 a{color:var(--ink);text-decoration:none}
+.ft h3 a:hover{text-decoration:underline}
+.ft-task{margin:0;color:#c9d2ee;font-size:15px}
+.ft-facts{margin:0;display:grid;gap:6px;font-size:14px}
+.ft-facts div{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px}
+.ft-facts dt{color:var(--muted)}.ft-facts dd{margin:0;min-width:0}
+.ft-more{color:var(--blue-l);font-weight:600;font-size:14.5px;text-decoration:none;padding-block:6px}
+a.ft-more:hover{text-decoration:underline}
+.ft-ask{text-decoration:none;color:var(--ink);background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08))}
+.ft-ask:hover{border-color:rgba(143,166,255,.5)}
+.how{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:32px}
 @media (max-width:820px){.how{grid-template-columns:1fr}}
 .how b{display:block;font:700 17px var(--display);margin-bottom:4px}
 .how span{color:var(--muted);font-size:15px}
@@ -113,51 +135,55 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .fine{font-size:13px;color:var(--muted)}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.week{border:1px solid var(--line);border-radius:20px;padding:26px;margin-bottom:48px;text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
-@media (max-width:820px){.week{padding:22px}}
-.week-head h2{font:800 clamp(26px,4vw,38px)/1.05 var(--display);margin:14px 0 8px;text-wrap:balance}
-.week-intro{color:#c9d2ee;margin:0 auto 14px;max-width:56ch}
-.week-coming{margin:0 0 12px;font:800 clamp(20px,3.4vw,28px)/1.1 var(--display)}
-.countdown{display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:min(100%,400px);margin-bottom:18px}
-.countdown div{background:rgba(5,7,15,.6);border:1px solid var(--line);border-radius:12px;padding:10px 4px}
-.countdown b{display:block;font:500 clamp(22px,6vw,32px)/1.1 var(--mono);color:var(--ink)}
+.week{border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:28px;text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
+@media (max-width:820px){.week{padding:16px 14px}}
+.week-head h2{font:800 clamp(22px,3.6vw,32px)/1.08 var(--display);margin:10px 0 6px;text-wrap:balance}
+.week-intro{color:#c9d2ee;margin:0 auto 8px;max-width:56ch;font-size:15px}
+.week-coming{margin:0 0 8px;font:800 clamp(18px,3vw,24px)/1.1 var(--display)}
+.countdown{display:inline-grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:min(100%,360px);margin-bottom:10px}
+.countdown div{background:rgba(5,7,15,.6);border:1px solid var(--line);border-radius:12px;padding:6px 4px}
+.countdown b{display:block;font:500 clamp(20px,5.5vw,28px)/1.1 var(--mono);color:var(--ink)}
 .countdown span{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .mini{list-style:none;margin:0 auto 16px;padding:0;display:grid;gap:10px;max-width:640px;text-align:left}
-.mini-row{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);background:rgba(5,7,15,.5);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.mini-row:hover{border-color:rgba(143,166,255,.45)}
+.mini-row{display:flex;align-items:center;gap:14px;color:var(--ink);background:rgba(5,7,15,.5);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+a.mini-text{text-decoration:none;color:var(--ink)}a.mini-text:hover b{text-decoration:underline}
 .mini-rank{flex:none;width:22px;text-align:center;font:500 16px var(--mono);color:var(--yellow)}
 .mini-text{flex:1;min-width:0;display:grid}
 .mini-text b{font:700 17px/1.2 var(--display)}
 .mini-text span{color:var(--muted);font-size:14.5px}
-.mini-votes{flex:none;font:500 14px var(--mono);color:var(--blue-l)}
-html .countdown b,html .mini-votes{font-variant-numeric:tabular-nums}
+html .countdown b{font-variant-numeric:tabular-nums}
+
+.week-makers{margin:0 0 12px;font:500 13px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--yellow)}
+.week-note{margin:0 0 12px;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vote-note{margin:8px 0 0;min-height:1.4em;font-size:14px;color:var(--muted);text-align:center}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.vote{flex:none;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:56px;min-height:56px;padding:6px 10px;font:700 17px/1.1 var(--display);color:var(--ink);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s}
+.vote .arrow{font-size:13px;color:var(--blue-l)}
+.vote:hover:not(:disabled){border-color:rgba(143,166,255,.6);background:rgba(91,124,255,.14)}
+.vote[data-state="voted"]{background:linear-gradient(135deg,rgba(143,166,255,.35),rgba(122,77,255,.35));border-color:rgba(143,166,255,.7);cursor:default}
+.vote[data-state="voted"] .arrow{color:#fff}
+.vote:disabled{cursor:not-allowed;opacity:.65}
+.vote[data-state="voted"]:disabled{opacity:1}
+html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="wrap"><div class="nav">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
-  <nav class="links" aria-label="Main"><a href="/launches/">Launches</a><a class="hide-sm" href="/launch-list/">Launch List</a><a href="/makers/">Makers</a><a class="btn ghost" href="/#join">Join the waitlist</a></nav>
+  <nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>
 </div></header>
 
 <main class="wrap" id="main" tabindex="-1">
   <section class="hero">
-    <div>
-      <span class="badge"><i></i>Launch Week 1: Monday, Nov 23</span>
-      <h1>Where free AI tools <em>take off</em>.</h1>
-      <p class="lede">Clear free limits, the catch, and where your data goes. Checked by hand. No trial-only listings.</p>
-      <div class="acts">
-        <a class="btn pri" href="#join">Join the waitlist</a>
-        <a class="btn ghost" href="/launch-list/">See the Launch List</a>
-      </div>
+    <span class="badge"><i></i>Launch Week 1: Monday, Nov 23</span>
+    <h1>Where free AI tools <em>take off</em>.</h1>
+    <p class="lede">Clear free limits, the catch, and where your data goes. Checked by hand. No trial-only listings.</p>
+    <div class="acts">
+      <a class="btn pri" href="/launch-list/">Explore free tools</a>
+      <a class="btn ghost" href="#join">Get launch updates</a>
     </div>
     <div class="orb"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg></div>
-  </section>
-
-  <section class="cats" aria-label="Who it's for">
-    <div class="cat"><span class="k">For</span><h2>Small businesses</h2><p>Free AI that replaces paid software: private chat, automation, transcription and images.</p></div>
-    <div class="cat"><span class="k">For</span><h2>Job seekers</h2><p>Free resume builders, ATS checks, writing help and offline interview practice.</p></div>
-    <div class="cat"><span class="k">For</span><h2>Security teams</h2><p>Open-source monitoring, detection and AI red-teaming tools for defenders.</p></div>
   </section>
 
   <section class="week" id="week" aria-labelledby="week-h">
@@ -171,17 +197,51 @@ html .countdown b,html .mini-votes{font-variant-numeric:tabular-nums}
       <div class="countdown" data-countdown="2026-11-23T08:01:00.000Z" role="timer" aria-label="Time until Launch Week 1 opens">
         <div><b data-unit="d">0</b><span>days</span></div><div><b data-unit="h">00</b><span>hours</span></div><div><b data-unit="m">00</b><span>min</span></div><div><b data-unit="s">00</b><span>sec</span></div>
       </div>
+      <p class="week-makers" data-makers>2 makers confirmed</p>
       <div><a class="btn ghost" href="/launches/">See the lineup →</a></div>
     </div>
+  </section>
+
+  <section class="featured" id="featured" aria-labelledby="featured-h">
+    <h2 class="sec-h" id="featured-h">Free tools to try first</h2>
+    <p class="sec-sub">Each one has a free part that works without a trial. The catch is stated up front.</p>
+    <div class="feat">
+    <!-- featured:start -->
+    <article class="ft" data-tool-slug="twenty"><span class="k">Small Business</span><h3><a href="/tool/twenty/">Twenty</a></h3><p class="ft-task">Run a customizable open-source CRM to track contacts, companies and deals</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free when self-hosted (AGPL); paid cloud optional</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>SSO, row-level permissions and audit logs need a paid Organization key, even when self-hosted</dd></div></dl><a class="ft-more" href="/tool/twenty/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="reactive-resume"><span class="k">Job Seekers</span><h3><a href="/tool/reactive-resume/">Reactive Resume</a></h3><p class="ft-task">Build, edit and download resumes and cover letters, and track job applications</p><dl class="ft-facts"><div><dt>Free</dt><dd>All features free at rxresu.me; MIT self-host too</dd></div><div><dt>Setup</dt><dd>Browser, ready to use</dd></div><div><dt>The catch</dt><dd>AI writing help needs your own key or Ollama</dd></div></dl><a class="ft-more" href="/tool/reactive-resume/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="soc-range"><span class="k">Cybersecurity &amp; SOC</span><h3><a href="/tool/soc-range/">SOC Range</a></h3><p class="ft-task">Practice triaging simulated security alerts like a SOC analyst</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free (MIT); runs locally with Node.js or Docker</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>Simulated data only; the optional AI Copilot needs local Ollama</dd></div></dl><a class="ft-more" href="/tool/soc-range/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="purplellama"><span class="k">Cybersecurity &amp; SOC</span><h3><a href="/tool/purplellama/">PurpleLlama</a></h3><p class="ft-task">Check AI models and their code for safety and cybersecurity risks</p><dl class="ft-facts"><div><dt>Free</dt><dd>Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>Benchmarks test an LLM you supply, through a provider API key or a self-hosted model</dd></div></dl><a class="ft-more" href="/tool/purplellama/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="anythingllm"><span class="k">Works with local AI</span><h3><a href="/tool/anythingllm/">AnythingLLM</a></h3><p class="ft-task">Chat with your own documents and run AI agents on a private, local AI app</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free desktop app or self-hosted Docker (MIT); paid hosted option</dd></div><div><dt>Setup</dt><dd>Desktop app</dd></div><div><dt>The catch</dt><dd>Multi-user and embed widget need the Docker version; local AI needs decent hardware</dd></div></dl><a class="ft-more" href="/tool/anythingllm/">See the facts <span aria-hidden="true">→</span></a></article>
+    <!-- featured:end -->
+    <a class="ft ft-ask" href="/request/"><span class="k">Cannot see your task?</span><h3>Find me a free tool</h3><p class="ft-task">Tell us what you need to get done. We look for a free tool that fits.</p><span class="ft-more">Ask us <span aria-hidden="true">→</span></span></a>
+    </div>
+  </section>
+
+  <section class="cats" aria-labelledby="cats-h">
+    <h2 class="sec-h" id="cats-h">Find tools for your work</h2>
+    <div class="cat-row">
+      <a class="cat" href="/launch-list/?for=biz"><span class="k">For</span><h3>Small businesses</h3><p>Free AI that replaces paid software: private chat, automation, transcription and images.</p></a>
+      <a class="cat" href="/launch-list/?for=job"><span class="k">For</span><h3>Job seekers</h3><p>Free resume builders, ATS checks, writing help and offline interview practice.</p></a>
+      <a class="cat" href="/launch-list/?for=sec"><span class="k">For</span><h3>Security teams</h3><p>Open-source monitoring, detection and AI red-teaming tools for defenders.</p></a>
+    </div>
+    <ul class="tasks" aria-label="Popular tasks">
+      <li><a href="/launch-list/?for=biz&amp;q=transcribe">Transcribe meetings</a></li>
+      <li><a href="/launch-list/?for=job&amp;q=tailor">Tailor a resume</a></li>
+      <li><a href="/launch-list/?for=biz&amp;q=documents">Chat with documents</a></li>
+      <li><a href="/launch-list/?for=biz&amp;q=automate">Automate small-business tasks</a></li>
+      <li><a href="/launch-list/?for=sec&amp;q=triage">Triage security alerts</a></li>
+      <li><a href="/launch-list/?for=sec&amp;q=vulnerabilities">Test AI for vulnerabilities</a></li>
+    </ul>
   </section>
 
   <section class="how" id="makers" aria-label="How launching works">
     <div><span class="n">01</span><b>Launch for free</b><span>Submit your tool and get a permanent page and a backlink.</span></div>
     <div><span class="n">02</span><b>Get upvoted</b><span>The community ranks each week's launches. The top three earn a badge.</span></div>
     <div><span class="n">03</span><b>Get found</b><span>Reach small businesses, job seekers and security teams looking for free tools.</span></div>
-    <div class="contact" style="grid-column:1/-1">New here? <a href="/makers/">See how launching works</a>. Prefer email? Makers can write to
+    <div class="contact" style="grid-column:1/-1"><a href="/submit/">Submit a tool</a> or <a href="/makers/">see how launching works</a>. Prefer email? Makers can write to
       <code id="mail">launch@openorbia.com</code><button class="copy" id="copyBtn" type="button">Copy</button></div>
   </section>
+
   <section class="join" id="join" aria-labelledby="join-h">
     <div class="join-copy">
       <span class="badge"><i></i>Launch Week 1</span>
@@ -209,7 +269,7 @@ html .countdown b,html .mini-votes{font-variant-numeric:tabular-nums}
   </section>
 </main>
 
-<footer><div class="wrap"><span>© <span id="yr">2026</span> OpenOrbia</span><span>Where free AI tools take off. · <a href="/how-we-check/">How we check tools</a> · <a href="https://www.linkedin.com/company/openorbia" target="_blank" rel="noopener">LinkedIn</a></span></div></footer>
+<footer><div class="wrap"><span>© <span id="yr">2026</span> OpenOrbia</span><span>Where free AI tools take off. · <a href="/how-we-check/">How we check tools</a> · <a href="/makers/">For makers</a> · <a href="/request/">Find me a free tool</a> · <a href="https://www.linkedin.com/company/openorbia" target="_blank" rel="noopener">LinkedIn</a></span></div></footer>
 
 <script>
 document.getElementById('yr').textContent=new Date().getFullYear();

@@ -286,3 +286,27 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .vote-closes{margin-top:4px}
 @media (max-width:560px){.res-row{flex-wrap:wrap}.res-votes{margin-left:44px}}
 .docs-facts .facts .wide{grid-column:1/-1}
+
+/* /submit/ and /request/ forms */
+.hwc-head{display:grid;justify-items:start}
+.form{display:grid;gap:18px;max-width:640px}
+.ff{display:grid;gap:6px;border:0;padding:0;margin:0;min-width:0}
+.ff label,.ff legend{font-weight:600;font-size:14.5px;padding:0}
+.ff input[type=text],.ff input[type=url],.ff input[type=email],.ff select,.ff textarea{font:inherit;font-weight:400;color:var(--ink);background:rgba(5,7,15,.6);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0;width:100%}
+.ff textarea{resize:vertical;min-height:84px}
+.ff select{appearance:auto}
+.ff input:focus,.ff select:focus,.ff textarea:focus{outline:2px solid var(--blue-l);outline-offset:1px}
+.ff-hint{margin:0;font-size:13.5px;color:var(--muted)}
+.ff-err{margin:0;font-size:14px;color:var(--red)}
+.ff:has(.ff-err:not([hidden])) input,.ff:has(.ff-err:not([hidden])) select,.ff:has(.ff-err:not([hidden])) textarea{border-color:var(--red)}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02);cursor:pointer;font-weight:400!important}
+.check:has(input:checked){border-color:var(--blue-l);background:rgba(91,124,255,.12)}
+.check input{accent-color:#7d97ff}
+.form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px}
+.form-actions .btn{justify-content:center}
+.form-actions .btn[disabled]{opacity:.6;cursor:default}
+.form-msg{margin:0;min-height:1.2em;font-size:15px}
+.form-msg.ok{color:var(--green)}.form-msg.err{color:var(--red)}
+.fine{font-size:13px;color:var(--muted)}

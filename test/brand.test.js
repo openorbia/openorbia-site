@@ -233,10 +233,9 @@ test('the header is the same height on every page, so the wordmark sits in the s
     if (name !== 'css') assert.ok(rule.includes('min-height:44px'), `${name}: nav button is 44px`);
   }
   assert.ok(rulesOf(file(PAGES.css)).some(r => r.startsWith('.btn{') && r.includes('min-height:44px')), 'the shared stylesheet gives every button 44px');
-  // and the same links show on small screens: the homepage hides "Launch List" below 560px like the other pages do
-  const home = file(PAGES.home);
-  assert.ok(home.includes('<a class="hide-sm" href="/launch-list/">Launch List</a>'));
-  assert.ok(home.includes('@media (max-width:560px){.nav .links .hide-sm{display:none}}'));
+  // the nav is three short links (Tools, Launches, Submit a tool) that all stay visible on small screens
+  for (const [name, f] of Object.entries(PAGES)) if (name !== 'css') assert.ok(file(f).includes('<nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>'), name);
+  assert.ok(!file(PAGES.home).includes('hide-sm'));
 });
 
 // ---- the metric-matched fallback ----
@@ -271,9 +270,9 @@ test('numbers that change use tabular figures, and the rule out-ranks the font s
   const tnum = 'font-variant-numeric:tabular-nums';
   const rule = css.find(r => r.startsWith('html .countdown b,'));
   assert.equal(rule, `html .countdown b,html .vote,html .rank{${tnum}}`, 'countdown digits, upvote counts and ranks');
-  assert.ok(home.includes(`html .countdown b,html .mini-votes{${tnum}}`), 'the homepage countdown and mini vote counts');
+  assert.ok(home.includes(`html .countdown b{${tnum}}`) && home.includes(`html .vote,html .ft-facts{${tnum}}`), 'the homepage countdown, vote counts and fact lines');
   // .vote and .countdown b set the font shorthand, which resets font-variant-numeric, so the new rule must be more specific
-  for (const [selector, base] of [['html .countdown b', '.countdown b'], ['html .vote', '.vote'], ['html .rank', '.rank'], ['html .mini-votes', '.mini-votes']]) {
+  for (const [selector, base] of [['html .countdown b', '.countdown b'], ['html .vote', '.vote'], ['html .rank', '.rank']]) {
     assert.ok(outranks(spec(selector), spec(base)), `${selector} out-ranks ${base}`);
   }
 });

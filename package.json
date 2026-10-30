@@ -11,6 +11,7 @@
     "dev": "node scripts/dev.mjs",
     "db:schema:local": "npx wrangler d1 execute openorbia-db --local --file=schema.sql",
     "db:schema:remote": "npx wrangler d1 execute openorbia-db --remote --file=schema.sql",
+    "build:home": "node scripts/build-home.mjs",
     "db:migrate:local": "node scripts/migrate.mjs --local",
     "db:migrate:remote": "node scripts/migrate.mjs --remote",
     "seed:check": "node scripts/seed-launches.mjs --dry-run",

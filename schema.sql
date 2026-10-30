@@ -55,3 +55,38 @@ CREATE TABLE IF NOT EXISTS clicks (
   count INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY (slug, day)
 );
+
+-- Tools submitted through /submit/ (POST /api/submit). status starts as 'new'; the founder reviews them by hand. Only what the maker typed is
+-- stored: no IP address, user agent or referrer. The maker's email is used to send a confirmation and to reply, nothing else.
+CREATE TABLE IF NOT EXISTS submissions (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  tool_name     TEXT NOT NULL,
+  url           TEXT NOT NULL,               -- repo or site, https
+  maker_name    TEXT NOT NULL,
+  email         TEXT NOT NULL,
+  category      TEXT NOT NULL,               -- biz | job | sec | other
+  license       TEXT NOT NULL,
+  free_tier     TEXT NOT NULL,               -- what is free
+  card_required TEXT NOT NULL,               -- yes | no | unknown
+  setup         TEXT NOT NULL,               -- browser | desktop | selfhost | other
+  paid_level    TEXT NOT NULL,               -- none | optional | required
+  paid_deps     TEXT NOT NULL DEFAULT '',
+  assets_link   TEXT NOT NULL DEFAULT '',
+  status        TEXT NOT NULL DEFAULT 'new',
+  created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- "Find me a free tool" questions from /request/ (POST /api/request). email is optional; publish_ok is 1 only when the visitor agreed that the
+-- question may be published (without the email).
+CREATE TABLE IF NOT EXISTS requests (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  task         TEXT NOT NULL,
+  audience     TEXT NOT NULL,                -- biz | job | sec | other
+  no_install   INTEGER NOT NULL DEFAULT 0,
+  no_card      INTEGER NOT NULL DEFAULT 0,
+  runs_locally INTEGER NOT NULL DEFAULT 0,
+  email        TEXT NOT NULL DEFAULT '',
+  publish_ok   INTEGER NOT NULL DEFAULT 0,
+  status       TEXT NOT NULL DEFAULT 'new',
+  created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
