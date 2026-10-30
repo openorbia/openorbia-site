@@ -501,7 +501,9 @@
       "what": "Paid AI API key (DeepSeek default; OpenAI also supported)"
     },
     "sources": [
-      "https://github.com/AnalyticAce/myresumo#readme"
+      "https://github.com/AnalyticAce/myresumo#readme",
+      "https://api-docs.deepseek.com/quick_start/pricing",
+      "https://platform.openai.com/docs/pricing"
     ],
     "task": "Tailor your resume to a job posting using AI",
     "level": "basic",
@@ -847,7 +849,8 @@
     },
     "sources": [
       "https://github.com/Vigil-SOC/vigil#readme",
-      "https://vigilsoc.org/docs/bifrost/"
+      "https://vigilsoc.org/docs/bifrost/",
+      "https://github.com/Vigil-SOC/vigil/releases/tag/v1.0.0"
     ],
     "task": "Triage security alerts and cases with AI agents in your own SOC",
     "level": "basic",
