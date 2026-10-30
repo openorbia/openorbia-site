@@ -17,12 +17,15 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Sora:wght@700;800&display=swap">
 <style>
+/* Sora Fallback: Arial Bold scaled to Sora's widths and vertical metrics (scripts/font-fallback.mjs), so headings wrap and sit the same before and after Sora loads */
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:700;size-adjust:104.02%;ascent-override:93.25%;descent-override:27.88%;line-gap-override:0%}
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:800;size-adjust:104.68%;ascent-override:92.66%;descent-override:27.7%;line-gap-override:0%}
 :root{
   --bg:#05070f;--surface:rgba(18,24,48,.6);--ink:#eef2ff;--muted:#9aa6c8;--line:rgba(143,166,255,.18);
   --blue:#5b7cff;--blue-l:#9fb2ff;--violet:#a07bff;--cyan:#7fe7ff;--yellow:#ffd84d;
-  --display:"Sora","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --display:"Sora","Sora Fallback","Avenir Next","Segoe UI",system-ui,sans-serif;
   --wordmark:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
   --body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;

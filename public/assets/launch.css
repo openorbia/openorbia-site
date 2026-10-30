@@ -1,8 +1,11 @@
 /* OpenOrbia launch pages: /launches/ and /launch/<slug>/. Same tokens, fonts and components as the homepage and the Launch List. */
+/* Sora Fallback: Arial Bold scaled to Sora's widths and vertical metrics (scripts/font-fallback.mjs), so headings wrap and sit the same before and after Sora loads */
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:700;size-adjust:104.02%;ascent-override:93.25%;descent-override:27.88%;line-gap-override:0%}
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:800;size-adjust:104.68%;ascent-override:92.66%;descent-override:27.7%;line-gap-override:0%}
 :root{
   --bg:#05070f;--surface:rgba(18,24,48,.6);--ink:#eef2ff;--muted:#9aa6c8;--line:rgba(143,166,255,.18);
   --blue:#5b7cff;--blue-l:#9fb2ff;--violet:#a07bff;--cyan:#7fe7ff;--yellow:#ffd84d;--green:#62e3a8;--red:#ff9b8f;
-  --display:"Sora","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --display:"Sora","Sora Fallback","Avenir Next","Segoe UI",system-ui,sans-serif;
   --wordmark:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
   --body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -263,3 +266,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .mk-code{width:100%;margin:0;overflow-x:auto;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
 .mk-code code{font:500 12.5px/1.5 var(--mono);color:var(--ink);white-space:pre}
 @media (max-width:820px){.mk-badges{grid-template-columns:minmax(0,1fr)}}
+
+/* numbers that change (countdown, upvote counts, ranks) keep a fixed width so they do not jiggle; "html" out-ranks the font shorthand rules above */
+html .countdown b,html .vote,html .rank{font-variant-numeric:tabular-nums}

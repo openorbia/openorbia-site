@@ -123,13 +123,14 @@ test('display text is Sora: h1 tracks at -0.01em and everything smaller at 0, wi
   let seen = 0;
   for (const [name, f] of Object.entries(PAGES)) {
     const text = file(f);
-    assert.ok(text.includes('--display:"Sora",'), `${name}: --display is Sora`);
+    assert.ok(text.includes('--display:"Sora","Sora Fallback",'), `${name}: --display is Sora, then the metric-matched fallback`);
     assert.ok(!text.includes('--display:"Bricolage'), `${name}: --display is no longer Bricolage`);
     for (const rule of rulesOf(text)) {
       if (!rule.includes('var(--display)')) continue;
       const selector = rule.slice(0, rule.indexOf('{')).trim();
       const tracking = rule.slice(rule.indexOf('{') + 1, -1).split(';').filter(d => d.startsWith('letter-spacing:'));
       seen++;
+      assert.ok(!rule.includes('font:600 '), `${name}: ${selector} must not use weight 600 (Sora 600 is not loaded)`);
       if (selector.split(' ').pop() === 'h1') {
         assert.deepEqual(tracking, ['letter-spacing:-.01em'], `${name}: ${selector} tracks at -0.01em`);
         assert.ok(rule.includes('font:800 '), `${name}: ${selector} is weight 800`);
@@ -179,14 +180,16 @@ test('the homepage headline is plain "take off" in Sora: the Bricolage-only spac
   }
 });
 
-test('every page loads Sora 600/700/800 with display=swap alongside Bricolage 800, IBM Plex Sans and JetBrains Mono, and preconnects to Google Fonts', () => {
-  const needles = ['family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800', 'family=IBM+Plex+Sans:wght@400', 'family=JetBrains+Mono:wght@500', 'family=Sora:wght@600;700;800', '&display=swap'];
+test('every page loads Sora 700/800 (no rule uses 600) with display=swap alongside Bricolage 800, IBM Plex Sans and JetBrains Mono, and preconnects to Google Fonts', () => {
+  const needles = ['family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800', 'family=IBM+Plex+Sans:wght@400', 'family=JetBrains+Mono:wght@500', 'family=Sora:wght@700;800', '&display=swap'];
   const pages = { home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'), layout: layout({ title: 't', description: 'd', path: '/', body: '' }) };
   for (const [name, html] of Object.entries(pages)) {
     const link = html.split('\n').find(l => l.includes('fonts.googleapis.com/css2'));
     assert.ok(link, `${name}: fonts link`);
     for (const n of needles) assert.ok(link.includes(n), `${name}: ${n}`);
     assert.equal(link.split('family=Sora').length - 1, 1, `${name}: Sora once`);
+    const soraPart = link.split('family=Sora')[1].split('&')[0];
+    assert.equal(soraPart, ':wght@700;800', `${name}: only Sora 700 and 800 are requested (no 600)`);
     assert.ok(html.includes('<link rel="preconnect" href="https://fonts.googleapis.com">'), `${name}: preconnect to googleapis`);
     assert.ok(html.includes('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'), `${name}: preconnect to gstatic`);
   }
@@ -234,4 +237,43 @@ test('the header is the same height on every page, so the wordmark sits in the s
   const home = file(PAGES.home);
   assert.ok(home.includes('<a class="hide-sm" href="/launch-list/">Launch List</a>'));
   assert.ok(home.includes('@media (max-width:560px){.nav .links .hide-sm{display:none}}'));
+});
+
+// ---- the metric-matched fallback ----
+
+const FACE_PREFIX = '@font-face{font-family:"Sora Fallback";';
+const facesOf = text => text.split('\n').map(l => l.trim()).filter(l => l.startsWith(FACE_PREFIX));
+const numberAfter = (face, key) => Number(face.split(`${key}:`)[1].split('%')[0]);
+
+test('Sora has a metric-matched fallback (Arial Bold scaled to Sora), the same on every page, right after Sora in the stack', () => {
+  const all = [];
+  for (const [name, f] of Object.entries(PAGES)) {
+    const faces = facesOf(file(f));
+    assert.equal(faces.length, 2, `${name}: one face per Sora weight (700, 800)`);
+    faces.forEach(face => {
+      assert.ok(face.includes('src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial")'), `${name}: built from Arial`);
+      const adjust = numberAfter(face, 'size-adjust'), ascent = numberAfter(face, 'ascent-override'), descent = numberAfter(face, 'descent-override');
+      assert.ok(adjust > 100 && adjust < 115, `${name}: size-adjust ${adjust}% is a sane scale (Sora is wider than Arial)`);
+      assert.ok(ascent > 80 && ascent < 100 && descent > 20 && descent < 35, `${name}: vertical metrics ${ascent}% / ${descent}%`);
+      assert.ok(face.includes('line-gap-override:0%'), `${name}: line gap`);
+    });
+    assert.ok(faces[0].includes('font-weight:700;') && faces[1].includes('font-weight:800;'), `${name}: weights`);
+    all.push(faces.join('\n'));
+  }
+  assert.equal(new Set(all).size, 1, 'the same fallback numbers in all three stylesheets');
+  // the fallback is in the heading stack directly after Sora and before any other font; the wordmark stack has none
+  for (const f of Object.values(PAGES)) assert.ok(file(f).includes('--display:"Sora","Sora Fallback","Avenir Next"'));
+  assert.ok(!file('public/assets/launch.css').includes('--wordmark:"Bricolage Grotesque","Sora Fallback"'));
+});
+
+test('numbers that change use tabular figures, and the rule out-ranks the font shorthand that would reset it', () => {
+  const css = rulesOf(file(PAGES.css)), home = rulesOf(file(PAGES.home));
+  const tnum = 'font-variant-numeric:tabular-nums';
+  const rule = css.find(r => r.startsWith('html .countdown b,'));
+  assert.equal(rule, `html .countdown b,html .vote,html .rank{${tnum}}`, 'countdown digits, upvote counts and ranks');
+  assert.ok(home.includes(`html .countdown b,html .mini-votes{${tnum}}`), 'the homepage countdown and mini vote counts');
+  // .vote and .countdown b set the font shorthand, which resets font-variant-numeric, so the new rule must be more specific
+  for (const [selector, base] of [['html .countdown b', '.countdown b'], ['html .vote', '.vote'], ['html .rank', '.rank'], ['html .mini-votes', '.mini-votes']]) {
+    assert.ok(outranks(spec(selector), spec(base)), `${selector} out-ranks ${base}`);
+  }
 });
