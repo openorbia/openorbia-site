@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://openorbia.com/sitemap.xml
