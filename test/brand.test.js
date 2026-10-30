@@ -141,7 +141,20 @@ test('ligatures are off on headings and the wordmark, and the "ff" workaround is
     assert.ok(file(f).includes(NO_LIGATURES), `${name}: ligatures off`);
     assert.ok(!/\.lig\b|class="lig"|common-ligatures/.test(file(f)), `${name}: no .lig workaround`);
   }
-  assert.ok(file('public/index.html').includes('<h1>Where free AI tools <em>take off</em>.</h1>'), '"off" is plain text');
+  const h1 = file('public/index.html').match(/<h1>([\s\S]*?)<\/h1>/)[1];
+  assert.equal(h1.replace(/<[^>]+>/g, ''), 'Where free AI tools take off.', 'the headline still reads "take off" (a screen reader sees one word)');
+});
+
+test('the homepage headline has a little extra space after the first f of "off", and nowhere else', () => {
+  const home = file('public/index.html');
+  assert.ok(home.includes('<em>take o<span class="fsp">f</span>f</em>.</h1>'), 'only the first f is wrapped');
+  // -0.03em (the heading tracking) + 0.04em = +0.01em after that f, so the two hooks no longer touch
+  assert.ok(rulesOf(home).includes('.fsp{letter-spacing:.01em}'), 'the extra space is 0.04em on top of -0.03em');
+  assert.equal((home.match(/class="fsp"/g) || []).length, 1, 'one use on the homepage');
+  for (const f of ['public/launch-list/index.html', 'public/assets/launch.css', 'public/404.html', 'lib/layout.js', 'lib/makers.js', 'lib/pages.js']) {
+    assert.ok(!file(f).includes('fsp'), `${f}: no extra spacing anywhere else`);
+  }
+  assert.ok(rulesOf(home).some(r => r.startsWith('h1{') && r.includes('letter-spacing:-.03em')), 'the h1 itself keeps -0.03em');
 });
 
 test('every page asks for Bricolage Grotesque 800 and IBM Plex Sans', () => {

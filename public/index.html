@@ -57,6 +57,8 @@ html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class]
 @keyframes pulse{50%{opacity:.35}}
 h1{font:800 clamp(40px,7vw,78px)/1.0 var(--display);letter-spacing:-.03em;margin:20px 0 18px;text-wrap:balance}
 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+/* the two f's of "off" in the headline: a little extra space after the first one (-0.03em tracking + 0.04em = +0.01em), so the hooks do not touch */
+.fsp{letter-spacing:.01em}
 .lede{font-size:clamp(17px,2vw,19px);color:#c9d2ee;max-width:56ch;margin:0 0 28px}
 .acts{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
@@ -139,7 +141,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <section class="hero">
     <div>
       <span class="badge"><i></i>Launch Week 1: Monday, Nov 23</span>
-      <h1>Where free AI tools <em>take off</em>.</h1>
+      <h1>Where free AI tools <em>take o<span class="fsp">f</span>f</em>.</h1>
       <p class="lede">Clear free limits, the catch, and where your data goes. Checked by hand. No trial-only listings.</p>
       <div class="acts">
         <a class="btn pri" href="#join">Join the waitlist</a>
