@@ -101,6 +101,9 @@ test('/makers/ shows both badges with copy-paste Markdown and HTML that link to 
 const PAGES = { home: 'public/index.html', list: 'public/launch-list/index.html', css: 'public/assets/launch.css' };
 const rulesOf = text => text.split('\n').map(l => l.trim()).filter(l => /^[^{@]+\{.*\}$/.test(l));
 const GRAD = 'linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet))';
+// The heading rules use the font shorthand (which resets font-variant-ligatures) and are more specific than a bare h1, so the rule that
+// turns ligatures off names headings as "html [class] h1": it out-ranks every ".x h1" wherever it sits in the file.
+const NO_LIGATURES = 'html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}';
 
 test('the wordmark is Bricolage Grotesque 800 at -0.03em, the same on every page', () => {
   const wordmark = 'font:800 22px/1 var(--display);letter-spacing:-.03em';
@@ -135,7 +138,7 @@ test('every h1 uses the same font treatment as the wordmark: Bricolage 800, -0.0
 
 test('ligatures are off on headings and the wordmark, and the "ff" workaround is gone', () => {
   for (const [name, f] of Object.entries(PAGES)) {
-    assert.ok(file(f).includes('h1,h2,h3,.brand{font-variant-ligatures:none}'), `${name}: ligatures off`);
+    assert.ok(file(f).includes(NO_LIGATURES), `${name}: ligatures off`);
     assert.ok(!/\.lig\b|class="lig"|common-ligatures/.test(file(f)), `${name}: no .lig workaround`);
   }
   assert.ok(file('public/index.html').includes('<h1>Where free AI tools <em>take off</em>.</h1>'), '"off" is plain text');
@@ -145,4 +148,44 @@ test('every page asks for Bricolage Grotesque 800 and IBM Plex Sans', () => {
   const link = 'family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400';
   for (const f of ['public/index.html', 'public/launch-list/index.html', 'public/404.html']) assert.ok(file(f).includes(link), f);
   assert.ok(layout({ title: 't', description: 'd', path: '/', body: '' }).includes(link), 'server-rendered pages');
+});
+
+// Specificity of a descendant selector as [classes and attributes, element names]; enough for the heading rules in these stylesheets
+const spec = sel => {
+  let classes = 0, elements = 0;
+  for (const part of sel.trim().split(' ').filter(Boolean)) {
+    classes += part.split('.').length - 1 + part.split('[').length - 1;
+    if (part[0] !== '.' && part[0] !== '[') elements += 1;
+  }
+  return [classes, elements];
+};
+const outranks = (a, b) => a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
+
+test('the ligature rule out-ranks every heading rule (specificity), so it really applies', () => {
+  const strongest = { h1: 'html [class] h1', h2: 'html [class] h2', h3: 'html [class] h3', brand: 'html .brand' };
+  let checked = 0;
+  for (const f of Object.values(PAGES)) {
+    for (const rule of rulesOf(file(f))) {
+      if (!rule.includes('font:') || rule.includes('font-variant-ligatures')) continue;   // only rules whose font shorthand resets ligatures
+      for (const sel of rule.slice(0, rule.indexOf('{')).split(',')) {
+        const last = sel.trim().split(' ').pop();
+        const key = ['h1', 'h2', 'h3'].includes(last) ? last : last === '.brand' ? 'brand' : null;
+        if (!key) continue;
+        checked++;
+        assert.ok(outranks(spec(strongest[key]), spec(sel)), `${sel.trim()} must be out-ranked by the ligature rule`);
+      }
+    }
+  }
+  assert.ok(checked >= 10, `checked ${checked} heading selectors`);
+});
+
+test('the header is the same height on every page, so the wordmark sits in the same place', () => {
+  // the nav button decides the height of the header row: it must be the same size on the homepage, the Launch List and the shared pages
+  for (const [name, f] of Object.entries(PAGES)) {
+    const rule = rulesOf(file(f)).find(r => r.startsWith('.nav .btn{'));
+    assert.ok(rule, `${name}: .nav .btn`);
+    assert.ok(rule.includes('padding:9px 16px') && rule.includes('font-size:14px'), `${name}: same nav button padding and size`);
+    if (name !== 'css') assert.ok(rule.includes('min-height:44px'), `${name}: nav button is 44px`);
+  }
+  assert.ok(rulesOf(file(PAGES.css)).some(r => r.startsWith('.btn{') && r.includes('min-height:44px')), 'the shared stylesheet gives every button 44px');
 });
