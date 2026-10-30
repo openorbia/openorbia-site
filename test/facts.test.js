@@ -103,7 +103,7 @@ const listRows = () => {
   const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
   return { html, rows: vm.runInNewContext(html.match(/const T=(\[[\s\S]*?\n\]);/)[1]) };
 };
-const factsFile = JSON.parse(readFileSync(new URL('data/openorbia-free-facts-2026-10-30.json', root), 'utf8'));
+const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
 
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
