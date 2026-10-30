@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
-import { factRows, formatChecked, isTested } from '../public/assets/facts.js';
+import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS } from '../public/assets/facts.js';
 import { MIGRATIONS } from '../lib/migrations.js';
 import { launchOpensAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -99,23 +99,74 @@ test('migration adds facts to an older launches table, once', () => {
   assert.equal(sqlite.prepare(m.applied).get().n, 1);
 });
 
-test('Launch List: 45 rows, facts only where known from research', () => {
+const listRows = () => {
   const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
-  const src = html.match(/const T=(\[[\s\S]*?\n\]);/)[1];
-  const rows = vm.runInNewContext(src);
-  assert.equal(rows.length, 45);
+  return { html, rows: vm.runInNewContext(html.match(/const T=(\[[\s\S]*?\n\]);/)[1]) };
+};
+const factsFile = JSON.parse(readFileSync(new URL('data/openorbia-free-facts-2026-10-30.json', root), 'utf8'));
+
+test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
+  const { rows } = listRows();
+  assert.equal(rows.length, 44);
+  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked'];
   for (const r of rows) {
     const f = r[8];
-    assert.ok(f && f.freeTier, r[0]);
-    assert.deepEqual(Object.keys(f), ['freeTier', 'lastChecked'], `${r[0]}: only the free tier and the check date are known; dataLocation stays empty until verified per tool`);
-    assert.equal(f.lastChecked, '2026-10-30');
-    assert.equal(f.freeTier, `${r[4] === 'os' ? 'Open source' : 'Free to self-host'} (${r[5]})`);
+    assert.ok(f && typeof f === 'object', r[0]);
+    assert.deepEqual(Object.keys(f).filter(k => !allowed.includes(k)), [], `${r[0]}: only the known fields (no confidence, no testedBy)`);
+    assert.ok(f.freeTier && f.freeTier.length <= 80, `${r[0]}: freeTier`);
+    if ('cardRequired' in f) assert.ok(CARD_REQUIRED.includes(f.cardRequired), `${r[0]}: cardRequired`);
+    if ('dataLocation' in f) assert.ok(DATA_LOCATIONS.includes(f.dataLocation), `${r[0]}: dataLocation`);
+    if ('setup' in f) assert.ok(SETUPS.includes(f.setup), `${r[0]}: setup`);
+    if ('catch' in f) assert.ok(f.catch.length > 0 && f.catch.length <= 140, `${r[0]}: catch`);
+    assert.match(f.lastChecked, /^\d{4}-\d{2}-\d{2}$/, `${r[0]}: lastChecked`);
+    assert.ok(formatChecked(f.lastChecked), `${r[0]}: lastChecked is a real date`);
   }
+});
+
+test('Launch List: rows carry exactly the facts in the data file, matched by repo, and confidence stays in the data', () => {
+  const { html, rows } = listRows();
+  const byRepo = new Map(factsFile.map(x => [x.repo.toLowerCase(), x]));
+  for (const r of rows) {
+    const x = byRepo.get(r[1].toLowerCase());
+    assert.ok(x, `${r[0]}: no entry for ${r[1]} in the data file`);
+    const f = r[8];
+    assert.equal(f.freeTier, x.freeTier, `${r[0]}: freeTier`);
+    assert.equal(f.dataLocation, x.dataLocation, `${r[0]}: dataLocation`);
+    assert.equal(f.setup, x.setup, `${r[0]}: setup`);
+    assert.equal(f.catch, x.catch, `${r[0]}: catch`);
+    assert.equal(f.lastChecked, x.lastChecked, `${r[0]}: lastChecked`);
+    // "unknown" is not a value we show: the row simply has no cardRequired
+    assert.equal(f.cardRequired, ['yes', 'no'].includes(x.cardRequired) ? x.cardRequired : undefined, `${r[0]}: cardRequired`);
+  }
+  assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
+  assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
+  // the only data entry without a row is the one flagged as failing the listing rules
+  const listed = new Set(rows.map(r => r[1].toLowerCase()));
+  assert.deepEqual(factsFile.filter(x => !listed.has(x.repo.toLowerCase())).map(x => x.name), ['yourspeakreps']);
+  assert.ok(!/yourspeakreps/i.test(html), 'yourspeakreps (no open license) is not on the Launch List');
+});
+
+test('Launch List: the counts in the title, meta, headline and og:title match the number of rows', () => {
+  const { html, rows } = listRows();
+  const n = rows.length;
+  assert.match(html, new RegExp(`<title>Launch List: ${n} free AI tools \\| OpenOrbia</title>`));
+  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools`));
+  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} free AI tools"`));
+  assert.match(html, new RegExp(`<h1>${n} free AI tools,`));
+  assert.ok(!/\b45 (free|AI)/.test(html), 'no stale 45');
+});
+
+test('Launch List: the cards show the facts, with Card required and the catch where known', () => {
+  const { html } = listRows();
+  assert.match(html, /function ff\(facts\)/);
+  const rows = factRows({ freeTier: 'x', cardRequired: 'yes', catch: 'Needs a paid plan' });
+  assert.deepEqual(rows.map(r => r.label), ['Free tier', 'Card required', 'The catch']);
+  assert.equal(rows[1].value, 'Yes');
 });
 
 test('Launch List: the local-AI tag and filter chip say "Works with local AI", never "Runs locally"', () => {
   const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
-  assert.ok(!/Runs locally/i.test(html));
+  assert.ok(!/>Runs locally</i.test(html), 'no tag or chip says Runs locally (a fact like "runs locally with Docker" is fine)');
   assert.match(html, /data-f="loc"[^>]*>Works with local AI</);
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);
 });
