@@ -35,8 +35,8 @@ test('every tool page has the full picture: name, description, category, license
     assert.ok(textOf(html).includes(CATEGORIES[t.category]), `${t.name}: category`);
     assert.ok(html.includes(`<span class="tg ${t.badge}">`) || html.includes('class="tg os"') || html.includes('class="tg fsh"'), `${t.name}: license badge`);
     assert.ok(textOf(html).includes(t.license), `${t.name}: license`);
-    assert.ok(html.includes(`href="/go/${t.slug}"`), `${t.name}: the tool link goes through /go/`);
-    assert.ok(!html.includes(`href="${t.github}"`), `${t.name}: no direct link to the repo`);
+    assert.ok(html.includes(`href="${t.github}" data-tool="${t.slug}"`), `${t.name}: the tool link is the real repo address, marked for counting`);
+    assert.ok(!html.includes('/go/'), `${t.name}: no /go/ links on the page`);
     assert.match(html, new RegExp(`<link rel="canonical" href="https://openorbia\\.com/tool/${t.slug}/">`), `${t.name}: canonical`);
     // the whole Free facts box
     const f = t.facts;
@@ -70,7 +70,7 @@ test('the description uses the tool\'s own facts', () => {
   const d = toolDescription(toolBySlug('ai-job-search'));
   assert.ok(d.includes('A card is required') && d.includes('The catch: Needs a paid Claude plan or API credits.'), d);
   const t = toolDescription(toolBySlug('tracecat'));
-  assert.ok(t.includes('No card required') && t.includes('The catch: REST API'), t);
+  assert.ok(t.includes('No card required') && t.includes('The catch: Free plan includes SSO and audit logs'), t);
 });
 
 test('Alternatives: three other tools from the same category, never itself, stable, all with pages', () => {

@@ -86,7 +86,8 @@ test('everything from the database is escaped (no script injection)', async () =
   assert.ok(!/<[a-z]+[^>]*\son\w+=/i.test(html.replace(/="[^"]*"/g, '=""')), 'an event handler attribute in the output');
   assert.ok(!html.includes('"><script>'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
-  assert.equal([...html.matchAll(/<script\b/g)].length, 1, 'only the site script tag');
+  const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
+  assert.deepEqual(scripts, ['<script src="/assets/launch.js" defer>', '<script src="/assets/click-beacon.js" defer>'], 'only the two site script tags');
 });
 
 test('the upvote button: closed before launch day, ready after, voted once this visitor has voted', async () => {

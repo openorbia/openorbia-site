@@ -151,10 +151,11 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
   }
   assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
   assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
-  // the only data entry without a row is the one flagged as failing the listing rules
+  // every data entry is a tool on the Launch List (yourspeakreps has no open license and is in neither)
   const listed = new Set(rows.map(r => r[1].toLowerCase()));
-  assert.deepEqual(factsFile.filter(x => !listed.has(x.repo.toLowerCase())).map(x => x.name), ['yourspeakreps']);
-  assert.ok(!/yourspeakreps/i.test(html), 'yourspeakreps (no open license) is not on the Launch List');
+  assert.equal(factsFile.length, rows.length);
+  assert.deepEqual(factsFile.filter(x => !listed.has(x.repo.toLowerCase())).map(x => x.name), []);
+  assert.ok(!/yourspeakreps/i.test(html) && !/yourspeakreps/i.test(JSON.stringify(factsFile)), 'yourspeakreps (no open license) is nowhere');
 });
 
 test('Launch List: the counts in the title, meta, headline and og:title match the number of rows', () => {
@@ -202,7 +203,7 @@ test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also
   const { freeTier, cardRequired, dataLocation, setup, lastChecked } = r[8];
   assert.deepEqual({ freeTier, cardRequired, dataLocation, setup, catch: r[8].catch, lastChecked }, {
     freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
-    catch: 'Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
+    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
   });
   const x = factsFile.find(e => e.repo === 'saeedkolivand/ai-job-hunter-app');
   assert.ok(x && x.confidence === 'high' && x.category === 'job');

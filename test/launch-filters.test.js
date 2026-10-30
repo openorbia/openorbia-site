@@ -8,7 +8,7 @@ import { renderTool } from '../lib/tool-pages.js';
 
 const root = new URL('../', import.meta.url);
 const file = f => readFileSync(new URL(f, root), 'utf8');
-const data = JSON.parse(file('data/free-facts.json')).filter(e => e.repo !== 'iamrishavraj1/yourspeakreps');
+const data = JSON.parse(file('data/free-facts.json'));
 const run = state => ROWS.filter(r => matchesRow(r, { ...emptyFilters(), ...state }));
 
 // ---- the address bar ----

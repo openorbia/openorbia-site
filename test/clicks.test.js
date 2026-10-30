@@ -136,17 +136,13 @@ test('recordClick is a plain upsert that can be used on its own', async () => {
   assert.deepEqual(rows(), [{ slug: 'ollama', day: '2026-11-23', count: 2 }]);
 });
 
-// ---- every tool link goes through /go/ ----
+// ---- /go/ is for email and newsletters ----
 
-test('every tool link on the Launch List and on the tool pages goes through /go/', () => {
+test('/go/<slug> stays as the counted link for email and newsletters; the pages themselves link straight to the tool', () => {
   const html = file('public/launch-list/index.html');
-  assert.ok(html.includes('<a href="/go/${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>'), 'the card link');
-  assert.ok(!html.includes('href="https://github.com/${repo}"'), 'no direct repo link on the cards');
-  for (const row of ROWS) assert.ok(toolBySlug(slugOf(row[0])), `${row[0]} has a /go/ target`);
-  for (const t of TOOLS) {
-    const page = renderTool(t);
-    const hrefs = [...page.matchAll(/href="([^"]+)"/g)].map(m => m[1]);
-    assert.ok(hrefs.filter(h => h === `/go/${t.slug}`).length >= 2, `${t.name}: the button and the source link`);
-    assert.ok(!hrefs.includes(t.github) && !hrefs.some(h => h === `https://github.com/${t.repo}`), `${t.name}: no direct repo link`);
-  }
+  assert.ok(html.includes('<a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>'), 'the card link is the real address');
+  assert.ok(!html.includes('href="/go/'), 'no /go/ links on the Launch List');
+  for (const row of ROWS) assert.ok(toolBySlug(slugOf(row[0])), `${row[0]} has a /go/ target for email`);
+  for (const t of TOOLS) assert.ok(!renderTool(t).includes('/go/'), `${t.name}: no /go/ on the tool page`);
+  assert.ok(file('public/robots.txt').includes('Disallow: /go/'), 'crawlers are asked to stay out of /go/');
 });

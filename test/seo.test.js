@@ -20,7 +20,8 @@ test('robots.txt allows everything and links to the sitemap', () => {
   assert.match(t, /^User-agent: \*$/m);
   assert.match(t, /^Allow: \/$/m);
   assert.match(t, /^Sitemap: https:\/\/openorbia\.com\/sitemap\.xml$/m);
-  assert.ok(!/^Disallow:\s*\S/m.test(t));
+  // /go/ is for email and newsletter links, so crawlers are asked to stay out of it; nothing else is disallowed
+  assert.deepEqual(t.split('\n').filter(l => l.startsWith('Disallow:')), ['Disallow: /go/']);
 });
 
 test('the sitemap lists the fixed pages and every launch, and nothing else', async () => {

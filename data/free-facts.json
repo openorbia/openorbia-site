@@ -50,15 +50,15 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "SSO, row-level permissions and audit logs are paid-only",
+    "catch": "SSO, row-level permissions and audit logs need a paid Organization key, even when self-hosted",
     "paidDeps": {
       "level": "none",
       "what": "None"
     },
     "sources": [
       "https://github.com/twentyhq/twenty#readme",
-      "https://twenty.com/pricing",
-      "https://docs.twenty.com/developers/self-host/capabilities/docker-compose"
+      "https://github.com/twentyhq/twenty/blob/main/packages/twenty-docs/user-guide/billing/capabilities/pricing-plans.mdx",
+      "https://twenty.com/pricing"
     ],
     "task": "Run a customizable open-source CRM to track contacts, companies and deals",
     "level": "basic",
@@ -95,7 +95,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "SSO, audit logs and role controls are enterprise-only",
+    "catch": "SSO is on the paid Team plan; audit logs, Git sync and custom roles are on the enterprise plan",
     "paidDeps": {
       "level": "none",
       "what": "None (free self-hosted core; AI steps are optional)"
@@ -139,13 +139,14 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Self-host is one workspace; logo can't be removed; needs your own AI model keys",
+    "catch": "License: no multi-workspace service without written permission from Dify, and the logo and copyright must stay",
     "paidDeps": {
       "level": "optional",
       "what": "Your own AI model keys, or local models; paid cloud plans not needed"
     },
     "sources": [
       "https://github.com/langgenius/dify#readme",
+      "https://github.com/langgenius/dify/blob/main/LICENSE",
       "https://dify.ai/pricing"
     ],
     "task": "Build and run AI apps, chatbots and agent workflows without much code",
@@ -182,14 +183,15 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "You register your own developer app per social network; approvals can take weeks",
+    "catch": "Self-hosting means registering your own developer app on each social network; some, like Meta and TikTok, need app review",
     "paidDeps": {
       "level": "optional",
       "what": "Optional OpenAI key for AI features; paid Postiz Cloud not needed"
     },
     "sources": [
       "https://github.com/gitroomhq/postiz-app#readme",
-      "https://docs.postiz.com/introduction"
+      "https://docs.postiz.com/self-host/providers/overview.md",
+      "https://docs.postiz.com/self-host/providers/instagram.md"
     ],
     "task": "Schedule and analyze posts across your social media accounts from one place",
     "level": "basic",
@@ -204,7 +206,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs Google/Microsoft OAuth setup and an AI key; check license terms for team use",
+    "catch": "Needs Google or Microsoft OAuth setup; AI can run on Ollama (free) or your own key",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama (free, local) or your own paid AI key; Google/Microsoft sign-in setup"
@@ -290,7 +292,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs a 16 GB RAM x86 server plus your own AI model key",
+    "catch": "Recommends 4 CPU cores, 16 GB RAM and 50 GB disk; models can run locally with Ollama or vLLM, or use your own key",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama or vLLM (free, local) or your own paid AI model key"
@@ -334,7 +336,7 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
-    "catch": "Needs an AI coding CLI; $0 only with a free Gemini key or local models",
+    "catch": "Free AI tiers (Gemini, OpenRouter) are rate limited; the docs recommend 32B+ local models for good results",
     "paidDeps": {
       "level": "optional",
       "what": "Free Gemini key, OpenRouter free models or local Ollama; paid AI CLI is optional"
@@ -419,13 +421,14 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs your own AI (key or Ollama); Commons Clause license; analytics on by default",
+    "catch": "Includes anonymous usage analytics (opt out by blocking umami.dakheera47.com); Commons Clause: no selling or paid hosting",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama/LM Studio (free) or your own OpenAI/Claude key; hosted Cloud is paid"
     },
     "sources": [
       "https://github.com/DaKheera47/job-ops#readme",
+      "https://github.com/DaKheera47/job-ops/blob/main/LICENSE",
       "https://jobops.dakheera47.com/docs/"
     ],
     "task": "Find jobs, tailor your CV to each one and track applications",
@@ -463,7 +466,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs your own OpenAI or Gemini key; no local-model option",
+    "catch": "Needs an OpenAI or Gemini key, or a self-hosted model such as Ollama (any OpenAI-compatible endpoint)",
     "paidDeps": {
       "level": "optional",
       "what": "Self-hosted/Ollama model (free) or your own OpenAI/Gemini key"
@@ -569,7 +572,7 @@
     "cardRequired": "unknown",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs a paid Anthropic API key and an Airtable account",
+    "catch": "You bring your own AI model through an MCP client; Airtable is optional, jobs can be saved to a markdown file",
     "paidDeps": {
       "level": "optional",
       "what": "Your own AI chat app (e.g. Claude, Cursor); Airtable optional, markdown free"
@@ -580,19 +583,6 @@
     "task": "Find fresh job postings and save them to Airtable or a markdown file",
     "level": "basic",
     "confidence": "low",
-    "category": "job",
-    "lastChecked": "2026-10-30"
-  },
-  {
-    "repo": "iamrishavraj1/yourspeakreps",
-    "name": "yourspeakreps",
-    "freeTier": "Free, fully local voice mock interviews",
-    "cardRequired": "no",
-    "dataLocation": "Runs on your computer",
-    "setup": "Install & self-host",
-    "catch": "Not open source: license allows learning and evaluation only",
-    "confidence": "high",
-    "flag": "FAILS listing rule (no open license). Remove or replace.",
     "category": "job",
     "lastChecked": "2026-10-30"
   },
@@ -645,7 +635,7 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Desktop app",
-    "catch": "Large, fast-changing beta app; crash reports go to Sentry by default (can turn off)",
+    "catch": "Large, fast-changing app; crash reports go to Sentry by default (can turn off)",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama (free, offline) or your own OpenAI/Anthropic/Gemini key"
@@ -733,7 +723,7 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "REST API, Git sync, forms and metrics need the paid Team plan",
+    "catch": "Free plan includes SSO and audit logs; REST API, Git sync, forms and metrics need the paid Team plan",
     "paidDeps": {
       "level": "optional",
       "what": "None for core; Ollama (free) or your own AI key for agents"
@@ -799,13 +789,14 @@
     "cardRequired": "no",
     "dataLocation": "Your server",
     "setup": "Install & self-host",
-    "catch": "Needs an AI key or a large local model; EULA applies; authorized use only",
+    "catch": "Needs an LLM (cloud key or local Ollama/vLLM); a EULA applies; only test systems you own or are authorized to assess",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama or vLLM local model (free), or your own cloud AI key"
     },
     "sources": [
-      "https://github.com/vxcontrol/pentagi#readme"
+      "https://github.com/vxcontrol/pentagi#readme",
+      "https://github.com/vxcontrol/pentagi/blob/master/EULA.md"
     ],
     "task": "Run automated, AI-driven penetration tests on systems you are authorized to test",
     "level": "basic",
@@ -820,13 +811,14 @@
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
     "setup": "Install & self-host",
-    "catch": "Needs an AI model (your key or local); usage telemetry on by default",
+    "catch": "Collects anonymous usage telemetry (opt out with DO_NOT_TRACK=1); you choose and configure the LLM it guards",
     "paidDeps": {
       "level": "optional",
       "what": "Ollama/vLLM (free, local) or a paid OpenAI/NVIDIA/Anthropic key"
     },
     "sources": [
       "https://github.com/NVIDIA-NeMo/Guardrails#readme",
+      "https://github.com/NVIDIA-NeMo/Guardrails/blob/develop/docs/telemetry.mdx",
       "https://docs.nvidia.com/nemo/guardrails/about-nemo-guardrails-library/supported-llms"
     ],
     "task": "Add safety rules and guardrails to chatbots built on AI language models",
