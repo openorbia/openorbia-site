@@ -188,4 +188,8 @@ test('the header is the same height on every page, so the wordmark sits in the s
     if (name !== 'css') assert.ok(rule.includes('min-height:44px'), `${name}: nav button is 44px`);
   }
   assert.ok(rulesOf(file(PAGES.css)).some(r => r.startsWith('.btn{') && r.includes('min-height:44px')), 'the shared stylesheet gives every button 44px');
+  // and the same links show on small screens: the homepage hides "Launch List" below 560px like the other pages do
+  const home = file(PAGES.home);
+  assert.ok(home.includes('<a class="hide-sm" href="/launch-list/">Launch List</a>'));
+  assert.ok(home.includes('@media (max-width:560px){.nav .links .hide-sm{display:none}}'));
 });
