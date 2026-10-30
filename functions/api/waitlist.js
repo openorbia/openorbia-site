@@ -92,7 +92,8 @@ export async function handleWaitlist({ request, env, waitUntil, fetchImpl }) {
   return result.error ? json({ error: result.error }, result.status) : json({ message: result.message });
 }
 
-export const onRequestPost = handleWaitlist;
+// waitUntil must be called on the context itself (a detached copy is rejected by the runtime), so pass a wrapper
+export const onRequestPost = ctx => handleWaitlist({ request: ctx.request, env: ctx.env, waitUntil: p => ctx.waitUntil(p) });
 
 export async function onRequest() {
   return json({ error: "Method not allowed." }, 405);

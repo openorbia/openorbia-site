@@ -101,3 +101,38 @@ test('waitUntil takes the email so the answer does not wait for Brevo', async ()
 });
 
 test('sender constants', () => assert.deepEqual(SENDER, { name: 'OpenOrbia', email: 'launch@openorbia.com' }));
+
+test('rejections are logged with Brevo\'s status, code and message, minus the address and the key', async (t) => {
+  const logged = [];
+  t.mock.method(console, 'error', (...a) => logged.push(a.join(' ')));
+  t.mock.method(console, 'log', () => {});
+  const reject = async () => new Response(JSON.stringify({ code: 'invalid_parameter', message: `Sender launch@openorbia.com is not valid. Recipient sender-test@example.com. Key ${KEY}` }), { status: 400 });
+  const ok = await sendWelcome({ apiKey: KEY, to: 'sender-test@example.com', role: 'reader', fetchImpl: reject });
+  assert.equal(ok, false);
+  assert.equal(logged.length, 1);
+  assert.match(logged[0], /HTTP 400 code=invalid_parameter message="Sender launch@openorbia\.com is not valid\./);
+  assert.ok(!logged[0].includes('sender-test@example.com') && !logged[0].includes(KEY), logged[0]);
+  assert.ok(logged[0].includes('[recipient]') && logged[0].includes('[key]'));
+});
+
+test('success and a missing key are logged too, so a tail shows which path ran', async (t) => {
+  const lines = [];
+  t.mock.method(console, 'log', (...a) => lines.push(a.join(' ')));
+  t.mock.method(console, 'error', (...a) => lines.push(a.join(' ')));
+  await sendWelcome({ apiKey: KEY, to: 'a@example.com', role: 'reader', fetchImpl: brevo(201) });
+  await sendWelcome({ apiKey: undefined, to: 'a@example.com', role: 'reader', fetchImpl: brevo() });
+  assert.ok(lines.some(l => /sending to Brevo \(role=reader\)/.test(l)));
+  assert.ok(lines.some(l => /accepted by Brevo: HTTP 201/.test(l)));
+  assert.ok(lines.some(l => /skipped: BREVO_API_KEY is not set/.test(l)));
+  assert.ok(lines.every(l => !l.includes('a@example.com') && !l.includes(KEY)));
+});
+
+test('the Pages handler passes waitUntil bound to the context', async () => {
+  const { onRequestPost } = await import('../functions/api/waitlist.js');
+  let bound = false;
+  const ctx = { request: asJson({ email: 'ctx@example.com', role: 'reader' }), env, waitUntil(p) { bound = this === ctx; return p; } };
+  const realFetch = globalThis.fetch; globalThis.fetch = brevo();
+  try { const res = await onRequestPost(ctx); assert.equal(res.status, 200); } finally { globalThis.fetch = realFetch; }
+  assert.ok(bound, 'waitUntil was called on the context, not detached');
+  assert.equal(calls.length, 1);
+});
