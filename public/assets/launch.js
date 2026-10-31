@@ -154,7 +154,11 @@
       status.id = 'vote-status';
       status.setAttribute('role', 'status');
       status.setAttribute('aria-live', 'polite');
-      root.replaceChildren(note, list, status, more);
+      const how = el('p', 'vote-note vote-how');
+      const howLink = el('a', '', 'How voting works');
+      howLink.href = '/how-voting-works/';
+      how.append(howLink);
+      root.replaceChildren(note, list, status, how, more);
     };
 
     const load = () => fetch('/api/launches?limit=3', { headers: { accept: 'application/json' } })

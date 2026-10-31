@@ -44,3 +44,34 @@ test('it is a normal page: 200 HTML, canonical, linked from the footer of every 
   assert.equal(typeof route.onRequestGet, 'function');
   for (const f of ['lib/layout.js', 'public/index.html', 'public/launch-list/index.html', 'public/404.html']) assert.ok(file(f).includes('<a href="/how-voting-works/">How voting works</a>'), f);
 });
+
+test('the page claims only what the site does: results appear when voting closes, removals are announced in the newsletter, #1 is on the results page', () => {
+  for (const s of [
+    "Final results appear on the results page when voting closes, and we share them in Monday's newsletter.",
+    "If we ever remove votes, we'll say how many and why in that week's newsletter.",
+    "The top launch in each category is shown as #1 on that week's results page. There's no prize or paid placement.",
+  ]) assert.ok(text.includes(s), s);
+  for (const gone of ['posted on Monday with the next launches', 'the results page says how many and why', '#1 of the week', 'badge']) assert.ok(!text.includes(gone), gone);
+  assert.ok(text.includes('hello@openorbia.com'));
+});
+
+test('the sitemap lists /how-voting-works/, /submit/ and /request/', async () => {
+  const { sitemapXml, STATIC_PATHS } = await import('../lib/seo.js');
+  for (const p of ['/how-voting-works/', '/submit/', '/request/']) {
+    assert.ok(STATIC_PATHS.includes(p), p);
+    assert.ok(sitemapXml().includes(`<loc>https://openorbia.com${p}</loc>`), p);
+  }
+});
+
+test('a "How voting works" link sits by the vote buttons on the launch page, the leaderboard and the homepage launch section', async () => {
+  const { renderLaunch, renderLeaderboard } = await import('../lib/pages.js');
+  const launch = { slug: 'a-tool', name: 'A Tool', tagline: 't', description: 'd', category: 'sec', repo_url: 'https://example.com/r', website_url: null, logo_url: null, screenshots: [], video_url: null,
+    maker_name: 'M', maker_links: [], maker_story: 's', license: 'MIT', launch_week: 1, launch_date: '2026-11-23', votes: 0, facts: {} };
+  const LINK = '<a href="/how-voting-works/">How voting works</a>';
+  const OPEN = Date.parse('2026-11-24T20:00:00Z'), BEFORE = Date.parse('2026-11-20T20:00:00Z');
+  for (const now of [BEFORE, OPEN]) assert.ok(renderLaunch({ launch, now }).includes(LINK), `launch page at ${now}`);
+  const board = renderLeaderboard({ week: { week: 1, open: true, closed: false, opensAt: Date.parse('2026-11-23T08:01:00Z'), closesAt: Date.parse('2026-11-30T07:59:00Z') }, launches: [launch], now: OPEN });
+  assert.ok(board.includes(LINK), 'leaderboard');
+  const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
+  assert.ok(js.includes("howLink.href = '/how-voting-works/'") && js.includes("'How voting works'"), 'homepage launch section');
+});
