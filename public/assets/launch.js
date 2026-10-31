@@ -96,7 +96,7 @@
     const show = data => {
       if (!data || !data.ok) return;
       if (!data.week) {
-        // Nothing scheduled yet: keep the static "Coming Monday Nov 23" and countdown, unless that time has already passed
+        // Nothing scheduled yet: keep the static "Coming Monday, Nov 23, 2026" and countdown, unless that time has already passed
         const cd = root.querySelector('[data-countdown]');
         if (cd && Number.isFinite(data.now) && data.now >= Date.parse(cd.dataset.countdown)) {
           setHeading("This week's launches");

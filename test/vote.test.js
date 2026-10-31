@@ -6,7 +6,7 @@ import { onRequestPost, onRequest } from '../functions/api/vote.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const SECRET = 'test-secret-0123456789abcdef';
-const OPENS = launchOpensAt('2026-11-23');          // Monday Nov 23, 2026, 12:01 AM Pacific
+const OPENS = launchOpensAt('2026-11-23');          // Monday, Nov 23, 2026, 2026, 12:01 AM Pacific
 const NOW = OPENS + 24 * 3600 * 1000;               // a day into launch week 1
 
 let db, env;
@@ -162,7 +162,7 @@ test('voting opens at 12:01 AM Pacific on the launch date, not a moment before',
   const before = await vote({ slug: 'alpha-tool' }, { now: OPENS - 1 });
   assert.equal(before.status, 403);
   assert.equal(before.json.code, 'voting_closed');
-  assert.match(before.json.error, /Voting opens Monday Nov 23 at 12:01 AM Pacific/);
+  assert.match(before.json.error, /Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific/);
   assert.equal(votesFor('alpha-tool'), 0);
   const exactly = await vote({ slug: 'alpha-tool' }, { now: OPENS });
   assert.equal(exactly.status, 200);

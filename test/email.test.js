@@ -21,7 +21,7 @@ const FOOTER = "You're getting this because you joined the waitlist at openorbia
 test('maker and reader emails say what was asked, with the footer', () => {
   const m = welcomeEmail('maker');
   assert.equal(m.subject, "You're on the OpenOrbia waitlist");
-  assert.ok(m.text.includes("You're on the OpenOrbia waitlist. Launch Week 1 is Monday, Nov 23."));
+  assert.ok(m.text.includes("You're on the OpenOrbia waitlist. Launch Week 1 is Monday, Nov 23, 2026."));
   assert.ok(m.text.includes("Want to launch your tool? Here's how: https://openorbia.com/makers/"));
   assert.ok(m.html.includes('<a href="https://openorbia.com/makers/">'));
   const r = welcomeEmail('reader');
@@ -41,7 +41,7 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
   assert.deepEqual(body.sender, { name: 'OpenOrbia', email: 'launch@openorbia.com' });
   assert.deepEqual(body.replyTo, { email: 'launch@openorbia.com' });
   assert.deepEqual(body.to, [{ email: 'new@example.com' }]);
-  assert.ok(body.textContent.includes('Launch Week 1 is Monday, Nov 23.'));
+  assert.ok(body.textContent.includes('Launch Week 1 is Monday, Nov 23, 2026.'));
   assert.ok(!init.body.includes(KEY), 'the key is never in the body');
 });
 

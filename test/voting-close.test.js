@@ -61,7 +61,7 @@ test('voting is open from 12:01 AM Monday until 11:59 PM Sunday Pacific, and clo
   const opens = launchOpensAt('2026-11-23'), closes = launchClosesAt('2026-11-23');
   const before = await vote('a-tool', opens - 1000);
   assert.equal(before.status, 403);
-  assert.match((await before.json()).error, /^Voting opens Monday Nov 23 at 12:01 AM Pacific\.$/);
+  assert.match((await before.json()).error, /^Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific\.$/);
   assert.equal((await vote('a-tool', opens)).status, 200, 'open at the opening minute');
   assert.equal((await vote('a-tool', closes - 1000)).status, 200, 'still open one second before the close');
   for (const t of [closes, closes + 1000, closes + 3600 * 1000, closes + 30 * 24 * 3600 * 1000]) {

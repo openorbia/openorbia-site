@@ -161,11 +161,11 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
 test('Launch List: the counts in the title, meta, headline and og:title match the number of rows', () => {
   const { html, rows } = listRows();
   const n = rows.length;
-  assert.match(html, new RegExp(`<title>Launch List: ${n} free AI tools \\| OpenOrbia</title>`));
+  assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools you can use free or self-host \\| OpenOrbia</title>`));
   assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools`));
-  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} free AI tools"`));
-  assert.match(html, new RegExp(`<h1>${n} free AI tools,`));
-  const stated = [...html.matchAll(/(\d+) free (?:and open-source )?AI tools/g)].map(m => Number(m[1]));
+  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools you can use free or self-host"`));
+  assert.match(html, new RegExp(`<h1>${n} AI tools you can use free or self-host,`));
+  const stated = [...html.matchAll(/(\d+) (?:free (?:and open-source )?AI tools|AI tools you can use free or self-host)/g)].map(m => Number(m[1]));
   assert.ok(stated.length >= 4 && stated.every(x => x === n), `every stated count is ${n}: ${stated}`);
 });
 

@@ -96,7 +96,7 @@ test('the sections come in order: hero, this week, featured tools, audiences and
 });
 
 test('before launch the week block shows the countdown and the makers confirmed; after launch launch.js shows cards with vote buttons and the closing time', () => {
-  assert.match(home, /Coming Monday Nov 23/);
+  assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, /data-countdown="2026-11-23T08:01:00\.000Z"/);
   assert.ok(home.includes(`<p class="week-makers" data-makers>${MAKERS_CONFIRMED} makers confirmed</p>`));
   const js = file('public/assets/launch.js');

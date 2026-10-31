@@ -59,7 +59,7 @@ test('homepage meta description and og:description are the same, with the launch
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
   const desc = html.match(/<meta name="description" content="([^"]*)"/)[1];
   assert.equal(html.match(/<meta property="og:description" content="([^"]*)"/)[1], desc);
-  assert.ok(desc.includes('Launch Week 1: Monday, Nov 23.') && !/Launching soon/.test(desc));
+  assert.ok(desc.includes('Launch Week 1: Monday, Nov 23, 2026.') && !/Launching soon/.test(desc));
 });
 
 test('every page has a skip link to a main that can take focus', async () => {
