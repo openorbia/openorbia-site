@@ -52,7 +52,7 @@ test('HexStrike AI: the new catch and paid dependencies, confidence medium, and 
   assert.equal(row('HexStrike AI').featureOnHomepage, false);
 });
 
-test('only HexStrike AI (by the data) and the founder's own tool are kept off the homepage, and anything that picks featured tools must use canFeature', () => {
+test('only HexStrike AI (by the data) and the founder own tool are kept off the homepage, and anything that picks featured tools must use canFeature', () => {
   assert.deepEqual(data.filter(e => e.featureOnHomepage === false).map(e => e.name), ['HexStrike AI']);
   assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'SOC Range']);
   assert.equal(featuredCandidates().length, TOOLS.length - 2);
