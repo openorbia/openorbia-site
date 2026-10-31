@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { footerHtml, FOOTER_CSS, SOCIAL, LINKEDIN_PERSONAL, CONTACT_EMAIL } from '../lib/footer.js';
+import { footerHtml, FOOTER_CSS, SOCIAL } from '../lib/footer.js';
 import { layout } from '../lib/layout.js';
 import { renderMakers } from '../lib/makers.js';
 import { renderTool } from '../lib/tool-pages.js';
@@ -23,15 +23,14 @@ test('the static pages carry exactly the shared footer, and the server-rendered 
   for (const [name, html] of Object.entries(server)) assert.equal(footerOf(html), footerHtml(new Date().getFullYear()), name);
 });
 
-test('the footer has three groups: © and the founder credit, the links with the contact, and the two social icons', () => {
+test('the footer has three groups: © and the founder credit as plain text, the four links, and the two social icons', () => {
   const html = footerHtml(2026);
   const left = html.match(/<div class="sf-l">(.*?)<\/div>/s)[1];
-  assert.ok(left.includes('© 2026 OpenOrbia') && left.includes(`<a href="${LINKEDIN_PERSONAL}" target="_blank" rel="noopener">Built by Khaja Syed, founder</a>`));
+  assert.equal(left, '<span>© 2026 OpenOrbia · Founded by Khaja Syed</span>');
+  assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
-  assert.deepEqual(links, [['/launch-list/', 'Tools'], ['/launches/', 'Launches'], ['/submit/', 'Submit a tool'], ['/how-we-check/', 'How we check tools'], ['/how-voting-works/', 'How voting works'],
-    [`mailto:${CONTACT_EMAIL}`, `Contact: ${CONTACT_EMAIL}`]]);
-  assert.equal(CONTACT_EMAIL, 'hello@openorbia.com');
+  assert.deepEqual(links, [['/how-we-check/', 'How we check tools'], ['/how-voting-works/', 'How voting works'], ['/makers/', 'For makers'], ['/request/', 'Find me a free tool']]);
   const right = html.match(/<div class="sf-r">(.*?)<\/div>/s)[1];
   assert.ok(right.indexOf('OpenOrbia on X') < right.indexOf('OpenOrbia on LinkedIn'));
 });
