@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
-import { pickFeatured, renderFeatured } from '../lib/featured.js';
+import { pickFeatured, renderFeatured, PINNED_SEC } from '../lib/featured.js';
 import { MAKERS_CONFIRMED } from '../lib/site.js';
 import { confidenceByRepo, featuredHtml } from '../scripts/build-home.mjs';
 
@@ -113,4 +113,37 @@ test('the homepage links to Find me a free tool, Submit a tool and the Launch Li
   assert.ok(home.includes('href="/request/"') && home.includes('href="/submit/"') && home.includes('href="/launch-list/"'));
   assert.ok(!/min-width:\s*\d{3,}px/.test(home), 'no fixed minimum widths');
   assert.match(home, /\.feat\{display:grid;grid-template-columns:repeat\(auto-fill,minmax\(min\(100%,290px\),1fr\)\)/);
+});
+
+test('canFeature: the founder\'s own tools are never featured, nor a tool with featureOnHomepage: false', () => {
+  const mk = (over = {}) => ({ slug: 'x', founder: false, facts: {}, ...over });
+  assert.equal(canFeature(mk()), true);
+  assert.equal(canFeature(mk({ founder: true })), false);
+  assert.equal(canFeature(mk({ facts: { featureOnHomepage: false } })), false);
+  assert.equal(canFeature(mk({ founder: true, facts: { featureOnHomepage: true } })), false, 'the founder rule cannot be switched off by the data');
+  // every founder tool on the Launch List, and HexStrike AI, fail canFeature; nothing else does
+  const founders = TOOLS.filter(t => t.founder);
+  assert.deepEqual(founders.map(t => t.name), ['SOC Range']);
+  assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'SOC Range']);
+  // so none of them is on the homepage
+  for (const t of [...founders, toolBySlug('hexstrike-ai')]) assert.ok(!home.includes(`data-tool-slug="${t.slug}"`), t.name);
+});
+
+test('garak is the first security pick; promptfoo takes its place only when garak cannot be featured; SOC Range is gone', () => {
+  assert.deepEqual(PINNED_SEC, ['garak', 'promptfoo']);
+  const picks = pickFeatured(TOOLS, confidenceByRepo);
+  assert.deepEqual(picks.filter(p => p.role === 'sec').map(p => p.tool.slug), ['garak', 'purplellama']);
+  assert.ok(home.includes('data-tool-slug="garak"') && !home.includes('data-tool-slug="soc-range"'));
+  const without = slug => TOOLS.map(t => (t.slug === slug ? { ...t, facts: { ...t.facts, featureOnHomepage: false } } : t));
+  assert.equal(pickFeatured(without('garak'), confidenceByRepo).filter(p => p.role === 'sec')[0].tool.slug, 'promptfoo');
+  assert.ok(!pickFeatured(without('garak'), confidenceByRepo).some(p => p.tool.slug === 'garak'));
+  const neither = TOOLS.map(t => (['garak', 'promptfoo'].includes(t.slug) ? { ...t, founder: true } : t));
+  const secs = pickFeatured(neither, confidenceByRepo).filter(p => p.role === 'sec').map(p => p.tool.slug);
+  assert.equal(secs.length, 2);
+  assert.ok(!secs.includes('garak') && !secs.includes('promptfoo'));
+});
+
+test('MAKERS_CONFIRMED is 3 and the homepage shows it', () => {
+  assert.equal(MAKERS_CONFIRMED, 3);
+  assert.ok(home.includes('<p class="week-makers" data-makers>3 makers confirmed</p>'));
 });

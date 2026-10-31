@@ -79,9 +79,9 @@ export const toolBySlug = slug => TOOLS.find(t => t.slug === slug) || null;
 // get a real link; /go/<slug> (for newsletters and email) redirects to the same place.
 export const toolHref = tool => tool.website || tool.github;
 
-// A tool the founder has ruled out for homepage featured spots (featureOnHomepage: false in data/free-facts.json, e.g. HexStrike AI) is never
-// picked. Anything that chooses featured tools must go through this.
-export const canFeature = tool => tool.facts.featureOnHomepage !== false;
+// Never featured on the homepage: the founder's own tools (the founder flag in ROWS), and any tool the founder has ruled out
+// (featureOnHomepage: false in data/free-facts.json, e.g. HexStrike AI). Anything that chooses featured tools must go through this.
+export const canFeature = tool => !tool.founder && tool.facts.featureOnHomepage !== false;
 export const featuredCandidates = () => TOOLS.filter(canFeature);
 
 // Three other tools from the same category: the ones listed right after this one (wrapping round), so every tool in a
