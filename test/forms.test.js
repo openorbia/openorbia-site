@@ -345,3 +345,12 @@ function createDbWithout(table) {
   d.sql(`DROP TABLE ${table}`);
   return d;
 }
+
+test('wrangler.toml: previews use the Turnstile test site key, production keeps the real one, and no secret is in the file', async () => {
+  const { readFileSync } = await import('node:fs');
+  const toml = readFileSync(new URL('../wrangler.toml', import.meta.url), 'utf8');
+  const [prod, preview] = toml.split('[env.preview.vars]');
+  assert.match(prod, /^\[vars\]\nTURNSTILE_SITE_KEY = "0x4[\w-]+"$/m);
+  assert.match(preview, /^TURNSTILE_SITE_KEY = "1x00000000000000000000AA"$/m);
+  assert.ok(!/SECRET/.test(toml.replace(/^#.*$/gm, '')), 'no secret value in the file');
+});

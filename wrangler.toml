@@ -21,5 +21,7 @@ database_id = "a280dab0-fea9-4c09-9194-fba1017788d0"
 [vars]
 TURNSTILE_SITE_KEY = "0x4AAAAAAFs-XgBfIiYO5loz"
 
+# Previews use Cloudflare's official Turnstile TEST keys (always pass; documented at developers.cloudflare.com/turnstile/troubleshooting/testing/),
+# so the forms can be tried on any preview host. The test secret is set for the preview environment only.
 [env.preview.vars]
-TURNSTILE_SITE_KEY = "0x4AAAAAAFs-XgBfIiYO5loz"
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
