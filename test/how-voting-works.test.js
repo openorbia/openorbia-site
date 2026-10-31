@@ -42,7 +42,7 @@ test('it is a normal page: 200 HTML, canonical, linked from the footer of every 
   assert.equal(res.status, 200);
   assert.match(res.headers.get('content-type'), /text\/html/);
   assert.equal(typeof route.onRequestGet, 'function');
-  for (const f of ['lib/layout.js', 'public/index.html', 'public/launch-list/index.html', 'public/404.html']) assert.ok(file(f).includes('<a href="/how-voting-works/">How voting works</a>'), f);
+  for (const f of ['lib/footer.js', 'public/index.html', 'public/launch-list/index.html', 'public/404.html']) assert.ok(file(f).includes('<a href="/how-voting-works/">How voting works</a>'), f);
 });
 
 test('the page claims only what the site does: results appear when voting closes, removals are announced in the newsletter, #1 is on the results page', () => {

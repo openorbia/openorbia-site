@@ -69,7 +69,7 @@ test('external links open safely, and only https links are rendered', async () =
   assert.ok(!html.includes('javascript:'));
   assert.ok(!html.includes('insecure.example'));
   assert.ok(!html.includes('Visit website'));
-  for (const m of html.matchAll(/<a [^>]*target="_blank"[^>]*>/g)) assert.match(m[0], /rel="noopener"/, m[0]);
+  for (const m of html.matchAll(/<a [^>]*target="_blank"[^>]*>/g)) assert.match(m[0], /rel="(?:me )?noopener"/, m[0]);
   assert.ok(!html.includes('Discussion'), 'no maker story, no discussion section');
 });
 

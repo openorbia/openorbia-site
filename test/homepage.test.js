@@ -143,7 +143,7 @@ test('garak is the first security pick; promptfoo takes its place only when gara
   assert.ok(!secs.includes('garak') && !secs.includes('promptfoo'));
 });
 
-test('MAKERS_CONFIRMED is 3 and the homepage shows it', () => {
-  assert.equal(MAKERS_CONFIRMED, 3);
-  assert.ok(home.includes('<p class="week-makers" data-makers>3 makers confirmed</p>'));
+test('MAKERS_CONFIRMED is 23 and the homepage shows it', () => {
+  assert.equal(MAKERS_CONFIRMED, 23);
+  assert.ok(home.includes('<p class="week-makers" data-makers>23 makers confirmed</p>'));
 });

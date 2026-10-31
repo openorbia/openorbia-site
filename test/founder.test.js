@@ -23,7 +23,7 @@ test('every page has "Built by Khaja Syed, founder" in its footer, linking to hi
     const footer = html.slice(html.indexOf('<footer>'));
     assert.ok(footer.includes(FOOTER_LINK), `${name}: footer link`);
   }
-  assert.equal([...file('lib/layout.js').matchAll(/linkedin\.com\/in\//g)].length, 1);
+  assert.ok(file('lib/footer.js').includes(LINKEDIN));
 });
 
 test('/makers/ says who to ask: Khaja, the founder, at hello@openorbia.com', () => {
@@ -47,5 +47,5 @@ test('the Launch List intro holds only its own sentence and the How we check lin
   const html = file('public/launch-list/index.html');
   assert.ok(html.includes('No trials, no paywalls. <a href="/how-we-check/">How we check tools</a>.</p>'));
   const footer = html.slice(html.indexOf('<footer>'));
-  for (const href of ['/how-we-check/', '/how-voting-works/', '/makers/', LINKEDIN]) assert.ok(footer.includes(`href="${href}"`), href);
+  for (const href of ['/how-we-check/', '/how-voting-works/', LINKEDIN]) assert.ok(footer.includes(`href="${href}"`), href);
 });

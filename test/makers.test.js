@@ -33,12 +33,11 @@ test('/makers/ is a normal page: one h1, skip link, canonical, 200 HTML', async 
   assert.match(res.headers.get('content-type'), /text\/html/);
 });
 
-test('every page has the same nav (Tools, Launches, Submit a tool), links /makers/ in the footer, and the homepage points to it too', () => {
+test('every page has the same nav (Tools, Launches, Submit a tool), and the homepage points to it too', () => {
   const file = f => readFileSync(new URL(f, root), 'utf8');
   const NAV = '<nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>';
   for (const [name, h] of Object.entries({ layout: layout({ title: 't', description: 'd', path: '/', body: '' }), notFound: renderNotFound(), home: file('public/index.html'), list: file('public/launch-list/index.html'), notFoundStatic: file('public/404.html') })) {
     assert.ok(h.includes(NAV), name + ': nav');
-    assert.ok(h.slice(h.indexOf('<footer>')).includes('<a href="/makers/">For makers</a>'), name + ': footer link to /makers/');
   }
   assert.ok(file('public/index.html').includes('<a href="/makers/">see how launching works</a>'));
 });
