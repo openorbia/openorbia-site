@@ -26,7 +26,7 @@ test('the static pages carry exactly the shared footer, and the server-rendered 
 test('the footer has three groups: © and the founder credit as plain text, the four links, and the two social icons', () => {
   const html = footerHtml(2026);
   const left = html.match(/<div class="sf-l">(.*?)<\/div>/s)[1];
-  assert.equal(left, '<span>© 2026 OpenOrbia · Founded by Khaja Syed</span>');
+  assert.equal(left, '<span>© 2026 OpenOrbia · Founder: Khaja Syed</span>');
   assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
