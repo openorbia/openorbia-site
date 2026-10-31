@@ -93,7 +93,7 @@ test('tags: local AI, the founder label and the "Not confirmed" note appear only
   for (const t of TOOLS) {
     const html = renderTool(t);
     assert.equal(html.includes('Works with local AI</span>'), t.localAI, `${t.name}: local AI tag`);
-    assert.equal(html.includes("Built by OpenOrbia's founder") || html.includes('Built by OpenOrbia&#39;s founder'), t.founder, `${t.name}: founder label`);
+    assert.equal(html.includes("Built by Khaja Syed, OpenOrbia's founder") || html.includes('Built by Khaja Syed, OpenOrbia&#39;s founder'), t.founder, `${t.name}: founder label`);
     assert.equal(textOf(html).includes('"Not confirmed" means'), t.facts.cardRequired === 'unknown', `${t.name}: Not confirmed note`);
     assert.equal(/Card required\s*<\/dt>\s*<dd>Not confirmed/.test(html), t.facts.cardRequired === 'unknown');
     assert.ok(!html.includes('Visit website'), `${t.name}: no website is recorded, so no website link`);
@@ -131,7 +131,7 @@ test('/how-we-check/ explains the rules, every fact, the recheck cycle, "Not con
     'Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Last checked',
     "We check every tool's activity and license every month, and recheck the full Free facts at least every 3 months. Each card shows its last-checked date.",
     '"Not confirmed" means we could not verify',
-    'launch@openorbia.com', 'Built by OpenOrbia\'s founder', 'kept off the Launch Week leaderboard', 'Tested by OpenOrbia']) assert.ok(text.includes(t), t);
+    'launch@openorbia.com', 'Built by Khaja Syed, OpenOrbia\'s founder', 'kept off the Launch Week leaderboard', 'Tested by OpenOrbia']) assert.ok(text.includes(t), t);
   assert.ok(html.includes('href="mailto:launch@openorbia.com"'));
   assert.equal((html.match(/<h1/g) || []).length, 1);
   assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/how-we-check\/">/);
