@@ -35,18 +35,21 @@ header{padding-block:22px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
-.sf-top{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,5fr);gap:28px 40px;padding-block:24px 30px;border-bottom:1px solid var(--line);margin-bottom:22px}
-.sf-about{display:grid;gap:10px;align-content:start}
+.sf-top{display:grid;gap:26px;padding-block:24px 30px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.sf-about{display:flex;flex-wrap:wrap;gap:8px 28px;align-items:baseline}
 .sf-word{justify-self:start;gap:0}
-.sf-about p{margin:0;font-size:14px;line-height:1.55;max-width:30ch}
-.sf-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px 20px}
+.sf-about p{margin:0;font-size:14px;line-height:1.55;max-width:62ch}
+.sf-contact{margin-left:auto!important}
+.sf-contact a{color:var(--blue-l);text-decoration:none}
+.sf-contact a:hover{text-decoration:underline}
+.sf-map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 20px}
 .sf-col{min-width:0}
 .sf-h{margin:0 0 10px;font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
 .sf-col ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .sf-col a{display:inline-block;padding-block:5px;color:#c9d2ee;text-decoration:none;font-size:14px;line-height:1.3}
 .sf-col a:hover{color:var(--ink)}
 .sf-col a.sf-all{color:var(--blue-l)}
-@media (max-width:980px){.sf-top{grid-template-columns:minmax(0,1fr)}.sf-map{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:980px){.sf-map{grid-template-columns:repeat(3,minmax(0,1fr))}.sf-contact{margin-left:0!important}}
 @media (max-width:600px){.sf-map{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-col a{padding-block:8px}}
 .sf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 28px;align-items:center}
 .sf a{color:var(--muted);text-decoration:none}
@@ -406,3 +409,18 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .form-side .fine{margin:0}
 .form-side a{color:var(--blue-l)}
 @media (max-width:900px){.form-grid{grid-template-columns:minmax(0,1fr)}.form-side{position:static}}
+/* /faq/: each question opens on its own */
+.faq{display:grid;gap:10px}
+.faq-q{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.faq-q[open]{border-color:rgba(143,166,255,.4)}
+.faq-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;font:700 17px/1.35 var(--display);min-height:48px}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary::after{content:"+";flex:none;font:500 22px/1 var(--mono);color:var(--blue-l)}
+.faq-q[open] summary::after{content:"−"}
+.faq-q summary:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px;border-radius:16px}
+.faq-a{padding:0 18px 16px}
+.faq-a p{margin:0 0 10px;color:#c9d2ee;max-width:72ch}
+.faq-a p:last-child{margin-bottom:0}
+.faq-a a,.faq-more a{color:var(--blue-l)}
+.faq-more h2{margin:0 0 8px;font:700 clamp(20px,2.4vw,24px)/1.2 var(--display)}
+.faq-more p{margin:0;color:#c9d2ee}

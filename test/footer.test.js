@@ -59,33 +59,49 @@ test('the footer styles are the same block everywhere: muted links, brighter on 
 
 // ---- the site map above the bottom row ----
 
-test('the footer site map: five columns, and each audience lists 5 tools that run free, never the founder\'s own', async () => {
-  const { footerTools, FOOTER_TOOLS } = await import('../lib/footer.js');
-  const { needsPaidService } = await import('../public/assets/facts.js');
+// the <nav class="sf-map"> part of the footer, and the column headings in it
+const mapOf = html => html.slice(html.indexOf('<nav class="sf-map"'), html.indexOf('</nav>', html.indexOf('<nav class="sf-map"')));
+const headingsOf = html => html.split('<p class="sf-h">').slice(1).map(s => s.slice(0, s.indexOf('</p>')));
+
+test("the footer site map: kinds of work, setup and OpenOrbia's pages, and no tool names", async () => {
+  const { CATEGORY_LINKS } = await import('../lib/footer.js');
+  const { TOOLS } = await import('../public/assets/tools.js');
   const html = footerHtml(2026);
-  const heads = [...html.matchAll(/<p class="sf-h">([^<]+)<\/p>/g)].map(m => m[1]);
-  assert.deepEqual(heads, ['Small Business', 'Job Seekers', 'Cybersecurity &amp; SOC', 'Find by setup', 'Launch']);
-  for (const cat of ['biz', 'job', 'sec']) {
-    const tools = footerTools(cat);
-    assert.equal(tools.length, FOOTER_TOOLS, cat);
-    for (const t of tools) {
-      assert.ok(t.category === cat && !t.founder && !needsPaidService(t.facts), t.name);
-      assert.ok(html.includes(`<a href="/tool/${t.slug}/">`), `${t.name} is linked`);
-    }
-    assert.ok(html.includes(`<a class="sf-all" href="/launch-list/?for=${cat}">`), `${cat}: all tools link`);
+  assert.deepEqual(headingsOf(html), ['Work &amp; productivity', 'Automation &amp; AI', 'Careers', 'Security', 'Browse', 'OpenOrbia']);
+  assert.ok(!html.includes('href="/tool/'), 'no links to single tools');
+  const map = mapOf(html);
+  for (const t of TOOLS) assert.ok(!map.includes(`>${t.name.replace(/&/g, '&amp;')}<`), `${t.name} is not named`);
+  assert.ok(Object.values(CATEGORY_LINKS).flat().length >= 20, 'every kind of work the list covers');
+});
+
+test('every category in the footer is a Launch List search that finds tools that run free', async () => {
+  const { CATEGORY_LINKS } = await import('../lib/footer.js');
+  const { ROWS } = await import('../public/assets/tools.js');
+  const { parseFilters, matchesRow } = await import('../public/assets/launch-filters.js');
+  const html = footerHtml(2026);
+  for (const [label, q] of Object.values(CATEGORY_LINKS).flat()) {
+    const href = `/launch-list/?q=${encodeURIComponent(q).replace(/%20/g, '+')}`;
+    assert.ok(html.includes(`<a href="${href}">${label.replace(/&/g, '&amp;')}</a>`), `${label} is linked`);
+    const hits = ROWS.filter(r => matchesRow(r, parseFilters(new URL(href, 'https://openorbia.com').search)));
+    assert.ok(hits.length >= 1, `${label} (${q}) finds tools`);
   }
 });
 
-test('every link in the footer site map goes to a real page', async () => {
+test('every other link in the footer site map goes to a real page, and the contact email is in it', async () => {
   const { existsSync } = await import('node:fs');
-  const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js',
-    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js' };
-  const map = footerHtml(2026).match(/<nav class="sf-map"[\s\S]*?<\/nav>/)[0];
+  const { CONTACT_EMAIL } = await import('../lib/footer.js');
+  const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js', '/faq/': 'functions/faq/index.js',
+    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js' };
+  const html = footerHtml(2026);
+  const map = mapOf(html);
   for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {
+    if (href.startsWith('mailto:')) { assert.equal(href, `mailto:${CONTACT_EMAIL}`); continue; }
     const path = new URL(href, 'https://openorbia.com').pathname;
-    if (path.startsWith('/tool/')) assert.ok(toolBySlug(path.split('/')[2]), href);
-    else assert.ok(pages[path] && existsSync(new URL(`../${pages[path]}`, import.meta.url)), href);
+    assert.ok(pages[path] && existsSync(new URL(`../${pages[path]}`, import.meta.url)), href);
   }
+  assert.equal(CONTACT_EMAIL, 'hello@openorbia.com');
+  assert.ok(html.includes(`Questions? <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`));
+  assert.ok(map.includes('<a href="/faq/">FAQ</a>') && map.includes(`<a href="mailto:${CONTACT_EMAIL}">Contact us</a>`));
 });
 
 test('the homepage has no numbers strip (45 tools / 43 run free / 0 paid / newest check)', () => {
