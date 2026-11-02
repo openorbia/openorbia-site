@@ -1,6 +1,6 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { handleWaitlist } from '../functions/api/waitlist.js';
 import { launchResponse } from '../lib/pages.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -55,11 +55,31 @@ test('the homepage form posts without JavaScript and every message it can be sen
   assert.match(html, /\.nojs-msg:target\{display:block\}/);
 });
 
-test('homepage meta description and og:description are the same, with the launch date', () => {
+// The one description of OpenOrbia, word for word the same on the site and in its LinkedIn, X and GitHub profiles, so search
+// engines connect them as one organization. The launch date is on the page itself (badge, countdown), not in the description.
+const ORG_DESCRIPTION = 'A weekly launch platform for free and open-source AI tools, with the catch shown up front, for small businesses, job seekers and security teams.';
+
+test('homepage meta description, og:description and the Organization data all use the one OpenOrbia description', () => {
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
-  const desc = html.match(/<meta name="description" content="([^"]*)"/)[1];
-  assert.equal(html.match(/<meta property="og:description" content="([^"]*)"/)[1], desc);
-  assert.ok(desc.includes('Launch Week 1: Monday, Nov 23, 2026.') && !/Launching soon/.test(desc));
+  assert.equal(html.match(/<meta name="description" content="([^"]*)"/)[1], ORG_DESCRIPTION);
+  assert.equal(html.match(/<meta property="og:description" content="([^"]*)"/)[1], ORG_DESCRIPTION);
+  assert.ok(!/Launching soon/.test(html.match(/<meta name="description" content="([^"]*)"/)[1]));
+});
+
+test('the homepage head has valid JSON-LD: OpenOrbia as an Organization (logo, founder, profiles) and the WebSite', () => {
+  const html = readFileSync(new URL('public/index.html', root), 'utf8');
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  assert.equal(blocks.length, 1);
+  assert.ok(html.indexOf('application/ld+json') < html.indexOf('</head>'), 'in the head');
+  const ld = JSON.parse(blocks[0][1]);   // throws if the JSON is not valid
+  assert.equal(ld['@context'], 'https://schema.org');
+  const org = ld['@graph'].find(x => x['@type'] === 'Organization'), site = ld['@graph'].find(x => x['@type'] === 'WebSite');
+  assert.deepEqual(
+    { name: org.name, url: org.url, logo: org.logo, description: org.description, founder: org.founder, foundingDate: org.foundingDate },
+    { name: 'OpenOrbia', url: 'https://openorbia.com', logo: 'https://openorbia.com/icon-512.png', description: ORG_DESCRIPTION, founder: { '@type': 'Person', name: 'Khaja Syed' }, foundingDate: '2026' });
+  assert.deepEqual(org.sameAs, ['https://www.linkedin.com/company/openorbia', 'https://x.com/OpenOrbia', 'https://github.com/openorbia']);
+  assert.deepEqual({ name: site.name, url: site.url, publisher: site.publisher }, { name: 'OpenOrbia', url: 'https://openorbia.com', publisher: { '@id': org['@id'] } });
+  assert.ok(existsSync(new URL('public/icon-512.png', root)), 'the logo file exists');
 });
 
 test('every page has a skip link to a main that can take focus', async () => {
