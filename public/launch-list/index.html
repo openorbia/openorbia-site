@@ -115,18 +115,25 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .chip[aria-pressed="true"]{color:var(--cyan);border-color:rgba(127,231,255,.5);background:rgba(127,231,255,.08)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .search{flex:1 1 220px;min-width:0;font:15px var(--body);color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-.count{font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.count{order:3;margin-left:auto;font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.fscroll{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media (max-width:560px){.bar{position:static}.tabs,.fscroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px}.tabs::-webkit-scrollbar,.fscroll::-webkit-scrollbar{display:none}.fscroll .chips{flex-wrap:nowrap}.tab,.chip,.chips-l{flex:none;white-space:nowrap}.search{flex:1 1 0}.count{order:0;margin-left:0}.fscroll{order:2;flex:1 1 100%}}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;padding-block:20px 32px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s}
-.card:hover{border-color:rgba(143,166,255,.45);transform:translateY(-2px)}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s,transform .15s,box-shadow .15s}
+.card:hover{border-color:rgba(143,166,255,.45);transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.card:focus-within{border-color:rgba(143,166,255,.6)}
 .top{display:flex;gap:12px;align-items:center}
-.logo{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font:800 18px var(--display);color:#fff}
+.logo{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:800 19px var(--display);color:#fff}
+img.logo{object-fit:cover;background:#fff;box-shadow:0 0 0 1px var(--line)}
 .card h2 a{color:inherit;text-decoration:none}
+.card h2 a::after{content:"";position:absolute;inset:0;border-radius:16px}
+.card h2 a:focus-visible{outline:none}
+.card h2 a:focus-visible::after{outline:2px solid var(--blue-l);outline-offset:2px}
 .card h2 a:hover{text-decoration:underline}
 .card h2{font:700 18px/1.2 var(--display);margin:0}
 .card .by{font:500 12px var(--mono);color:var(--muted);overflow-wrap:anywhere}
-.card p{margin:0;color:#c9d2ee;font-size:15px;flex:1}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
+.card>p{margin:0;color:#c9d2ee;font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
 .tg{font:500 11px var(--mono);letter-spacing:.04em;padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
 .tg.os{color:#62e3a8;border-color:rgba(98,227,168,.35)}
 .tg.fsh{color:var(--yellow);border-color:rgba(255,216,77,.35)}
@@ -135,15 +142,17 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
 .skip:focus{top:12px}
 .tg.tested{color:var(--cyan);border-color:rgba(127,231,255,.4)}
-.ff{display:grid;gap:3px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(5,7,15,.45);font-size:12.5px;line-height:1.45}
-.ff b{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
-.ff ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.ff li{color:#c9d2ee}
-.ff li span{margin-right:6px;color:var(--muted)}
-.ff li.ff-catch{color:var(--yellow)}
+.ff{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;line-height:1.45}
+.ff p{margin:0;color:#c9d2ee}
+.ff p span{margin-right:8px;font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ff-free{color:var(--ink)}
+.ff-catch{color:#ffe7a3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ff-catch span{color:var(--yellow)!important}
+.fcs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.fc{font-size:12.5px;line-height:1.3;padding:4px 10px;border-radius:999px;background:rgba(143,166,255,.08);border:1px solid var(--line);color:#d9e0f5}
 .ff small{color:var(--muted);font-size:11.5px}
 .tg.cat{color:var(--blue-l)}
-.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
+.foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .foot a{text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
 .foot .claim{color:var(--muted);font-size:13px}
 .foot .claim:hover{color:var(--ink)}
@@ -187,6 +196,8 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
     </div>
     <div class="row">
       <input class="search" id="q" type="search" placeholder="Search tools…" aria-label="Search tools">
+      <span class="count" id="count"></span>
+      <div class="fscroll">
       <div class="chips">
         <button class="chip" data-f="os" aria-pressed="false">Open source</button>
         <button class="chip" data-f="loc" aria-pressed="false">Works with local AI</button>
@@ -198,7 +209,7 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
         <button class="chip" data-setup="desktop" aria-pressed="false">Desktop app</button>
         <button class="chip" data-setup="selfhost" aria-pressed="false">Self-host</button>
       </div>
-      <span class="count" id="count"></span>
+      </div>
     </div>
   </div>
 
@@ -225,23 +236,35 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 import{factRows,formatChecked,isTested,needsPaidService,NEEDS_PAID_LABEL}from"/assets/facts.js";
 import{parseFilters,filterQuery,matchesRow}from"/assets/launch-filters.js";
 import{ROWS as T,CATEGORIES as CAT,slugOf}from"/assets/tools.js";
+import{LOGOS}from"/assets/logos.js";
 
 const COL={biz:["#5b7cff","#7a4dff"],job:["#2fb8a0","#5b7cff"],sec:["#ff6b8a","#7a4dff"]};
 // the filters live in the address bar: /launch-list/?for=job&setup=browser (older #job links still work)
 const st=parseFilters(location.search,location.hash);
 const grid=document.getElementById("grid"),count=document.getElementById("count");
 const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-// A small "Free facts" box for the fields we know; with none of them there is no box. Same labels and date format as the launch pages.
+// The Free facts on a card, short enough to compare cards at a glance: what is free, three chips (card, your data, setup),
+// the catch on one line and the date. Every fact in full is on the tool page. With none of them there is no box.
 function ff(facts){
   const rows=factRows(facts);
   if(!rows.length)return"";
+  const by=Object.fromEntries(rows.map(r=>[r.key,r.value]));
   const when=formatChecked(facts&&facts.lastChecked);
-  return `<div class="ff"><b>Free facts</b><ul>${rows.map(r=>`<li class="ff-${r.key}"><span>${esc(r.label)}</span> ${esc(r.value)}</li>`).join("")}</ul>${when?`<small>Last checked ${esc(when)}</small>`:""}</div>`;
+  // "Runs on your computer (cloud AI only if you pick one)" -> "Runs on your computer": the note is on the tool page
+  const short=v=>String(v).replace(/\s*\(.*\)$/,"");
+  const chips=[["cardRequired",v=>v==="No"?"No card needed":v==="Yes"?"Card required":"Card: "+v.toLowerCase()],["dataLocation",short],["setup",short]]
+    .filter(([k])=>by[k]).map(([k,fn])=>`<li class="fc fc-${k}">${esc(fn(by[k]))}</li>`).join("");
+  return `<div class="ff">${by.freeTier?`<p class="ff-free"><span>Free</span>${esc(by.freeTier)}</p>`:""}${chips?`<ul class="fcs" aria-label="Free facts">${chips}</ul>`:""}${by.catch?`<p class="ff-catch"><span>The catch</span>${esc(by.catch)}</p>`:""}${when?`<small>Checked against docs ${esc(when)}</small>`:""}</div>`;
+}
+// a real logo for tools owned by an organization (public/logos/), the letter tile for the rest
+function logo(name,a,b){
+  const src=Object.hasOwn(LOGOS,slugOf(name))?LOGOS[slugOf(name)]:"";
+  return src?`<img class="logo" src="${src}" alt="" width="44" height="44" loading="lazy" decoding="async">`:`<div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div>`;
 }
 function card(t){
   const [name,repo,desc,c,badge,lic,local,founder,facts]=t,[a,b]=COL[c];
   const claim="mailto:launch@openorbia.com?subject="+encodeURIComponent("Claim listing: "+name)+"&body="+encodeURIComponent("Hi OpenOrbia, I maintain "+name+" (https://github.com/"+repo+") and would like to claim the listing.");
-  return `<article class="card"><div class="top"><div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div><div><h2><a href="/tool/${slugOf(name)}/">${esc(name)}</a></h2><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p>${ff(facts)}<div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Works with local AI</span>':''}${founder?`<span class="tg fnd">Built by Khaja Syed, OpenOrbia's founder</span>`:''}${isTested(facts)?'<span class="tg tested">✓ Tested by OpenOrbia</span>':''}${needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`:''}</div><div class="foot"><a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>${founder?'':`<a class="claim" href="${claim}">Claim listing</a>`}</div></article>`;
+  return `<article class="card"><div class="top">${logo(name,a,b)}<div><h2><a href="/tool/${slugOf(name)}/">${esc(name)}</a></h2><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p>${ff(facts)}<div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Works with local AI</span>':''}${founder?`<span class="tg fnd">Built by Khaja Syed, OpenOrbia's founder</span>`:''}${isTested(facts)?'<span class="tg tested">✓ Tested by OpenOrbia</span>':''}${needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`:''}</div><div class="foot"><a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>${founder?'':`<a class="claim" href="${claim}">Claim listing</a>`}</div></article>`;
 }
 function render(){
   const r=T.filter(t=>matchesRow(t,st));

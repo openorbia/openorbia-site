@@ -95,6 +95,7 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .tg.cat{color:var(--blue-l)}
 .logo{flex:none;width:var(--s,56px);height:var(--s,56px);border-radius:calc(var(--s,56px)*.26);object-fit:cover;background:var(--surface);border:1px solid var(--line)}
 .logo-initial{display:grid;place-items:center;font:800 calc(var(--s,56px)*.42) var(--display);color:#fff;border:0}
+img.logo{background:#fff}
 
 /* the upvote button */
 .vote{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:64px;min-height:64px;padding:8px 12px;font:700 18px/1.1 var(--display);color:var(--ink);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}

@@ -5,6 +5,8 @@
 // Free facts is optional and holds only what we know: freeTier, cardRequired, dataLocation, setup, catch, lastChecked, testedBy
 // (data/free-facts.json keeps the same facts, plus how sure we are of each tool's)
 
+import { LOGOS } from './logos.js';
+
 export const CATEGORIES = { biz: 'Small Business', job: 'Job Seekers', sec: 'Cybersecurity & SOC' };
 
 // "Open WebUI" -> "open-webui", "HexStrike AI" -> "hexstrike-ai"
@@ -68,6 +70,8 @@ export function toTool(row) {
     slug: slugOf(name), name, repo, description, category, badge, license,
     localAI: !!localAI, founder: !!founder, facts: facts || {},
     github: `https://github.com/${repo}`, website: '',
+    // the organization's logo in public/logos/ (scripts/fetch-logos.mjs), or '' for the letter tile
+    logo: Object.hasOwn(LOGOS, slugOf(name)) ? LOGOS[slugOf(name)] : '',
   };
 }
 
