@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives } from '../public/assets/tools.js';
 import { renderTool, toolTitle, toolDescription, toolResponse } from '../lib/tool-pages.js';
@@ -118,7 +119,7 @@ test('/tool/<slug>/ answers 200 for a tool and a noindex 404 for anything else',
 test('every Launch List card name links to its tool page, and every link has a page', () => {
   const html = file('public/launch-list/index.html');
   assert.ok(html.includes('<h2><a href="/tool/${slugOf(name)}/">${esc(name)}</a></h2>'));
-  assert.ok(html.includes('import{ROWS as T,CATEGORIES as CAT,slugOf}from"/assets/tools.js"'));
+  assert.ok(html.includes(`import{ROWS as T,CATEGORIES as CAT,slugOf}from"${asset('tools.js')}"`));
   for (const row of ROWS) assert.ok(toolBySlug(slugOf(row[0])), `${row[0]} has a page`);
 });
 

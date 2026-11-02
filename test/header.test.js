@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync, existsSync } from 'node:fs';
 import { headerHtml, HEADER_CSS, MENUS } from '../lib/header.js';
 import { layout, MARK } from '../lib/layout.js';
@@ -24,9 +25,9 @@ test('the static pages carry exactly the shared header, and the server-rendered 
   };
   for (const [name, html] of Object.entries(server)) {
     assert.equal(headerOf(html), HEADER, name);
-    assert.ok(html.includes('<script src="/assets/nav.js" defer></script>'), `${name}: nav.js`);
+    assert.ok(html.includes(`<script src="${asset('nav.js')}" defer></script>`), `${name}: nav.js`);
   }
-  for (const f of STATIC) assert.ok(file(f).includes('<script src="/assets/nav.js" defer></script>'), `${f}: nav.js`);
+  for (const f of STATIC) assert.ok(file(f).includes(`<script src="${asset('nav.js')}" defer></script>`), `${f}: nav.js`);
   assert.ok(existsSync(new URL('../public/assets/nav.js', import.meta.url)));
 });
 

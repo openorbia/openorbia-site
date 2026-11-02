@@ -19,6 +19,10 @@
     "seed:remote": "node scripts/seed-launches.mjs --remote",
     "db:schema:preview": "npx wrangler d1 execute openorbia-db-preview --remote --file=schema.sql",
     "db:migrate:preview": "node scripts/migrate.mjs --remote --db openorbia-db-preview",
-    "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --no-images --sample-date this-week --yes"
+    "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --no-images --sample-date this-week --yes",
+    "stamp": "node scripts/stamp-assets.mjs",
+    "fetch:logos": "node scripts/fetch-logos.mjs",
+    "deploy": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch main",
+    "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day"
   }
 }

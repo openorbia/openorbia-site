@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { parseFilters, filterQuery, matchesRow, emptyFilters, setupKey, SETUP_FILTERS } from '../public/assets/launch-filters.js';
 import { needsPaidService, paidSummary, NEEDS_PAID_LABEL, PAID_LEVELS } from '../public/assets/facts.js';
@@ -129,7 +130,7 @@ test('the Launch List page has the Setup and Runs free controls, keeps the filte
   for (const [key, label] of Object.entries(SETUP_FILTERS)) assert.ok(html.includes(`<button class="chip" data-setup="${key}" aria-pressed="false">${label}</button>`), label);
   assert.ok(html.includes('<button class="chip" data-f="free" aria-pressed="true">Runs free</button>'), 'Runs free starts on');
   assert.ok(html.includes('<div class="chips" role="group" aria-label="Setup">'));
-  assert.ok(html.includes('from"/assets/launch-filters.js"') && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
+  assert.ok(html.includes(`from"${asset('launch-filters.js')}"`) && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
   assert.ok(html.includes('history.replaceState(null,"",location.pathname+filterQuery(st))'), 'and is written back to it');
   assert.ok(html.includes('matchesRow(t,st)'));
   assert.ok(html.includes('needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`'), 'the label on the card');

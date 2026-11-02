@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
@@ -106,7 +107,7 @@ test('before launch the week block shows the countdown and the makers confirmed;
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');
   // the vote button and the shared script are on the homepage
   assert.match(home, /\.vote\{/);
-  assert.match(home, /<script src="\/assets\/launch\.js" defer><\/script>/);
+  assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
 });
 
 test('the homepage links to Find me a free tool, Submit a tool and the Launch List, and has no horizontal-overflow traps', () => {

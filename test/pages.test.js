@@ -1,5 +1,6 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { launchResponse, leaderboardResponse, launchesApiResponse, renderLaunch, renderLeaderboard } from '../lib/pages.js';
 import { currentWeek } from '../lib/launches.js';
@@ -58,7 +59,7 @@ test('a launch page shows everything: logo, tagline, screenshots, description, l
   assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/launch\/full-tool\/">/);
   assert.match(html, /<title>Full Tool: Does everything \| OpenOrbia<\/title>/);
   assert.match(html, /property="og:image" content="https:\/\/openorbia\.com\/launches\/full-tool\/a\.png"/);
-  assert.match(html, /<script src="\/assets\/launch\.js" defer><\/script>/);
+  assert.ok(html.includes(`<script src="${asset('launch.js')}" defer></script>`));
   assert.match(html, /name="viewport" content="width=device-width, initial-scale=1/);
 });
 
@@ -87,7 +88,7 @@ test('everything from the database is escaped (no script injection)', async () =
   assert.ok(!html.includes('"><script>'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
   const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
-  assert.deepEqual(scripts, ['<script src="/assets/nav.js" defer>', '<script src="/assets/launch.js" defer>', '<script src="/assets/click-beacon.js" defer>'], 'only the three site script tags');
+  assert.deepEqual(scripts, [`<script src="${asset('nav.js')}" defer>`, `<script src="${asset('launch.js')}" defer>`, `<script src="${asset('click-beacon.js')}" defer>`], 'only the three site script tags');
 });
 
 test('the upvote button: closed before launch day, ready after, voted once this visitor has voted', async () => {
@@ -334,7 +335,7 @@ test('the homepage section is wired up and its fallback date matches the launch 
   assert.match(home, /<span class="badge" id="week-badge"><i><\/i>Launch Week 1<\/span>/); // exactly this text, nothing after the 1
   assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, new RegExp(`data-countdown="${new Date(OPENS).toISOString()}"`));
-  assert.match(home, /<script src="\/assets\/launch\.js" defer><\/script>/);
+  assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
   assert.match(home, /href="\/launches\/"/);
 });
 

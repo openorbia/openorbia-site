@@ -3,6 +3,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readdirSync, existsSync, readFileSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
@@ -29,7 +30,7 @@ test('public/404.html exists: without it Cloudflare Pages answers every unknown 
   const html = readFileSync(join(root, 'public', '404.html'), 'utf8');
   assert.match(html, /<title>Page not found \| OpenOrbia<\/title>/);
   assert.match(html, /<meta name="robots" content="noindex">/);
-  assert.match(html, /href="\/assets\/launch\.css"/);
+  assert.ok(html.includes(`href="${asset('launch.css')}"`));
   assert.ok(!html.includes('rel="canonical"'), 'a 404 page has no canonical URL');
   for (const link of ['href="/"', 'href="/launches/"', 'href="/launch-list/"']) assert.ok(html.includes(link), link);
 });

@@ -11,7 +11,10 @@ Source for https://openorbia.com: a static site in `public/`, Cloudflare Pages F
 ## Deploy
 The site is **not** connected to Git: it is deployed with wrangler (direct upload) and needs `CLOUDFLARE_API_TOKEN`.
 
-    npx wrangler pages deploy --project-name openorbia --branch main
+    npm run deploy            # production: stamps the assets, runs the tests, then uploads (--branch main)
+    npm run deploy:preview    # the same for the launch-day preview
+
+`npm run stamp` (`scripts/stamp-assets.mjs`) gives every link to a file in `public/assets/` a version, `/assets/launch.css?v=<hash>`, in the static pages, in the imports between modules and in `lib/asset-versions.js` for the server-rendered pages. A changed file gets a new address, so browsers fetch it fresh: openorbia.com's Cloudflare "Browser Cache TTL" keeps `/assets/` files for 4 hours whatever `public/_headers` says. `test/assets.test.js` fails when a version is out of date, so `npm run deploy` stops before uploading. After adding tools, `npm run fetch:logos` downloads the logos of tools owned by an organization into `public/logos/`.
 
 - D1 database `openorbia-db`, bound as `DB` in `wrangler.toml`
 - Secret `VOTE_SECRET` (any long random string; voting answers 503 without it):

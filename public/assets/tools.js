@@ -5,7 +5,7 @@
 // Free facts is optional and holds only what we know: freeTier, cardRequired, dataLocation, setup, catch, lastChecked, testedBy
 // (data/free-facts.json keeps the same facts, plus how sure we are of each tool's)
 
-import { LOGOS } from './logos.js';
+import { LOGOS } from './logos.js?v=991a16939c';
 
 export const CATEGORIES = { biz: 'Small Business', job: 'Job Seekers', sec: 'Cybersecurity & SOC' };
 
