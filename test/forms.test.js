@@ -311,7 +311,9 @@ test('/request/ has the task, audience, the three constraints, an optional email
 });
 
 test('without a site key the pages say the form is not on yet instead of showing a form that cannot work', async () => {
-  for (const html of [renderSubmit(), renderRequest()]) {
+  for (const page of [renderSubmit(), renderRequest()]) {
+    // the header's search box is a form on every page; the page itself must have none
+    const html = page.slice(page.indexOf('</header>'));
     assert.ok(!html.includes('<form') && !html.includes('cf-turnstile'));
     assert.match(html, /not switched on yet/);
     assert.ok(html.includes('mailto:launch@openorbia.com'));

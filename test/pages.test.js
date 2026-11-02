@@ -87,7 +87,7 @@ test('everything from the database is escaped (no script injection)', async () =
   assert.ok(!html.includes('"><script>'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
   const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
-  assert.deepEqual(scripts, ['<script src="/assets/launch.js" defer>', '<script src="/assets/click-beacon.js" defer>'], 'only the two site script tags');
+  assert.deepEqual(scripts, ['<script src="/assets/nav.js" defer>', '<script src="/assets/launch.js" defer>', '<script src="/assets/click-beacon.js" defer>'], 'only the three site script tags');
 });
 
 test('the upvote button: closed before launch day, ready after, voted once this visitor has voted', async () => {

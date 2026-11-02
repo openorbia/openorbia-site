@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { renderMakers, BADGES } from '../lib/makers.js';
-import { layout } from '../lib/layout.js';
+import { layout, MARK } from '../lib/layout.js';
+import { headerHtml } from '../lib/header.js';
 
 const root = new URL('../', import.meta.url);
 const file = f => readFileSync(new URL(f, root), 'utf8');
@@ -233,8 +234,8 @@ test('the header is the same height on every page, so the wordmark sits in the s
     if (name !== 'css') assert.ok(rule.includes('min-height:44px'), `${name}: nav button is 44px`);
   }
   assert.ok(rulesOf(file(PAGES.css)).some(r => r.startsWith('.btn{') && r.includes('min-height:44px')), 'the shared stylesheet gives every button 44px');
-  // the nav is three short links (Tools, Launches, Submit a tool) that all stay visible on small screens
-  for (const [name, f] of Object.entries(PAGES)) if (name !== 'css') assert.ok(file(f).includes('<nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>'), name);
+  // the nav is the shared header (Tools, Launches, Makers menus and Submit a tool), the same on every page: see test/header.test.js
+  for (const [name, f] of Object.entries(PAGES)) if (name !== 'css') assert.ok(file(f).includes(headerHtml(MARK)), name);
   assert.ok(!file(PAGES.home).includes('hide-sm'));
 });
 
