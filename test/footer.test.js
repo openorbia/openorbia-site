@@ -56,3 +56,39 @@ test('the footer styles are the same block everywhere: muted links, brighter on 
   // the old two-span footer rule is gone
   for (const f of ['public/assets/launch.css', 'public/index.html', 'public/launch-list/index.html']) assert.ok(!file(f).includes('footer .wrap{display:flex'), f);
 });
+
+// ---- the site map above the bottom row ----
+
+test('the footer site map: five columns, and each audience lists 5 tools that run free, never the founder\'s own', async () => {
+  const { footerTools, FOOTER_TOOLS } = await import('../lib/footer.js');
+  const { needsPaidService } = await import('../public/assets/facts.js');
+  const html = footerHtml(2026);
+  const heads = [...html.matchAll(/<p class="sf-h">([^<]+)<\/p>/g)].map(m => m[1]);
+  assert.deepEqual(heads, ['Small Business', 'Job Seekers', 'Cybersecurity &amp; SOC', 'Find by setup', 'Launch']);
+  for (const cat of ['biz', 'job', 'sec']) {
+    const tools = footerTools(cat);
+    assert.equal(tools.length, FOOTER_TOOLS, cat);
+    for (const t of tools) {
+      assert.ok(t.category === cat && !t.founder && !needsPaidService(t.facts), t.name);
+      assert.ok(html.includes(`<a href="/tool/${t.slug}/">`), `${t.name} is linked`);
+    }
+    assert.ok(html.includes(`<a class="sf-all" href="/launch-list/?for=${cat}">`), `${cat}: all tools link`);
+  }
+});
+
+test('every link in the footer site map goes to a real page', async () => {
+  const { existsSync } = await import('node:fs');
+  const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js',
+    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js' };
+  const map = footerHtml(2026).match(/<nav class="sf-map"[\s\S]*?<\/nav>/)[0];
+  for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {
+    const path = new URL(href, 'https://openorbia.com').pathname;
+    if (path.startsWith('/tool/')) assert.ok(toolBySlug(path.split('/')[2]), href);
+    else assert.ok(pages[path] && existsSync(new URL(`../${pages[path]}`, import.meta.url)), href);
+  }
+});
+
+test('the homepage has no numbers strip (45 tools / 43 run free / 0 paid / newest check)', () => {
+  const home = file('public/index.html');
+  assert.ok(!home.includes('facts-strip') && !home.includes('class="stats"') && !home.includes('stats:start'));
+});

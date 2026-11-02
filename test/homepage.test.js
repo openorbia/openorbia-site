@@ -63,7 +63,8 @@ test('the three audience cards link to the filtered Launch List', () => {
 });
 
 test('the six task links are filtered or search URLs that each return results', () => {
-  const links = [...home.matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
+  // the task links in the page itself (the footer's site map has filter links of its own)
+  const links = [...home.slice(0, home.indexOf('<footer>')).matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
   assert.deepEqual(links.map(l => l[1]), ['Transcribe meetings', 'Tailor a resume', 'Chat with documents', 'Automate small-business tasks', 'Triage security alerts', 'Test AI for vulnerabilities']);
   for (const [href, label] of links) {
     const state = parseFilters(new URL(href, 'https://openorbia.com').search);

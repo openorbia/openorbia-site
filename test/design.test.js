@@ -4,10 +4,7 @@ import { asset } from '../lib/asset-versions.js';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { LOGOS } from '../public/assets/logos.js';
 import { TOOLS, ROWS } from '../public/assets/tools.js';
-import { needsPaidService } from '../public/assets/facts.js';
 import { renderTool } from '../lib/tool-pages.js';
-import { renderStats } from '../lib/featured.js';
-import { statsHtml } from '../scripts/build-home.mjs';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 const logoDir = new URL('../public/logos/', import.meta.url);
@@ -67,19 +64,6 @@ test('Launch List on phones: the filter chips are one row that scrolls sideways,
   assert.ok(html.indexOf('id="count"') < html.indexOf('<div class="fscroll">'));
 });
 
-// ---- the numbers under the hero ----
-
-test('the numbers under the homepage hero are counted from the Launch List, and the page matches npm run build:home', () => {
-  const home = file('public/index.html');
-  const block = home.slice(home.indexOf('<!-- stats:start -->') + '<!-- stats:start -->'.length, home.indexOf('<!-- stats:end -->')).trim();
-  assert.equal(block, statsHtml());
-  const html = renderStats(TOOLS);
-  const free = TOOLS.filter(t => !needsPaidService(t.facts)).length;
-  assert.ok(html.includes(`<li><b>${ROWS.length}</b><span>AI tools checked against their official docs</span></li>`));
-  assert.ok(html.includes(`<li><b>${free}</b><span>run free, with no paid service needed</span></li>`));
-  assert.ok(html.includes('<li><b>0</b><span>paid placements, ever</span></li>'));
-  assert.ok(home.indexOf('<section class="facts-strip"') > home.indexOf('<section class="hero">') && home.indexOf('<section class="facts-strip"') < home.indexOf('<section class="week"'));
-});
 
 // ---- tool pages ----
 
