@@ -5,7 +5,7 @@ import { ROWS } from '../public/assets/tools.js';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
-import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS, CATCH_MAX, isDataLocation, DATA_LOCATION_NOTE_MAX } from '../public/assets/facts.js';
+import { factRows, formatChecked, isTested, needsPaidService, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS, CATCH_MAX, isDataLocation, DATA_LOCATION_NOTE_MAX } from '../public/assets/facts.js';
 import { MIGRATIONS } from '../lib/migrations.js';
 import { launchOpensAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -158,14 +158,17 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
   assert.ok(!/yourspeakreps/i.test(html) && !/yourspeakreps/i.test(JSON.stringify(factsFile)), 'yourspeakreps (no open license) is nowhere');
 });
 
-test('Launch List: the counts in the title, meta, headline and og:title match the number of rows', () => {
+test('Launch List: the counts in the title, meta, headline and og:title are the tools that run free, and the rest are named as needing a paid service', () => {
   const { html, rows } = listRows();
-  const n = rows.length;
-  assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools you can use free or self-host \\| OpenOrbia</title>`));
-  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools`));
-  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools you can use free or self-host"`));
-  assert.match(html, new RegExp(`<h1>${n} AI tools you can use free or self-host,`));
-  const stated = [...html.matchAll(/(\d+) (?:free (?:and open-source )?AI tools|AI tools you can use free or self-host)/g)].map(m => Number(m[1]));
+  const paid = rows.filter(r => needsPaidService(r[8])).length;
+  const n = rows.length - paid;
+  assert.ok(paid >= 1 && n >= 1);
+  assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools that run free \\| OpenOrbia</title>`));
+  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools that run without a paid service`));
+  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools that run free"`));
+  assert.match(html, new RegExp(`<h1>${n} AI tools that run free,`));
+  assert.match(html, new RegExp(`${paid} more tools? needs? a paid service to run, so (?:they are|it is) hidden until you turn off Runs free`));
+  const stated = [...html.matchAll(/(\d+) (?:free (?:and open-source )?AI tools|AI tools that run free|AI tools you can use free)/g)].map(m => Number(m[1]));
   assert.ok(stated.length >= 4 && stated.every(x => x === n), `every stated count is ${n}: ${stated}`);
 });
 

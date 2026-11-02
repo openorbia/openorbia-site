@@ -1,8 +1,9 @@
 // The Launch List filters and what goes in the address bar for them, as plain functions so the page and the tests share them.
 //
 //   /launch-list/?for=job&setup=browser&free=1     for = category (biz | job | sec), setup = browser | desktop | selfhost,
-//                                                  free = 1 hides "Needs paid service", os = 1 (open source only),
-//                                                  local = 1 (works with local AI), q = search text
+//                                                  free: Runs free is ON by default (tools that need a paid service are
+//                                                  hidden); free = 0 shows them too, free = 1 (older links) is the default,
+//                                                  os = 1 (open source only), local = 1 (works with local AI), q = search text
 // The older links ending in #biz / #job / #sec (they are in public posts) still work: a hash is read when there is no ?for=.
 
 import { CATEGORIES } from './tools.js';
@@ -15,7 +16,8 @@ const SETUP_KEY = { 'Browser, ready to use': 'browser', 'Desktop app': 'desktop'
 const own = (table, key) => typeof key === 'string' && Object.hasOwn(table, key);
 export const setupKey = facts => (own(SETUP_KEY, facts && facts.setup) ? SETUP_KEY[facts.setup] : '');
 
-export const emptyFilters = () => ({ for: 'all', setup: '', free: false, os: false, local: false, q: '' });
+// The defaults: the runs-free view, so a tool that needs a paid service is never in the default list or count
+export const emptyFilters = () => ({ for: 'all', setup: '', free: true, os: false, local: false, q: '' });
 
 // location.search (and location.hash) -> a filter state. Anything not recognised is ignored.
 export function parseFilters(search = '', hash = '') {
@@ -27,7 +29,7 @@ export function parseFilters(search = '', hash = '') {
   else if (!p.has('for') && own(CATEGORIES, fromHash)) state.for = fromHash;
   const setup = p.get('setup');
   if (own(SETUP_FILTERS, setup)) state.setup = setup;
-  state.free = p.get('free') === '1';
+  state.free = p.get('free') !== '0';
   state.os = p.get('os') === '1';
   state.local = p.get('local') === '1';
   state.q = (p.get('q') || '').trim().slice(0, 80);
@@ -39,7 +41,7 @@ export function filterQuery(state) {
   const p = new URLSearchParams();
   if (state.for !== 'all' && own(CATEGORIES, state.for)) p.set('for', state.for);
   if (own(SETUP_FILTERS, state.setup)) p.set('setup', state.setup);
-  if (state.free) p.set('free', '1');
+  if (!state.free) p.set('free', '0');
   if (state.os) p.set('os', '1');
   if (state.local) p.set('local', '1');
   if (state.q && state.q.trim()) p.set('q', state.q.trim().slice(0, 80));
