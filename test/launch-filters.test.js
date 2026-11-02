@@ -138,11 +138,11 @@ test('the Launch List page has the Setup and Runs free controls, keeps the filte
 
 // ---- the tool pages ----
 
-test('tool pages: the label only where a paid service is required, and "Free facts from docs" with level, paid service, task and sources', () => {
+test('tool pages: the label only where a paid service is required, and "Paid parts and sources" with level, paid service, task and sources', () => {
   for (const t of TOOLS) {
     const html = renderTool(t), f = t.facts;
     assert.equal(html.includes('<span class="tg paid">Needs paid service</span>'), f.paidDeps.level === 'required', `${t.name}: label`);
-    assert.ok(html.includes('<h2 id="docs-h">Free facts from docs</h2>'), `${t.name}: heading`);
+    assert.ok(html.includes('<h2 id="docs-h">Paid parts and sources</h2>'), `${t.name}: heading`);
     assert.ok(html.includes('<dt>Level</dt><dd>Basic</dd>'), `${t.name}: level`);
     const text = html.replace(/&#39;/g, "'").replace(/&amp;/g, '&');
     assert.ok(text.includes(`<dt>Paid service</dt><dd>${paidSummary(f)}</dd>`), `${t.name}: paid service`);

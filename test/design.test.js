@@ -79,3 +79,34 @@ test('the numbers under the homepage hero are counted from the Launch List, and 
   assert.ok(html.includes('<li><b>0</b><span>paid placements, ever</span></li>'));
   assert.ok(home.indexOf('<section class="facts-strip"') > home.indexOf('<section class="hero">') && home.indexOf('<section class="facts-strip"') < home.indexOf('<section class="week"'));
 });
+
+// ---- tool pages ----
+
+test('tool pages: the facts beside an "At a glance" panel that keeps "checked against docs" apart from "hands-on tested"', async () => {
+  const { renderTool } = await import('../lib/tool-pages.js');
+  for (const t of TOOLS) {
+    const html = renderTool(t);
+    assert.ok(html.includes('<div class="tool-grid">') && html.includes('<aside class="tool-side" aria-labelledby="side-h"><h2 id="side-h">At a glance</h2>'), t.name);
+    assert.ok(html.indexOf('class="ffacts"') < html.indexOf('class="tool-side"'), `${t.name}: facts first`);
+    assert.ok(html.includes('Facts checked by hand against the official docs'), `${t.name}: docs check`);
+    assert.equal(html.includes('Not hands-on tested yet'), !t.facts.testedBy, `${t.name}: hands-on line`);
+    assert.ok(html.includes(`<dt>License</dt><dd>${t.license.replace(/&/g, '&amp;')}</dd>`), `${t.name}: license`);
+    assert.ok(!html.includes('<h2 id="a-h">'), `${t.name}: no "About" section repeating the tagline`);
+  }
+});
+
+// ---- the form pages ----
+
+test('Submit: the same fields in four groups, beside "What happens next"; Find me a free tool gets "How it works"', async () => {
+  const { renderSubmit, renderRequest } = await import('../lib/form-pages.js');
+  const html = renderSubmit({ siteKey: 'k' });
+  const groups = [...html.matchAll(/<fieldset class="fgroup"><legend>([^<]+)<\/legend>/g)].map(m => m[1]);
+  assert.deepEqual(groups, ['Your tool', 'What&#39;s free', 'About you', 'For your launch page']);
+  for (const id of ['tool_name', 'url', 'category', 'license', 'free_tier', 'card_required', 'setup', 'paid_level', 'paid_deps', 'maker_name', 'email', 'assets_link']) {
+    assert.equal((html.match(new RegExp(`id="${id}"`, 'g')) || []).length, 1, id);
+  }
+  assert.ok(html.includes('<h2 id="next-h">What happens next</h2>') && html.includes('Free to launch. No paid placement, ever.'));
+  assert.ok(html.indexOf('<form class="form"') < html.indexOf('<aside class="form-side"'));
+  const req = renderRequest({ siteKey: 'k' });
+  assert.ok(req.includes('<h2 id="next-h">How it works</h2>') && req.includes(`We search ${TOOLS.length} checked tools`));
+});

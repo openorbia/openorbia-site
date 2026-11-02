@@ -351,3 +351,44 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .form-msg{margin:0;min-height:1.2em;font-size:15px}
 .form-msg.ok{color:var(--green)}.form-msg.err{color:var(--red)}
 .fine{font-size:13px;color:var(--muted)}
+/* tool pages: the facts on the left, "At a glance" on the right (one column on small screens) */
+.tool-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start;padding-top:6px}
+.tool-main{min-width:0}
+.tool-main .ffacts dl,.docs-facts .facts{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tool-side{position:sticky;top:20px;display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.tool-side h2{margin:0;font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
+.side-dl{margin:0;display:grid}
+.side-dl div{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.side-dl div:first-child{padding-top:0}
+.side-dl dt{color:var(--muted);flex:none}
+.side-dl dd{margin:0;text-align:right;min-width:0;overflow-wrap:anywhere}
+.side-dl a{color:var(--blue-l);text-decoration:none}
+.side-dl a:hover{text-decoration:underline}
+.verify{display:grid;gap:8px;font-size:14px}
+.verify a{color:var(--blue-l);font-size:13.5px}
+.vf{margin:0;display:flex;gap:8px;align-items:baseline;line-height:1.4}
+.vf.ok>span:first-child{color:var(--green);font-weight:700}
+.vf.no{color:var(--muted)}
+.tool-side .btn{width:100%}
+.docs-facts h2{font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l);margin:0 0 10px}
+.docs-facts .facts{margin-top:0}
+@media (max-width:900px){.tool-grid{grid-template-columns:minmax(0,1fr)}.tool-side{position:static}}
+/* the Submit and Find me a free tool pages: the form on the left, a panel on what happens next on the right */
+.form-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(24px,4vw,48px);align-items:start}
+.form-col{min-width:0;display:grid;gap:14px}
+.fgroup{border:0;margin:0;padding:0;display:grid;gap:18px;min-width:0}
+.fgroup+.fgroup{border-top:1px solid var(--line);padding-top:22px}
+.fgroup>legend{padding:0;margin:0 0 4px;font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
+.form-side{position:sticky;top:20px;display:grid;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.form-side h2{margin:0;font:500 12.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:16px;counter-reset:step}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:2px 12px;counter-increment:step}
+.steps li::before{content:counter(step);grid-row:span 2;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 13px var(--mono);color:#fff;background:linear-gradient(135deg,#4258d8,#6840e0)}
+.steps b{font:700 15.5px/1.3 var(--display)}
+.steps span{color:#c9d2ee;font-size:14px;line-height:1.45}
+.side-rules h3{margin:0 0 6px;font-size:14px}
+.side-rules ul{margin:0;padding-left:18px;display:grid;gap:4px;color:#c9d2ee;font-size:14px}
+.side-free{margin:0;padding:10px 12px;border-radius:10px;border:1px solid rgba(98,227,168,.3);background:rgba(98,227,168,.08);color:var(--green);font-weight:600;font-size:14px}
+.form-side .fine{margin:0}
+.form-side a{color:var(--blue-l)}
+@media (max-width:900px){.form-grid{grid-template-columns:minmax(0,1fr)}.form-side{position:static}}
