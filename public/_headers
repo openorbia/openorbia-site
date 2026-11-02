@@ -1,0 +1,6 @@
+# Cloudflare Pages headers (https://developers.cloudflare.com/pages/configuration/headers/).
+# The pages and their CSS and scripts change together on every deploy. Without this, browsers keep /assets/ files for 4 hours
+# without asking, so a returning visitor can get a new page with an old stylesheet. must-revalidate with max-age=0 makes the
+# browser ask each time; an unchanged file answers 304 Not Modified, which is quick and small.
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate

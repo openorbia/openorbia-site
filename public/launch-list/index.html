@@ -49,7 +49,7 @@ html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class]
 .badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
 .btn.pri{background:linear-gradient(135deg,#4258d8,#5a45e0 55%,#6840e0);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
@@ -117,6 +117,7 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .search{flex:1 1 220px;min-width:0;font:15px var(--body);color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
 .count{order:3;margin-left:auto;font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
 .fscroll{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media (pointer:coarse){.tab,.chip{min-height:40px}}
 @media (max-width:560px){.bar{position:static}.tabs,.fscroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px}.tabs::-webkit-scrollbar,.fscroll::-webkit-scrollbar{display:none}.fscroll .chips{flex-wrap:nowrap}.tab,.chip,.chips-l{flex:none;white-space:nowrap}.search{flex:1 1 0}.count{order:0;margin-left:0}.fscroll{order:2;flex:1 1 100%}}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;padding-block:20px 32px}
 .card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s,transform .15s,box-shadow .15s}

@@ -110,3 +110,24 @@ test('Submit: the same fields in four groups, beside "What happens next"; Find m
   const req = renderRequest({ siteKey: 'k' });
   assert.ok(req.includes('<h2 id="next-h">How it works</h2>') && req.includes(`We search ${TOOLS.length} checked tools`));
 });
+
+// ---- consistency ----
+
+test('CSS and scripts are re-checked on every visit, so a new page never gets an old stylesheet from the browser cache', () => {
+  const headers = file('public/_headers');
+  assert.match(headers, /^\/assets\/\*\n {2}Cache-Control: public, max-age=0, must-revalidate$/m);
+});
+
+test('one button size, one field height and one large-panel radius across the site', () => {
+  const css = file('public/assets/launch.css');
+  for (const f of ['public/index.html', 'public/launch-list/index.html']) assert.ok(file(f).includes('.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px'), `${f}: 48px buttons`);
+  assert.ok(css.includes('.ff input[type=text],.ff input[type=url],.ff input[type=email],.ff select{height:48px;padding-block:0}'), 'text boxes and dropdowns match');
+  for (const sel of ['.soon-panel', '.cta', '.mk-week']) assert.ok(css.includes(`${sel}{border:1px solid var(--line);border-radius:16px;`), sel);
+  assert.ok(file('public/index.html').includes('.week{border:1px solid var(--line);border-radius:16px;'));
+  // the only rounder shape left is the big upvote button, which is a button, not a panel
+  assert.deepEqual([...css.matchAll(/([.a-z-]+)\{[^}]*border-radius:(?:18|20)px/g)].map(m => m[1]), ['.vote-lg']);
+});
+
+test('touch screens: the Launch List filters are at least 40px tall', () => {
+  assert.ok(file('public/launch-list/index.html').includes('@media (pointer:coarse){.tab,.chip{min-height:40px}}'));
+});
