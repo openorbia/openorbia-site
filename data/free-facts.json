@@ -43,7 +43,7 @@
     "level": "basic",
     "confidence": "high",
     "category": "biz",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-11-03"
   },
   {
     "repo": "twentyhq/twenty",
@@ -677,7 +677,7 @@
     "level": "basic",
     "confidence": "high",
     "category": "sec",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-11-03"
   },
   {
     "repo": "promptfoo/promptfoo",
@@ -779,7 +779,7 @@
     "catch": "Main mode needs a Claude Code/Codex login; Ollama only in legacy mode",
     "paidDeps": {
       "level": "optional",
-      "what": "Claude Code/Codex login (paid plans likely) or free Ollama in legacy mode"
+      "what": "Main mode: a Claude Code or Codex CLI login; free option: legacy mode with local Ollama"
     },
     "sources": [
       "https://github.com/GreyDGL/PentestGPT#readme"
@@ -788,7 +788,7 @@
     "level": "basic",
     "confidence": "medium",
     "category": "sec",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-11-03"
   },
   {
     "repo": "vxcontrol/pentagi",

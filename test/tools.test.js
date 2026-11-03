@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives } from '../public/assets/tools.js';
+import { formatChecked } from '../public/assets/facts.js';
 import { renderTool, toolTitle, toolDescription, toolResponse } from '../lib/tool-pages.js';
 import { renderHowWeCheck, howWeCheckResponse } from '../lib/how-we-check.js';
 import { renderMakers } from '../lib/makers.js';
@@ -46,7 +47,7 @@ test('every tool page has the full picture: name, description, category, license
     const boxText = textOf(box);
     for (const label of ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Last checked']) assert.ok(boxText.includes(label), `${t.name}: ${label}`);
     for (const v of [f.freeTier, f.dataLocation, f.setup, f.catch]) assert.ok(boxText.includes(v), `${t.name}: ${v}`);
-    assert.ok(boxText.includes('Last checked Oct 30, 2026'), `${t.name}: date`);
+    assert.ok(boxText.includes(`Last checked ${formatChecked(f.lastChecked)}`), `${t.name}: date`);
   }
 });
 
