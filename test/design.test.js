@@ -42,8 +42,8 @@ test('the founder\'s own tools and tools owned by a person never get a logo (a p
 // ---- the Launch List cards ----
 
 test('Launch List cards: logo or letter tile, the name\'s link covers the card, the description is two lines, and the facts are short', () => {
-  const html = file('public/launch-list/index.html');
-  assert.ok(html.includes(`import{LOGOS}from"${asset('logos.js')}"`));
+  const html = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
+  assert.ok(html.includes(`import{LOGOS}from"${asset('logos.js').replace('/assets/', './')}"`));
   assert.ok(html.includes('<div class="top">${logo(name,a,b)}<div><h2>'));
   assert.ok(html.includes('.card h2 a::after{content:"";position:absolute;inset:0'), 'the whole card opens the tool page');
   assert.ok(html.includes('.foot{position:relative;z-index:1;'), 'the GitHub and claim links still work on top of it');

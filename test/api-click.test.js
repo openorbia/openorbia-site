@@ -273,7 +273,7 @@ test('if sendBeacon is missing or refuses, a keepalive fetch carries the same JS
 // ---- the links themselves are real ----
 
 test('the Launch List and the tool pages link straight to the tool and carry data-tool; /go/ is not in any page', () => {
-  const list = file('public/launch-list/index.html');
+  const list = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   assert.ok(list.includes('<a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>'));
   assert.ok(list.includes(`<script src="${asset('click-beacon.js')}" defer></script>`), 'the Launch List loads the beacon script');
   assert.ok(!list.includes('/go/'));

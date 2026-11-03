@@ -9,17 +9,24 @@ Source for https://openorbia.com: a static site in `public/`, Cloudflare Pages F
 - `/api/launches` (JSON for the homepage), `/api/vote` (upvotes), `/api/waitlist`
 
 ## Deploy
-The site is **not** connected to Git: it is deployed with wrangler (direct upload) and needs `CLOUDFLARE_API_TOKEN`.
+The site is deployed with wrangler (direct upload); the Cloudflare project is not connected to Git. GitHub Actions runs it (`.github/workflows/`):
+- Every pull request: tests, `seed:check`, a secret scan (Gitleaks) and CodeQL; a pull request from a branch in this repo also deploys a preview to `pr-<number>.openorbia.pages.dev`.
+- A merge to main: production deploys after Khaja approves it in GitHub (the `production` environment).
+- Database migrations and seeding stay manual (below). One-time GitHub and Cloudflare settings are in `SECURITY-SETUP.md`; how to report a problem is in `SECURITY.md`.
+
+By hand (needs `CLOUDFLARE_API_TOKEN` for the OpenOrbia account only):
 
     npm run deploy            # production: stamps the assets, runs the tests, then uploads (--branch main)
     npm run deploy:preview    # the same for the launch-day preview
 
 `npm run stamp` (`scripts/stamp-assets.mjs`) gives every link to a file in `public/assets/` a version, `/assets/launch.css?v=<hash>`, in the static pages, in the imports between modules and in `lib/asset-versions.js` for the server-rendered pages. A changed file gets a new address, so browsers fetch it fresh: openorbia.com's Cloudflare "Browser Cache TTL" keeps `/assets/` files for 4 hours whatever `public/_headers` says. `test/assets.test.js` fails when a version is out of date, so `npm run deploy` stops before uploading. After adding tools, `npm run fetch:logos` downloads the logos of tools owned by an organization into `public/logos/`.
 
+Security headers (Content Security Policy and others) come from `lib/security-headers.js`, sent by `public/_headers` for static files and by a `_middleware.js` in each `functions/` folder. Pages have no inline scripts, so the policy can forbid them: put page scripts in `public/assets/`.
+
 - D1 database `openorbia-db`, bound as `DB` in `wrangler.toml`
 - Secret `VOTE_SECRET` (any long random string; voting answers 503 without it):
   `npx wrangler pages secret put VOTE_SECRET --project-name openorbia`
-- Secret `BREVO_API_KEY` (optional): a Brevo API key. With it, each new waitlist signup gets a welcome email from launch@openorbia.com (`lib/email.js`); without it signups still work and no email is sent. launch@openorbia.com must be a verified sender in Brevo:
+- Secret `BREVO_API_KEY` (optional): a Brevo API key. With it, each new waitlist signup that passes the Turnstile check gets a welcome email from launch@openorbia.com (`lib/email.js`); without it signups still work and no email is sent. The waitlist only accepts posts from our own pages and allows 5 signups an hour per visitor; a signup without JavaScript (no Turnstile token) is saved but gets no email, so the form cannot be used to send email to strangers. launch@openorbia.com must be a verified sender in Brevo:
   `npx wrangler pages secret put BREVO_API_KEY --project-name openorbia`
 - First time on a database: `npm run db:schema:remote` (safe to re-run)
 
