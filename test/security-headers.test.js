@@ -54,7 +54,7 @@ test('no page has an inline script or inline event handler, so the policy can fo
   const sources = [...walk(join(root, 'public')).filter(f => f.endsWith('.html')), ...walk(join(root, 'lib')).filter(f => f.endsWith('.js') && !f.endsWith('email.js'))];
   for (const f of sources) {
     const text = readFileSync(f, 'utf8');
-    for (const tag of text.match(/<script\b[^>]*>/g) || []) {
+    for (const tag of text.match(/<script\b[^>]*>/gi) || []) {
       if (/type="application\/(ld\+)?json"/.test(tag)) continue;   // data, never run
       assert.match(tag, /\bsrc=/, `${f}: inline <script>`);
     }
@@ -67,8 +67,8 @@ test('every external script, stylesheet and font the pages load is allowed by th
   const sources = [...walk(join(root, 'public')).filter(f => f.endsWith('.html')), ...walk(join(root, 'lib')).filter(f => f.endsWith('.js'))];
   for (const f of sources) {
     const text = readFileSync(f, 'utf8');
-    for (const [, src] of text.matchAll(/<script[^>]*\bsrc="(https:\/\/[^"/]+)/g)) assert.ok(allowed.script.includes(src), `${f}: script from ${src}`);
-    for (const [, href] of text.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="(https:\/\/[^"/]+)/g)) assert.ok(allowed.style.includes(href), `${f}: stylesheet from ${href}`);
+    for (const [, src] of text.matchAll(/<script[^>]*\bsrc="(https:\/\/[^"/]+)/gi)) assert.ok(allowed.script.includes(src), `${f}: script from ${src}`);
+    for (const [, href] of text.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="(https:\/\/[^"/]+)/gi)) assert.ok(allowed.style.includes(href), `${f}: stylesheet from ${href}`);
   }
   assert.ok(CSP.includes("frame-ancestors 'none'") && CSP.includes("object-src 'none'") && CSP.includes("base-uri 'self'"));
   assert.ok(!/script-src[^;]*'unsafe-(inline|eval)'/.test(CSP), 'scripts never allow inline or eval');
