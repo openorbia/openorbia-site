@@ -1,3 +1,6 @@
 node_modules
 .wrangler
 .dev.vars
+
+# Private cache for ops/scripts (public metadata only, regenerated on demand)
+.ops-cache/
