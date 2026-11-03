@@ -1,0 +1,10 @@
+# Gitleaks settings for the CI secret scan (.github/workflows/ci.yml). Starts from Gitleaks' built-in rules.
+[extend]
+useDefault = true
+
+# Only exact, known-fake test values go here; never a whole folder, so a real secret pasted into a test is still caught.
+[allowlist]
+description = "Fake secrets used by the tests"
+regexes = [
+  '''^test-secret-0123456789abcdef$''',
+]
