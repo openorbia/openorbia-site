@@ -45,8 +45,8 @@ test('the "no cookies, no IP addresses" claims match the code', () => {
 });
 
 test('the services named are the ones the code calls: Cloudflare (hosting, Turnstile, Web Analytics if on) and Brevo for email', () => {
-  assert.match(file('lib/email.js'), /https:\/\/api\.brevo\.com\/v3\/smtp\/email/);
-  assert.match(file('lib/turnstile.js'), /challenges\.cloudflare\.com\/turnstile/);
+  assert.ok(file('lib/email.js').includes("export const BREVO_URL = 'https://api.brevo.com/v3/smtp/email';"), 'Brevo sends the email');
+  assert.ok(file('lib/turnstile.js').includes("export const SITEVERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';"), 'Cloudflare Turnstile checks the token');
   for (const s of ['Cloudflare hosts the site and its database', 'Turnstile spam check', 'Cloudflare Web Analytics counts page visits when it is turned on', 'Brevo sends the welcome and confirmation emails']) assert.ok(text.includes(s), s);
 });
 
@@ -66,7 +66,8 @@ test('"Find my free setup" is the name visitors see everywhere; the URL and the 
     forms: file('lib/forms.js'),
   };
   for (const [name, h] of Object.entries(pages)) {
-    const visible = h.replace(/\/\/.*$/gm, '').replace(/<!--[\s\S]*?-->/g, '');
+    // code comments may keep the old name; what visitors see may not
+    const visible = h.split('\n').filter(line => !line.trim().startsWith('//')).join('\n');
     assert.ok(!/Find me a free tool/i.test(visible), `${name}: old name`);
   }
   assert.ok(pages.header.includes('<b>Find my free setup</b>'));
