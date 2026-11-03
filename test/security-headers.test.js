@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { SECURITY_HEADERS, CSP, onRequest } from '../lib/security-headers.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -31,7 +31,7 @@ test('every folder in functions/ adds the headers, and there is no root middlewa
   for (const d of dirs) {
     const mw = join(root, 'functions', d, '_middleware.js');
     assert.ok(existsSync(mw), `functions/${d}/_middleware.js`);
-    assert.equal((await import(mw)).onRequest, onRequest, d);
+    assert.equal((await import(pathToFileURL(mw).href)).onRequest, onRequest, d);
   }
   const loose = readdirSync(join(root, 'functions')).filter(n => n.endsWith('.js'));
   assert.deepEqual(loose, ['sitemap.xml.js'], 'a new top-level function needs its own headers');
