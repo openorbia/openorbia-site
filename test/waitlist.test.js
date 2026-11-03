@@ -9,8 +9,8 @@ const root = new URL('../', import.meta.url);
 let db, env;
 beforeEach(() => { db = createDb(); env = { DB: db }; });
 
-const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(body).toString() });
+const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify(body) });
+const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://openorbia.com' }, body: new URLSearchParams(body).toString() });
 const rows = () => db.rows('SELECT email, role, tool_url FROM waitlist').map(r => ({ ...r }));
 
 test('JSON signup still answers with JSON', async () => {
@@ -44,8 +44,44 @@ test('form post: duplicates, bad email, bad link, honeypot and a missing databas
 });
 
 test('an unreadable body is a 400 for JSON and the error message for a form', async () => {
-  const badJson = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{' });
+  const badJson = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: '{' });
   assert.equal((await handleWaitlist({ request: badJson, env })).status, 400);
+});
+
+test('a signup from another site is refused, and nothing is saved', async () => {
+  for (const origin of ['https://evil.example', 'null']) {
+    const req = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin }, body: JSON.stringify({ email: 'x@example.com', role: 'reader' }) });
+    assert.equal((await handleWaitlist({ request: req, env })).status, 403, origin);
+  }
+  const noOrigin = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'y@example.com', role: 'reader' }) });
+  assert.equal((await handleWaitlist({ request: noOrigin, env })).status, 403);
+  assert.deepEqual(rows(), []);
+});
+
+test('signups are rate limited per visitor: 5 an hour, then 429 for JSON and the error message for a form', async () => {
+  const e = { DB: db, VOTE_SECRET: 'v'.repeat(32) };
+  const now = Date.UTC(2026, 10, 2, 12, 0, 0);
+  for (let i = 0; i < 5; i++) assert.equal((await handleWaitlist({ request: asJson({ email: `r${i}@example.com`, role: 'reader' }), env: e, now })).status, 200, `signup ${i + 1}`);
+  const sixth = await handleWaitlist({ request: asJson({ email: 'r5@example.com', role: 'reader' }), env: e, now });
+  assert.equal(sixth.status, 429);
+  assert.ok(Number(sixth.headers.get('retry-after')) > 0);
+  assert.equal((await handleWaitlist({ request: asForm({ email: 'r6@example.com', role: 'reader' }), env: e, now })).headers.get('location'), '/#wl-error');
+  assert.equal(rows().length, 5);
+  assert.equal((await handleWaitlist({ request: asJson({ email: 'r7@example.com', role: 'reader' }), env: e, now: now + 3600 * 1000 })).status, 200, 'the next hour is a new budget');
+});
+
+test('a very large signup body is refused before it is read', async () => {
+  const req = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com', 'content-length': '20000' }, body: JSON.stringify({ email: 'big@example.com', pad: 'x'.repeat(19000) }) });
+  assert.equal((await handleWaitlist({ request: req, env })).status, 400);
+  assert.deepEqual(rows(), []);
+});
+
+test('the homepage waitlist has the Turnstile widget with the same public site key as wrangler.toml, and sends its token', () => {
+  const html = readFileSync(new URL('public/index.html', root), 'utf8');
+  const key = readFileSync(new URL('wrangler.toml', root), 'utf8').match(/^\[vars\][\s\S]*?TURNSTILE_SITE_KEY = "([^"]+)"/m)[1];
+  assert.ok(html.includes(`<div class="cf-turnstile" data-sitekey="${key}"`), 'widget with the production key');
+  assert.ok(html.includes('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'));
+  assert.match(readFileSync(new URL('public/assets/home.js', root), 'utf8'), /turnstile:check\(\)/);
 });
 
 test('the homepage form posts without JavaScript and every message it can be sent to exists', () => {

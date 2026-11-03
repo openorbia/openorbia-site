@@ -360,6 +360,7 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
       <label class="f" for="wl-email">Email<input id="wl-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
       <label class="f" id="toolRow" for="wl-tool">Your tool's website <span class="opt">(optional)</span><input id="wl-tool" name="tool" type="url" inputmode="url" placeholder="https://"></label>
       <div class="hp" aria-hidden="true"><label>Leave empty<input name="company" tabindex="-1" autocomplete="off"></label></div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFs-XgBfIiYO5loz" data-theme="dark" data-appearance="interaction-only"></div>
       <div class="wl-actions"><button class="btn pri" type="submit" id="wl-btn">Join the waitlist</button>
         <a class="btn ghost" href="https://github.com/openorbia/openorbia-site/issues/new?template=submit-a-tool.yml" target="_blank" rel="noopener">Submit via GitHub</a></div>
       <p class="msg" id="wl-msg" role="status" aria-live="polite"></p>
@@ -392,27 +393,8 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
 </div>
 </div></footer>
 
-<script>
-document.getElementById('yr').textContent=new Date().getFullYear();
-const b=document.getElementById('copyBtn');
-b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('launch@openorbia.com');b.textContent='Copied';}catch(e){const r=document.createRange();r.selectNodeContents(document.getElementById('mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}setTimeout(()=>b.textContent='Copy',2000);});
-const form=document.getElementById('wl'),msg=document.getElementById('wl-msg'),btn=document.getElementById('wl-btn'),toolRow=document.getElementById('toolRow');
-form.addEventListener('change',()=>{toolRow.hidden=form.role.value!=='maker';});
-form.addEventListener('submit',async e=>{
-  e.preventDefault();msg.className='msg';
-  const email=form.email.value.trim(),tool=form.tool.value.trim();
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.className='msg err';msg.textContent='Enter a valid email address.';form.email.focus();return;}
-  if(tool && !/^https?:\/\/\S+\.\S+/.test(tool)){msg.className='msg err';msg.textContent="Your tool's website should start with https://";form.tool.focus();return;}
-  btn.disabled=true;btn.textContent='Joining...';
-  try{
-    const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,role:form.role.value,tool:form.role.value==='maker'?tool:'',company:form.company.value})});
-    const d=await r.json().catch(()=>({}));
-    if(r.ok){form.reset();toolRow.hidden=false;msg.className='msg ok';msg.textContent=d.message||"You're on the list. We'll be in touch before Launch Week 1.";}
-    else{msg.className='msg err';msg.textContent=d.error||'Something went wrong. Please try again, or email launch@openorbia.com.';}
-  }catch(err){msg.className='msg err';msg.textContent='Could not reach the server. Check your connection and try again.';}
-  btn.disabled=false;btn.textContent='Join the waitlist';
-});
-</script>
+<script src="/assets/home.js?v=bbc069201f" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="/assets/launch.js?v=d7211719e8" defer></script>
 <script src="/assets/nav.js?v=e11b817f2c" defer></script>
 </body>

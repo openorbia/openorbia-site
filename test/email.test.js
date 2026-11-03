@@ -3,19 +3,23 @@ import assert from 'node:assert/strict';
 import { welcomeEmail, sendWelcome, BREVO_URL, SENDER } from '../lib/email.js';
 import { handleWaitlist } from '../functions/api/waitlist.js';
 import { createDb } from './helpers/d1.js';
+import { SITEVERIFY_URL } from '../lib/turnstile.js';
 
 const KEY = 'xkeysib-test-key-never-real';
 let db, env, calls;
-beforeEach(() => { db = createDb(); env = { DB: db, BREVO_API_KEY: KEY }; calls = []; });
+beforeEach(() => { db = createDb(); env = { DB: db, BREVO_API_KEY: KEY, TURNSTILE_SECRET_KEY: 'ts-secret' }; calls = []; });
 
 // A stand-in for Brevo: records every request, answers with the given status (or throws)
+// Turnstile's check is answered here too (as passed) and is not recorded, so `calls` holds only the Brevo requests.
 const brevo = (status = 201, { throws = false } = {}) => async (url, init) => {
+  if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: true }), { status: 200 });
   calls.push({ url, init, body: JSON.parse(init.body) });
   if (throws) throw new Error('network down');
   return new Response(JSON.stringify({ messageId: 'x' }), { status });
 };
-const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(body).toString() });
+// Requests as the homepage sends them: from our own origin, with a Turnstile token in the JSON (none on the no-JS form)
+const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ turnstile: 'token-ok', ...body }) });
+const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://openorbia.com' }, body: new URLSearchParams(body).toString() });
 const FOOTER = "You're getting this because you joined the waitlist at openorbia.com. Reply to this email if it wasn't you.";
 
 test('maker and reader emails say what was asked, with the footer', () => {
@@ -50,11 +54,25 @@ test('readers get the reader text', async () => {
   assert.ok(calls[0].body.textContent.includes("We'll email you when Launch Week 1 goes live on Nov 23."));
 });
 
-test('the no-JS form path sends the email too, and still redirects', async () => {
+test('the no-JS form path saves the signup and redirects, but sends no email (there is no Turnstile token without JavaScript)', async () => {
   const res = await handleWaitlist({ request: asForm({ email: 'f@example.com', role: 'reader' }), env, fetchImpl: brevo() });
   assert.equal(res.status, 303);
   assert.equal(res.headers.get('location'), '/#wl-ok');
-  assert.equal(calls.length, 1);
+  assert.deepEqual(db.rows('SELECT email FROM waitlist').map(r => r.email), ['f@example.com']);
+  assert.equal(calls.length, 0);
+});
+
+test('no welcome email without a passed Turnstile check: missing token, failed token, or no secret configured', async () => {
+  const failing = async (url, init) => {
+    if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: false }), { status: 200 });
+    calls.push({ url, init }); return new Response('{}', { status: 201 });
+  };
+  const noToken = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ email: 'n1@example.com', role: 'reader' }) });
+  assert.equal((await handleWaitlist({ request: noToken, env, fetchImpl: brevo() })).status, 200);
+  assert.equal((await handleWaitlist({ request: asJson({ email: 'n2@example.com', role: 'reader' }), env, fetchImpl: failing })).status, 200);
+  assert.equal((await handleWaitlist({ request: asJson({ email: 'n3@example.com', role: 'reader' }), env: { DB: db, BREVO_API_KEY: KEY }, fetchImpl: brevo() })).status, 200);
+  assert.equal(calls.length, 0, 'no email went out');
+  assert.equal(db.rows('SELECT email FROM waitlist').length, 3, 'all three signups were still saved');
 });
 
 test('no email for duplicates, bad addresses, bots or when the database is missing', async () => {
@@ -92,10 +110,11 @@ test('without BREVO_API_KEY signups work and no request is made', async () => {
 test('waitUntil takes the email so the answer does not wait for Brevo', async () => {
   let held;
   let finish;
-  const slow = async (url, init) => { calls.push({ url, init }); await new Promise(r => { finish = r; }); return new Response('{}', { status: 201 }); };
+  const slow = async (url, init) => { if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: true }), { status: 200 }); calls.push({ url, init }); await new Promise(r => { finish = r; }); return new Response('{}', { status: 201 }); };
   const res = await handleWaitlist({ request: asJson({ email: 'w@example.com', role: 'reader' }), env, fetchImpl: slow, waitUntil: p => { held = p; } });
   assert.equal(res.status, 200, 'answered while the email is still in flight');
   assert.ok(held instanceof Promise);
+  while (!finish) await new Promise(r => setTimeout(r, 1));   // the background task reaches Brevo after the Turnstile check
   finish(); await held;
   assert.equal(calls.length, 1);
 });
@@ -129,10 +148,10 @@ test('success and a missing key are logged too, so a tail shows which path ran',
 
 test('the Pages handler passes waitUntil bound to the context', async () => {
   const { onRequestPost } = await import('../functions/api/waitlist.js');
-  let bound = false;
-  const ctx = { request: asJson({ email: 'ctx@example.com', role: 'reader' }), env, waitUntil(p) { bound = this === ctx; return p; } };
+  let bound = false, held;
+  const ctx = { request: asJson({ email: 'ctx@example.com', role: 'reader' }), env, waitUntil(p) { bound = this === ctx; held = p; return p; } };
   const realFetch = globalThis.fetch; globalThis.fetch = brevo();
-  try { const res = await onRequestPost(ctx); assert.equal(res.status, 200); } finally { globalThis.fetch = realFetch; }
+  try { const res = await onRequestPost(ctx); assert.equal(res.status, 200); await held; } finally { globalThis.fetch = realFetch; }
   assert.ok(bound, 'waitUntil was called on the context, not detached');
   assert.equal(calls.length, 1);
 });

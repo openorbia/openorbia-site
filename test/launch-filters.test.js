@@ -126,11 +126,11 @@ test('the data file has the docs facts for all 45 listed tools, with sources', (
 // ---- the Launch List page ----
 
 test('the Launch List page has the Setup and Runs free controls, keeps the filters in the URL, and shows the label', () => {
-  const html = file('public/launch-list/index.html');
+  const html = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   for (const [key, label] of Object.entries(SETUP_FILTERS)) assert.ok(html.includes(`<button class="chip" data-setup="${key}" aria-pressed="false">${label}</button>`), label);
   assert.ok(html.includes('<button class="chip" data-f="free" aria-pressed="true">Runs free</button>'), 'Runs free starts on');
   assert.ok(html.includes('<div class="chips" role="group" aria-label="Setup">'));
-  assert.ok(html.includes(`from"${asset('launch-filters.js')}"`) && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
+  assert.ok(html.includes(`from"${asset('launch-filters.js').replace('/assets/', './')}"`) && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
   assert.ok(html.includes('history.replaceState(null,"",location.pathname+filterQuery(st))'), 'and is written back to it');
   assert.ok(html.includes('matchesRow(t,st)'));
   assert.ok(html.includes('needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`'), 'the label on the card');

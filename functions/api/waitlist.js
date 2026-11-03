@@ -3,14 +3,25 @@
 //
 // Two kinds of caller: the page's script posts JSON and gets JSON back; the plain HTML form (no JavaScript) posts form data and is
 // redirected to /#<message id>, a message already in the page and shown with :target. The email never goes in a URL.
+//
+// Abuse protection, in order: our own pages only (lib/origin.js) -> rate limit (HMAC-keyed, no raw IP; needs VOTE_SECRET) -> hidden
+// field -> field checks -> save. The welcome email is sent only when the Turnstile check passes, so a bot cannot use this form to send
+// email to anyone. Without JavaScript there is no Turnstile token: the signup is still saved, but no welcome email goes out.
 
 const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), {
     status,
-    headers: { "content-type": "application/json; charset=utf-8" },
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" },
   });
 
 import { sendWelcome } from "../../lib/email.js";
+import { requestIsOurs } from "../../lib/origin.js";
+import { rateLimit } from "../../lib/ratelimit.js";
+import { visitor } from "../../lib/visitor.js";
+import { verifyTurnstile } from "../../lib/turnstile.js";
+
+// 5 signups an hour per visitor
+export const WAITLIST_LIMIT = { max: 5, windowSeconds: 3600 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -23,6 +34,8 @@ const MESSAGES = {
   bad_email: { page: "wl-bad-email", status: 400, error: "Please enter a valid email." },
   bad_link: { page: "wl-bad-link", status: 400, error: "Tool link must start with https://" },
   bad_request: { page: "wl-error", status: 400, error: "Invalid request." },
+  forbidden: { page: "wl-error", status: 403, error: "This form can only be sent from openorbia.com." },
+  rate_limited: { page: "wl-error", status: 429, error: "Too many signups from here in the last hour. Please try again later." },
   not_connected: { page: "wl-error", status: 500, error: "Waitlist is not connected yet. Email launch@openorbia.com." },
   failed: { page: "wl-error", status: 500, error: "Something went wrong. Email launch@openorbia.com." },
 };
@@ -67,9 +80,20 @@ async function signup(body, request, env) {
   }
 }
 
-export async function handleWaitlist({ request, env, waitUntil, fetchImpl }) {
+export async function handleWaitlist({ request, env, waitUntil, fetchImpl, turnstileFetch = fetchImpl, now = Date.now() }) {
+  if (!requestIsOurs(request)) return json({ error: MESSAGES.forbidden.error }, 403);
+
+  if (env.DB && typeof env.VOTE_SECRET === "string" && env.VOTE_SECRET) {
+    let limited = null;
+    try { limited = await rateLimit(env.DB, env.VOTE_SECRET, { scope: "waitlist", ...WAITLIST_LIMIT }, visitor(request), now); } catch { /* never block a signup on the limiter */ }
+    if (limited) return reply(request, MESSAGES.rate_limited, { "retry-after": String(limited.wait) });
+  }
+
   const type = (request.headers.get("content-type") || "").toLowerCase();
   const isForm = type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
+
+  // A signup is a few hundred bytes; refuse anything far bigger before reading it
+  if (Number(request.headers.get("content-length") || 0) > 8192) return reply(request, MESSAGES.bad_request);
 
   let body;
   try {
@@ -79,17 +103,37 @@ export async function handleWaitlist({ request, env, waitUntil, fetchImpl }) {
   }
   const result = body && typeof body === "object" ? await signup(body, request, env) : MESSAGES.bad_request;
 
-  // The welcome email goes out after the answer where the platform allows it; it can never change the answer
+  // The welcome email goes out after the answer where the platform allows it; it can never change the answer. Only a visitor who passed
+  // Turnstile gets one. The check runs in the same background task, so the visitor's answer never waits for it.
   if (result.welcome) {
-    const task = sendWelcome({ apiKey: env.BREVO_API_KEY, ...result.welcome, fetchImpl });
+    const task = (async () => {
+      if (await passedTurnstile(body, env, turnstileFetch)) await sendWelcome({ apiKey: env.BREVO_API_KEY, ...result.welcome, fetchImpl });
+    })();
     if (typeof waitUntil === "function") waitUntil(task); else await task;
   }
 
-  if (isForm) {
+  return reply(request, result);
+}
+
+async function passedTurnstile(body, env, fetchImpl) {
+  const secret = env.TURNSTILE_SECRET_KEY;
+  if (typeof secret !== "string" || !secret) return false;
+  return (await verifyTurnstile({ secret, token: body && body.turnstile, fetchImpl })) === "ok";
+}
+
+function isFormPost(request) {
+  const type = (request.headers.get("content-type") || "").toLowerCase();
+  return type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
+}
+
+function reply(request, result, extra = {}) {
+  if (isFormPost(request)) {
     // 303 so the browser follows with a GET; no-store so a back/forward never replays it
-    return new Response(null, { status: 303, headers: { location: `/#${result.page}`, "cache-control": "no-store" } });
+    return new Response(null, { status: 303, headers: { location: `/#${result.page}`, "cache-control": "no-store", ...extra } });
   }
-  return result.error ? json({ error: result.error }, result.status) : json({ message: result.message });
+  const res = result.error ? json({ error: result.error }, result.status) : json({ message: result.message });
+  for (const [k, v] of Object.entries(extra)) res.headers.set(k, v);
+  return res;
 }
 
 // waitUntil must be called on the context itself (a detached copy is rejected by the runtime), so pass a wrapper

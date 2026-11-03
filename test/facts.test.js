@@ -102,7 +102,7 @@ test('migration adds facts to an older launches table, once', () => {
 });
 
 const listRows = () => {
-  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
+  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8') + readFileSync(new URL('public/assets/launch-list.js', root), 'utf8');   // the page and its script
   return { html, rows: ROWS };
 };
 const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -181,7 +181,7 @@ test('Launch List: the cards show the facts, with Card required and the catch wh
 });
 
 test('Launch List: the local-AI tag and filter chip say "Works with local AI", never "Runs locally"', () => {
-  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
+  const html = (readFileSync(new URL('public/launch-list/index.html', root), 'utf8') + readFileSync(new URL('public/assets/launch-list.js', root), 'utf8'));
   assert.ok(!/>Runs locally</i.test(html), 'no tag or chip says Runs locally (a fact like "runs locally with Docker" is fine)');
   assert.match(html, /data-f="loc"[^>]*>Works with local AI</);
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);

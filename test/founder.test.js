@@ -35,7 +35,7 @@ test('the founder label names Khaja Syed everywhere it appears, and the old word
   assert.deepEqual(founder.map(t => t.name), ['SOC Range']);
   const tool = renderTool(founder[0]).replace(/&#39;/g, "'");
   assert.ok(tool.includes(`<span class="tg fnd">${LABEL}</span>`));
-  assert.ok(file('public/launch-list/index.html').includes(LABEL));
+  assert.ok((file('public/launch-list/index.html') + file('public/assets/launch-list.js')).includes(LABEL));
   assert.ok(renderHowWeCheck().replace(/&#39;/g, "'").includes(`labeled "${LABEL}"`) || renderHowWeCheck().replace(/&#39;/g, "'").includes(`labeled &quot;${LABEL}&quot;`));
   for (const f of ['lib/tool-pages.js', 'lib/how-we-check.js', 'public/launch-list/index.html', 'public/index.html', 'lib/makers.js', 'lib/pages.js']) assert.ok(!file(f).includes(OLD_LABEL), `${f}: old label`);
   // no other tool carries the label

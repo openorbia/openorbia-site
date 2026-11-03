@@ -117,9 +117,9 @@ test('/tool/<slug>/ answers 200 for a tool and a noindex 404 for anything else',
 });
 
 test('every Launch List card name links to its tool page, and every link has a page', () => {
-  const html = file('public/launch-list/index.html');
+  const html = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   assert.ok(html.includes('<h2><a href="/tool/${slugOf(name)}/">${esc(name)}</a></h2>'));
-  assert.ok(html.includes(`import{ROWS as T,CATEGORIES as CAT,slugOf}from"${asset('tools.js')}"`));
+  assert.ok(html.includes(`import{ROWS as T,CATEGORIES as CAT,slugOf}from"${asset('tools.js').replace('/assets/', './')}"`));
   for (const row of ROWS) assert.ok(toolBySlug(slugOf(row[0])), `${row[0]} has a page`);
 });
 
