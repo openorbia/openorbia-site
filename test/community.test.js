@@ -32,3 +32,13 @@ test("/contact/ and /privacy/ mention Community, and /privacy/ says posts are pu
   const pv = renderPrivacy();
   assert.ok(pv.includes('<b>Community.</b>') && pv.includes('what you post is public, and GitHub’s privacy policy applies'));
 });
+
+// CODE_OF_CONDUCT.md is the Contributor Covenant 2.1 as published at contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md,
+// with only its contact placeholder filled in
+test('CODE_OF_CONDUCT.md is the Contributor Covenant 2.1, with hello@openorbia.com as the contact and no placeholder left', async () => {
+  const { readFileSync } = await import('node:fs');
+  const coc = readFileSync(new URL('../CODE_OF_CONDUCT.md', import.meta.url), 'utf8');
+  assert.ok(coc.includes('# Contributor Covenant Code of Conduct') && coc.includes('[Contributor Covenant][homepage], version 2.1'));
+  assert.ok(coc.includes('responsible for enforcement at [hello@openorbia.com](mailto:hello@openorbia.com).'));
+  assert.ok(!coc.includes('[INSERT'));
+});
