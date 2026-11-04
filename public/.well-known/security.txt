@@ -1,0 +1,6 @@
+Contact: mailto:hello@openorbia.com
+Contact: https://github.com/openorbia/openorbia-site/security/advisories/new
+Expires: 2027-11-04T00:00:00.000Z
+Preferred-Languages: en
+Policy: https://openorbia.com/security/
+Canonical: https://openorbia.com/.well-known/security.txt
