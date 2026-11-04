@@ -101,6 +101,7 @@ test('every other link in the footer site map goes to a real page, and the conta
   const map = mapOf(html);
   for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {
     if (href.startsWith('mailto:')) { assert.equal(href, `mailto:${CONTACT_EMAIL}`); continue; }
+    if (href === 'https://github.com/openorbia/openorbia-site/discussions') continue; // Community (test/community.test.js)
     const path = new URL(href, 'https://openorbia.com').pathname;
     assert.ok(pages[path] && existsSync(new URL(`../${pages[path]}`, import.meta.url)), href);
   }
