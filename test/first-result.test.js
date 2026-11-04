@@ -3,7 +3,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TOOLS, toolBySlug } from '../public/assets/tools.js';
-import { firstResultProblems, renderFirstResult, FIRST_RESULT_LABELS, stepHtml } from '../lib/first-result.js';
+import { firstResultProblems, renderFirstResult, FIRST_RESULT_LABELS, stepHtml, renderFirstResultStrip, toolsWithFirstResult } from '../lib/first-result.js';
+import { firstResultsHtml } from '../scripts/build-home.mjs';
 import { renderTool } from '../lib/tool-pages.js';
 
 const data = JSON.parse(readFileSync(new URL('../data/free-facts.json', import.meta.url), 'utf8'));
@@ -118,4 +119,38 @@ test('the commands in the data are marked, render in <code> on the tool pages, a
   }
   const base = withResult[0].facts.firstResult;
   assert.ok(firstResultProblems({ ...base, steps: ['Run `oops', 'two', 'three'] }).some(p => p.includes('backtick')));
+});
+
+// ---- the homepage strip, "Get a first result" ----
+
+const home = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
+const stripBlock = () => home.slice(home.indexOf('<!-- first-results:start -->') + '<!-- first-results:start -->'.length, home.indexOf('<!-- first-results:end -->')).trim();
+
+test('the homepage strip is exactly what the data gives (run npm run build:home after changing a first result)', () => {
+  assert.equal(stripBlock(), firstResultsHtml());
+});
+
+test('the strip comes right after the featured tools and lists the five tools: name, what you can finish, a link to its tool page', () => {
+  const at = s => home.indexOf(s);
+  assert.ok(at('id="featured-h"') < at('<h2 class="sec-h" id="frs-h">Get a first result</h2>') && at('id="frs-h"') < at('id="cats-h"'), 'after featured, before the categories');
+  assert.ok(home.indexOf('</section>', at('id="featured-h"')) < at('id="frs-h"'), 'its own section, not inside featured');
+  const items = [...stripBlock().matchAll(/<li><a class="frs" href="\/tool\/([a-z0-9-]+)\/#fr-h"><b>([^<]+)<\/b><span>([^<]+)<\/span><\/a><\/li>/g)];
+  assert.equal(items.length, 5);
+  for (const [, slug, name, finish] of items) {
+    const t = toolBySlug(slug);
+    assert.ok(t && t.name === name, slug);
+    assert.equal(finish.replace(/&#39;/g, "'").replace(/&amp;/g, '&'), t.facts.firstResult.canFinish, `${slug}: canFinish`);
+    assert.ok(renderTool(t).includes('id="fr-h"'), `${slug}: the link's target exists`);
+  }
+  assert.deepEqual(items.map(i => i[1]).sort(), [...SLUGS].sort());
+});
+
+test('the strip escapes names and text, and skips tools whose first result is missing or invalid', () => {
+  const base = withResult[0];
+  const evil = { ...base, name: '<b>x</b>', facts: { ...base.facts, firstResult: { ...base.facts.firstResult, canFinish: '<img src=x onerror=alert(1)>' } } };
+  const bad = { ...withResult[1], facts: { ...withResult[1].facts, firstResult: { ...withResult[1].facts.firstResult, label: 'tested-ish' } } };
+  const html = renderFirstResultStrip([evil, bad, TOOLS.find(t => !t.facts.firstResult)]);
+  assert.ok(!html.includes('<img') && html.includes('&lt;b&gt;x&lt;/b&gt;'));
+  assert.equal((html.match(/<li>/g) || []).length, 1, 'only the valid one');
+  assert.equal(toolsWithFirstResult(TOOLS).length, 5);
 });

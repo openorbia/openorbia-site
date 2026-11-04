@@ -137,6 +137,13 @@ img.logo{background:#fff}
 .ft-facts dt{color:var(--muted)}.ft-facts dd{margin:0;min-width:0}
 .ft-more{color:var(--blue-l);font-weight:600;font-size:14.5px;text-decoration:none;padding-block:6px}
 a.ft-more:hover{text-decoration:underline}
+.frs-sec{padding-block:4px 28px}
+.frs-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:10px}
+.frs{display:grid;gap:4px;align-content:start;height:100%;box-sizing:border-box;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);color:var(--ink);text-decoration:none;min-width:0}
+.frs:hover{border-color:rgba(143,166,255,.5);background:rgba(91,124,255,.08)}
+.frs b{font:700 17px/1.25 var(--display)}
+.frs b::after{content:" →";color:var(--blue-l)}
+.frs span{color:#c9d2ee;font-size:14.5px;overflow-wrap:anywhere}
 .ft-ask{text-decoration:none;color:var(--ink);background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08))}
 .ft-ask:hover{border-color:rgba(143,166,255,.5)}
 .how{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:32px}
@@ -320,6 +327,20 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
     <!-- featured:end -->
     <a class="ft ft-ask" href="/request/"><span class="k">Cannot see your task?</span><h3>Find my free setup</h3><p class="ft-task">Tell us what you need to get done. We look for a free tool that fits.</p><span class="ft-more">Ask us <span aria-hidden="true">→</span></span></a>
     </div>
+  </section>
+
+  <section class="frs-sec" id="first-results" aria-labelledby="frs-h">
+    <h2 class="sec-h" id="frs-h">Get a first result</h2>
+    <p class="sec-sub">One specific task you can finish for free with each tool, with the steps from its official docs.</p>
+    <ul class="frs-list">
+    <!-- first-results:start -->
+    <li><a class="frs" href="/tool/anythingllm/#fr-h"><b>AnythingLLM</b><span>Ask questions about one of your own documents and get answers from its text, using a model that runs on your computer.</span></a></li>
+    <li><a class="frs" href="/tool/meetily/#fr-h"><b>Meetily</b><span>Record a meeting on your own computer and get a transcript and an AI summary, with the audio never leaving your device.</span></a></li>
+    <li><a class="frs" href="/tool/jan/#fr-h"><b>Jan</b><span>Chat with an AI model that runs entirely on your computer, offline, with no account or API key.</span></a></li>
+    <li><a class="frs" href="/tool/resume-matcher/#fr-h"><b>Resume Matcher</b><span>Tailor your resume to one job description and export it as a PDF, using a local Ollama model so your resume stays on your computer.</span></a></li>
+    <li><a class="frs" href="/tool/garak/#fr-h"><b>garak</b><span>Scan a free model that runs on your computer (GPT-2 from Hugging Face) for the DAN 11.0 jailbreak and see its failure rate.</span></a></li>
+    <!-- first-results:end -->
+    </ul>
   </section>
 
   <section class="cats" aria-labelledby="cats-h">
