@@ -50,11 +50,11 @@ test('the services named are the ones the code calls: Cloudflare (hosting, Turns
   for (const s of ['Cloudflare hosts the site and its database', 'Turnstile spam check', 'Cloudflare Web Analytics counts page visits when it is turned on', 'Brevo sends the welcome and confirmation emails']) assert.ok(text.includes(s), s);
 });
 
-test('it says how to have data deleted, when it was last updated, and carries the review note for Khaja', () => {
+test('it says how to have data deleted and when it was last updated (the review note is gone: approved)', () => {
   assert.ok(html.includes(`<a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`) && text.includes('we will delete it'));
   assert.match(LAST_UPDATED, /^\d{4}-\d{2}-\d{2}$/);
   assert.match(text, /Last updated [A-Z][a-z]+ \d{1,2}, \d{4}\./);
-  assert.match(file('lib/privacy.js'), /REVIEW BEFORE MERGING: Khaja must read and approve this text/);
+  assert.ok(!/REVIEW BEFORE MERGING/.test(file('lib/privacy.js')), 'Khaja approved the text on 2026-11-04; the review note is gone');
 });
 
 // ---- "Find my free setup" ----
