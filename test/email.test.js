@@ -1,6 +1,8 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { welcomeEmail, sendWelcome, BREVO_URL, SENDER } from '../lib/email.js';
+import { welcomeEmail, sendWelcome, BREVO_URL, SENDER, EMAIL_ART } from '../lib/email.js';
+import { unsubscribeUrl } from '../lib/unsubscribe.js';
+import { existsSync } from 'node:fs';
 import { handleWaitlist } from '../functions/api/waitlist.js';
 import { createDb } from './helpers/d1.js';
 import { SITEVERIFY_URL } from '../lib/turnstile.js';
@@ -20,18 +22,48 @@ const brevo = (status = 201, { throws = false } = {}) => async (url, init) => {
 // Requests as the homepage sends them: from our own origin, with a Turnstile token in the JSON (none on the no-JS form)
 const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ turnstile: 'token-ok', ...body }) });
 const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://openorbia.com' }, body: new URLSearchParams(body).toString() });
-const FOOTER = "You're getting this because you joined the waitlist at openorbia.com. Reply to this email if it wasn't you.";
+test('the welcome email: subject, preview text, and every section in both the HTML and the plain text', () => {
+  const e = welcomeEmail('reader', { unsubscribeUrl: 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef' });
+  assert.equal(e.subject, 'You’re in. OpenOrbia launches Nov 23');
+  assert.equal(e.preview, 'Free AI tools, with the catch spelled out.');
+  assert.match(e.html, /<div style="display:none;[^"]*">Free AI tools, with the catch spelled out\./, 'the preview text is the first thing in the body');
+  for (const s of ['You’re on the list.', 'Launch Week 1 · Monday, Nov 23, 2026', 'What’s free', 'What it needs', 'The catch', 'What happens next',
+    'The week before Nov 23: the Launch Week 1 lineup.', 'After that: at most one email a week with new free tools.',
+    'Building a free AI tool?', 'Khaja, founder of OpenOrbia', 'P.S.']) {
+    assert.ok(e.html.includes(s), `html: ${s}`);
+    assert.ok(e.text.includes(s), `text: ${s}`);
+  }
+  assert.ok(e.html.includes('<a href="https://openorbia.com/" style="display:inline-block;padding:14px 28px;') && e.html.includes('>Browse the tools</a>'));
+  assert.ok(e.html.includes('<a href="https://openorbia.com/makers/"') && e.text.includes('https://openorbia.com/makers/'));
+  assert.ok(e.html.includes('<a href="https://openorbia.com/unsubscribe/?id=7&amp;t=0123456789abcdef0123456789abcdef"') && e.html.includes('>Unsubscribe</a>'));
+  assert.ok(e.text.includes('Unsubscribe: https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef'));
+});
 
-test('maker and reader emails say what was asked, with the footer', () => {
-  const m = welcomeEmail('maker');
-  assert.equal(m.subject, "You're on the OpenOrbia waitlist");
-  assert.ok(m.text.includes("You're on the OpenOrbia waitlist. Launch Week 1 is Monday, Nov 23, 2026."));
-  assert.ok(m.text.includes("Want to launch your tool? Here's how: https://openorbia.com/makers/"));
-  assert.ok(m.html.includes('<a href="https://openorbia.com/makers/">'));
-  const r = welcomeEmail('reader');
-  assert.ok(r.text.includes("You're on the list. We'll email you when Launch Week 1 goes live on Nov 23."));
-  assert.ok(!r.text.includes('/makers/'));
-  for (const e of [m, r]) { assert.ok(e.text.includes(FOOTER)); assert.ok(e.html.includes(FOOTER.replace(/'/g, '&#39;'))); }
+test('the welcome email is email-safe: tables and inline styles, system fonts, no scripts, a solid fallback under every colour effect', () => {
+  const { html } = welcomeEmail('reader');
+  assert.ok(!/<script|@import|fonts\.googleapis|<link /i.test(html), 'no scripts, no web fonts, no external CSS');
+  assert.ok(html.includes("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"));
+  assert.ok(html.includes('role="presentation"') && html.includes('width="600"'));
+  // the header: navy behind the hosted art, so it reads with images blocked
+  assert.ok(html.includes(`bgcolor="#0b1026" background="${EMAIL_ART}"`) && html.includes(`background:#0b1026 url('${EMAIL_ART}')`));
+  assert.ok(existsSync(new URL('../public/email/header.png', import.meta.url)), 'the art is published with the site');
+  // the line: solid purple, with the gradient on top where it is drawn
+  assert.ok(html.includes('bgcolor="#8b5cf6" style="height:4px;line-height:4px;font-size:0;background:#8b5cf6;background-image:linear-gradient(90deg,#8b5cf6,#22d3ee)"'));
+  assert.ok(html.includes('bgcolor="#6d28d9"'), 'the purple button');
+  // phones: the cards stack; dark mode: the body and cards change where the client honours it
+  assert.match(html, /@media \(max-width:620px\)\{[\s\S]*\.oo-card\{display:block!important;width:100%!important/);
+  assert.match(html, /@media \(prefers-color-scheme:dark\)\{[\s\S]*\.oo-body\{background:#11162e!important\}/);
+  assert.ok(html.includes('<meta name="color-scheme" content="light dark">'));
+  // three cards in one row, one cell each, so they share a height; the two spacers between them hide on phones
+  assert.equal((html.match(/<td class="oo-card oo-card-bg"/g) || []).length, 3);
+  assert.equal((html.match(/<td class="oo-gap"/g) || []).length, 2);
+  assert.match(html, /\.oo-gap\{display:none!important\}/);
+});
+
+test('without an unsubscribe link (no server secret) the email asks for a reply instead, and never shows a broken link', () => {
+  const e = welcomeEmail('maker');
+  assert.ok(e.text.includes('To unsubscribe, reply to this email.') && e.html.includes('To unsubscribe, reply to this email.'));
+  assert.ok(!e.html.includes('/unsubscribe/'));
 });
 
 test('a new signup sends one Brevo request: sender, reply-to, recipient, key in the header only', async () => {
@@ -45,13 +77,28 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
   assert.deepEqual(body.sender, { name: 'OpenOrbia', email: 'launch@openorbia.com' });
   assert.deepEqual(body.replyTo, { email: 'launch@openorbia.com' });
   assert.deepEqual(body.to, [{ email: 'new@example.com' }]);
-  assert.ok(body.textContent.includes('Launch Week 1 is Monday, Nov 23, 2026.'));
+  assert.equal(body.subject, 'You’re in. OpenOrbia launches Nov 23');
+  assert.ok(body.textContent.includes('You’re on the list.') && body.htmlContent.includes('You’re on the list.'));
   assert.ok(!init.body.includes(KEY), 'the key is never in the body');
 });
 
-test('readers get the reader text', async () => {
-  await handleWaitlist({ request: asJson({ email: 'r@example.com', role: 'reader' }), env, fetchImpl: brevo() });
-  assert.ok(calls[0].body.textContent.includes("We'll email you when Launch Week 1 goes live on Nov 23."));
+test('with the server secret, each welcome email carries its own unsubscribe link and the one-click List-Unsubscribe headers', async () => {
+  env.VOTE_SECRET = 'test-secret';
+  await handleWaitlist({ request: asJson({ email: 'a@example.com', role: 'reader' }), env, fetchImpl: brevo() });
+  await handleWaitlist({ request: asJson({ email: 'b@example.com', role: 'reader' }), env, fetchImpl: brevo() });
+  assert.equal(calls.length, 2);
+  const links = calls.map(c => c.body.headers['List-Unsubscribe'].slice(1, -1));
+  for (const [i, c] of calls.entries()) {
+    assert.match(links[i], /^https:\/\/openorbia\.com\/unsubscribe\/\?id=\d+&t=[0-9a-f]{32}$/);
+    assert.equal(c.body.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click');
+    assert.ok(c.body.textContent.includes(`Unsubscribe: ${links[i]}`));
+  }
+  assert.notEqual(links[0], links[1], 'every signup has its own link');
+  assert.equal(links[0], await unsubscribeUrl('test-secret', new URL(links[0]).searchParams.get('id')));
+});
+
+test('makers and readers get the same email, with the card that invites makers to launch', async () => {
+  for (const role of ['maker', 'reader']) assert.ok(welcomeEmail(role).html.includes('Launch it on OpenOrbia, free'), role);
 });
 
 test('the no-JS form path saves the signup and redirects, but sends no email (there is no Turnstile token without JavaScript)', async () => {

@@ -19,6 +19,7 @@ import { requestIsOurs } from "../../lib/origin.js";
 import { rateLimit } from "../../lib/ratelimit.js";
 import { visitor } from "../../lib/visitor.js";
 import { verifyTurnstile } from "../../lib/turnstile.js";
+import { unsubscribeUrl } from "../../lib/unsubscribe.js";
 
 // 5 signups an hour per visitor
 export const WAITLIST_LIMIT = { max: 5, windowSeconds: 3600 };
@@ -73,8 +74,8 @@ async function signup(body, request, env) {
     ).bind(email, role, tool, country).run();
 
     if (res.meta && res.meta.changes === 0) return MESSAGES.already;
-    // a new signup: tell the caller who to welcome (never sent for duplicates or bots)
-    return { ...(role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader), welcome: { to: email, role } };
+    // a new signup: tell the caller who to welcome (never sent for duplicates or bots), and which row, for its unsubscribe link
+    return { ...(role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader), welcome: { to: email, role, id: res.meta && res.meta.last_row_id } };
   } catch (e) {
     return MESSAGES.failed;
   }
@@ -107,7 +108,11 @@ export async function handleWaitlist({ request, env, waitUntil, fetchImpl, turns
   // Turnstile gets one. The check runs in the same background task, so the visitor's answer never waits for it.
   if (result.welcome) {
     const task = (async () => {
-      if (await passedTurnstile(body, env, turnstileFetch)) await sendWelcome({ apiKey: env.BREVO_API_KEY, ...result.welcome, fetchImpl });
+      if (!(await passedTurnstile(body, env, turnstileFetch))) return;
+      const { to, role, id } = result.welcome;
+      // this signup's own unsubscribe link (lib/unsubscribe.js); without the server secret the email asks for a reply instead
+      const unsub = typeof env.VOTE_SECRET === "string" && env.VOTE_SECRET && id ? await unsubscribeUrl(env.VOTE_SECRET, id) : "";
+      await sendWelcome({ apiKey: env.BREVO_API_KEY, to, role, unsubscribeUrl: unsub, fetchImpl });
     })();
     if (typeof waitUntil === "function") waitUntil(task); else await task;
   }
