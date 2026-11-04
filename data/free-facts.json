@@ -20,7 +20,35 @@
     "level": "basic",
     "confidence": "high",
     "category": "biz",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-10-30",
+    "firstResult": {
+      "canFinish": "Ask questions about one of your own documents and get answers from its text, using a model that runs on your computer.",
+      "needs": [
+        "Windows 10 or 11 (Home or Pro), macOS or Linux",
+        "16 GB RAM and an 8-core CPU recommended; a GPU speeds up local models on Windows",
+        "Disk space for the model you pick",
+        "No API key: the built-in engine downloads and runs the model locally",
+        "Internet to download the app and the model"
+      ],
+      "steps": [
+        "Download the AnythingLLM Desktop installer for your system and run it (on Windows, install for the current user only).",
+        "Open AnythingLLM and pick a model to download with the built-in provider; its progress shows in the top-right of the window.",
+        "In a workspace chat, drag your document into the chat window, or click the + icon in the prompt box.",
+        "Ask a question about the document."
+      ],
+      "expected": "The local model answers in the chat from your document's text, with source citations.",
+      "catch": "If a document doesn't fit the model's context window (16,384 tokens by default), AnythingLLM offers to embed it, and answers then use only the most relevant snippets.",
+      "label": "docs",
+      "sources": [
+        "https://docs.anythingllm.com/installation-desktop/overview",
+        "https://docs.anythingllm.com/installation-desktop/system-requirements",
+        "https://docs.anythingllm.com/installation-desktop/windows",
+        "https://docs.anythingllm.com/setup/llm-configuration/local/built-in",
+        "https://docs.anythingllm.com/chatting-with-documents/introduction",
+        "https://github.com/Mintplex-Labs/anything-llm#readme"
+      ],
+      "lastChecked": "2026-11-04"
+    }
   },
   {
     "repo": "ollama/ollama",
@@ -177,7 +205,28 @@
     "level": "basic",
     "confidence": "medium",
     "category": "biz",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-10-30",
+    "firstResult": {
+      "canFinish": "Record a meeting on your own computer and get a transcript and an AI summary, with the audio never leaving your device.",
+      "needs": [
+        "Windows on an x64 CPU with AVX2, or a Mac with Apple Silicon (on Linux you build it from source)",
+        "Ollama (free), the recommended local provider for summaries",
+        "Works offline: audio, transcripts and models are stored on your computer"
+      ],
+      "steps": [
+        "On Windows, download the latest x64-setup.exe from the GitHub Releases page and run it; on a Mac, open the .dmg and drag Meetily to Applications.",
+        "Install Ollama for local summaries.",
+        "Record a meeting: Meetily captures your microphone and system audio together and shows a live transcript.",
+        "Generate the summary with Ollama (local) chosen as the AI provider."
+      ],
+      "expected": "A transcript made on your device with Whisper or Parakeet, and a meeting summary written by your local Ollama model.",
+      "catch": "Speaker identification (who said what), PDF/DOCX export and custom summary templates are only in the paid PRO edition ($10 per user a month, billed annually).",
+      "label": "docs",
+      "sources": [
+        "https://github.com/Zackriya-Solutions/meetily#readme"
+      ],
+      "lastChecked": "2026-11-04"
+    }
   },
   {
     "repo": "gitroomhq/postiz-app",
@@ -332,7 +381,30 @@
     "level": "basic",
     "confidence": "medium",
     "category": "biz",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-10-30",
+    "firstResult": {
+      "canFinish": "Chat with an AI model that runs entirely on your computer, offline, with no account or API key.",
+      "needs": [
+        "Windows 10 or higher (x64 CPU with AVX2, or ARM64), macOS or Linux",
+        "On Windows: 8 GB RAM minimum (16 GB recommended) and 10 GB free disk space",
+        "No account and no API key",
+        "Internet for the install and the first model download; local models then run offline"
+      ],
+      "steps": [
+        "Download Jan for your system (Windows, macOS or Linux) and install it.",
+        "Launch Jan: it downloads its default model on first launch.",
+        "When the download completes, type a message and start chatting.",
+        "Optional: open the Hub in the left sidebar to download another model; each one shows whether it fits your hardware."
+      ],
+      "expected": "The default model answers in the chat, running on your computer, and your models, chats and settings stay in Jan's local data folder.",
+      "catch": "Local models must fit your hardware (the Hub shows which do); for the largest frontier models you connect a cloud provider with your own API key.",
+      "label": "docs",
+      "sources": [
+        "https://docs.jan.ai/desktop/quickstart",
+        "https://docs.jan.ai/desktop/install/windows"
+      ],
+      "lastChecked": "2026-11-04"
+    }
   },
   {
     "repo": "career-ops-hq/career-ops",
@@ -375,7 +447,31 @@
     "level": "basic",
     "confidence": "high",
     "category": "job",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-10-30",
+    "firstResult": {
+      "canFinish": "Tailor your resume to one job description and export it as a PDF, using a local Ollama model so your resume stays on your computer.",
+      "needs": [
+        "Docker (Docker Desktop on Windows and macOS)",
+        "Ollama (free) with a small model such as gemma3:4b",
+        "No account and no API key",
+        "Internet to download the image and the model"
+      ],
+      "steps": [
+        "Install Ollama from ollama.com and pull a model: ollama pull gemma3:4b",
+        "Start Resume Matcher: docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest",
+        "Open http://localhost:3000/settings, choose Ollama, set the Base URL to http://host.docker.internal:11434, save, and click Test Connection.",
+        "Back on the Dashboard, upload your master resume (PDF or DOCX).",
+        "Paste the job description, review the tailored content, and export it as a PDF."
+      ],
+      "expected": "A resume tailored to that job, an ATS score out of 100 with the missing keywords on the JD Match tab, and a text-based PDF.",
+      "catch": "Setup needs a terminal and Docker, and the app has no login: anyone who can reach it can read your resumes, so keep it on this computer only (the default).",
+      "label": "docs",
+      "sources": [
+        "https://github.com/srbhr/Resume-Matcher#readme",
+        "https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md"
+      ],
+      "lastChecked": "2026-11-04"
+    }
   },
   {
     "repo": "reactive-resume/reactive-resume",
@@ -677,7 +773,28 @@
     "level": "basic",
     "confidence": "high",
     "category": "sec",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-10-30",
+    "firstResult": {
+      "canFinish": "Scan a free model that runs on your computer (GPT-2 from Hugging Face) for the DAN 11.0 jailbreak and see its failure rate.",
+      "needs": [
+        "Python 3.11 to 3.14; garak is developed on Linux and macOS",
+        "A free Hugging Face model that runs locally, such as gpt2; no API key",
+        "Internet to install garak and download the model"
+      ],
+      "steps": [
+        "Install garak: python -m pip install -U garak",
+        "Run the scan: python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0",
+        "Wait for the progress bar: garak generates responses, then prints a result row for each detector.",
+        "For the details, open the .jsonl report garak names at the start and end of the run; errors go in garak.log."
+      ],
+      "expected": "A result row for each detector: responses with the unwanted behaviour are marked FAIL with a failure rate, and figures like 840/840 give the total generations and how many behaved OK.",
+      "catch": "This free path scans a model on your own computer; to scan a hosted chatbot or a commercial model you point garak at its REST endpoint or that provider's API, with its own key.",
+      "label": "docs",
+      "sources": [
+        "https://github.com/NVIDIA/garak#readme"
+      ],
+      "lastChecked": "2026-11-04"
+    }
   },
   {
     "repo": "promptfoo/promptfoo",
