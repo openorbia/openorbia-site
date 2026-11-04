@@ -34,7 +34,7 @@ test('the welcome email: subject, preview text, and every section in both the HT
     assert.ok(e.text.includes(s), `text: ${s}`);
   }
   assert.ok(e.html.includes('<a href="https://openorbia.com/" style="display:inline-block;padding:14px 28px;') && e.html.includes('>Browse the tools</a>'));
-  assert.ok(e.html.includes('<a href="https://openorbia.com/makers/"') && e.text.includes('https://openorbia.com/makers/'));
+  assert.ok(e.html.includes('<a href="https://openorbia.com/makers/"') && e.text.split(/\s+/).some(w => w === 'https://openorbia.com/makers/'));
   assert.ok(e.html.includes('<a href="https://openorbia.com/unsubscribe/?id=7&amp;t=0123456789abcdef0123456789abcdef"') && e.html.includes('>Unsubscribe</a>'));
   assert.ok(e.text.includes('Unsubscribe: https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef'));
 });
