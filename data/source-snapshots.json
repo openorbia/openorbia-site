@@ -1,0 +1,2168 @@
+{
+  "pages": {
+    "https://anythingllm.com": {
+      "tools": [
+        "AnythingLLM"
+      ],
+      "hash": "a7cf14a8f93ba5c2",
+      "pricing": [
+        "Download Free 67k+ Stars",
+        "$0.0M+",
+        "MIT Licensed. Open Source.",
+        "AnythingLLM is fully open-source and licensed for organizational use. Self-host a multi-user deployment on your own servers, or just use the desktop app. Either way, you don't rent your intelligence and your data is yours.",
+        "GitHub Self-host",
+        "Break free from rate-limits and token costs. Download AnythingLLM and get a privacy-focused, extensible, and capable AI agent running on your device in minutes.",
+        "Download AnythingLLM — Free"
+      ]
+    },
+    "https://api-docs.deepseek.com/quick_start/pricing": {
+      "tools": [
+        "MyResumo"
+      ],
+      "hash": "7cc351bbfd9592c8",
+      "pricing": [
+        "Models & Pricing",
+        "Model prices are listed in units of per 1M tokens. A token, the smallest unit of text that the model recognizes, can be a word, a number, or even a punctuation mark. We bill model usage based on the total number of input and output tokens by the model.",
+        "PRICING (2)",
+        "$0.003",
+        "$0.022",
+        "$0.006",
+        "$0.044",
+        "$0.15",
+        "$0.66",
+        "$0.3",
+        "$1.32",
+        "$0.6",
+        "$1.98",
+        "$1.2",
+        "$3.96",
+        "(1) Use deepseek-flash as the model name. The legacy names deepseek-v4-flash and deepseek-v4-flash-vision-exp are still accepted, but the corresponding models have been retired, their requests are served by the DeepSeek-V4.1-Flash-1017 model and billed at the Flash price.",
+        "Search & Fetch Pricing ​",
+        "Search and Fetch are standalone APIs billed per request.",
+        "Price",
+        "$0.75",
+        "See the Search & Fetch guide for API usage and complete billing rules.",
+        "For model usage, the expense = number of tokens × price. Search and Fetch are charged per successful request at the rates above.",
+        "Product prices may vary and DeepSeek reserves the right to adjust them. We recommend topping up based on your actual usage and regularly checking this page for the most recent pricing information.",
+        "Search & Fetch Pricing"
+      ]
+    },
+    "https://dify.ai/pricing": {
+      "tools": [
+        "Dify"
+      ],
+      "hash": "c8a9de96566ffc5f",
+      "pricing": [
+        "Products Solutions Docs Pricing Company",
+        "Pricing",
+        "Dify Enterprise Private deployment for enterprise teams",
+        "Community Edition Open-source, self-deploy with Docker",
+        "Plan for You",
+        "Prices exclude applicable taxes, which may be added at checkout.",
+        "Monthly Annually Bill Annually Save 17%",
+        "$590 per workspace / year",
+        "Quota on the number of documents imported from the Knowledge Data Source.",
+        "2,000 Annotation Quota Limits",
+        "$1590 per workspace / year",
+        "5,000 Annotation Quota Limits",
+        "Free",
+        "Start for Free",
+        "10 Annotation Quota Limits",
+        "Self-Hosted & Enterprise",
+        "Enterprise",
+        "Only Enterprise Includes:",
+        "Enterprise-grade Scalable Deployment Solutions",
+        "Commercial License Authorization",
+        "Exclusive Enterprise Features",
+        "Multiple Workspaces & Enterprise Management",
+        "For open-source enthusiasts, individual developers, and non-commercial projects.",
+        "Free Features:",
+        "Complies with Dify Open Source License",
+        "End User License Agreement"
+      ]
+    },
+    "https://docs.anythingllm.com/installation-desktop/system-requirements": {
+      "tools": [
+        "AnythingLLM"
+      ],
+      "hash": "e68deda866220eb8",
+      "pricing": [
+        "Managing Your Subscription",
+        "AnythingLLM Self-hosted"
+      ]
+    },
+    "https://docs.getinboxzero.com/hosting/environment-variables": {
+      "tools": [
+        "Inbox Zero"
+      ],
+      "hash": "b2c5337d912348cd",
+      "pricing": [
+        "Self-Hosting",
+        "Self-Hosting Setup CLI",
+        "Enterprise SSO and SCIM",
+        "Self-Hosting Environment Variables",
+        "Reference for self-hosting environment variables used in Inbox Zero",
+        "Reference for environment variables relevant to self-hosting Inbox Zero. Hosted-only billing, analytics, and internal operations variables are intentionally omitted unless they affect common self-hosted deployments.",
+        "Redis URL for subscriptions and the optional BullMQ worker",
+        "Ollama model name when configured separately from the selected LLM tier model",
+        "OpenAI-compatible model name when configured separately from the selected LLM tier model",
+        "Enables community CLI-backed LLM providers ( codex-cli , claude-code ). Self-host only; requires installing optional provider packages.",
+        "Comma-separated list of exact email addresses allowed to create new auth users. Useful for self-hosted or enterprise deployments that want to restrict sign-up.",
+        "Self-hosted login footer notice. When unset, the default login footer notice is shown. Set to none to hide the notice.",
+        "Bypass premium checks (recommended for self-hosting)",
+        "CLI LLM providers are experimental and depend on third-party community AI SDK provider packages that spawn local CLI tools. Review their source, pin exact versions, and only enable them on trusted self-hosted deployments."
+      ]
+    },
+    "https://docs.jan.ai/desktop": {
+      "tools": [
+        "Jan"
+      ],
+      "hash": "04204bb46067c000",
+      "pricing": [
+        "Jan is an open-source replacement for Claude and ChatGPT. It comes with built-in foundation models and an application ecosystem that runs entirely on your hardware, keeping your data private and giving you full ownership over your AI.",
+        "Open source : Apache 2.0 licensed, built in public.",
+        "The open-source community for contributions, bug reports, and improvements"
+      ]
+    },
+    "https://docs.jan.ai/desktop/install/windows": {
+      "tools": [
+        "Jan"
+      ],
+      "hash": "029e2c8fc13fa976",
+      "pricing": [
+        "Storage: 10GB free space minimum"
+      ]
+    },
+    "https://docs.jan.ai/desktop/remote-models/openai": {
+      "tools": [
+        "Jan"
+      ],
+      "hash": "5ce4a0fc901e948e",
+      "pricing": [
+        "Check if you have billing set up on your OpenAI account"
+      ]
+    },
+    "https://docs.n8n.io/hosting/community-edition-features/": {
+      "tools": [
+        "n8n"
+      ],
+      "hash": "98ebedf7929e59a7",
+      "pricing": [
+        "Every self-hosted installation runs on the same underlying product. You can stick with the free Community edition indefinitely, register for free to unlock extra features, or subscribe to a paid plan for a license key that unlocks that plan's features.",
+        "Community edition : the free edition. This is what n8n runs without a license key.",
+        "Registered Community edition : the free Community edition with extra features unlocked by registering your email. Still free.",
+        "Business and Enterprise plans: paid plans. Subscribing gives you a license key that unlocks the features for that plan.",
+        "Plan, edition, or license?",
+        "An edition is the variant of the self-hosted software you run: Community, Registered Community, Business, or Enterprise. A plan is the paid subscription tier you buy, for self-hosted or n8n Cloud . When you subscribe to a paid plan, you get a license key that unlocks the features for that plan. R...",
+        "The pricing page is the source of truth",
+        "Exact features per plan and edition can change. For the current breakdown, see the pricing page . This page explains what the plans and editions are and the main differences between them, not the full feature list.",
+        "These features are available on self-hosted Business and Enterprise plans. Some are also available on n8n Cloud. See pricing for the current breakdown.",
+        "Register your Community edition with your email to receive a free license key. It unlocks these features for the Community edition:",
+        "Select Settings and then Usage and plan .",
+        "Select Unlock to enter your email and then select Send me a free license key .",
+        "Once you have a license key, activate it by selecting the button in the license email, or by going to Options > Settings > Usage and plan and selecting Enter activation key .",
+        "Business and Enterprise plans",
+        "The Business and Enterprise plans unlock the paid features that the Community edition doesn't include, such as SSO, environments, external secrets, and log streaming. The Enterprise plan adds the most advanced features for security, scaling, and governance.",
+        "When you subscribe to a paid plan, you get a license key that unlocks the features for that plan. Add the key to your instance to activate it. For how to get and activate a key, see Manage your license . For the features included in each plan, see the pricing page .",
+        "Which plan or edition is right for you",
+        "Use the Community edition to self-host n8n for free with almost the complete feature set.",
+        "Register your Community edition (free) to also get folders, debug in editor, and custom execution data.",
+        "Subscribe to a Business or Enterprise plan when you need paid features like SSO, environments, projects, or external secrets. If you'd rather not manage infrastructure at all, consider n8n Cloud instead.",
+        "n8n community license",
+        "Sustainable use license"
+      ]
+    },
+    "https://docs.nvidia.com/nemo/guardrails/about-nemo-guardrails-library/supported-llms": {
+      "tools": [
+        "NeMo Guardrails"
+      ],
+      "hash": "8a7ff36a46c93dfd",
+      "pricing": []
+    },
+    "https://docs.ollama.com/faq": {
+      "tools": [
+        "Ollama"
+      ],
+      "hash": "f554ab5248b0fd77",
+      "pricing": [
+        "To unload the model and free up memory use:"
+      ]
+    },
+    "https://docs.openwebui.com/getting-started/quick-start/": {
+      "tools": [
+        "Open WebUI"
+      ],
+      "hash": "2b88ec4f924302ef",
+      "pricing": [
+        "Open WebUI for Enterprise",
+        "Open WebUI License",
+        "Kubernetes: Ideal for enterprise deployments requiring scaling and orchestration",
+        "This content is for informational purposes only and does not constitute a warranty, guarantee, or contractual commitment. Open WebUI is provided \"as is.\" See your license for applicable terms."
+      ]
+    },
+    "https://docs.postiz.com/self-host/providers/instagram.md": {
+      "tools": [
+        "Postiz"
+      ],
+      "hash": "848aea94cf4d28e3",
+      "pricing": []
+    },
+    "https://docs.postiz.com/self-host/providers/overview.md": {
+      "tools": [
+        "Postiz"
+      ],
+      "hash": "ceca1418d10c8562",
+      "pricing": [
+        "<Snippet file=\"audience/self-host-only.mdx\" />",
+        "| Skool | Session cookies, via the [browser extension](https://docs.postiz.com/self-host/configuration/chrome-extension.md) |",
+        "[Configuration reference](https://docs.postiz.com/self-host/configuration/reference.md)."
+      ]
+    },
+    "https://docs.rxresu.me/getting-started": {
+      "tools": [
+        "Reactive Resume"
+      ],
+      "hash": "84e443e699f3df64",
+      "pricing": [
+        "Free resume builder",
+        "Open-source resume builder",
+        "Self-hosted resume builder",
+        "Self-hosting",
+        "Self-hosting with Docker",
+        "Self-hosting with Kubernetes",
+        "Self-hosting on Vercel",
+        "Self-hosting on Hostinger",
+        "Self-hosting on Cloudflare",
+        "Self-hosting on your NAS",
+        "License",
+        "Reactive Resume is a free, open-source resume builder. Write resumes and cover letters, track job applications, and share or download your work.",
+        "Reactive Resume is a free and open-source resume builder. You write your resume on one side of the screen and see the finished page on the other, then download it as a PDF or share it with a link. There are no ads, no tracking and no paid tier.",
+        "Create your free account to build a resume and download it as PDF or Word.",
+        "Plan your next career move",
+        "The hosted version at rxresu.me . Create a free account and start writing. This is the",
+        "Your own copy. Reactive Resume is open source under the MIT license, so you or your organization can run it on",
+        "your own server with Docker. Self-hosted copies have the same features as the hosted version.",
+        "Self-host with Docker",
+        "Reactive Resume is kept free by donations. If it helps you, consider"
+      ]
+    },
+    "https://docs.rxresu.me/guides/using-the-assistant": {
+      "tools": [
+        "Reactive Resume"
+      ],
+      "hash": "66596eeb393a802f",
+      "pricing": [
+        "Free resume builder",
+        "Open-source resume builder",
+        "Self-hosted resume builder",
+        "Self-hosting",
+        "Self-hosting with Docker",
+        "Self-hosting with Kubernetes",
+        "Self-hosting on Vercel",
+        "Self-hosting on Hostinger",
+        "Self-hosting on Cloudflare",
+        "Self-hosting on your NAS",
+        "License",
+        "The sharing dialog can also ask permission for a direct OpenAI, Anthropic or Google Gemini connection to retry a rejected-key or exhausted-quota search with its own search service. This may add AI requests and charges. The exact-query card still needs your approval; the retry adds no document or ...",
+        "The conversation shows search/read progress, failures and retrieved Sources . Sources remain visible after reopening the conversation. A failed search keeps your conversation and does not silently switch paid providers.",
+        "Replies stream while the conversation is open. On instances without Redis (some self-hosted setups), a reply that’s"
+      ]
+    },
+    "https://github.com/0x4m4/hexstrike-ai#readme": {
+      "tools": [
+        "HexStrike AI"
+      ],
+      "hash": "070372e41b29f65c",
+      "pricing": [
+        "[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)",
+        "- **IDA Free** - Interactive disassembler with advanced analysis capabilities",
+        "## License",
+        "MIT License - see LICENSE file for details."
+      ]
+    },
+    "https://github.com/activepieces/activepieces#readme": {
+      "tools": [
+        "Activepieces"
+      ],
+      "hash": "385a1a1795830a74",
+      "pricing": [
+        "<a href=\"/LICENSE\" target=\"_blank\"><img src='https://img.shields.io/badge/license-MIT-green?style=for-the-badge' /></a>&nbsp;<img src='https://img.shields.io/github/commit-activity/w/activepieces/activepieces/main?style=for-the-badge' />&nbsp;<a href='https://discord.gg/2jUXBKDdP8'><img src='http...",
+        "An open source replacement for Zapier",
+        "- **🌐 Open Ecosystem:** All pieces are open source and available on npmjs.com, **60% of the pieces are contributed by the community**.",
+        "- **🛠️ Largest open source MCP toolkit**: All our pieces (280+) are available as MCP that you can use with LLMs on Claude Desktop, Cursor or Windsurf.",
+        "- **🏢 Enterprise-Ready**: Developers set up the tools, and anyone in the organization can use the no-code builder. Full customization from branding to control.",
+        "- **🔒 Secure by Design**: Self-hosted and network-gapped for maximum security and control over your data.",
+        "# License",
+        "Activepieces' Community Edition is released as open source under the [MIT license](https://github.com/activepieces/activepieces/blob/main/LICENSE) and enterprise features are released under [Commercial License](https://github.com/activepieces/activepieces/blob/main/packages/ee/LICENSE)",
+        "Read more about the feature comparison here https://www.activepieces.com/pricing"
+      ]
+    },
+    "https://github.com/ai-job-search-dev/ai-job-search#readme": {
+      "tools": [
+        "ai-job-search"
+      ],
+      "hash": "3fd7abc7e61357fd",
+      "pricing": [
+        "<a href=\"LICENSE\"><img src=\"https://img.shields.io/badge/license-MIT-2A9D8F?style=flat\" alt=\"MIT license\" height=\"20\"></a>",
+        "> This is an independent open-source project and is not affiliated with, endorsed by, sponsored by, or maintained by Anthropic. Anthropic and Claude Code are referenced only to describe the toolchain this workflow uses.",
+        "> This project has **no affiliated cryptocurrency, token, or paid sponsorship program**. Anything claiming otherwise is unauthorized and should be treated as a scam. The only ways to support the project are the Ko-fi link below and contributing on GitHub.",
+        "| **[Claude Code](https://claude.com/claude-code)** | The CLI. No free tier: a Claude Pro/Max/Team subscription or Anthropic API credits (pay-per-token, usually cheaper for occasional use). |",
+        "- **PDF text extraction.** `pypdf` is BSD-licensed and needs no Poppler. Poppler `pdftotext` remains a fallback (macOS: `brew install poppler`, Debian/Ubuntu: `apt install poppler-utils`, Windows: `choco install poppler`). If both are missing, the check degrades to a visual keyword review.",
+        "| `/upskill` | Maps your skill gaps and builds a learning plan |",
+        "- **`/upskill`** analyzes the gap between your profile, your tracked job postings, and your ranked-but-untracked postings (`/rank`'s recorded gaps in `job_scraper/seen_jobs.json`) — or a single posting via `/upskill <URL>`. Produces a prioritized heatmap of skill gaps and a learning plan with web...",
+        "- **`freehire-search`** — queries the [freehire.me](https://freehire.me) aggregator's public REST API (JSON, no API key). Tech-focused (software, data, engineering, DevOps, remote), multi-market via facet flags (`--region`, `--country`, `--remote`), and **zero runtime dependencies**. Unlike the H...",
+        "3. **Evaluation criteria** - deal-breakers and preferences in your profile are free-form, and the evaluation rubric scores against whatever you put there. \"Strong parental-leave terms\", \"minimum salary X per my union's scale\", \"no on-call\" - each is one profile line, no code, and it carries real ...",
+        "│ │ └── upskill/ # /upskill skill gap analysis and learning plan",
+        "## License"
+      ]
+    },
+    "https://github.com/AnalyticAce/myresumo#readme": {
+      "tools": [
+        "MyResumo"
+      ],
+      "hash": "bcadbb08759f2765",
+      "pricing": [
+        "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+        "- Create a free tier cluster",
+        "## 📜 License",
+        "This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details."
+      ]
+    },
+    "https://github.com/beenuar/AiSOC#readme": {
+      "tools": [
+        "AiSOC"
+      ],
+      "hash": "5242c4df3b1cfb7b",
+      "pricing": [
+        "**An open-source, self-hostable AI Security Operations Center.** It ingests your security telemetry, detects and correlates threats, investigates them with AI agents whose reasoning is fully auditable, and proposes responses a human approves.",
+        "[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg?style=flat-square)](https://opensource.org/licenses/MIT) [![Version](https://img.shields.io/badge/version-22.0.0-f59e0b?style=flat-square)](CHANGELOG.md) [![CI](https://img.shields.io/github/actions/workflow/status/beenuar/AiSOC...",
+        "Needs Docker Compose v2 with **8 GB memory and 20 GB free disk in the Docker VM**, plus `python3` (3.9+) and `bash`; `make doctor` checks all of it and [Installation](https://beenuar.github.io/AiSOC/docs/installation#requirements) says what each number was measured against. The first run download...",
+        "**A port already in use does not stop the install.** AiSOC publishes on a free one, names what held the",
+        "(management events, data events and VPC flow logs), a **GCP Pub/Sub** subscription on a Cloud Logging",
+        "its plan attached to the alert. An approval step is a durable pause: the run suspends to Postgres,",
+        "- **No vendor is touched without a human**, unless a tenant has explicitly granted autonomy for that verb. Every response step is graded against its own capability contract at dispatch, so approving a playbook never authorises whatever its steps happen to contain, and an approver must hold the re...",
+        "narrow a permission and never grant one. ([SSO](apps/docs/docs/operations/enterprise-sso.md) ·",
+        "## Funding · Roadmap · Contributing · License",
+        "Development is funded and supported by **[Cyble](https://cyble.com)**, who pay for the engineering time behind AiSOC and release it under the MIT licence rather than keeping it. That buys no special treatment here — no Cyble-only features, no gated modules, no telemetry. ([full credits](.github/C..."
+      ]
+    },
+    "https://github.com/berylliumsec/nebula/blob/main/docs/NEBULA3.md": {
+      "tools": [
+        "Nebula"
+      ],
+      "hash": "f0afe2e9ec14d1ac",
+      "pricing": [
+        "licenses, and update policy remains a release gate; the repository does not",
+        "individual-file quota. Terminal readiness and uploads do not recursively scan",
+        "folders for quota accounting, and execution has no periodic quota monitor."
+      ]
+    },
+    "https://github.com/berylliumsec/nebula/blob/main/LICENSE.md": {
+      "tools": [
+        "Nebula"
+      ],
+      "hash": "83eab258a2735f36",
+      "pricing": [
+        "BSD 2-Clause License"
+      ]
+    },
+    "https://github.com/berylliumsec/nebula#readme": {
+      "tools": [
+        "Nebula"
+      ],
+      "hash": "812a52cacc824f5a",
+      "pricing": [
+        "Voice pauses after 20 seconds of quiet by default; change this Core-wide timeout in Butler settings. Pausing ends the paid GPT-Live session, and **Resume Voice** starts a new one. Butler work already submitted continues in its saved chat."
+      ]
+    },
+    "https://github.com/career-ops-hq/career-ops/blob/main/docs/RUNNING_ON_A_BUDGET.md": {
+      "tools": [
+        "career-ops"
+      ],
+      "hash": "f20d385be26c74a2",
+      "pricing": [
+        "## 2. Pick Your Spend Tier",
+        "Before diving into CLI configuration, know that career-ops has a built-in knob for controlling evaluation cost: the `spend_tier` setting in [`config/profile.yml`](../config/profile.example.yml). It controls which model tier your CLI uses to evaluate offers — no provider setup required.",
+        "| Tier | Behaviour |",
+        "The **economy** tier is the high-volume scanning choice — it processes the most offers per dollar. On **standard** and **premium**, a pre-screen gate automatically trims batch spend by skipping obvious mismatches before the full evaluation runs.",
+        "The actual model behind each tier depends on your CLI. See the mapping table in [`modes/_shared.md`](../modes/_shared.md) for the full breakdown.",
+        "## 2b. Already Paying for a Subscription? Make Sure You Are Using It",
+        "If you pay for a plan (Claude Pro/Max, or the equivalent on another CLI) and you are *also* being charged per token, the usual cause is an API key sitting in your environment: **most CLIs prefer an explicit key over your logged-in subscription.** The tool cannot tell that you would rather spend t...",
+        "echo $ANTHROPIC_API_KEY # anything printed here is being billed per token",
+        "Inside Claude Code, `/status` reports the active login and shows an API-key row when a key is in use, and `/usage` shows plan usage on a subscription versus a session dollar cost on a key.",
+        "### Switch to the subscription",
+        "Even with the environment clean, `~/.claude/settings.json` can set `apiKeyHelper` — a script Claude Code runs to produce an API key on every request. When it is set, that key wins over your subscription login, so the steps above alone will not fix billing.",
+        "`batch/batch-runner.sh` drives `claude -p` workers by default, and the headless path does not use the interactive login. If you want batch runs on your subscription rather than on credits, generate a long-lived token once:",
+        "claude setup-token # requires an active Claude subscription",
+        "- **Plan limits are windows, not balances.** On a subscription you get rolling usage windows rather than a credit balance, so a heavy scan can pause you until the window resets. `spend_tier: economy` and the pre-screen gate above exist precisely to make high-volume days cheaper.",
+        "OpenCode is an open-source coding agent that easily routes to custom API providers (like DeepSeek, OpenRouter, Together AI) or local endpoints (Ollama).",
+        "\"model\": \"openrouter/nvidia/nemotron-3-ultra-550b-a55b:free\",",
+        "> that itself contains a slash reads `openrouter/vendor/model:free`). Scripts",
+        "Free model ids on OpenRouter rotate, and the one above will eventually stop",
+        "resolving. List what is currently free with:",
+        "| jq -r '.data[] | select(.id|endswith(\":free\")) | \"\\(.context_length)\\t\\(.id)\"' \\",
+        "| OpenRouter `:free` | Free tier | Easy setup. Subject to model availability and rate limits. |",
+        "| Model | Provider / Endpoint | Price per 1M Input / Output Tokens | Why use it |",
+        "| **DeepSeek V3** | DeepSeek API / OpenRouter | ~$0.14 / ~$0.28 | **Top Recommendation.** Unmatched reasoning-to-price ratio; performs close to frontier models at a fraction of the cost. |",
+        "| **DeepSeek-Coder-V2** | DeepSeek API / OpenRouter | ~$0.14 / ~$0.28 | Excellent instruction-following for structured Markdown and resume tailoring. |",
+        "| **Qwen-2.5-Coder (32B / 72B)** | OpenRouter / DeepInfra | ~$0.07 - ~$0.30 | Strong coding and structured reasoning, highly cost-effective. |",
+        "| **Gemini 2.5 Flash** | Google AI Studio | Free Tier (15 RPM) | Available via the standalone script `node gemini-eval.mjs`. Excellent for zero-cost low-volume runs, but subject to rate limits. |",
+        "| **Kimi K2.5** | Moonshot AI | API pricing applies | Verified with OpenCode using the Moonshot OpenAI-compatible endpoint. Produces structured Markdown suitable for Career-Ops evaluations. See the verified OpenCode recipe below. |",
+        "> NVIDIA NIM also works (hosted `https://integrate.api.nvidia.com/v1` or a self-hosted container's `/v1`), e.g. `--model meta/llama-3.3-70b-instruct`. The hosted free tier can queue for minutes, so raise `OPENAI_TIMEOUT_MS` above the 300s default.",
+        "Running a model 100% locally via Ollama is completely free, but it comes with significant tradeoffs:",
+        "- **API cost:** $0",
+        "If the run paused on a Claude session or usage limit, the offers that hit it are marked `paused_rate_limit`, and a plain run leaves them alone. Once the limit resets, re-run just those with `--resume-paused`, then run without it for the offers that had not started:",
+        "Evaluating many roles in one interactive session degrades the output well before the quota runs out. At 40+ evaluations in a single session, reports started mixing job titles and dates, and CV PDFs came out wrong. Cap an interactive session at about ten role evaluations, then `/clear` or start a ...",
+        "**Cost:** 0 tokens, $0.00.",
+        "- **Cost:** at DeepSeek V3 prices (~$0.14/1M input, ~$0.28/1M output), roughly **$0.003 per evaluation**. Still cheap, and cheap enough that the number below matters more than this one.",
+        "The figures above are for the standalone script. **If you paste a job URL into your CLI instead, the agent loads `AGENTS.md` (8,285) + `modes/_shared.md` (4,127) + `modes/oferta.md` (13,601) = about 26,000 tokens of instructions per evaluation**, before your CV, the job description, or any tool o...",
+        "- **One evaluation is not the risk; unbounded research is.** A single evaluation used to be able to fan out into dozens of subagents and burn tens of millions of tokens (issue #1235). The modes now cap web research at five queries and forbid spawning subagents for it, so an evaluation stays bound...",
+        "**Cost:** ~3,000 tokens (less than $0.001). This outputs a customized HTML file in the `output/` directory.",
+        "By routing the heaviest step (Evaluation) to a cheap OpenAI-compatible endpoint, a complete end-to-end job application cycle drops from ~$0.05 - $0.15 on frontier models to a fraction of a cent, allowing you to run bulk batch processing affordably.",
+        "## 8. Zero-Cost Paths (No Claude / Paid CLI Required)",
+        "Career-ops ships a full pipeline that runs **entirely on free models** — no Claude Code, no Anthropic API key, no paid CLI subscription. Everything below works out of the box after a one-time `.env` setup.",
+        "### Path A: OpenRouter Free Models (`or:*` scripts)",
+        "No Claude Code CLI required — uses OpenRouter free models with automatic fallback.",
+        "node openrouter-runner.mjs models # List available free models",
+        "3. Free API key: https://openrouter.ai",
+        "Point at **any** endpoint that speaks the OpenAI chat-completions API — NVIDIA NIM (free tier), Zhipu GLM, Together, Groq, LM Studio, llama.cpp, vLLM, or even Ollama's `/v1` route:",
+        "OPENAI_API_KEY=your_provider_key_here # some free endpoints need a key"
+      ]
+    },
+    "https://github.com/career-ops-hq/career-ops#readme": {
+      "tools": [
+        "career-ops"
+      ],
+      "hash": "eaf94df589f7cd5e",
+      "pricing": [
+        "<p align=\"center\">The open-source AI job search agent.</p>",
+        "<a href=\"https://vercel.com/open-source-program\"><img alt=\"Vercel OSS Program\" src=\"https://vercel.com/oss/program-badge-2026.svg\" height=\"32\"></a>",
+        "Paste one job you were about to apply to tonight. If it comes back <em>do not apply</em>, you just got the night back. If it comes back with a plan, you know what to do next.",
+        "<p align=\"center\"><sub>Open source. Local. In the AI CLI you already use. <a href=\"docs/RUNNING_ON_A_BUDGET.md\">Free and local models included.</a></sub></p>",
+        "career-ops is free for candidates, forever. These companies sponsor the project:",
+        "| **Interview Suite** | Time-blocked prep plans, practice sessions with feedback, post-interview debriefs ([`interview/`](modes/interview/README.md)), and a company red-flag detector ([`interview-redflag`](modes/interview-redflag.md)) |",
+        "See [docs/SETUP.md](docs/SETUP.md) for the full setup guide (including [scanning through an outbound proxy](docs/SETUP.md#scanning-through-an-outbound-proxy)), [docs/SUPPORTED_CLIS.md](docs/SUPPORTED_CLIS.md) for how to run career-ops in each supported CLI, and its headless command where it has o...",
+        "| `pipeline` | Work through the URLs waiting in the inbox (the standard and premium tiers may skip obvious mismatches) |",
+        "| [`interview/plan`](modes/interview/plan.md) | Time-blocked prep plan for an upcoming interview |",
+        "**Enterprise:** Salesforce, Twilio, Gong, Dialpad",
+        "<img src=\"https://img.shields.io/badge/License-MIT-blue.svg\" alt=\"MIT\">",
+        "## Also Open Source",
+        "career-ops ([career-ops.org](https://career-ops.org), also known as **careerops**) is an open-source AI job search that runs locally in your AI coding CLI (Claude Code, Codex, OpenCode and others) and leaves every decision to you. It evaluates job offers against your CV, generates ATS-tailored PD...",
+        "**Can I run career-ops for free, or on a cheaper / local model?**",
+        "Yes. career-ops is CLI-agnostic and runs on free and local models (OpenRouter free models, Ollama or any OpenAI-compatible endpoint), so you are not tied to a paid subscription. See [docs/RUNNING_ON_A_BUDGET.md](docs/RUNNING_ON_A_BUDGET.md) for the full setup.",
+        "Because an `ANTHROPIC_API_KEY` in your environment takes precedence over your logged-in subscription: the CLI uses the key and bills per token. Run `echo $ANTHROPIC_API_KEY`, and if it prints anything, remove it from your shell profile, restart the terminal and run `/login`. Batch mode is the exc...",
+        "**Is career-ops free and open source?**",
+        "Yes. career-ops is free and open source, and for the candidate it always will be. It is the first reference implementation of the [CareerOps Manifesto](https://career-ops.org/manifesto). Read it, and if it says what you believe, sign it.",
+        "My portfolio and other open source projects → [santifer.io](https://santifer.io)",
+        "**career-ops is a local, open-source tool, NOT a hosted service.** By using this software, you acknowledge:",
+        "See [LEGAL_DISCLAIMER.md](LEGAL_DISCLAIMER.md) for full details. This software is provided under the [MIT License](LICENSE) \"as is\", without warranty of any kind.",
+        "## License & Trademark",
+        "The code is licensed under [MIT](LICENSE). The \"career-ops\" name and"
+      ]
+    },
+    "https://github.com/DaKheera47/job-ops/blob/main/LICENSE": {
+      "tools": [
+        "JobOps"
+      ],
+      "hash": "2f7a8d69300717de",
+      "pricing": [
+        "“Commons Clause” License Condition v1.0",
+        "The Software is provided to you by the Licensor under the License, as defined",
+        "Without limiting other conditions in the License, the grant of rights under the",
+        "License will not include, and the License does not grant to you, the right to",
+        "granted to you under the License to provide to third parties, for a fee or",
+        "Software. Any license notice or attribution required by the License must also",
+        "include this Commons Clause License Condition notice.",
+        "License: GNU Affero General Public License v3.0",
+        "GNU AFFERO GENERAL PUBLIC LICENSE",
+        "Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>",
+        "of this license document, but changing it is not allowed.",
+        "The GNU Affero General Public License is a free, copyleft license for",
+        "The licenses for most software and other practical works are designed",
+        "our General Public Licenses are intended to guarantee your freedom to",
+        "share and change all versions of a program--to make sure it remains free",
+        "When we speak of free software, we are referring to freedom, not",
+        "price. Our General Public Licenses are designed to make sure that you",
+        "have the freedom to distribute copies of free software (and charge for",
+        "free programs, and that you know you can do these things.",
+        "Developers that use our General Public Licenses protect your rights",
+        "you this License which gives you legal permission to copy, distribute",
+        "incorporate. Many developers of free software are heartened and",
+        "The GNU General Public License permits making a modified version and",
+        "The GNU Affero General Public License is designed specifically to",
+        "An older license, called the Affero General Public License and",
+        "a different license, not a version of the Affero GPL, but Affero has",
+        "this license.",
+        "\"This License\" refers to version 3 of the GNU Affero General Public License.",
+        "\"The Program\" refers to any copyrightable work licensed under this",
+        "License. Each licensee is addressed as \"you\". \"Licensees\" and",
+        "work under this License, and how to view a copy of this License. If",
+        "System Libraries, or general-purpose tools or generally available free",
+        "All rights granted under this License are granted for the term of",
+        "conditions are met. This License explicitly affirms your unlimited",
+        "covered work is covered by this License only if the output, given its",
+        "content, constitutes a covered work. This License acknowledges your",
+        "convey, without conditions so long as your license otherwise remains",
+        "the terms of this License in conveying all material for which you do",
+        "is effected by exercising rights under this License with respect to",
+        "keep intact all notices stating that this License and any",
+        "recipients a copy of this License along with the Program.",
+        "You may charge any price or no price for each copy that you convey,",
+        "released under this License and any conditions added under section",
+        "c) You must license the entire work, as a whole, under this",
+        "License to anyone who comes into possession of a copy. This",
+        "License will therefore apply, along with any applicable section 7",
+        "regardless of how they are packaged. This License gives no",
+        "permission to license the work in any other way, but it does not",
+        "in an aggregate does not cause this License to apply to the other",
+        "machine-readable Corresponding Source under the terms of this License,",
+        "product that is covered by this License, on a durable physical",
+        "medium customarily used for software interchange, for a price no",
+        "License by making exceptions from one or more of its conditions.",
+        "be treated as though they were included in this License, to the extent",
+        "this License without regard to the additional permissions.",
+        "Notwithstanding any other provision of this License, for material you",
+        "that material) supplement the terms of this License with terms:",
+        "terms of sections 15 and 16 of this License; or",
+        "governed by this License along with a term that is a further",
+        "restriction, you may remove that term. If a license document contains",
+        "License, you may add to a covered work material governed by the terms",
+        "of that license document, provided that the further restriction does",
+        "form of a separately written license, or stated as exceptions;",
+        "provided under this License. Any attempt otherwise to propagate or",
+        "this License (including any patent licenses granted under the third",
+        "However, if you cease all violation of this License, then your",
+        "license from a particular copyright holder is reinstated (a)",
+        "finally terminates your license, and (b) permanently, if the copyright",
+        "Moreover, your license from a particular copyright holder is",
+        "received notice of violation of this License (for any work) from that",
+        "licenses of parties who have received copies or rights from you under",
+        "this License. If your rights have been terminated and not permanently",
+        "reinstated, you do not qualify to receive new licenses for the same",
+        "You are not required to accept this License in order to receive or",
+        "nothing other than this License grants you permission to propagate or",
+        "not accept this License. Therefore, by modifying or propagating a",
+        "covered work, you indicate your acceptance of this License to do so.",
+        "receives a license from the original licensors, to run, modify and",
+        "propagate that work, subject to this License. You are not responsible",
+        "for enforcing compliance by third parties with this License.",
+        "licenses to the work the party's predecessor in interest had or could",
+        "rights granted or affirmed under this License. For example, you may",
+        "not impose a license fee, royalty, or other charge for exercise of",
+        "rights granted under this License, and you may not initiate litigation",
+        "License of the Program or a work on which the Program is based. The",
+        "work thus licensed is called the contributor's \"contributor version\".",
+        "by this License, of making, using, or selling its contributor version,",
+        "this License.",
+        "Each contributor grants you a non-exclusive, worldwide, royalty-free",
+        "patent license under the contributor's essential patent claims, to",
+        "In the following three paragraphs, a \"patent license\" is any express",
+        "sue for patent infringement). To \"grant\" such a patent license to a",
+        "If you convey a covered work, knowingly relying on a patent license,",
+        "to copy, free of charge and under the terms of this License, through a",
+        "patent license for this particular work, or (3) arrange, in a manner",
+        "consistent with the requirements of this License, to extend the patent",
+        "license to downstream recipients. \"Knowingly relying\" means you have",
+        "actual knowledge that, but for the patent license, your conveying the",
+        "covered work, and grant a patent license to some of the parties",
+        "or convey a specific copy of the covered work, then the patent license",
+        "A patent license is \"discriminatory\" if it does not include within",
+        "specifically granted under this License. You may not convey a covered",
+        "patent license (a) in connection with copies of the covered work",
+        "or that patent license was granted, prior to 28 March 2007.",
+        "Nothing in this License shall be construed as excluding or limiting",
+        "any implied license or other defenses to infringement that may",
+        "otherwise) that contradict the conditions of this License, they do not",
+        "excuse you from the conditions of this License. If you cannot convey a",
+        "License and any other pertinent obligations, then as a consequence you may",
+        "License would be to refrain entirely from conveying the Program.",
+        "13. Remote Network Interaction; Use with the GNU General Public License.",
+        "Notwithstanding any other provision of this License, if you modify the",
+        "of the GNU General Public License that is incorporated pursuant to the",
+        "Notwithstanding any other provision of this License, you have",
+        "permission to link or combine any covered work with a work licensed",
+        "under version 3 of the GNU General Public License into a single",
+        "License will continue to apply to the part which is the covered work,",
+        "3 of the GNU General Public License.",
+        "14. Revised Versions of this License.",
+        "The Free Software Foundation may publish revised and/or new versions of",
+        "the GNU Affero General Public License from time to time. Such new versions",
+        "Public License \"or any later version\" applies to it, you have the",
+        "version or of any later version published by the Free Software",
+        "GNU Affero General Public License, you may choose any version ever published",
+        "by the Free Software Foundation.",
+        "versions of the GNU Affero General Public License can be used, that proxy's",
+        "Later license versions may give you additional or different",
+        "free software which everyone can redistribute and change under these terms.",
+        "This program is free software: you can redistribute it and/or modify",
+        "it under the terms of the GNU Affero General Public License as published",
+        "by the Free Software Foundation, either version 3 of the License, or",
+        "GNU Affero General Public License for more details.",
+        "You should have received a copy of the GNU Affero General Public License",
+        "along with this program. If not, see <https://www.gnu.org/licenses/>.",
+        "<https://www.gnu.org/licenses/>."
+      ]
+    },
+    "https://github.com/DaKheera47/job-ops#readme": {
+      "tools": [
+        "JobOps"
+      ],
+      "hash": "bdb3dc3e1ad98fd2",
+      "pricing": [
+        "Prefer a guided walkthrough? Follow the [Self-Hosting Guide](https://jobops.dakheera47.com/docs/getting-started/self-hosting).",
+        "- LiteLLM (self-hosted gateway to 100+ providers: Bedrock, Azure, Vertex AI, and more)",
+        "Don't want to self-host? JobOps Cloud gives you your own hosted instance with nothing to install.",
+        "| **Price** | £20/month | £30/month |",
+        "Hosted instances may enforce per-user monthly quotas for expensive actions",
+        "hosted quota is exhausted, the action is blocked with a clear API error; local",
+        "self-hosted/default mode is unaffected unless hosted quotas are explicitly",
+        "Self-hosted will always be free and open source.",
+        "- [Self-Hosting Guide](https://jobops.dakheera47.com/docs/getting-started/self-hosting)",
+        "Open-source tools and communities that make JobOps possible:",
+        "## License",
+        "You can self-host, use, and modify JobOps freely. You cannot sell the software itself or offer paid hosted services whose value substantially comes from JobOps. See [LICENSE](LICENSE)."
+      ]
+    },
+    "https://github.com/elie222/inbox-zero#readme": {
+      "tools": [
+        "Inbox Zero"
+      ],
+      "hash": "6a79dd8214af2fdf",
+      "pricing": [
+        "Organizes your inbox, pre-drafts replies, manages your calendar, and organizes attachments. Chat with it from Slack or Telegram to manage your inbox on the go. Open source alternative to Fyxer, but more customizable and secure. We also offer an email app, an open source alternative to Superhuman.",
+        "- **Web and desktop:** open source. The desktop app is Electron, in [`apps/desktop`](apps/desktop).",
+        "- **iOS:** a native Swift app, not open source yet. The [App Store app](https://www.getinboxzero.com/app) can connect to your own server URL if you self-host.",
+        "### Self-Hosting",
+        "The fastest way to self-host Inbox Zero is with the CLI:",
+        "For complete self-hosting instructions, production deployment, OAuth setup, and configuration options, see our **[Self-Hosting Docs](https://docs.getinboxzero.com/hosting/quick-start)**.",
+        "The command starts an isolated database, Redis and its HTTP endpoint, both mail-provider emulators, billing and email-delivery emulators, an LLM emulator, and Next.js. It applies migrations and waits for services to become ready. No OAuth credentials or AI API keys are required. AI responses are ..."
+      ]
+    },
+    "https://github.com/Forkfield/grillkit#readme": {
+      "tools": [
+        "GrillKit"
+      ],
+      "hash": "8814344a05cf144b",
+      "pricing": [
+        "[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)",
+        "Open-source AI technical interview trainer. Practice **theory Q&A**, **live coding**, or **both in one session** from curated YAML banks — with structured scoring, follow-ups, optional voice, and a local results history. Bring your own LLM (cloud or local).",
+        "| Interview flow | Free-form thread | Fixed session: theory Q&A and/or coding tasks, up to **2 AI follow-ups** per item, **1–5 scoring**, session summary |",
+        "| Where data lives | Vendor cloud | **Self-hosted**: SQLite + `data/` on your machine; use **Ollama**, vLLM, or any OpenAI-compatible API |",
+        "**Structured practice** — You pick tracks, difficulty, and topics; GrillKit builds a question plan and keeps score across the whole session, not a single ad-hoc prompt.",
+        "**Privacy and control** — Run via Docker on your laptop or server. API keys and interview history stay under `./data` (gitignored). No account or subscription required beyond your LLM provider (if you use a cloud model).",
+        "## License",
+        "[Apache License 2.0](LICENSE) (see also [NOTICE](NOTICE))"
+      ]
+    },
+    "https://github.com/gitroomhq/postiz-app#readme": {
+      "tools": [
+        "Postiz"
+      ],
+      "hash": "e8389eb3aa88ee3d",
+      "pricing": [
+        "<a href=\"https://opensource.org/license/agpl-v3\">",
+        "<img src=\"https://img.shields.io/badge/License-AGPL%203.0-blue.svg\" alt=\"License\">",
+        "Use Postiz Cloud for a fully managed experience, or deploy the open-source edition on your own infrastructure.",
+        "| [ChatbotX](https://chatbotx.io/?ref=postiz) | <img src=\"https://github.com/user-attachments/assets/0aa6b058-9a64-46d3-bc26-337abc51737d\" alt=\"ChatbotX\" width=\"500\"/> | The ManyChat alternative that you can self-host, white-label, and resell to your clients. Bring your own OpenClaw, Hermes, or C...",
+        "| [RapidProxy](https://www.rapidproxy.io/?ref=postiz) | <img width=\"700\" height=\"412\" alt=\"WP-PROXY-THUMBNAIL-41\" src=\"https://github.com/user-attachments/assets/6cf5b2c9-2687-4181-8964-2e7b90eace4f\" /> | RapidProxy provides 90M+ residential IPs for social media, browser automation, and AI workfl...",
+        "- Main repository: Get your logo with a backlink from the main Postiz repository. Postiz has over 7M downloads and 20k views per month.",
+        "## Postiz Cloud vs. Open-source",
+        "Choose [Postiz Cloud](https://postiz.com/) for a fully managed experience, or deploy Postiz Open-source on your own infrastructure. Both provide the same core Postiz product and features.",
+        "We do not \"gate\" features or limit the license.",
+        "| Area | Postiz Cloud | Postiz Open-source (self-hosted) |",
+        "| **Cost** | Subscription per plan, 7-day free trial | Free forever (AGPL-3.0); you pay only for your own infra |",
+        "| **Channels** | Limited by plan tier | Unlimited, every supported provider |",
+        "| **Posts per month** | Limited by plan tier | Unlimited |",
+        "| **Team members** | Limited by plan tier | Unlimited |",
+        "| **Internal & Global Plugs, RSS auto-post, customer groups** | Included per plan | Included |",
+        "| **Analytics** | Included per plan | Included (requires your own app credentials with analytics scopes) |",
+        "| **AI Copilot, AI images, AI videos** | Included with monthly quotas per plan; keys managed by Postiz | Available if you bring your own OpenAI (and other provider) API keys; no quota, you pay the provider |",
+        "| **AI video clipping** | Included with monthly clipping minutes per plan | Requires your own provider keys and extra configuration |",
+        "| **Smart Agent** | Included per plan | Available with your own LLM key |",
+        "| **Public API & webhooks** | Included per plan | Included |",
+        "| **Custom integrations** | Included per plan | Included; you can also modify the code and add providers |",
+        "| **Support** | Priority support via Discord / email per plan | Community support on Discord and GitHub |",
+        "- This GitHub repository contains the open-source, self-hosted edition of Postiz. Postiz is also available as Postiz Cloud, a fully managed service at postiz.com.",
+        "## License",
+        "This repository's source code is available under the [AGPL-3.0 license](LICENSE)."
+      ]
+    },
+    "https://github.com/GreyDGL/PentestGPT#readme": {
+      "tools": [
+        "PentestGPT"
+      ],
+      "hash": "4cda0120d00aedfa",
+      "pricing": [
+        "[![MIT License][license-shield]][license-url]",
+        "force a fresh login / rotate a token). Design + details: [`docs/docker-dev-plan.md`](docs/docker-dev-plan.md).",
+        "## License",
+        "Distributed under the MIT License. See `LICENSE.md` for more information.",
+        "[license-shield]: https://img.shields.io/github/license/GreyDGL/PentestGPT.svg?style=for-the-badge",
+        "[license-url]: https://github.com/GreyDGL/PentestGPT/blob/master/LICENSE.md"
+      ]
+    },
+    "https://github.com/Gsync/jobsync#readme": {
+      "tools": [
+        "JobSync"
+      ],
+      "hash": "1f9a5778b164431f",
+      "pricing": [
+        "<p align=\"center\"><strong>The self-hosted job search assistant with AI-powered resume review, job matching, and automated discovery</strong></p>",
+        "<a href=\"./LICENSE\"><img src=\"https://img.shields.io/github/license/Gsync/jobsync\" alt=\"License\"></a>",
+        "<img src=\"https://img.shields.io/badge/self--hosted-Docker-blue\" alt=\"Self-hosted with Docker\">",
+        "Track every application, get AI resume reviews and job matches, and discover new openings automatically — **free, open source, and your data never leaves your server.**",
+        "🔒 Self-hosted · 🤖 Local AI via Ollama or any cloud provider · 🔌 MCP server for Claude Desktop, Hermes, etc",
+        "- **Free forever:** no subscription and no paywalled tiers.",
+        "- **Private:** self-hosted, so your resumes and applications stay on your own server.",
+        "> **Self-hosting on a home network?** If your JobSync URL is a plain `http://` LAN address (not `localhost` or HTTPS), add `--allow-http` to the `mcp-remote` args — it refuses non-HTTPS URLs by default. The Settings page adds this flag automatically when it detects a non-localhost HTTP URL."
+      ]
+    },
+    "https://github.com/icereed/paperless-gpt#readme": {
+      "tools": [
+        "paperless-gpt"
+      ],
+      "hash": "ce2532d18892c150",
+      "pricing": [
+        "[![License](https://img.shields.io/github/license/icereed/paperless-gpt)](LICENSE)",
+        "> **☁️ Self-host it or have it hosted**",
+        "> paperless-gpt is free, open source and fully self-hostable. If you're in Germany, Austria or Switzerland and would rather not run it yourself, [server.camp](https://server.camp/product/paperless-ngx) offers managed paperless-ngx with paperless-gpt and shares part of that revenue with this proje...",
+        "- **Azure Document Intelligence**: Use Microsoft's enterprise OCR solution.",
+        "- **Docling Server**: Self-hosted OCR and document conversion service",
+        "- [Option 2: Self-Hosting](#option-2-self-hosting)",
+        "- [License](#license)",
+        "paperless-gpt is built to be self-hosted and remains free and open source.",
+        "server.camp follows a simple principle: when open source software creates value for their hosting business, the projects behind it should share in that value. A share of the revenue server.camp generates with paperless-gpt goes back to the paperless-gpt project and funds its continued development.",
+        "### Option 2: Self-Hosting",
+        "paperless-gpt is fully self-hostable and free under the MIT license. Everything below covers running it yourself with Docker Compose or a manual setup.",
+        "- Enterprise-grade OCR solution",
+        "- Enterprise-grade OCR/HTR solution",
+        "- Self-hosted OCR and document conversion service",
+        "- Users who prefer a self-hosted solution",
+        "| `AUTO_TAG_MAX_RETRIES` | How many times suggestion generation (title/tags/correspondent/document type) may fail for a document in the auto-tag poll before paperless-gpt gives up: the auto tag is removed and `FAIL_TAG` applied, so the document stops being retried (and re-billed) every cycle and ...",
+        "| `OCR_MAX_RETRIES` | How many times OCR processing may fail for a document before paperless-gpt gives up on it: the auto OCR tag is removed and `FAIL_TAG` applied, so the document stops being retried (and re-billed) every poll cycle. Counted in memory — a restart resets the count. Set to `0` to ...",
+        "Azure OpenAI and most other hosted or self-hosted gateways.",
+        "Billing Account Shipping Address: Contact FedEx Revenue Services",
+        "Total Charges .......................................................... USD $ 11.00",
+        "TOTAL THIS INVOICE .............................................. USD $ 11.00",
+        "USD $ 11.00",
+        "GitHub Sponsors is the way to support the project directly. If you're looking for managed paperless-gpt hosting in Germany, Austria or Switzerland anyway, choosing our Fair Hosting Partner [server.camp](https://server.camp/product/paperless-ngx) supports the project too: server.camp shares part o...",
+        "This project is fully open-source and will remain free to use.",
+        "## License",
+        "paperless-gpt is licensed under the [MIT License](LICENSE). Feel free to adapt and share!"
+      ]
+    },
+    "https://github.com/infiniflow/ragflow/blob/main/docs/guides/models/deploy_local_llm.mdx": {
+      "tools": [
+        "RAGFlow"
+      ],
+      "hash": "1d7c257667fa460e",
+      "pricing": [
+        "RAGFlow supports lightweight local inference with Ollama and GPU-accelerated serving with vLLM. This guide uses [MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B), a compact Apache-2.0-licensed chat model with Chinese and English support, for both deployment methods."
+      ]
+    },
+    "https://github.com/infiniflow/ragflow#readme": {
+      "tools": [
+        "RAGFlow"
+      ],
+      "hash": "3e0c3daf91ccd499",
+      "pricing": [
+        "<a href=\"https://github.com/infiniflow/ragflow/blob/main/LICENSE\">",
+        "<img height=\"21\" src=\"https://img.shields.io/badge/License-Apache--2.0-ffffff?labelColor=d4eaf7&color=2e6cc4\" alt=\"license\">",
+        "[RAGFlow](https://ragflow.io/) is a leading open-source Retrieval-Augmented Generation ([RAG](https://ragflow.io/basics/what-is-rag)) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs. It offers a streamlined RAG workflow adaptable to enterpris...",
+        "> In the RAGFlow open-source 1.0 release, DeepDoc uses CPU inference for layout analysis, OCR, and table recognition.",
+        "RAGFlow flourishes via open-source collaboration. In this spirit, we embrace diverse contributions from the community. If you would like to be a part, review our [Contribution Guidelines](https://ragflow.io/docs/dev/contributing) first."
+      ]
+    },
+    "https://github.com/ItzCrazyKns/Vane#readme": {
+      "tools": [
+        "Vane (ex-Perplexica)"
+      ],
+      "hash": "d1fc25d5b541a601",
+      "pricing": [
+        "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ItzCrazyKns/Vane/blob/master/LICENSE)",
+        "🧩 **Widgets** - Helpful UI cards that show up when relevant, like weather, calculations, stock prices, and other quick lookups.",
+        "Vane's development is powered by the generous support of our sponsors. Their contributions help keep this project free, open-source, and accessible to everyone.",
+        "If you have any questions or feedback, please feel free to reach out to us. You can create an issue on GitHub or join our Discord server. There, you can connect with other users, share your experiences and reviews, and receive more personalized help. [Click here](https://discord.gg/EFwsmQDgAu) to..."
+      ]
+    },
+    "https://github.com/IvanIsCoding/ResuLLMe/blob/main/src/pages/03_FAQ.py": {
+      "tools": [
+        "ResuLLMe"
+      ],
+      "hash": "81e4194922b32c36",
+      "pricing": [
+        "**Yes**, you can store your key in an environment variable. Use `OPENAI_API_KEY` for openAI, `GEMINI_API_KEY` for Google Gemini, and either for self-hosted. If the environment variable `OPENAI_API_KEY`/`GEMINI_API_KEY` is not defined, ResuLLMe will prompt the user for a key."
+      ]
+    },
+    "https://github.com/IvanIsCoding/ResuLLMe#readme": {
+      "tools": [
+        "ResuLLMe"
+      ],
+      "hash": "7ed4e875de5a8293",
+      "pricing": [
+        "# ResuLLMe [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://resullme.streamlit.app/) [![](https://img.shields.io/github/license/IvanIsCoding/ResuLLMe)](https://github.com/IvanIsCoding/ResuLLMe/blob/main/LICENSE) ![](https://img.shields.io/badge/co...",
+        "ResuLLMe is an open source project."
+      ]
+    },
+    "https://github.com/J3rry320/interview-coach#readme": {
+      "tools": [
+        "Interview Coach"
+      ],
+      "hash": "88e97db251b46494",
+      "pricing": [
+        "<a href=\"https://github.com/J3rry320/interview-coach/blob/main/LICENSE\"><img src=\"https://img.shields.io/npm/l/interview-coach?style=for-the-badge\" alt=\"npm license\"></a>",
+        "<img src=\"https://img.shields.io/badge/Open_Source-MIT-success?style=for-the-badge\" alt=\"Open Source\">",
+        "- [License](#license)",
+        "Most interview preparation tools are expensive, locked to a single AI provider, or rely on generic question banks. Interview Coach was built to provide a free, open-source alternative that lets you practice realistic interviews using the models you already trust, whether that's OpenAI, Anthropic,...",
+        "Use the LLM provider you prefer—including OpenAI, Anthropic, Groq, Ollama, or any OpenAI-compatible endpoint—without being tied to a single platform or subscription.",
+        "### 100% Telemetry-Free",
+        "### Enterprise & Administrators",
+        "Harnesses the browser-native `webkitSpeechRecognition` API. It allows you to click the microphone icon to dictate answers verbally with no heavy Python dependencies, audio binaries, or external paid voice APIs.",
+        "## License",
+        "This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details."
+      ]
+    },
+    "https://github.com/KeygraphHQ/shannon/blob/main/docs/ai-providers.md": {
+      "tools": [
+        "Shannon"
+      ],
+      "hash": "2c0d6e2583ca82d9",
+      "pricing": [
+        "A custom model configuration is a Pi `models.json` file that describes a model the harness catalogue does not carry: one a router or gateway serves under its own ID, or a local server (see [Local and self-hosted models](#local-and-self-hosted-models)). You pass it with `--models-config`, and Shan...",
+        "## Local and self-hosted models",
+        "## OpenAI Codex (ChatGPT Plus/Pro subscription)",
+        "A ChatGPT Plus or Pro Codex subscription can run Shannon. Shannon reuses a login created by Pi.",
+        "## xAI (Grok subscription)",
+        "An xAI subscription can run Shannon. Shannon reuses a login created by Pi.",
+        "## Claude Code subscription",
+        "The latest version of Shannon does not support Claude Code subscriptions. The [`shannon-v1`](https://github.com/KeygraphHQ/shannon/tree/shannon-v1) branch is the final release built on the Claude Agent SDK and supports Claude Code OAuth.",
+        "- **Credential validity** — one minimal request against the model the scan will use, so a rejected key, an exhausted quota, or a model the account cannot reach fails before any agent runs. Bedrock included: its bearer token and region go through the same probe.",
+        "## Migrating from the three-tier configuration"
+      ]
+    },
+    "https://github.com/KeygraphHQ/shannon#readme": {
+      "tools": [
+        "Shannon"
+      ],
+      "hash": "9bbf46d64375b714",
+      "pricing": [
+        "**This repository is Shannon: the full open-source agent, run locally from your command line.**",
+        "- [License](#license)",
+        "- [Can I self-host Shannon?](#can-i-self-host-shannon)",
+        "- [Can I run Shannon on a local or self-hosted model?](#can-i-run-shannon-on-a-local-or-self-hosted-model)",
+        "Shannon is the agent. This repository is Shannon, the open-source pentester you run yourself. The same Shannon also powers Keygraph's commercial editions, [Pro and Enterprise](https://keygraph.io/pricing). See [Editions](#editions) for how Shannon compares with Pro, Enterprise, and the Community ...",
+        "> **Prefer to use a subscription instead of API credits?**",
+        "> - **OpenAI Codex:** The latest version of Shannon supports ChatGPT Plus and Pro subscriptions. Follow the [OpenAI Codex subscription setup guide](docs/ai-providers.md#openai-codex-chatgpt-pluspro-subscription) to get started.",
+        "> - **xAI (Grok):** The latest version of Shannon supports xAI subscriptions. Follow the [xAI subscription setup guide](docs/ai-providers.md#xai-grok-subscription) to get started.",
+        "> - **Claude Code:** The latest version of Shannon does not support Claude Code subscriptions. Follow the [Claude Code subscription setup guide](docs/ai-providers.md#claude-code-subscription) to use version `1.9.0`, which is the final release built on the Claude Agent SDK.",
+        "| Edition | What it is | Price |",
+        "| **Shannon** (open source) | This repository. A complete autonomous pentester you run yourself, locally or in CI/CD, against an application whose source code you have. Well suited to individual developers and small teams. | Open source under AGPL-3.0. You pay only your own model costs. |",
+        "| **Community Program** | Keygraph Pro at no cost, for U.S.-based 501(c)(3) nonprofits and for seed or pre-Series-A startups with 20 or fewer active developers. | $0 in cloud service fees while you qualify. |",
+        "| **Pro** | Keygraph's cloud-hosted edition, managed by Keygraph, with every module included. | $50 per active developer per month. |",
+        "| **Enterprise** | Everything in Pro, self-hosted in your own environment or fully air-gapped. | Custom. |",
+        "See [keygraph.io/pricing](https://keygraph.io/pricing) for current prices and the full feature table.",
+        "**Pro**, **Enterprise**, and the **Community Program** are powered by an enhanced, enterprise-grade version of the Shannon engine, and all three add:",
+        "[Compare Shannon, Pro, and Enterprise in detail →](docs/keygraph-platform.md)",
+        "| [Pro and Enterprise](docs/keygraph-platform.md) | Shannon compared with Pro, Enterprise, and the Community Program: black-box pentesting, SCA and secrets, findings management, fix pull requests, retests, Jira, and deployment. |",
+        "- Shannon is tuned for fast, code-informed pentesting in everyday development and CI/CD. Exhaustive agentic SAST, broader scanner coverage, centralized governance, and full-lifecycle vulnerability management are delivered through Pro, Enterprise, and the Community Program.",
+        "- A full run can take roughly 1 to 1.5 hours and may incur LLM API costs depending on model pricing and application complexity.",
+        "## License",
+        "Shannon is licensed under the [GNU Affero General Public License v3.0](LICENSE).",
+        "Commercial and enterprise licensing is available for organizations that need different license terms, commercial support, private redistribution, managed-service use, or broader deployment options, including Keygraph Pro and Enterprise.",
+        "**Keygraph** is the company behind Shannon. It also builds **Keygraph Pro** and **Keygraph Enterprise**, the commercial editions that close the full AppSec lifecycle and run an enhanced build of Shannon as their pentesting engine.",
+        "### Can I self-host Shannon?",
+        "Yes, always. You provide the LLM credentials Shannon uses to run a pentest, in every deployment, open source and commercial. Keygraph never proxies your model traffic.",
+        "Anthropic, OpenAI, xAI, and AWS Bedrock are built in and configured directly by provider ID. Beyond those, Shannon runs on any provider in the Pi harness catalogue, named the same `<provider>:<model-id>` way. Any provider can be pointed at a proxy or LLM gateway through a custom base URL, which o...",
+        "### Can I run Shannon on a local or self-hosted model?",
+        "Shannon works with local models served through Ollama, vLLM, or LM Studio, which expose an OpenAI-compatible endpoint, as well as routers such as OpenRouter and LLM gateways such as LiteLLM. A model the harness catalogue does not carry, which most self-hosted models are, is described in a [custom..."
+      ]
+    },
+    "https://github.com/Khaja-syed-786/soc-range/blob/main/docs/ai-copilot.md": {
+      "tools": [
+        "SOC Range"
+      ],
+      "hash": "ddf922f4841034e4",
+      "pricing": []
+    },
+    "https://github.com/Khaja-syed-786/soc-range#readme": {
+      "tools": [
+        "SOC Range"
+      ],
+      "hash": "43f2d11f520102f6",
+      "pricing": [
+        "A free SOC simulator for aspiring analysts and students: triage simulated alerts in your browser, with nothing to install (a free GitHub account is needed for the Codespaces demo).",
+        "## License",
+        "[MIT](LICENSE). This is a personal learning and portfolio project. All data is simulated."
+      ]
+    },
+    "https://github.com/langgenius/dify/blob/main/LICENSE": {
+      "tools": [
+        "Dify"
+      ],
+      "hash": "b475975fe6a832c2",
+      "pricing": [
+        "# Open Source License",
+        "Dify is licensed under a modified version of the Apache License 2.0, with the following additional conditions:",
+        "1. Dify may be utilized commercially, including as a backend service for other applications or as an application development platform for enterprises. Should the conditions below be met, a commercial license must be obtained from the producer:",
+        "- Frontend Definition: For the purposes of this license, the \"frontend\" of Dify includes all components located in the `web/` directory when running Dify from the raw source code, or the \"web\" image when running Dify with Docker.",
+        "a. The producer can adjust the open-source agreement to be more strict or relaxed as deemed necessary.",
+        "Apart from the specific conditions mentioned above, all other rights and restrictions follow the Apache License 2.0. Detailed information about the Apache License 2.0 can be found at http://www.apache.org/licenses/LICENSE-2.0."
+      ]
+    },
+    "https://github.com/langgenius/dify#readme": {
+      "tools": [
+        "Dify"
+      ],
+      "hash": "d6fba8bb6459c1c1",
+      "pricing": [
+        "<a href=\"https://docs.dify.ai/getting-started/install-self-hosted\">Self-hosting</a> ·",
+        "<a href=\"https://dify.ai/pricing\">Dify edition overview</a>",
+        "<a href=\"https://dify.ai/pricing\" target=\"_blank\">",
+        "<img alt=\"Static Badge\" src=\"https://img.shields.io/badge/free-pricing?logo=free&color=%20%23155EEF&label=pricing&labelColor=%20%23528bff\"></a>",
+        "Dify is an open-source LLM app development platform. Its intuitive interface combines AI workflow, RAG pipeline, agent capabilities, model management, observability features (including [Opik](https://www.comet.com/docs/opik/integrations/dify), [Langfuse](https://docs.langfuse.com), and [Arize Pho...",
+        "Please refer to our [FAQ](https://docs.dify.ai/getting-started/install-self-hosted/faqs) if you encounter problems setting up Dify. Reach out to [the community and us](#community--contact) if you are still having issues.",
+        "> If you'd like to contribute to Dify or do additional development, refer to our [guide to deploying from source code](https://docs.dify.ai/getting-started/install-self-hosted/local-source-code)",
+        "Seamless integration with hundreds of proprietary / open-source LLMs from dozens of inference providers and self-hosted solutions, covering GPT, Mistral, Llama3, and any OpenAI API-compatible models. A full list of supported model providers can be found [here](https://docs.dify.ai/getting-started...",
+        "We host [Dify Cloud](https://cloud.dify.ai) so you can try Dify without managing a server. See the [pricing page](https://dify.ai/pricing) for current plans and usage allowances. If you run into issues, [contact our Cloud support team](mailto:cloud@dify.ai?subject=%5BGitHub%5DDify%20Cloud%20Suppo...",
+        "- **Self-hosting Dify Community Edition<br/>**",
+        "- **[Dify Enterprise](https://dify.ai/dify-enterprise)<br/>**",
+        "For organizations requiring self-hosting, SSO, RBAC Security and Enterprise Support SLAs, please fill out [this form](https://share-na2.hsforms.com/14-09ff5HS92Sh4m3f4yrcw40s9fk) to speak to a solution representative. <br/>",
+        "## License",
+        "This repository is licensed under the [Dify Open Source License](LICENSE), based on Apache 2.0 with additional conditions."
+      ]
+    },
+    "https://github.com/LibreChat-AI/LibreChat/blob/main/LICENSE": {
+      "tools": [
+        "LibreChat"
+      ],
+      "hash": "876515fcfcc4b206",
+      "pricing": [
+        "MIT License",
+        "Permission is hereby granted, free of charge, to any person obtaining a copy"
+      ]
+    },
+    "https://github.com/LibreChat-AI/LibreChat#readme": {
+      "tools": [
+        "LibreChat"
+      ],
+      "hash": "22cc47408ed3ba58",
+      "pricing": [
+        "- Open-Source & Self-Hostable: powered by [ClickHouse/code-interpreter](https://github.com/ClickHouse/code-interpreter)",
+        "- Chat hands-free with Speech-to-Text and Text-to-Speech",
+        "- 📖 **Open-Source & Community**:",
+        "- Completely Open-Source & Built in Public",
+        "LibreChat is a self-hosted AI chat platform that unifies all major AI providers in a single, privacy-focused interface.",
+        "Beyond chat, LibreChat provides AI Agents, Model Context Protocol (MCP) support, Artifacts, Code Interpreter, custom actions, conversation search, and enterprise-ready multi-user authentication.",
+        "Open source, actively developed, and built for anyone who values control over their AI infrastructure.",
+        "<img style=\"width: 260px; height: 56px\" src=\"https://runacap.com/wp-content/uploads/2024/04/ROSS_badge_white_Q1_2024.svg\" alt=\"ROSS Index - Fastest Growing Open-Source Startups in Q1 2024 | Runa Capital\" width=\"260\" height=\"56\"/>"
+      ]
+    },
+    "https://github.com/mayank-glitch-cpu/JobSync-Service#readme": {
+      "tools": [
+        "JobSync-Service"
+      ],
+      "hash": "7ac3784db3aae7c1",
+      "pricing": [
+        "*(Don't have an account? Use https://airtable.com/invite/r/ONu6zRuH for free credits)*",
+        "## License"
+      ]
+    },
+    "https://github.com/meta-llama/PurpleLlama/blob/main/CybersecurityBenchmarks/README.md": {
+      "tools": [
+        "PurpleLlama"
+      ],
+      "hash": "363f8135ceb779df",
+      "pricing": [
+        "### How to run benchmarks for self hosted models",
+        "This repository includes prebuilt components from third-party sources to simplify installation. Please be aware that these components may have their own licensing agreements which you should assess your ability to comply with and are separate from this repository's license."
+      ]
+    },
+    "https://github.com/meta-llama/PurpleLlama#readme": {
+      "tools": [
+        "PurpleLlama"
+      ],
+      "hash": "dc1151b1f4a250b2",
+      "pricing": [
+        "Input/Output safeguards but we plan to contribute more in the near future.",
+        "## License",
+        "Components within the Purple Llama project will be licensed permissively enabling both research and commercial usage.",
+        "More concretely evals and benchmarks are licensed under the MIT license while any models use the corresponding Llama Community license. See the table below:",
+        "| **Component Type** | **Components** | **License** |",
+        "| Safeguard | Llama Guard | [Llama 2 Community License](https://github.com/facebookresearch/PurpleLlama/blob/main/LICENSE) |",
+        "| Safeguard | Llama Guard 2 | [Llama 3 Community License](https://github.com/meta-llama/llama3/blob/main/LICENSE) |",
+        "| Safeguard | Llama Guard 3-8B | [Llama 3.2 Community License](LICENSE) |",
+        "| Safeguard | Llama Guard 3-1B | [Llama 3.2 Community License](LICENSE) |",
+        "| Safeguard | Llama Guard 3-11B-vision | [Llama 3.2 Community License](LICENSE) |",
+        "| Safeguard | Prompt Guard | [Llama 3.2 Community License](LICENSE) |"
+      ]
+    },
+    "https://github.com/microsoft/PyRIT/blob/main/LICENSE": {
+      "tools": [
+        "PyRIT"
+      ],
+      "hash": "e43b31a8634c5814",
+      "pricing": [
+        "MIT License",
+        "Permission is hereby granted, free of charge, to any person obtaining a copy"
+      ]
+    },
+    "https://github.com/microsoft/PyRIT#readme": {
+      "tools": [
+        "PyRIT"
+      ],
+      "hash": "682cb5ff129f2e43",
+      "pricing": [
+        "PyRIT (Python Risk Identification Tool for generative AI) is an open-source toolkit",
+        "Built by the Microsoft AI Red Team and an open-source community of contributors,",
+        "Read [PyRIT: Democratizing AI Red Teaming Through Open-Source Tooling](https://commandline.microsoft.com/wp-content/uploads/2026/08/PyRIT_Whitepaper_2026.pdf)"
+      ]
+    },
+    "https://github.com/Mintplex-Labs/anything-llm#readme": {
+      "tools": [
+        "AnythingLLM"
+      ],
+      "hash": "bbebd4f775057606",
+      "pricing": [
+        "<a href=\"https://github.com/Mintplex-Labs/anything-llm/blob/master/LICENSE\" target=\"_blank\">",
+        "<img src=\"https://img.shields.io/static/v1?label=license&message=MIT&color=white\" alt=\"License\">",
+        "📱 AnythingLLM Mobile (Android) is open source! <a href=\"https://github.com/Mintplex-Labs/anythingllm-mobile\" target=\"_blank\">View the repo</a>",
+        "AnythingLLM supports multiple users as well where you can control the access and experience per user without compromising the security or privacy of the instance or your intellectual property.",
+        "- [Multi-modal support (both closed and open-source LLMs!)](https://docs.anythingllm.com/features/language-models)",
+        "- Works with all popular [closed and open-source LLM providers](#supported-llms-embedder-models-speech-models-and-vector-databases).",
+        "- [Any open-source llama.cpp compatible model](/server/storage/models/README.md#text-generation-llm-selection)",
+        "## 🛳 Self-Hosting",
+        "You can verify these claims by finding all locations `Telemetry.sendTelemetry` is called. Additionally these events are written to the output log so you can also see the specific data which was sent - if enabled. **No IP or other identifying information is collected**. The Telemetry provider is [...",
+        "premium-sponsors (reserved for $100/mth sponsors who request to be called out here and/or are non-private sponsors) -->",
+        "- **[AnythingLLM Mobile (Open-Source Licensed)][anythingllm-mobile]:** The same AnythingLLM on-device expierence, but on your phone.",
+        "This project is [MIT](./LICENSE) licensed.",
+        "[elestio-deploy]: https://elest.io/open-source/anythingllm"
+      ]
+    },
+    "https://github.com/n8n-io/n8n#readme": {
+      "tools": [
+        "n8n"
+      ],
+      "hash": "7545a013d6d515a9",
+      "pricing": [
+        "Fair-code platform to build and deploy AI agents and workflows. Combine a visual canvas with custom code, run it self-hosted or in the [cloud](https://app.n8n.cloud/login), and connect to 1500+ integrations. AI automation you can trust with real work, from prototype to production.",
+        "- **Model Flexibility, No Lock-In**: Connect to OpenAI, Anthropic, Google, or open-source models and switch providers without changing your architecture",
+        "- **Enterprise-Ready AI**: Self-host or deploy securely with role-based access, audit trails, and support for sensitive data",
+        "## License",
+        "n8n is [fair-code](https://faircode.io) distributed under the [Sustainable Use License](https://github.com/n8n-io/n8n/blob/master/LICENSE.md) and [n8n Enterprise License](https://github.com/n8n-io/n8n/blob/master/LICENSE_EE.md).",
+        "[Enterprise Licenses](mailto:license@n8n.io) available for additional features and support.",
+        "Additional information about the license model can be found in the [docs](https://docs.n8n.io/sustainable-use-license/).",
+        "**Long answer:** \"I get that question quite often (more often than I expected) so I decided it is probably best to answer it here. While looking for a good name for the project with a free domain I realized very quickly that all the good ones I could think of were already taken. So, in the end, I..."
+      ]
+    },
+    "https://github.com/ngoanpv/DeepInterview/blob/main/docs/LOCAL_MODELS.md": {
+      "tools": [
+        "DeepInterview"
+      ],
+      "hash": "e17fe83bcdd0ad42",
+      "pricing": [
+        "> - point `LIVEKIT_URL` at LiveKit Cloud (free tier is enough for self-hosting), or",
+        "interview plan about a candidate the model never actually read. This is the",
+        "grounded question plan (see \"What we verified\" below). Smaller models tend to",
+        "fail the JSON contract, which lands you on the generic fallback plan. If you have",
+        "### Two model tiers: prep and live",
+        "mid-sentence, and quality shows up directly in the question plan — this is",
+        "**Blank is the default, and that is deliberate.** Unlike a cloud tier, the live",
+        "- **Prep → question plan on the local LLM: 121s.** Six questions, difficulty",
+        "zero degraded stages and no fallback to the generic plan.",
+        "| Interview asks one question titled **\"mock\"** | the model's JSON didn't parse, so the planner fell back | check the agent log for `question_planner failed, using minimal generic plan`; try a larger model |",
+        "| A plausible plan that mentions **nothing from your CV** | context window truncated the prompt | set `OLLAMA_CONTEXT_LENGTH=16384` |",
+        "That path has its own failure modes worth reading before you debug them — free",
+        "*before* the JSON the prep pipeline parses, which degrades the question plan to a"
+      ]
+    },
+    "https://github.com/ngoanpv/DeepInterview#readme": {
+      "tools": [
+        "DeepInterview"
+      ],
+      "hash": "416dc546382fb014",
+      "pricing": [
+        "### Practice the interview out loud. Then pass the real one. · Multi-agent · Open source",
+        "[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-4338CA.svg)](LICENSE)",
+        "**UI in English + Tiếng Việt · voice interviews in 7 languages incl. Vietnamese (more as packs land) · no sign-in required to self-host**",
+        "DeepInterview closes the **prep ⇄ interview ⇄ feedback** loop: heavy reasoning runs *before* the call (read your CV + the JD, research the company, build an adaptive question plan), a lean real-time voice loop runs the interview, then strong models score it and route you into a study coach for yo...",
+        "> **No sign-in required.** The OSS self-host runs **anonymously** — setup, the live interview, and the report all work with **no account and no login**. (The report reads directly from the agent API.) Supabase auth + billing are a **hosted-only** layer; you don't need them to run the loop yourself.",
+        "> **Status (verified July 2026, Docker 29 / Compose v5):** all images build and the three base services come up **healthy with zero keys** — the agent runs the full prep → plan → score loop on mock adapters, and http://localhost:3000 works offline.",
+        "- **Prepared like a real interviewer** — before the call it reads your CV + the JD, researches the company, and precomputes a personalized question plan with rubrics; the live loop stays fast because the thinking already happened.",
+        "- **Personalized prep** — a LangGraph pipeline reads your CV + the JD, researches the target company, diffs the gap, and a **Question Planner** precomputes the plan, difficulty curve, rubrics, and seeded follow-ups — so the live loop stays fast. Uploaded **CV documents (PDF/DOCX) are parsed to te...",
+        "- **Prep Coach** *(in progress)* — turns your gaps into an LLM study loop (plan → drills → Socratic chat). Grounded + cited answers are **optional**: set `LIGHTRAG_URL` (or wire a managed RAG behind the same adapter) to ground responses in your own uploaded materials; by default the coach answers...",
+        "| **LLM** | `LLM_PROVIDER` | **Gemini live tier** (default) · OpenAI | **`ollama`** — e.g. Qwen3 | mock adapter |",
+        "question plan in ~2 minutes, then a **live voice interview with a real",
+        "> - **[2026.07]** **The open-source build is fully uncapped — billing removed.** Self-host with your own keys: no plan gates, no interview caps, no billing tables. Payments live only in the hosted edition; the OSS schema got leaner.",
+        "Current release: **[v0.3.0](https://github.com/ngoanpv/DeepInterview/releases/tag/v0.3.0)** (2026-08-02) — a fully local model path (Ollama + Whisper + Kokoro) so an interview needs no model keys at all, on top of the v0.2.0 loop: prep → live voice interview → scoring → coach verified on real pro...",
+        "| Edition | What you get | Auth & billing | Status |",
+        "| **Self-host (Apache 2.0)** | The whole platform, your keys, your data. Runs **anonymously** — no sign-in. | None required | ✅ Available now (this repo) |",
+        "| **Cloud (hosted)** | Managed hosting with accounts + plan tiers, so you skip the ops. | Supabase auth + billing | 🟡 Planned (pre-launch) |",
+        "> The **auth + billing layer is hosted-only** — the open-source self-host runs the full prep → interview → report → coach loop without any account.",
+        "license = {Apache-2.0},",
+        "**License:** [Apache-2.0](LICENSE) · Built in the open"
+      ]
+    },
+    "https://github.com/NVIDIA-NeMo/Guardrails/blob/develop/docs/telemetry.mdx": {
+      "tools": [
+        "NeMo Guardrails"
+      ],
+      "hash": "d4e559afa7941c4a",
+      "pricing": [
+        "# SPDX-License-Identifier: Apache-2.0"
+      ]
+    },
+    "https://github.com/NVIDIA-NeMo/Guardrails#readme": {
+      "tools": [
+        "NeMo Guardrails"
+      ],
+      "hash": "0f28f1c06a2eed34",
+      "pricing": [
+        "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+        "NVIDIA NeMo Guardrails library is an open-source toolkit for easily adding *programmable guardrails* to LLM-based conversational applications. Guardrails (or \"rails\" for short) are specific ways of controlling the output of a large language model, such as not talking about politics, responding in...",
+        "## License",
+        "The NeMo Guardrails library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)."
+      ]
+    },
+    "https://github.com/NVIDIA/garak#readme": {
+      "tools": [
+        "garak"
+      ],
+      "hash": "906e3b3e61b9d95e",
+      "pricing": [
+        "`garak`'s a free tool. We love developing it and are always interested in adding functionality to support applications.",
+        "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+        "| promptinject | Implementation of the Agency Enterprise [PromptInject](https://github.com/agencyenterprise/PromptInject/tree/main/promptinject) work (best paper awards @ NeurIPS ML Safety Workshop 2022) |",
+        "© 2023- Leon Derczynski; Apache license v2, see [LICENSE](LICENSE)"
+      ]
+    },
+    "https://github.com/ollama/ollama#readme": {
+      "tools": [
+        "Ollama"
+      ],
+      "hash": "6f23cdf7df4e176a",
+      "pricing": [
+        "- [Open WebUI](https://github.com/open-webui/open-webui) - Extensible, self-hosted AI interface",
+        "- [Lobe Chat](https://github.com/lobehub/lobe-chat) - Modern chat framework with plugin ecosystem ([docs](https://lobehub.com/docs/self-hosting/examples/ollama))",
+        "- [Perplexica](https://github.com/ItzCrazyKns/Perplexica) - AI-powered search engine, open-source Perplexity alternative",
+        "- [Continue](https://github.com/continuedev/continue) - Open-source AI code assistant for any IDE",
+        "- [Void](https://github.com/voideditor/void) - Open source AI code editor, Cursor alternative",
+        "- [orbiton](https://github.com/xyproto/orbiton) - Config-free text editor with Ollama tab completion",
+        "- [Stakpak](https://github.com/stakpak/agent) - Open source DevOps agent",
+        "- [R2R](https://github.com/SciPhi-AI/R2R) - Open-source RAG engine",
+        "- [Langfuse](https://langfuse.com/docs/integrations/ollama) - Open source LLM observability",
+        "- [MLflow Tracing](https://mlflow.org/docs/latest/llms/tracing/index.html#automatic-tracing) - Open source LLM observability"
+      ]
+    },
+    "https://github.com/open-webui/open-webui/blob/main/LICENSE": {
+      "tools": [
+        "Open WebUI"
+      ],
+      "hash": "230d57077aebf8c2",
+      "pricing": [
+        "Open WebUI License",
+        "4. Notwithstanding any other provision of this License, and as a material",
+        "licensee has obtained a duly executed enterprise license expressly",
+        "breach of license.",
+        "Materials governed by prior licenses retain those original license",
+        "License Agreement (CONTRIBUTOR_LICENSE_AGREEMENT)."
+      ]
+    },
+    "https://github.com/open-webui/open-webui#readme": {
+      "tools": [
+        "Open WebUI"
+      ],
+      "hash": "0b5912f8f41f41e2",
+      "pricing": [
+        "<p>Open WebUI is <a href=\"https://docs.openwebui.com/\"><strong>a home for AI</strong></a>: an extensible, easy-to-use, self-hosted platform built to run entirely offline. Connect local models through Ollama or use OpenAI-compatible APIs for local and cloud models.</p>",
+        "- [Open Terminal](https://github.com/open-webui/open-terminal) / [Terminals (Enterprise)](https://github.com/open-webui/terminals): The action layer that turns Open WebUI into a full agent harness, with enterprise orchestration for per-user workspaces.",
+        "#### License",
+        "Includes code under the Open WebUI License, which requires preserving the Open WebUI branding, and prior contributions under their original licenses. See [LICENSE](./LICENSE) and [LICENSE_HISTORY](./LICENSE_HISTORY) for terms and history.",
+        "[Enterprise](https://docs.openwebui.com/enterprise) · [Careers](https://careers.openwebui.com/) · [Sponsor](https://github.com/sponsors/open-webui)"
+      ]
+    },
+    "https://github.com/promptfoo/promptfoo#readme": {
+      "tools": [
+        "promptfoo"
+      ],
+      "hash": "63fbd277b3554914",
+      "pricing": [
+        "<a href=\"https://github.com/promptfoo/promptfoo/blob/main/LICENSE\"><img src=\"https://img.shields.io/github/license/promptfoo/promptfoo\" alt=\"MIT license\"></a>",
+        "<code>promptfoo</code> is a CLI and library for evaluating and red-teaming LLM-based apps. Stop using trial-and-error... start shipping secure, reliable agents",
+        "> Promptfoo is now part of OpenAI. Promptfoo remains open source and MIT licensed. Read the [company update](https://www.promptfoo.dev/blog/promptfoo-joining-openai/).",
+        "- **Open source**: MIT licensed, with an active community"
+      ]
+    },
+    "https://github.com/prPMDev/elevateli#readme": {
+      "tools": [
+        "ElevateLI"
+      ],
+      "hash": "98bc3b55c45bacaf",
+      "pricing": [
+        "LinkedIn profiles are career infrastructure, but most people have no idea what's missing or weak. Generic advice like \"write a better headline\" doesn't help when you can't see the gaps. Professional profile reviews cost $100-500, and AI chatbots lack the context of what recruiters and hiring mana...",
+        "## License",
+        "MIT License — see [privacy-terms.html](privacy-terms.html) for the full privacy policy and terms."
+      ]
+    },
+    "https://github.com/reactive-resume/reactive-resume#readme": {
+      "tools": [
+        "Reactive Resume"
+      ],
+      "hash": "3a25037b94b89190",
+      "pricing": [
+        "<p>Reactive Resume is a free and open-source resume builder for writing resumes and cover letters, checking your work, and tracking job applications.</p>",
+        "<img src=\"https://img.shields.io/github/license/reactive-resume/reactive-resume?style=flat-square\" alt=\"License\" />",
+        "<a href=\"https://vercel.com/open-source-program\">",
+        "Create a free account, import an existing resume or start fresh, and see the finished page as you write. Download a PDF, Word, Markdown, or JSON file, or share your resume with a public link. You can also run the whole application on your own infrastructure.",
+        "You own your data. The codebase is open source under the MIT license, with no tracking, no ads, and no paid tier. Optional AI features use a provider you connect; hosting and provider usage may have their own costs.",
+        "[Join the Reactive Resume community on Discord](https://discord.gg/u9pAd3za9t) to exchange resume feedback, get help using or self-hosting the app, and share ideas with other users and contributors.",
+        "- Self-host with Docker, Vercel, Cloudflare Workers, or a 1-click deploy on Hostinger",
+        "This builds the checked-out source. For a deployment using published images, follow the [Docker guide](https://docs.rxresu.me/self-hosting/docker). For source development, see the [development setup guide](https://docs.rxresu.me/contributing/development).",
+        "| [Self-hosting](https://docs.rxresu.me/self-hosting/docker) | Deploy on your own infrastructure |",
+        "| [Migrating from v5](https://docs.rxresu.me/self-hosting/upgrading-to-v6) | Migrations and integration changes |",
+        "## Self-Hosting",
+        "| [Hostinger](#hostinger) | A ready-made VPS with no setup | [Hostinger guide](https://docs.rxresu.me/self-hosting/hostinger) |",
+        "| [Vercel](#vercel) | Serverless, with managed database and storage | [Vercel guide](https://docs.rxresu.me/self-hosting/vercel) |",
+        "| [Cloudflare Workers](#cloudflare-workers) | Workers, R2 and your own PostgreSQL | [Cloudflare guide](https://docs.rxresu.me/self-hosting/cloudflare) |",
+        "| [Docker and Kubernetes](#docker-and-kubernetes) | Your own server, homelab or cluster | [Docker](https://docs.rxresu.me/self-hosting/docker) · [Kubernetes](https://docs.rxresu.me/self-hosting/kubernetes) |",
+        "The quickest way to get going is a 1-click deploy on Hostinger, starting at $6.49/month. Their VPS plans include a ready-made Reactive Resume template that provisions the Docker environment and brings the app up for you, with weekly backups and a Docker manager UI included — so you can skip the s...",
+        "See the [Hostinger guide](https://docs.rxresu.me/self-hosting/hostinger) for what the template sets up and what to configure afterwards, such as email, your own domain, and turning off sign-ups.",
+        "Vercel provisions Neon PostgreSQL, private Blob storage, and Upstash Redis through its deployment wizard. Supply two persistent secrets and use the **Services** framework preset. Static assets run in the frontend service, and Hono serves the application routes and APIs from the backend service. S...",
+        "Cloudflare deployment requires **Workers Paid** and uses Static Assets, private R2 storage, SQLite Durable Objects, and PostgreSQL through Hyperdrive. Supply an existing PostgreSQL database and apply migrations before deployment. See the [Cloudflare guide](https://docs.rxresu.me/self-hosting/clou...",
+        "See the [Docker guide](https://docs.rxresu.me/self-hosting/docker) or [Kubernetes guide](https://docs.rxresu.me/self-hosting/kubernetes) for complete instructions. Running on a NAS? See the [Synology and UGREEN guides](https://docs.rxresu.me/self-hosting/nas).",
+        "Every setting is listed in the [environment variables reference](https://docs.rxresu.me/self-hosting/environment-variables). Self-hosters can also configure [shared AI and job-search services](https://docs.rxresu.me/self-hosting/job-search-and-ai) and [single sign-on](https://docs.rxresu.me/self-...",
+        "Back up your database and uploads and stop all v5 instances before applying v6 migrations. Old visual style rules require a manual conversion; API and MCP integrations also have changes. Follow [Migrating from v5](https://docs.rxresu.me/self-hosting/upgrading-to-v6).",
+        "Reactive Resume is and always will be free and open source. If it has helped you land a job or saved you time, please consider supporting continued development:",
+        "## License",
+        "[MIT](./LICENSE) — do whatever you want with it."
+      ]
+    },
+    "https://github.com/saeedkolivand/ai-job-hunter-app#readme": {
+      "tools": [
+        "AI Job Hunter"
+      ],
+      "hash": "73c136da067a5ec3",
+      "pricing": [
+        "<a href=\"LICENSE\"><img alt=\"License: Apache 2.0\" src=\"https://img.shields.io/badge/license-Apache--2.0-blue.svg\"></a>",
+        "- <a href=\"#license\" target=\"_blank\" rel=\"noopener noreferrer\">License</a>",
+        "Your résumés, generations, applications, and tracked job data live in a local SQLite database on your device (credentials live in the OS keychain); there is **no app-operated backend** collecting them, and no behavioural analytics. **Two things happen automatically, without you asking:** the app ...",
+        "<sub>Twelve résumé templates in two tiers: ATS-Safe (Classic · Swiss Minimal · Academic · Meridian · Throughline · Cadence · Regent) and Design (Atelier · Portrait · Lebenslauf · Aria · Saffron)</sub>",
+        "- **Streaming generation** with 12 professional templates (7 ATS-Safe tier + 5 Design tier), DOCX / PDF / TXT export, ATS-safe formatting.",
+        "- Before writing a cover letter or answers, optionally research the company on the web, using your active AI provider's **own** web search (or the free Ollama Web Search API on Ollama) → a concise, factual brief: what they do, size/stage, products, mission, recent news. Providers with no web sear...",
+        "| Company research does nothing | It's opt-in and uses your AI provider's own web search; on **Ollama** add the free Ollama key (Settings → AI). For a provider with no search of its own, add an Exa key in the same place. Without a usable search the toggle reads off and generation proceeds without...",
+        "**Note:** Company-scoped ATS boards require company slugs instead of free-text keywords. The **Aggregator** (Adzuna + JSearch) replaces direct scraping of anti-bot boards (Indeed, Glassdoor, Xing); free Adzuna keys available at https://developer.adzuna.com. See `docs/knowledge/scraping-domain.md`...",
+        "**Requirements:** Bridge-backed calls need the app running; `--help`, MCP startup (`initialize`) and the local `commands` tool do not. The CLI communicates over a local loopback bridge with mutual HMAC-SHA256 authentication (the pairing token is used only as an HMAC key and is never sent on the w...",
+        "By default the server is **read-only**: the model can search postings, read your profile and automations, and enumerate the command table. Two launch flags open the write tiers, each a superset of the last:",
+        "The same tier flags as above go at the end of `args` — `--allow-reversible` (server name `ai-job-hunter-write`) or `--allow-irreversible` (server name `ai-job-hunter-unrestricted`). The Settings → Developer card copies this block with your real path already filled in — on Windows the backslashes ...",
+        "| **Adzuna/JSearch keys** | **Settings → Jobs** | **Optional: provider registry with Adzuna (primary, free) and JSearch (paid fallback). Covers anti-bot boards like Indeed, Glassdoor, Xing, and more. See `docs/knowledge/scraping-domain.md` for details.** |",
+        "- **No warranty.** Provided \"as is\" under the Apache License 2.0, without warranty of any kind and without liability for how it is used. This is not legal advice.",
+        "## License",
+        "**Apache License 2.0** ([SPDX: `Apache-2.0`](LICENSE)): open source, free for any use including commercial, with an explicit patent grant. Effective **2026-09-07**, replacing PolyForm Noncommercial 1.0.0; reason: the free code-signing programmes for open-source projects (SignPath Foundation, Cert..."
+      ]
+    },
+    "https://github.com/Samyak9109/Abhyas#readme": {
+      "tools": [
+        "Abhyas"
+      ],
+      "hash": "48090ae12ac8497a",
+      "pricing": [
+        "**Abhyas** (अभ्यास, *\"practice\"*) is a free, open-source, voice-first mock interview agent.",
+        "[![License](https://img.shields.io/badge/license-MIT-f5c542?style=for-the-badge&labelColor=1a1a2e)](./LICENSE)",
+        "- [📄 License](#-license)",
+        "Interview prep today is either expensive, generic, or privacy-invasive. Reading static question lists does not train you to *speak* with structure under pressure, while cloud-hosted mock interview platforms harvest sensitive resumes, record audio to vendor servers, and enforce recurring subscript...",
+        "- 💸 **Free forever.** No subscription or credits. Bring your own AI key (BYOK), or run a model completely offline.",
+        "- **Calendar study plans (Phase 6):** Export interview preparation schedules as standard `.ics` files, with optional Google Calendar sync.",
+        "| **OpenAI-Compatible** | Cloud / Self-hosted (BYOK) | Voice + Text | Configurable base URL (e.g. OpenRouter, vLLM, private endpoints) |",
+        "| `DAILY_BUDGET_CENTS` | Backend (P5) | ✅ (P5) | Hard daily spend cap in cents (default: `500` = $5.00) |",
+        "| `MONTHLY_BUDGET_CENTS` | Backend (P5) | ✅ (P5) | Hard monthly spend cap in cents (default: `10000` = $100.00) |",
+        "| **Framework-free core (ADR-016)** | Pure TypeScript domain logic (`packages/core`) has zero imports from React or browser DOM, guaranteeing testability. |",
+        "| **Self-hosted typography (ADR-020)** | Prevents visitor IP leakage to font CDNs; guarantees brand integrity. |",
+        "| `PG-03` | `/open-source` | Open source & license information | Phase 1 (M1.9) |",
+        "| `PG-04` | `/guide/keys` | Free API key setup guide | Phase 1 (M1.9) |",
+        "- **Local diagnostics:** In-browser diagnostics panel with redacted event log and storage quota inspector (ADR-018).",
+        "| **Display / Headings** | **Pixelify Sans** | Latin-subset woff2 | Self-hosted (`apps/web/src/fonts/`) |",
+        "| **UI / Body Text** | **Instrument Sans** | Latin-subset woff2 | Self-hosted (`apps/web/src/fonts/`) |",
+        "| **Code / Labels / Metrics** | **JetBrains Mono** | Latin-subset woff2 | Self-hosted (`apps/web/src/fonts/`) |",
+        "| **Handwritten Accents** | **Caveat** | Latin-subset woff2 | Self-hosted (`apps/web/src/fonts/`) |",
+        "## 📄 License",
+        "- **Code:** Released under the **[MIT License](./LICENSE)**. Copyright © 2026 Samyak Jain."
+      ]
+    },
+    "https://github.com/srbhr/Resume-Matcher#readme": {
+      "tools": [
+        "Resume Matcher"
+      ],
+      "hash": "8007c14b7271e1cf",
+      "pricing": [
+        "Free, open-source resume builder that tailors your resume (CV) to each job description. A self-hosted AI harness for Claude, ChatGPT, DeepSeek, Kimi, GLM, Gemma and other LLMs, local or remote.",
+        "![Apache 2.0](https://img.shields.io/github/license/srbhr/Resume-Matcher?labelColor=F0F0E8&style=for-the-badge&color=1d4ed8) ![Forks](https://img.shields.io/github/forks/srbhr/Resume-Matcher?labelColor=F0F0E8&style=for-the-badge&color=1d4ed8) ![version](https://img.shields.io/badge/Version-1.4%20...",
+        "Resume Matcher is free and open-source, kept alive by its sponsors and backers. If it helps you, please consider supporting its development.",
+        "Sponsor at a company tier and **your logo + link + blurb lands here** — in front of a community of **27k+ stars and 4.9k forks**, featured on [Trendshift](https://trendshift.io/repositories/565) and the [Vercel OSS Program](https://vercel.com/oss).",
+        "Read the [Sponsorship Guide](https://resumematcher.fyi/docs/sponsoring/) for tiers and details. Sponsors get a special thank-you in the README and on our website.",
+        "Every bit keeps Resume Matcher free and funds new features — and you'll be thanked in the README and on our website.",
+        "Thank you for checking out Resume Matcher. If you want to connect, collaborate, or just say hi, feel free to reach out!",
+        "If you have any suggestions or feature requests, please feel free to open an issue on GitHub or discuss it on our [Discord](https://dsc.gg/resume-matcher) server.",
+        "- [Open source resume builders](https://resumematcher.fyi/blog/open-source-resume-builders/): Reactive Resume, RenderCV, YAMLResume, Awesome-CV and others compared",
+        "| **Ollama** | Local | Free, runs on your machine |",
+        "| **Claude subscription (via Claude Code)** | Cloud (via local CLI) | Runs your installed `claude` CLI, so this app needs no API key and never sees or stores your Claude credentials, but prompts still go to Anthropic through your Claude Code login and count toward your plan's usage limits (Anthro...",
+        "| **ChatGPT plan (Sign in with ChatGPT)** | Cloud | Community-built. Uses OpenAI's official [Sign in with ChatGPT for open-source apps](https://developers.openai.com/siwc/token-sharing-open-source) (preview, may change) with ChatGPT Plus or Pro: choose **ChatGPT plan** in Settings and click **Con...",
+        "Check out the roadmap if you would like to work on the features that are planned for the future. If you have any suggestions or feature requests, please feel free to open an issue on GitHub and discuss it on our [Discord](https://dsc.gg/resume-matcher) server.",
+        "## Resume Matcher is a part of [Vercel Open Source Program](https://vercel.com/oss)"
+      ]
+    },
+    "https://github.com/TracecatHQ/tracecat/blob/main/docs/agents/llm-providers.mdx": {
+      "tools": [
+        "Tracecat"
+      ],
+      "hash": "7473449c67439a6b",
+      "pricing": [
+        "On-prem and in-cluster gateways such as `http://litellm:4000/v1`, `http://vllm:8000/v1`, or `http://ollama.example.internal:11434/v1` are private endpoints. Allow them by setting `TRACECAT__OUTBOUND_ALLOWED_PRIVATE_CIDRS` on the `api`, `agent-worker`, `litellm`, `agent-executor`, and `background-...",
+        "- See [Air-gapped deployment](/self-hosting/air-gapped) for running Ollama or vLLM without internet access."
+      ]
+    },
+    "https://github.com/TracecatHQ/tracecat#readme": {
+      "tools": [
+        "Tracecat"
+      ],
+      "hash": "e6c5356bf4043730",
+      "pricing": [
+        "![License](https://img.shields.io/badge/License-AGPL%203.0-6E7ED8?style=for-the-badge&logo=agpl)",
+        "[Tracecat](https://tracecat.com) is the open source security automation platform for teams and AI agents. A unified platform with everything AI-native security teams need to build agents and automate cyber defense.",
+        "- **Free audit logs**: exportable into your SIEM",
+        "- **Deploy anywhere**: sign up for Tracecat Cloud, or self-host with Docker, AWS Fargate, or Kubernetes. Runs fully [air-gapped](https://docs.tracecat.com/self-hosting/air-gapped).",
+        "## Enterprise Edition",
+        "## Open Source vs Enterprise",
+        "This repo is available under the [AGPL-3.0 license](https://github.com/TracecatHQ/tracecat/blob/main/LICENSE) except for:",
+        "These exceptions are fall under Tracecat's paid EE (Enterprise Edition) license. Code that fall under the above exceptions must not be redistributed, sold, used in production, or otherwise commercialized without permission.",
+        "> Tracecat Enterprise is available as managed Cloud with US or EU hosting, or as a self-hosted deployment with dedicated support.",
+        "Thank you all our amazing contributors for contributing code, integrations, docs, and support. Open source is only possible because of you.",
+        "<sub>**`Tracecat`** is distributed under [**AGPL-3.0**](https://github.com/TracecatHQ/tracecat/blob/main/LICENSE)</sub>"
+      ]
+    },
+    "https://github.com/twentyhq/twenty/blob/main/packages/twenty-docs/user-guide/billing/capabilities/pricing-plans.mdx": {
+      "tools": [
+        "Twenty"
+      ],
+      "hash": "3f8142cc73002daf",
+      "pricing": [
+        "title: Pricing Plans",
+        "description: Learn about Twenty's pricing plans and how to switch between them.",
+        "Twenty offers flexible pricing to fit teams of all sizes, whether you prefer cloud hosting or self-hosting. See current prices on [twenty.com/pricing](https://twenty.com/pricing).",
+        "## Cloud Plans",
+        "- 1 workspace credit per user per month",
+        "Premium features (custom roles, row-level permissions, SSO and more) are not included in the Pro plan.",
+        "- 4 workspace credits per user per month",
+        "See [Credits](/user-guide/billing/capabilities/credits) for how personal AI usage and workspace credits work.",
+        "### Early Cloud Plans",
+        "Subscriptions that started before the current plans keep their price and terms for as long as they stay on them. The Plans page tags these plans **Early**. Once you switch away from one, you can't pick it again.",
+        "- Both include 5 workspace credits per month (50 per year on yearly billing) and no personal AI usage",
+        "## Self-Hosted Plans",
+        "### Free (Self-Hosted)",
+        "### Organization (Self-Hosted)",
+        "For teams who need premium features while self-hosting:",
+        "- Everything in Free",
+        "- No requirement to publish custom code as open-source before distributing",
+        "Premium features are only available on the Organization plans (Cloud or Self-Hosted):",
+        "- **Custom roles**: Roles beyond Admin and Member, with object and field permissions (on Cloud, Pro (Early) keeps them too; self-hosted instances include them on every plan)",
+        "- **Usage limits for members, API keys and apps**: Cap what each of them can spend",
+        "- **Custom domain**: Serve your workspace from your own domain (also available on self-hosted instances)",
+        "- **Unlimited workspaces**: Create as many workspaces as you want (self-hosted only)",
+        "- **Private source code**: No requirement to publish changes to a publicly available repository (self-hosted only)",
+        "## Switching Plans",
+        "1. Go to **Settings → Billing → Plans**",
+        "### Switch to Yearly Billing",
+        "1. Go to **Settings → Billing**",
+        "2. Click **Switch to annual**",
+        "3. Save with annual billing",
+        "### Switch to Monthly Billing",
+        "2. Click **Downgrade to monthly**",
+        "3. Save with monthly billing",
+        "The Organization (Self-Hosted) plan runs on your own infrastructure. To get started, [install Twenty with Docker Compose](/developers/self-host/capabilities/docker-compose), then follow the steps below to activate your Organization license.",
+        "If you already have a self-hosted Twenty instance, you can get your Organization key directly from its settings:",
+        "<img src=\"/images/user-guide/billing/organization-key.png\" alt=\"Organization key\" />",
+        "4. When your Organization key is displayed, paste it into the Organization settings page and activate the Organization license",
+        "<PageBanner illustration=\"card-page-pricing-plans\" />"
+      ]
+    },
+    "https://github.com/twentyhq/twenty#readme": {
+      "tools": [
+        "Twenty"
+      ],
+      "hash": "dd9fa5824b46c905",
+      "pricing": [
+        "<h2 align=\"center\">The #1 Open-Source CRM</h2>",
+        "### <img src=\"./packages/twenty-website/public/images/readme/rocket-icon.svg\" width=\"14\" height=\"14\"/> Self-hosting",
+        "Run Twenty on your own infrastructure with [Docker Compose](https://docs.twenty.com/developers/self-host/capabilities/docker-compose), or contribute locally via the [local setup guide](https://docs.twenty.com/developers/contribute/capabilities/local-setup)."
+      ]
+    },
+    "https://github.com/usestrix/strix#readme": {
+      "tools": [
+        "Strix"
+      ],
+      "hash": "225773e3f015fd5e",
+      "pricing": [
+        "### The open-source AI pentesting tool. Autonomous AI hackers that find and fix your app’s vulnerabilities.",
+        "<a href=\"https://strix.ai/demo?utm_source=github&utm_medium=readme&utm_content=badge_demo\"><img src=\"https://img.shields.io/badge/Try%20Strix%20Enterprise-555555?style=for-the-badge&logoColor=white\" alt=\"Try Strix Enterprise\"></a>",
+        "<a href=\"LICENSE\"><img src=\"https://img.shields.io/badge/License-Apache%202.0-3b82f6?style=flat-square\" alt=\"License\"></a>",
+        "- **Open Source** - free, runs locally with Docker and your own LLM key. [Quick Start](https://docs.strix.ai/quickstart)",
+        "- **Enterprise** - SSO, compliance-ready reports, VPC or self-hosted deployment. [Try Strix Enterprise →](https://strix.ai/demo?utm_source=github&utm_medium=readme&utm_content=table_demo)",
+        "Try the Strix full-stack penetration testing platform at **[app.strix.ai](https://app.strix.ai?utm_source=github&utm_medium=readme&utm_content=cloud_heading)** - sign up for free, connect your repos and domains, and launch a pentest in minutes.",
+        "## 🏢 Enterprise",
+        "Get the same Strix experience with enterprise-grade controls: SSO (SAML/OIDC), custom compliance-ready penetration testing reports (SOC 2, ISO 27001, PCI DSS), dedicated support and SLA, custom deployment options (VPC or self-hosted), BYOK model support, and tailored AI pentesting agents optimize...",
+        "[**Try Strix Enterprise →**](https://strix.ai/demo?utm_source=github&utm_medium=readme&utm_content=enterprise_cta)",
+        "#### Sign in with a ChatGPT subscription",
+        "Instead of a metered API key, you can run Strix on your ChatGPT Plus/Pro subscription:",
+        "export STRIX_LLM=\"chatgpt/gpt-5.4\" # chatgpt/<model> runs on the subscription",
+        "See the [cloud CLI documentation](https://docs.strix.ai/cloud/cli) for scopes, workspaces, billing, and source-upload options.",
+        "Strix builds on the incredible work of open-source projects like [LiteLLM](https://github.com/BerriAI/litellm), [Caido](https://github.com/caido/caido), [Nuclei](https://github.com/projectdiscovery/nuclei), [Playwright](https://github.com/microsoft/playwright), and [Bubble Tea](https://github.com..."
+      ]
+    },
+    "https://github.com/Vigil-SOC/vigil/releases/tag/v1.0.0": {
+      "tools": [
+        "Vigil"
+      ],
+      "hash": "21f3d1c0b24e8b86",
+      "pricing": [
+        "GitHub Advanced Security Enterprise-grade code security",
+        "Copilot for business Enterprise-grade AI features",
+        "Premium Support Enterprise-grade 24/7 support",
+        "Pricing"
+      ]
+    },
+    "https://github.com/Vigil-SOC/vigil#readme": {
+      "tools": [
+        "Vigil"
+      ],
+      "hash": "fcc1ff4f8c63c988",
+      "pricing": [
+        "Vigil is an open source, agentic AI SOC released under Apache 2.0. Your playbooks are plain-text Markdown files, your agent logic is readable code, and your integrations use an open standard ([MCP](https://modelcontextprotocol.io/)). It is a capability you own, not a black box you rent.",
+        "and plan remediation with confidence scores.",
+        "Some integrations are marked **Experimental** in Settings. These are CrowdStrike Falcon, SentinelOne, Microsoft Sentinel, the official Splunk MCP server, Google SecOps, Google Threat Intelligence, Joe Sandbox, vStrike, Atomic Red Team and CAPE Sandbox. The project has no free instance of these to...",
+        "> **DATA NOTICE:** the bundle holds host information: hostname, the full process list with command lines, system logs, and disk usage. Known credential formats are redacted, but secrets in free log text cannot be guaranteed caught. Review it before you share it.",
+        "│ │ # integrations, …) over a storage/platform tier",
+        "## License",
+        "Apache 2.0. See [LICENSE](LICENSE)."
+      ]
+    },
+    "https://github.com/vxcontrol/pentagi/blob/master/EULA.md": {
+      "tools": [
+        "PentAGI"
+      ],
+      "hash": "f3eea8e0dcb92f93",
+      "pricing": [
+        "# PentAGI End User License Agreement",
+        "This **End User License Agreement (EULA)** governs the terms and conditions for the use of PentAGI, an advanced AI-powered penetration testing tool. This product is provided by the **PentAGI Development Team**, and is distributed in the form of [source code](https://github.com/vxcontrol/pentagi) ...",
+        "## License Grant",
+        "Under this EULA, the **PentAGI Development Team** grants you a non-exclusive, non-transferable, revocable license to use the PentAGI software solely for lawful penetration testing purposes. This license is effective when you download the source code or Docker images and remains in effect until te...",
+        "The source code of PentAGI is provided under the MIT license, the terms of which are incorporated herein by reference. This EULA governs your use of the PentAGI software as a whole, including any pre-built Docker images and the web UI, and applies in addition to the MIT license. In the event of a...",
+        "You are permitted to use the PentAGI software on your own infrastructure, self-deploying all components according to provided documentation. The license covers usage as allowed by the MIT license under which the source code is distributed, but does not extend to any proprietary tools that may be ...",
+        "You may not sublicense, sell, lease, or distribute the PentAGI software or its derivatives in any form other than stated in the license agreement. Modification and redistribution are permitted under the MIT license conditions; however, the **PentAGI Development Team** holds no responsibility for ...",
+        "Using PentAGI for any activity that violates laws or regulations, including but not limited to unauthorized network access, is strictly prohibited. Users found using the software for illegal purposes may have their license revoked and could face further legal consequences, as determined by law en...",
+        "When using self-hosted or local LLM servers compatible with OpenAI API, you are solely responsible for ensuring the security and compliance of these deployments. The PentAGI Development Team bears no responsibility for any data leaks or security issues arising from the use of such local deployments.",
+        "The Developers do not warrant that the PentAGI software will operate uninterrupted or error-free, that defects will be corrected, or that the software is free of viruses or other harmful components. Your use of the software is at your sole risk, and you assume full responsibility for any costs or...",
+        "The total cumulative liability of the **PentAGI Development Team** arising from or related to this EULA, whether in contract, tort, or otherwise, shall not exceed the amount paid by you for the software."
+      ]
+    },
+    "https://github.com/vxcontrol/pentagi#readme": {
+      "tools": [
+        "PentAGI"
+      ],
+      "hash": "10f684881ffa4155",
+      "pricing": [
+        "<a href=\"https://trendshift.io/repositories/15161?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-15161\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://trendshift.io/api/badge/trendshift/repositories/15161/daily?language=Go\" alt=\"vxcontrol%2Fpentagi...",
+        "- [License](#license)",
+        "PentAGI is an open-source, self-hosted multi-agent system for autonomous penetration testing. You describe a target and a goal in plain language; a team of specialized AI agents plans the work, runs 20+ professional tools such as nmap, Metasploit and sqlmap inside an isolated Docker sandbox, reme...",
+        "- **What sets it apart.** It runs on your own servers with the model of your choice: 10+ cloud LLM providers, your own OpenAI-compatible gateway, or local models through Ollama or vLLM. Results and successful approaches are kept in PostgreSQL with pgvector for later flows, an optional Neo4j knowl...",
+        "- Self-Hosted Solution. Complete control over your deployment and data.",
+        "- Flexible Authentication. Support for 10+ LLM providers ([OpenAI](https://platform.openai.com/), [Anthropic](https://www.anthropic.com/), [Google AI/Gemini](https://ai.google.dev/), [AWS Bedrock](https://aws.amazon.com/bedrock/), [Ollama](https://ollama.com/), [DeepSeek](https://www.deepseek.com...",
+        "- PentAGI today is an autonomous and assistant-guided penetration testing platform, not a CALDERA-style Breach and Attack Simulation (BAS) or adversary emulation product with predefined campaigns or attack plans.",
+        "O->>D: Plan attack",
+        "D-->>O: Attack plan",
+        "O->>E: Execute plan",
+        "- **Context-Aware Plans**: Analyzes full execution context via enricher agent to create informed plans",
+        "- **Structured Assignment**: Original request wrapped in `<task_assignment>` structure with execution plan and instructions",
+        "- **Enriched Instructions**: Plans highlight critical actions, potential pitfalls, and verification points",
+        "### Recommendations for Open Source Models",
+        "Testing with Qwen3.5-27B-FP8 demonstrates that enabling both Execution Monitoring and Task Planning is **essential** for smaller open source models:",
+        "- 20GB free disk space",
+        "- **Settings -> Providers**: Create, edit, delete, and test user-defined provider profiles for supported provider types. These profiles control per-agent model selection, runtime parameters, reasoning options, and pricing metadata.",
+        "# Optional: AWS Bedrock provider (enterprise-grade models)",
+        "# scrapes and summarizes pages instead of calling a paid analytic API)",
+        "> You have to set at least one Language Model provider (OpenAI, Anthropic, Gemini, AWS Bedrock, or Ollama) to use PentAGI. AWS Bedrock provides enterprise-grade access to multiple foundation models from leading AI companies, while Ollama provides zero-cost local inference if you have sufficient c...",
+        "> `PROXY_URL` routes the backend's own HTTP calls through a proxy: every request to LLM and embedding providers and to search engines — self-hosted ones such as Ollama or SearXNG included, as there is no `NO_PROXY` exemption — and the update check. Sandbox containers (where agents run their comma...",
+        "Self-hosted engines such as llama.cpp, SGLang, and vLLM usually require a specific tool-call parser and a matching chat template to produce correct tool-call output. If the parser is missing or mismatched for the model you are serving, tool-call arguments can come back corrupted. Compatibility th...",
+        "PentAGI supports Ollama for both local LLM inference (zero-cost, enhanced privacy) and Ollama Cloud (managed service with free tier).",
+        "Ollama Cloud provides managed inference with a free tier and paid plans. Paid usage is billed from included or purchased credits at each model's published per-token rate; off-peak discounts apply to selected DeepSeek models.",
+        "**Free Tier Setup (Single Model)**",
+        "# Free tier allows one model at a time",
+        "**Paid Tier Setup (Multi-Model with Pre-built Configuration)**",
+        "For paid tiers supporting concurrent requests and pay-as-you-go credits, use the pre-built Ollama Cloud configuration:",
+        "For self-hosted Ollama instances:",
+        "| Model ID | Thinking | Reasoning Effort | Price (Input/Output/Cache) | Use Case |",
+        "| `gpt-5.6-sol` | ✅ | low/medium/high/xhigh | $5.00/$30.00/$0.50 | Frontier model for complex professional work, most demanding autonomous pentesting, sophisticated exploit chain development, deep multi-stage attack simulation |",
+        "| `gpt-5.6-terra`* | ✅ | low/medium/high/xhigh | $2.50/$15.00/$0.25 | Balances intelligence and cost; multi-phase security assessments, coordinated multi-tool pentesting (generator/refiner/adviser/coder default) |",
+        "| `gpt-5.6-luna` | ✅ | low/medium/high/xhigh | $1.00/$6.00/$0.10 | Optimized for cost-sensitive, high-volume workloads; rapid reconnaissance, bulk vulnerability scanning, real-time monitoring |",
+        "| `gpt-5.5` | ✅ | none/low/medium/high/xhigh | $5.00/$30.00/$0.50 | New class of intelligence for coding and professional work; complex security research, advanced autonomous pentesting |",
+        "| `gpt-5.5-pro` | ✅ | medium/high/xhigh | $30.00/$180.00/$0.00 | Uses more compute for smarter, more precise responses; no cached-input discount; mission-critical security research, zero-day discovery |",
+        "| `gpt-5.4` | ✅ | low/medium/high/xhigh | $2.50/$15.00/$0.25 | Best intelligence at scale for agentic, coding, and professional workflows; maximum cognitive depth for pentesting |",
+        "| `gpt-5.4-mini`* | ✅ | low/medium/high/xhigh | $0.75/$4.50/$0.075 | Strongest mini model for coding, computer use, subagents (primary_agent/assistant/reflector/installer/pentester default) |",
+        "| `gpt-5.4-nano`* | ✅ | low/medium/high/xhigh | $0.20/$1.25/$0.02 | Cheapest GPT-5.4-class model for simple, high-volume tasks (simple/simple_json/searcher/enricher default) |",
+        "| `gpt-5.2` | ✅ | low/medium/high/xhigh | $1.75/$14.00/$0.175 | Superseded by 5.4/5.6; autonomous security research, complex exploit chain development |",
+        "| `gpt-5.2-pro` | ✅ | medium/high/xhigh | $21.00/$168.00/$0.00 | Superior agentic coding and long-context performance, mission-critical security research, zero-day discovery |",
+        "| Model ID | Thinking | Price (Input/Output/Cache) | Use Case |",
+        "| `gpt-5` | ✅ | $1.25/$10.00/$0.125 | Autonomous security research, exploit chain development, coordinating multi-tool pentesting workflows |",
+        "| `gpt-5.1` | ✅ | $1.25/$10.00/$0.125 | Bridges GPT-5 and GPT-5.2 with faster responses; balanced penetration testing with strong tool coordination |",
+        "| `gpt-5-pro` | ✅ (high) | $15.00/$120.00/$0.00 | Reduced hallucinations, exceptional accuracy, critical security operations |",
+        "| `gpt-5-mini` | ✅ | $0.25/$2.00/$0.025 | Automated vulnerability analysis, exploit generation with strong function calling |",
+        "| `gpt-5-nano` | ✅ | $0.05/$0.40/$0.005 | High-throughput security scanning, reconnaissance, real-time monitoring |",
+        "| `gpt-4.1` | ❌ | $2.00/$8.00/$0.50 | Superior function calling, complex threat analysis, sophisticated exploit development |",
+        "| `gpt-4.1-mini` | ❌ | $0.40/$1.60/$0.10 | Routine security assessments, automated code analysis (no longer used in default configuration) |",
+        "| `gpt-4o-mini` | ❌ | $0.15/$0.60/$0.075 | Compact multimodal with strong function calling, high-frequency scanning, cost-effective bulk operations |",
+        "| `o3` | ✅ | $2.00/$8.00/$0.50 | Succeeded by GPT-5; multi-stage attack chains, deep vulnerability analysis |",
+        "| `o3-pro` | ✅ | $20.00/$80.00/$0.00 | More compute for better responses; zero-day research, critical security investigations |",
+        "| Model ID | Thinking | Price (Input/Output/Cache) | Notes |",
+        "| `gpt-5.2-codex` | ✅ | $1.75/$14.00/$0.175 | Superseded code-specialized model; use `gpt-5.6-terra`/`gpt-5.4-mini` instead |",
+        "| `gpt-5.1-codex-max` | ✅ | $1.25/$10.00/$0.125 | Superseded; enhanced reasoning for coding workflows |",
+        "| `gpt-5.1-codex` | ✅ | $1.25/$10.00/$0.125 | Superseded standard code-optimized model |",
+        "| `gpt-5-codex` | ✅ | $1.25/$10.00/$0.125 | Superseded foundational code-specialized model |",
+        "| `gpt-5.1-codex-mini` | ✅ | $0.25/$2.00/$0.025 | Superseded compact code model |",
+        "| `codex-mini-latest` | ✅ | $1.50/$6.00/$0.375 | Superseded compact code model |",
+        "| `gpt-4o` | ❌ | $2.50/$10.00/$1.25 | Superseded by GPT-5.x/5.6 series multimodal flagship |",
+        "| `gpt-4.1-nano` | ❌ | $0.10/$0.40/$0.025 | Superseded ultra-fast lightweight model |",
+        "| `o3-mini` | ✅ | $1.10/$4.40/$0.55 | Superseded compact reasoning model |",
+        "| `o4-mini` | ✅ | $1.10/$4.40/$0.275 | Succeeded by `gpt-5-mini` |",
+        "| `o1` | ✅ | $15.00/$60.00/$7.50 | Superseded premier reasoning model |",
+        "| `o1-pro` | ✅ | $150.00/$600.00/$0.00 | Superseded, highest cost point of the o-series |",
+        "**Prices**: Per 1M tokens. Reasoning models include thinking tokens in output pricing.",
+        "> 2. **Enterprise teams**: Request trusted access through your OpenAI representative",
+        "> 3. **Security researchers**: Apply for the [Cybersecurity Grant Program](https://openai.com/form/cybersecurity-grant-program/) (includes $10M in API credits)",
+        "- **No override needed for `gpt-5.4-nano`**: used for simple, simple_json, searcher, and enricher, this tier does not default to thinking on, so tools attach without conflict and no `reasoning` override is required.",
+        "- **Prompt Caching**: Cost reduction on repeated context (10-50% of input price)",
+        "| Model ID | Thinking | Release Date | Price (Input/Output/Cache R/W) | Use Case |",
+        "| `claude-sonnet-5`* | ✅ | Jul 2026 | $3.00/$15.00/$0.30/$3.75 | Best combination of speed and intelligence for coding, agents, and professional work at scale. Adaptive thinking only (manual budget thinking rejected); sampling parameters not supported. Default model for primary agent, assistant, ...",
+        "| `claude-fable-5` | ✅ | Jun 2026 | $10.00/$50.00/$1.00/$12.50 | Anthropic's most capable widely released model for long-running agents and the most demanding reasoning workloads. Adaptive thinking always on (budget thinking and an explicit disable are rejected); sampling parameters not supported |",
+        "| `claude-opus-4-8`* | ✅ | May 2026 | $5.00/$25.00/$0.50/$6.25 | Flagship for coding, agents, and deep reasoning in enterprise security workflows. Adaptive thinking only — budget thinking and sampling params (temperature/top_p/top_k) are rejected. Default model for generator and refiner; most dem...",
+        "| `claude-opus-4-7` | ✅ | Apr 2026 | $5.00/$25.00/$0.50/$6.25 | Advanced software engineering and long-running agentic security analysis. Adaptive thinking only (manual budget thinking rejected) |",
+        "| `claude-sonnet-4-6` | ✅ | Feb 2026 | $3.00/$15.00/$0.30/$3.75 | Best speed/intelligence balance with adaptive thinking. Multi-phase security assessments, intelligent vulnerability analysis, real-time threat hunting |",
+        "| `claude-opus-4-6` | ✅ | Feb 2026 | $5.00/$25.00/$0.50/$6.25 | Most intelligent model for autonomous agents and coding. Extended + adaptive thinking for complex exploit development, multi-stage attack simulation |",
+        "| `claude-haiku-4-5`* | ❌ | Oct 2025 | $1.00/$5.00/$0.10/$1.25 | Fast and efficient model with exceptional function calling and low latency, no thinking support. Default model for simple, simple_json, reflector, searcher, enricher; high-frequency scanning, real-time monitoring, bulk automated tes...",
+        "| `claude-sonnet-4-5` | ✅ | Sep 2025 | $3.00/$15.00/$0.30/$3.75 | State-of-the-art reasoning (superseded by sonnet-4-6/sonnet-5). Sophisticated penetration testing, advanced threat analysis |",
+        "| `claude-opus-4-5` | ✅ | Nov 2025 | $5.00/$25.00/$0.50/$6.25 | Ultimate reasoning (superseded by opus-4-6/4-7/4-8). Critical security research, zero-day discovery, red team operations |",
+        "**Prices**: Per 1M tokens. Cache pricing includes both Read and Write costs.",
+        "- **Prompt Caching**: Significant cost reduction with separate read/write pricing (10% read, 125% write of input)",
+        "| Model ID | Thinking | Context | Price (Input/Output/Cache) | Saved-chain result |",
+        "| `gemini-3.8-flash` | ✅ | 1M | $0.75/$3.75/$0.075 | API responds; 10/10 saved generator calls were content-filtered |",
+        "| `gemini-3.7-flash` | ✅ | 1M | $0.75/$3.75/$0.075 | API responds; 10/10 saved generator calls were content-filtered; former default |",
+        "| `gemini-3.6-flash` | ✅ | 1M | $0.75/$3.75/$0.075 | API responds; 10/10 saved generator calls returned text without a tool |",
+        "| `gemini-3.5-flash` | ✅ | 1M | $1.5/$9/$0.15 | API responds; 10/10 saved generator calls returned text without a tool |",
+        "| `gemini-3.5-flash-lite`* | ✅ | 1M | $0.3/$2.5/$0.03 | Complex-role default; eight direct plans and two after a safe `memorist` continuation |",
+        "| `gemini-3.1-pro-preview` | ✅ | 1M | $2/$12/$0.2 | API responds; 10/10 saved generator calls returned text without a tool |",
+        "| `gemini-3.1-pro-preview-customtools` | ✅ | 1M | $2/$12/$0.2 | API responds; 10/10 saved generator calls returned text without a tool |",
+        "| `gemini-3.1-flash-lite`* | ✅ | 1M | $0.25/$1.5/$0.025 | Simple-role default; direct plan on all ten saved generator chains |",
+        "| `gemini-3-flash-preview` | ✅ | 1M | $0.5/$3/$0.05 | API responds; three direct plans and five generator timeouts |",
+        "| `gemini-2.5-pro` | ✅ | 1M | $1.25/$10/$0.125 | API responds; ten direct plans, but four role-smoke provider errors |",
+        "| `gemini-2.5-flash` | ✅ | 1M | $0.3/$2.5/$0.03 | Ten direct plans; access is limited for new API projects |",
+        "| `gemini-2.5-flash-lite` | ✅ | 1M | $0.1/$0.4/$0.01 | API responds; five of ten generator answers were empty |",
+        "| `gemma-4-31b-it` | ✅ | 256K | Free/Free/Free | API responds; seven direct plans and three generator timeouts |",
+        "| `gemma-4-26b-a4b-it` | ✅ | 256K | Free/Free/Free | Direct plan on all ten saved generator chains |",
+        "**Prices**: Per 1M tokens. Google [limits Gemini 2.5 access for new projects](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-pro), so PentAGI uses the tested 3.1 Flash-Lite as its fallback and simple-role default. Existing custom 2.5 configurations remain usable where the project has acc...",
+        "| `BEDROCK_CONFIG_PATH` | | Path to a custom YAML provider config file (overrides the built-in default config for model/pricing definitions) |",
+        "- `BEDROCK_CONFIG_PATH` — a YAML file (same shape as the other provider configs) that **replaces** the built-in per-agent model/price assignments. See [`examples/configs/bedrock-glm-flash.provider.yml`](examples/configs/bedrock-glm-flash.provider.yml).",
+        "| Model ID | Provider | Thinking | Multimodal | Price (Input/Output) | Use Case |",
+        "| `us.amazon.nova-2-lite-v1:0` | Amazon Nova | ❌ | ✅ | $0.33/$2.75 | Adaptive reasoning, efficient thinking |",
+        "| `us.amazon.nova-premier-v1:0` | Amazon Nova | ❌ | ✅ | $2.50/$12.50 | Complex reasoning, advanced analysis |",
+        "| `us.amazon.nova-pro-v1:0` | Amazon Nova | ❌ | ✅ | $0.80/$3.20 | Balanced accuracy, speed, cost |",
+        "| `us.amazon.nova-lite-v1:0` | Amazon Nova | ❌ | ✅ | $0.06/$0.24 | Fast processing, high-volume operations |",
+        "| `us.amazon.nova-micro-v1:0` | Amazon Nova | ❌ | ❌ | $0.035/$0.14 | Ultra-low latency, real-time monitoring |",
+        "| `us.anthropic.claude-opus-4-8` | Anthropic | ✅ | ✅ | $5.00/$25.00 | Flagship coding/agents/deep reasoning; adaptive thinking only (sampling params rejected) |",
+        "| `us.anthropic.claude-opus-4-7` | Anthropic | ✅ | ✅ | $5.00/$25.00 | Advanced engineering, long-running agents; adaptive thinking only |",
+        "| `us.anthropic.claude-opus-4-6-v1`* | Anthropic | ✅ | ✅ | $5.00/$25.00 | World-class coding, enterprise agents |",
+        "| `us.anthropic.claude-sonnet-4-6` | Anthropic | ✅ | ✅ | $3.00/$15.00 | Frontier intelligence, enterprise scale |",
+        "| `us.anthropic.claude-opus-4-5-20251101-v1:0` | Anthropic | ✅ | ✅ | $5.00/$25.00 | Multi-day software development |",
+        "| `us.anthropic.claude-haiku-4-5-20251001-v1:0`* | Anthropic | ✅ | ✅ | $1.00/$5.00 | Near-frontier performance, high speed |",
+        "| `us.anthropic.claude-sonnet-4-5-20250929-v1:0`* | Anthropic | ✅ | ✅ | $3.00/$15.00 | Real-world agents, coding excellence |",
+        "| `us.anthropic.claude-sonnet-4-20250514-v1:0` | Anthropic | ✅ | ✅ | $3.00/$15.00 | Balanced performance, production-ready |",
+        "| `us.anthropic.claude-3-5-haiku-20241022-v1:0` | Anthropic | ❌ | ❌ | $0.80/$4.00 | Fastest model, cost-effective scanning |",
+        "| `cohere.command-r-plus-v1:0` | Cohere | ❌ | ❌ | $3.00/$15.00 | Large-scale operations, superior RAG |",
+        "| `deepseek.v3.2` | DeepSeek | ❌ | ❌ | $0.58/$1.68 | Long-context reasoning, efficiency |",
+        "| `openai.gpt-oss-120b-1:0`* | OpenAI (OSS) | ✅ | ❌ | $0.15/$0.60 | Strong reasoning, scientific analysis |",
+        "| `openai.gpt-oss-20b-1:0` | OpenAI (OSS) | ✅ | ❌ | $0.07/$0.30 | Efficient coding, software development |",
+        "| `qwen.qwen3-next-80b-a3b` | Qwen | ❌ | ❌ | $0.15/$1.20 | Ultra-long context, flagship reasoning |",
+        "| `qwen.qwen3-32b-v1:0` | Qwen | ❌ | ❌ | $0.15/$0.60 | Balanced reasoning, research use cases |",
+        "| `qwen.qwen3-coder-30b-a3b-v1:0` | Qwen | ❌ | ❌ | $0.15/$0.60 | Vibe coding, natural-language first |",
+        "| `qwen.qwen3-coder-next` | Qwen | ❌ | ❌ | $0.45/$1.80 | Tool use, function calling optimized |",
+        "| `mistral.mistral-large-3-675b-instruct` | Mistral | ❌ | ✅ | $4.00/$12.00 | Advanced multimodal, long-context |",
+        "| `moonshotai.kimi-k2.5` | Moonshot | ❌ | ✅ | $0.60/$3.00 | Vision, language, code in one model |",
+        "**Prices**: Per 1M tokens. Models with thinking/reasoning support additional compute costs during reasoning phase.",
+        "> **Rate Limits & Quota Management**",
+        "> 1. **Request quota increases** through AWS Service Quotas console for models you plan to use",
+        "> 4. **Monitor usage** - AWS throttles aggressively at quota limits",
+        "> Without quota increases, expect frequent delays and workflow interruptions.",
+        "PentAGI integrates with DeepSeek, providing access to advanced AI models with strong reasoning, coding capabilities, and context caching at competitive prices.",
+        "| Model ID | Thinking | Max Output | Context | Price (Input/Output/Cache) | Use Case |",
+        "| `deepseek-v4-flash`* | ✅ hybrid | 384K | 1M | $0.14/$0.28/$0.0028 | Utility agents, general dialogue, fast tool calling |",
+        "| `deepseek-v4-pro`* | ✅ hybrid | 384K | 1M | $1.74/$3.48/$0.0145 | Advanced reasoning, complex logic, security analysis |",
+        "**Prices**: Per 1M tokens. Cache pricing applies to prompt tokens served from cache (input cache hit, reduced to 1/10 of launch price since 2026-04-26). Both models support hybrid thinking — `thinking` mode is enabled by default; set `reasoning.mode: off` (Reasoning Mode Off in the UI) to switch ...",
+        "> **Pricing Note (deepseek-v4-pro)**: The 75% promotional discount on `deepseek-v4-pro` officially ended on 2026-05-31 15:59 UTC. The prices above reflect the standard post-promotional pricing. If you have legacy configurations using the discounted prices ($0.435/$0.87/$0.003625), update them to ...",
+        "- **Automatic Prompt Caching**: Significant cost reduction on repeated context via cache-hit pricing (1/10 of launch price)",
+        "| Model ID | Thinking | Context | Max Output | Price (Input/Output/Cache) | Use Case |",
+        "| `glm-5.3`* | ✅ Always | 1M | 128K | $1.40/$4.40/$0.26 | Current flagship for complex software engineering, agent tasks, and vulnerability research |",
+        "| `glm-5.3-flash`* | ✅ Always | 1M | 128K | $0.15/$0.50/$0.03 | Cost-efficient native multimodal model for utility and latency-sensitive agents |",
+        "| `glm-5.3-flashx` | ✅ Always | 1M | 128K | $0.37/$1.25/$0.075 | Accelerated GLM-5.3-Flash endpoint delivering up to 200 output tokens per second |",
+        "| `glm-5.2` | ✅ Hybrid | 1M | 128K | $1.40/$4.40/$0.26 | Previous flagship for long-horizon engineering tasks |",
+        "| `glm-5.1` | ✅ Hybrid | 200K | 128K | $1.40/$4.40/$0.26 | Long-horizon tasks: 8h sustained autonomous execution, Claude Opus 4.6-aligned coding |",
+        "| `glm-5` | ✅ Hybrid | 200K | 128K | $1.00/$3.20/$0.20 | Foundation for Agentic Engineering, MoE 744B/40B active, Claude Opus 4.5-level coding |",
+        "| `glm-4.7` | ✅ Hybrid | 200K | 128K | $0.60/$2.20/$0.11 | Enhanced programming, stable multi-step reasoning |",
+        "| `glm-4.7-flashx` | ✅ Hybrid | 200K | 128K | $0.07/$0.40/$0.01 | Ultra-cheap with priority GPU, but lower RPM limits (avoid for high-frequency use) |",
+        "| `glm-4.7-flash` | ✅ Hybrid | 200K | 128K | Free/Free/Free | Free ~30B SOTA model, 1 concurrent request |",
+        "| `glm-4.6` | ✅ Auto | 200K | 128K | $0.60/$2.20/$0.11 | Balanced, streaming tool calls, token-efficient |",
+        "| `glm-4.5` | ✅ Auto | 128K | 96K | $0.60/$2.20/$0.11 | Unified, MoE 355B/32B active |",
+        "| `glm-4.5-x` | ✅ Auto | 128K | 96K | $2.20/$8.90/$0.45 | Ultra-fast premium, lowest latency |",
+        "| `glm-4.5-air` | ✅ Auto | 128K | 96K | $0.20/$1.10/$0.03 | Cost-effective MoE 106B/12B |",
+        "| `glm-4.5-airx` | ✅ Auto | 128K | 96K | $1.10/$4.50/$0.22 | Accelerated Air with priority GPU |",
+        "| `glm-4.5-flash` | ✅ Auto | 128K | 96K | Free/Free/Free | Free with reasoning/coding/agents support |",
+        "| Model ID | Thinking | Context | Max Output | Price (Input/Output) | Use Case |",
+        "| `glm-4-32b-0414-128k` | ❌ | 128K | 16K | $0.10/$0.10 | Ultra-budget dense 32B, parsing without reasoning |",
+        "**Prices**: Per 1M tokens. Cache pricing is for prompt cache hit; cache storage is currently free per Z.AI promotion. GLM-4-32B has no cache support.",
+        "- **Preserved Thinking** (Z.AI Coding capability): all thinking-enabled agents in PentAGI also pass `extra_body.thinking.clear_thinking: false` so that `reasoning_content` from previous assistant turns is retained across the conversation. This is required on the standard API endpoint (`/api/paas/...",
+        "- **Prompt Caching**: Significant cost reduction on repeated context (cached input pricing shown)",
+        "- **Free Options**: GLM-4.7-Flash and GLM-4.5-Flash for prototyping and experimentation",
+        "| Model ID | Thinking | Multimodal | Context | Price (Input Miss / Output / Cache Hit) | Use Case |",
+        "| `kimi-k3`* | ✅ always | ✅ | 1M | $3.00 / $15.00 / $0.30 | Flagship for long-horizon coding and knowledge work; used by adviser with `reasoning_effort: max` |",
+        "| `kimi-k2.7-code`* | ✅ always | ✅ | 256K | $0.95 / $4.00 / $0.19 | Coding-focused model used by generator, refiner, coder, and pentester |",
+        "| `kimi-k2.7-code-highspeed`* | ✅ always | ✅ | 256K | $1.90 / $8.00 / $0.38 | Same model as `kimi-k2.7-code` with higher output throughput (~180-260 tokens/s) (primary_agent/assistant default) |",
+        "| `kimi-k2.6`* | ✅ hybrid | ✅ | 256K | $0.95 / $4.00 / $0.16 | Utility and installer model with optional thinking |",
+        "**Prices**: Per 1M tokens. K3 cache writes cost $3.00 with the default five-minute TTL or $6.00 with a one-hour TTL; cache hits cost $0.30. K2.7 and K2.6 table prices distinguish cache misses from cache hits.",
+        "PentAGI ships 50 text, reasoning, coding, and vision-language catalogue entries available from at least one of the two platforms. Image generation, video, speech, realtime, translation-only, embedding, reranking, and decision APIs use different protocols or billing units and are not exposed as Pe...",
+        "**Flagship Models (Top-tier Reasoning)**",
+        "| Model ID | Thinking | Intl | Global/US | China | Price (Input/Output/Cache) | Use Case |",
+        "| `qwen3.8-max` | ✅ | — | — | — | $2.00/$6.00/$0.25 | Newest flagship succeeding Qwen3.7-Max |",
+        "| `qwen3.8-omni-flash` | ✅ | ✅ | ✅ | ✅ | $0.15/$0.47/— | Current multimodal Omni tier |",
+        "| `qwen3.7-max` | ✅ | ✅ | ✅ | ✅ | $2.50/$7.50/$0.50 | Next-gen flagship for agent-centric era |",
+        "| `qwen3.6-max-preview` | ✅ | ✅ | ✅ | ✅ | $1.30/$7.80/$0.13 | Preview Max with enhanced vibe coding & front-end skills |",
+        "| `qwen3-max` | ✅ | ✅ | ✅ | ✅ | $1.20/$6.00/$0.24 | Previous-gen flagship with agent programming upgrades |",
+        "| `qwen-max` | ❌ | ✅ | ✅ | ✅ | $1.60/$6.40/— | Legacy 32K text flagship |",
+        "| `qwen-plus` | ✅ | ✅ | ✅ | ✅ | $0.40/$4.00/$0.08 | Qwen3-backbone Plus with switchable thinking modes |",
+        "**Balanced Plus Models (Mid-tier)**",
+        "| `qwen3.7-plus` | ✅ | — | — | — | $0.40/$1.60/$0.08 | Cost-efficient tier of the Qwen3.7 generation |",
+        "| `qwen3.6-plus` | ✅ | ✅ | ✅ | ✅ | $0.50/$3.00/$0.05 | Native VL Plus with agentic coding |",
+        "| `qwen3.5-plus` | ✅ | ✅ | ✅ | ✅ | $0.40/$2.40/$0.04 | Previous-gen native VL with strong multimodal capabilities |",
+        "| `qwen3.8-flash` | ✅ | — | — | — | $0.15/$0.47/$0.016 | Cost-efficient tier of the Qwen3.8 generation |",
+        "| `qwen3.7-flash` | ✅ | — | — | — | $0.03/$0.13/$0.02 | Low-latency tier of the Qwen3.7 generation |",
+        "| `qwen3.6-flash`* | ✅ | ✅ | ✅ | ✅ | $0.25/$1.50/$0.05 | Shared utility model |",
+        "| `qwen3.5-flash` | ✅ | ✅ | ✅ | ✅ | $0.10/$0.40/$0.01 | Ultra-fast lightweight |",
+        "| `qwen-flash` | ✅ | ✅ | ✅ | ✅ | $0.05/$0.40/$0.01 | Qwen3-series Flash with 1M context, tiered pricing |",
+        "| `qwen3-coder-plus` | ❌ | ✅ | ✅ | ✅ | $1.00/$5.00/$0.20 | Strong coding agent with autonomous programming |",
+        "| `qwen3-coder-flash` | ❌ | ✅ | ✅ | ✅ | $0.30/$1.50/$0.06 | Fast code-gen with multi-turn tool stability |",
+        "| `qwen3-coder-next` | ❌ | ✅ | ✅ | ✅ | $0.30/$1.50/— | Open-source code generation, SOTA at same scale |",
+        "| `qwen3-vl-plus` | ✅ | ✅ | ✅ | ✅ | $0.20/$1.60/$0.04 | VL with visual agent capabilities, ultra-long video understanding |",
+        "| `qwen3-vl-flash` | ✅ | ✅ | ✅ | ✅ | $0.05/$0.40/$0.01 | Small VL with 2D/3D localization for browser triage |",
+        "| `qvq-max` | ✅ | ✅ | ✅ | ✅ | $1.20/$4.80/— | Visual reasoning with chain-of-thought |",
+        "| `qwen3-vl-235b-a22b-thinking` | ✅ | — | — | — | $0.40/$4.00/— | Open-source 235B MoE VL (~22B active) with reasoning |",
+        "| `qwen3-vl-235b-a22b-instruct` | ❌ | — | — | — | $0.40/$1.60/— | Open-source 235B MoE VL (~22B active), instruction-following |",
+        "| `qwen3-vl-32b-instruct` | ❌ | — | — | — | $0.16/$0.64/— | Open-source 32B dense VL, instruction-following |",
+        "| `qwen3-vl-30b-a3b-thinking` | ✅ | — | — | — | $0.20/$2.40/— | Open-source 30B MoE VL (~3B active) with reasoning |",
+        "| `qwen3-vl-30b-a3b-instruct` | ❌ | — | — | — | $0.20/$0.80/— | Open-source 30B MoE VL (~3B active), instruction-following |",
+        "**Open-Source Qwen3.8 Series**",
+        "| `qwen3.8-2.4t-a95b` | ✅ | — | — | — | $2.00/$6.00/— | Open-source 3.8 flagship, always reasons |",
+        "| `qwen3.8-27b` | ✅ | — | — | — | $0.50/$3.00/$0.10 | Dense open-weight 3.8 tier, hybrid thinking, 1M context |",
+        "**Open-Source Qwen3.6 Series**",
+        "| `qwen3.6-27b` | ✅ | ✅ | ✅ | ✅ | $0.60/$3.60/— | Native VL on hybrid architecture, on-premises ready |",
+        "| `qwen3.6-35b-a3b` | ✅ | ✅ | ✅ | ✅ | $0.25/$1.49/— | Efficient 35B MoE (~3B active) for continuous monitoring |",
+        "**Open-Source Qwen3.5 Series**",
+        "| `qwen3.5-397b-a17b` | ✅ | ✅ | ✅ | ✅ | $0.60/$3.60/— | Largest 397B params (~17B active), exceptional reasoning |",
+        "| `qwen3.5-122b-a10b` | ✅ | ✅ | ✅ | ✅ | $0.40/$3.20/— | Large 122B params (~10B active), strong balance |",
+        "| `qwen3.5-35b-a3b` | ✅ | ✅ | ✅ | ✅ | $0.25/$2.00/— | Efficient 35B MoE (~3B active), cost-effective |",
+        "| `qwen3.5-27b` | ✅ | ✅ | ✅ | ✅ | $0.30/$2.40/— | Medium 27B with hybrid linear attention + sparse MoE |",
+        "**Open-Source Qwen3 Coder Series**",
+        "| `qwen3-coder-480b-a35b-instruct` | ❌ | ✅ | ✅ | ✅ | $1.50/$7.50/— | Largest open coder MoE (480B/~35B active) |",
+        "| `qwen3-coder-30b-a3b-instruct` | ❌ | ✅ | ✅ | ✅ | $0.45/$2.25/— | Efficient 30B MoE (~3B active), repository-scale |",
+        "**Open-Source Qwen3 Dense & MoE Series**",
+        "| `qwen3-next-80b-a3b-thinking` | ✅ | ✅ | ✅ | ✅ | $0.15/$1.20/— | Next-gen 80B MoE (~3B active) thinking-only |",
+        "| `qwen3-next-80b-a3b-instruct` | ❌ | ✅ | ✅ | ✅ | $0.15/$1.20/— | Next-gen 80B MoE instruction-following |",
+        "| `qwen3-235b-a22b-thinking-2507` | ✅ | — | — | — | $0.23/$2.30/— | 235B MoE (~22B active) thinking variant |",
+        "| `qwen3-30b-a3b-thinking-2507` | ✅ | — | — | — | $0.20/$2.40/— | 30B MoE (~3B active) thinking variant |",
+        "| `qwen3-30b-a3b-instruct-2507` | ❌ | — | — | — | $0.20/$0.80/— | 30B MoE (~3B active) non-thinking variant |",
+        "| Model ID | Thinking | Context | Price (Input/Output/Cache) | Use Case |",
+        "| `glm-5.3-prime` | ✅ | 1M | $2.80/$8.80/— | DashScope priority GLM route |",
+        "| `glm-5.2-fast-preview` | ✅ | 1M | $2.80/$8.80/— | DashScope high-throughput GLM 5.2 route |",
+        "| `glm-5.2` | ✅ | 1M | $1.40/$4.40/$0.28 | Zhipu AI GLM flagship route |",
+        "| `deepseek-v4.1-flash`* | ✅ | 1M | $0.15/$0.60/— | Current shared low-latency DeepSeek model |",
+        "| `deepseek-v4-pro`* | ✅ | 1M | $2.40/$4.80/$0.20 | Shared model for security and tool-heavy roles |",
+        "| `deepseek-v4-pro-0813` | ✅ | 1M | $2.40/$4.80/$0.20 | Qwen Cloud-only V4 Pro snapshot |",
+        "| `deepseek-v4-flash-0731` | ✅ | 1M | $0.44/$1.32/$0.088 | Legacy DashScope Flash snapshot |",
+        "| `kimi-k3` | ✅ | 1M | $3.00/$15.00/$0.30 | Current Kimi flagship on DashScope |",
+        "| `kimi-k2.7-code` | ✅ | 262K | $0.95/$4.00/$0.19 | Moonshot coding model, thinking always on, 16K output ceiling |",
+        "**Prices**: Per 1M tokens. Cache pricing reflects implicit cache hit (when available); MoE/dense open-source models do not expose cache pricing. Tiered models (Max/Plus) show lowest-tier pricing (typically ≤32k or ≤256k input); larger contexts incur higher rates per Alibaba Cloud pricing. `deepse...",
+        "| Agent Role | Default Model | Tier |",
+        "The role configuration must run unchanged behind `qwen_cloud/` and `dashscope/`. Qwen 3.6 Flash handles utility calls, DeepSeek V4.1 Flash provides the lower-cost workhorse tier, and DeepSeek V4 Pro remains on planning and advice. Thinking controls are left at provider defaults because Qwen Cloud...",
+        "- **Open-Source Variants**: Dense and MoE models from 27B to 2.4T for on-premises/air-gapped deployments",
+        "**As embedding provider** (`text-embedding-v4`, see [Alibaba Cloud Model Studio pricing](https://modelstudio.console.alibabacloud.com/ap-southeast-1?tab=doc#/doc/?type=model&url=prices)):",
+        "| Model ID | Context | Price (Input/Output, ≤512K context) | Use Case |",
+        "| `MiniMax-M3`* | ~1M | $0.30/$1.20 (2x above 512K tokens) | Latest flagship for agentic reasoning, tool use, code generation, and long-context tasks |",
+        "| `MiniMax-M2.7` | 204K | $0.30/$1.20 | Reliable reasoning and coding model used by stateful and diff-producing agents |",
+        "| `MiniMax-M2.7-highspeed` | 204K | $0.60/$2.40 | Low-latency variant of M2.7 for fast-response scenarios |",
+        "| Model ID | Price (Input/Output) | Reasons | Use Case |",
+        "| `mistral-small-latest`* | $0.15/$0.60 | yes | Hybrid instruct/reasoning/coding model for utility and read-heavy agents |",
+        "| `mistral-medium-latest` | $1.50/$7.50 | yes | Frontier-class multimodal model for planning and advice |",
+        "| `mistral-large-latest` | $0.50/$1.50 | no | General-purpose model for primary, assistant, coding, and pentesting |",
+        "| `codestral-latest` | $0.30/$0.90 | no | Code completion and fill-in-the-middle |",
+        "| `zai-glm-5-2` | $1.40/$4.40 | yes | Z.ai GLM 5.2 served by Mistral, public preview |",
+        "| `zai-glm-5-3` | $1.40/$4.40 | yes | Z.ai GLM 5.3 served by Mistral, public preview; thinking cannot be turned off |",
+        "| Model ID | Context | Price (Input/Output) | Reasons | Saved-chain result |",
+        "| `grok-4.7` | 500K | $2.00/$6.00 | yes | API responds; generator/reflector refusals make it unsuitable as a default |",
+        "| `grok-4.6` | 500K | $2.00/$6.00 | yes | API responds; all nine saved generator requests returned text without a tool |",
+        "| `grok-4.5` | 500K | $2.00/$6.00 | yes | API responds; eight of nine generator requests explicitly refused |",
+        "| `grok-4.3`* | 1M | $1.25/$2.50 | yes | Direct plan on all nine saved generator chains; tool-role default and fallback |",
+        "| `grok-4.20-0309-reasoning` | 1M | $1.25/$2.50 | yes | Four direct plans, three more after safe tool continuation, two pending |",
+        "| `grok-4.20-0309-non-reasoning`* | 1M | $1.25/$2.50 | no | Utility-role default; six plans after safe tool continuation, three pending |",
+        "| `grok-build-0.1` | 256K | $1.00/$2.00 | yes | Coding model; five plans after safe tool continuation, four pending |",
+        "> Note: prices are for prompts under 200K tokens; at or above that threshold xAI applies the higher long-context rate to every token in the request.",
+        "Each preset file must contain a matching `provider` plus `MODEL_NAME` and `SMALL_MODEL_NAME` mappings. The small model is used for reranking and lighter calls. Supported call settings include temperature, token limits, sampling and penalty parameters, JSON mode, reasoning effort, verbosity, prici...",
+        "`NEO4J_USER`, `NEO4J_PASSWORD`, `NEO4J_URI`, and `NEO4J_DATABASE` configure the bundled connection. Neo4j Community Edition supports only its default database; do not configure a separate database name that requires Enterprise multi-database support.",
+        "- Graphiti extraction, reranking, and embeddings incur billing independently of the model used by the main PentAGI flow.",
+        "Free buffer = 56 (≈ 58 %)",
+        "**Supabase (cloud or self-hosted)** needs both of them considered, and is the reason they exist:",
+        "- Supabase's pooler (Supavisor) does not reliably forward a bare `search_path` connection parameter. Prefer a **direct** PostgreSQL connection: self-hosted, expose the `db` service port and bypass the `supavisor` service; cloud, use the \"Direct connection\" string (or the IPv4 add-on on IPv4-only ...",
+        "# Test with OpenCode Go plan configuration",
+        "# For AWS Bedrock (enterprise foundation models)",
+        "BEDROCK_CONFIG_PATH= # Optional path to a custom YAML provider config (overrides built-in model/pricing definitions)",
+        "- `opencode` - for OpenCode Go plan",
+        "> - Development builds (after tag) include commit hash as revision (e.g., `1.1.0-ce.hbc6e800`); the edition is `ce` for Community and `ee` for Enterprise, and a release build is `1.1.0-ce`",
+        "## License",
+        "**PentAGI** is licensed under the [MIT License](LICENSE).",
+        "All third-party dependencies use MIT-compatible licenses. See [licenses/](licenses/) directory for detailed license reports.",
+        "⚠️ **Note:** While the VXControl Cloud SDK code is MIT licensed, accessing **VXControl Cloud Services** (threat intelligence, AI support, premium features) requires a separate License Key and compliance with [Terms of Service](https://github.com/vxcontrol/cloud#license-and-terms).",
+        "The SDK code itself is free to use - service access requires registration."
+      ]
+    },
+    "https://github.com/Zackriya-Solutions/meetily#readme": {
+      "tools": [
+        "Meetily"
+      ],
+      "hash": "ab39b4568f4aa0ea",
+      "pricing": [
+        "<a href=\"https://github.com/Zackriya-Solutions/meetily/releases\"><img src=\"https://img.shields.io/badge/License-MIT-blue\" alt=\"License\"></a>",
+        "Open Source • Privacy-First • Enterprise-Ready",
+        "A privacy-first AI meeting assistant that captures, transcribes, and summarizes meetings entirely on your infrastructure. Built by expert AI engineers passionate about data sovereignty and open source solutions. Perfect for enterprises that need advanced meeting intelligence without compromising ...",
+        "- [License](#license)",
+        "- **Cost-Effective:** Uses open-source AI models instead of expensive APIs.",
+        "- **Customizable:** Self-host and modify for your specific needs.",
+        "- **$4.4M average cost per data breach** (IBM 2024)",
+        "- **€5.88 billion in GDPR fines** issued by 2025",
+        "Whether you're a defense consultant, enterprise executive, legal professional, or healthcare provider, your sensitive discussions shouldn't live on servers you don't control. Cloud meeting tools promise convenience but deliver privacy nightmares with unclear data storage practices and potential u...",
+        "- **Open Source:** Meetily is open source and free to use.",
+        "Meetily Community Edition will remain **free and open source (MIT)**. PRO exists for users and teams who want a more advanced meeting workflow, including speaker identification, custom summary templates, advanced exports, auto-meeting detection, and AI assistant integrations (MCP, CLI, webhooks),...",
+        "- **Self-Hosted Deployment**: Deploy on your own infrastructure for teams with our enterprise plan",
+        "- **Teams and organizations** (2-100 users) requiring self-hosted deployment",
+        "> **Note:** Meetily Community Edition remains **free & open source forever** (MIT) with local transcription, AI summaries, and core features. PRO is a separate professional solution for users who need enhanced accuracy and advanced capabilities.",
+        "Pro is $10/user/month, billed annually, with a 14-day free trial.",
+        "For organizations needing 100+ users or managed compliance solutions, explore [https://meetily.ai/](https://meetily.ai/pricing).",
+        "**Learn more about pricing and features:** [https://meetily.ai/pro/](https://meetily.ai/pro/)",
+        "## License",
+        "MIT License - Feel free to use this project for your own purposes."
+      ]
+    },
+    "https://jobops.dakheera47.com/docs/": {
+      "tools": [
+        "JobOps"
+      ],
+      "hash": "5ff10671abb3e4c2",
+      "pricing": [
+        "Self-Hosting & Ops",
+        "Self-Hosting Guide",
+        "Search licensed UK sponsor organizations",
+        "Self-Hosting (Docker Compose)",
+        "Self-Hosting"
+      ]
+    },
+    "https://microsoft.github.io/PyRIT/1.1.0/": {
+      "tools": [
+        "PyRIT"
+      ],
+      "hash": "d2cfadfc69904507",
+      "pricing": []
+    },
+    "https://ollama.com/pricing": {
+      "tools": [
+        "Ollama"
+      ],
+      "hash": "7bb3383055cd9b38",
+      "pricing": [
+        "Pricing",
+        "Monthly",
+        "Pay as you go",
+        "$0",
+        "No subscription",
+        "$20 / mo. or $200/yr billed annually",
+        "$16.67 / mo. billed annually",
+        "$100 / mo.",
+        "Everything in Pay as you go, plus:",
+        "$60 of usage credits per month",
+        "$300 of usage credits per month",
+        "$500 / mo.",
+        "$1,000 of usage credits per month, shared across the team",
+        "Centralized billing and administration",
+        "Enterprise",
+        "For larger teams with volume usage pricing",
+        "Model pricing",
+        "Pay as you go with usage credits. Prices are per million tokens.",
+        "Off-peak pricing apply outside 12:00 and 18:00 UTC on weekdays and all day on weekends.",
+        "$0.24",
+        "$0.30",
+        "$0.006",
+        "$1.20",
+        "$0.15",
+        "$0.003",
+        "$0.60",
+        "$1.32",
+        "$0.044",
+        "$3.96",
+        "$0.66",
+        "$0.022",
+        "$1.98",
+        "$0.14",
+        "$0.05",
+        "$0.40",
+        "$1.40",
+        "$0.26",
+        "$4.40",
+        "$0.03",
+        "$0.50",
+        "$0.014",
+        "$0.07",
+        "$0.035",
+        "$3.00",
+        "$15.00",
+        "$0.95",
+        "$0.19",
+        "$4.00",
+        "$0.16",
+        "$0.0028",
+        "$0.28",
+        "$0.435",
+        "$0.0036",
+        "$0.87",
+        "$0.015",
+        "$0.12",
+        "$2.40",
+        "$0.06",
+        "$0.70",
+        "$2.10",
+        "$1.50",
+        "$1.25",
+        "$4.25",
+        "$0.10",
+        "Who is the Team plan for?",
+        "The Team plan is for teams that want shared usage, billing, and administration across the whole team.",
+        "How does Team billing work?",
+        "Team starts at $500 per month with unlimited users and $1,000 of usage credits included each month, shared across the team.",
+        "Usage beyond the included credits draws from a shared team balance billed as you go. You can add a set amount to the balance and turn off automatic usage billing.",
+        "Speed depends on model size, architecture, and hardware optimization. We target and monitor for low time-to-first-token and high throughput across all cloud models. Priority tiers with faster performance may be available in the future.",
+        "How does monthly usage work?",
+        "Pro, Max, and Team plans include a set dollar amount of usage credits each month. Pay as you go accounts pay for each request with usage credits. Running models on your own hardware is always unlimited.",
+        "When does my monthly included usage reset?",
+        "On Pro, Max, and Team plans, included usage resets monthly on the same day of the month your subscription started, including on annual plans.",
+        "No. Instead, your included amount refreshes at each monthly reset.",
+        "Usage is measured in tokens at each model's rates. The model pricing table lists the input, cached input, and output price per million tokens for every cloud model.",
+        "Every plan, including Pay as you go, can buy usage credits. Ollama uses included plan credits first, then draws from the purchased usage credit balance. Team usage draws from one balance shared by the organization.",
+        "Check your usage here anytime. On paid plans, Ollama sends an email reminder at 90% of your included monthly usage. You can turn this off in settings.",
+        "Concurrency limits ensure dedicated capacity for workflows that need multiple requests running simultaneously. Pay as you go and Pro include 3 concurrent requests, and Max and Team 10.",
+        "Requests beyond your plan's concurrency limit are queued and processed as soon as a slot is available. Queued requests are held up to a fixed limit - if the queue is full, the request will be rejected until one of your concurrency slots opens.",
+        "What happens to my usage if I switch from an existing Pro or Max plan to the new one?",
+        "Your usage is reset: the new plan's full monthly amount is available as soon as you switch, and the session and weekly limits of the old plans no longer apply. Your reset date stays on your subscription's original start date. Switch any time from your billing settings ."
+      ]
+    },
+    "https://platform.openai.com/docs/pricing": {
+      "tools": [
+        "MyResumo"
+      ],
+      "hash": "421ebcdb5a35ccfb",
+      "pricing": [
+        "Apps powered by your user's ChatGPT plan",
+        "Pricing",
+        "Self-hosted sandboxes",
+        "Plan",
+        "ChatGPT plan usage",
+        "Self-hosted VMs",
+        "Open Source",
+        "Self-host configuration",
+        "Education plans",
+        "Codex for Open Source",
+        "Prices per 1M tokens.",
+        "$10.00",
+        "$50.00",
+        "$1.00",
+        "$12.50",
+        "$25.00",
+        "$2.00",
+        "$0.10",
+        "$2.50",
+        "$5.00",
+        "$0.05",
+        "$1.25",
+        "$0.50",
+        "$0.01",
+        "$0.125",
+        "$0.25",
+        "$6.25",
+        "$0.025",
+        "$0.625",
+        "$0.005",
+        "$0.0625",
+        "$20.00",
+        "$100.00",
+        "$4.00",
+        "$0.20",
+        "$0.02",
+        "$60.00",
+        "$300.00",
+        "$6.00",
+        "$75.00",
+        "$150.00",
+        "$12.00",
+        "$0.60",
+        "$15.00",
+        "$30.00",
+        "Regional processing (data residency) endpoints are charged a 10% uplift for models released on or after March 5, 2026. Starting Nov 1, 2026, FedRAMP endpoints are also charged a 10% uplift. Priority processing was renamed Fast mode on July 30, 2026. GPT-5.6 Sol’s promotional pricing is available ...",
+        "$0.40",
+        "$15.625",
+        "$31.25",
+        "$1.50",
+        "$18.75",
+        "$37.50",
+        "GPT-6 Astra for Law promotional pricing is available at least through December 31, 2026.",
+        "GPT-Live 1 voice sessions are billed per second,",
+        "Price per minute",
+        "Prices per 1M tokens unless noted.",
+        "$32.00",
+        "$64.00",
+        "$24.00",
+        "$0.30",
+        "$2.40",
+        "$0.06",
+        "$0.80",
+        "$0.08",
+        "$8.00",
+        "$0.034 / minute",
+        "$0.017 / minute",
+        "$0.0045 / minute",
+        "$0.006 / minute",
+        "$0.003 / minute",
+        "$10.00 / 1k calls",
+        "+ Search content tokens billed at model rates.",
+        "$25.00 / 1k calls",
+        "+ Search content tokens are free.",
+        "1 GB $0.03, 4 GB $0.12, 16 GB $0.48, 64 GB $1.92 per 20-minute session per container.",
+        "$0.10 / GB per day (1 GB free)",
+        "$2.50 / 1k calls",
+        "$0.10 / GB-day after 1 GB free per account per month",
+        "Tokens used for built-in tools are billed at the chosen model's per-token rates. GB refers to binary gigabytes (also known as gibibytes), where 1 GB is 2^30 bytes. Web search content tokens are tokens retrieved from the search index and fed to the model alongside your prompt to generate an answer...",
+        "$1.75",
+        "$14.00",
+        "$0.175",
+        "$3.50",
+        "$28.00",
+        "$0.35",
+        "$3.00",
+        "$0.75",
+        "$3.20",
+        "$1.60",
+        "Tokens used for model grading in reinforcement fine-tuning are billed at that model's per-token rate. Inference discounts are available if you enable data sharing when creating the fine-tune job. Learn more .",
+        "OpenAI models on Amazon Bedrock and Microsoft Azure are billed through those",
+        "See Amazon Bedrock pricing .",
+        "See Microsoft Azure pricing ."
+      ]
+    },
+    "https://tracecat.com/pricing": {
+      "tools": [
+        "Tracecat"
+      ],
+      "hash": "ac0da1e6cae88c9f",
+      "pricing": [
+        "Pricing",
+        "Pricing that scales with you",
+        "Start with one platform fee and scale by end-to-end executions. Unlimited users, workflows, agents, and cases on every plan.",
+        "Open Source",
+        "Free forever",
+        "Self-hosted, no SLA",
+        "Included executions Talk to sales for higher execution tiers No SLA",
+        "Self-hosted (Docker Compose) Included",
+        "Monthly sync – Not included",
+        "$50,000 per year",
+        "Included executions Talk to sales for higher execution tiers 150k/month",
+        "Enterprise",
+        "Monthly sync Included",
+        "Team and Enterprise only",
+        "Every platform fee includes 150k executions per month. Executions above that are never throttled. Contact sales for pricing on additional executions.",
+        "Open source SOAR platforms",
+        "What's included in each plan?",
+        "How does usage pricing work?",
+        "What's the difference between Team and Enterprise?",
+        "Can we self-host or run air-gapped?",
+        "Is Open Source really free?",
+        "Team pricing is a $50,000 platform fee per year, including 150k executions per month. Enterprise pricing is custom and depends on deployment. Contact sales for pricing on additional executions. Executions above 150k are never throttled. Agent computers are an add-on for Team and Enterprise, price...",
+        "Or self-host Tracecat open source today. Read the docs",
+        "Enterprise-grade security SOC 2 Type II & air-gappable",
+        "Open source AGPL v3.0",
+        "Open source SOAR",
+        "Self-hosting"
+      ]
+    },
+    "https://twenty.com/pricing": {
+      "tools": [
+        "Twenty"
+      ],
+      "hash": "f1b6e706d78cdb4f",
+      "pricing": [
+        "Pricing",
+        "Start your free trial today",
+        "without credit card.",
+        "Monthly Yearly -25%",
+        "Self-hosting",
+        "$9",
+        "Start for free",
+        "$39",
+        "Control who does what Custom roles, permissions and usage limits",
+        "Enterprise",
+        "$50k",
+        "Enterprise procurement support Security reviews and custom contracts",
+        "Plan essentials",
+        "Price",
+        "$9 /user/month",
+        "$39 /user/month",
+        "From $50k /year",
+        "Workspace credits Monthly credits shared by the workspace for workflows, AI agents and apps. 1 credit covers 10,000 workflow steps.",
+        "Internet accounts per user",
+        "Extra credits Add a credit pack to your monthly or yearly plan. Unused pack credits roll over, up to twice the pack.",
+        "Credit packs $1 per credit, from $20/month",
+        "Feature-by-feature price checks against the CRMs you're probably comparing us with. Sources included.",
+        "$100 / seat / month - billed yearly",
+        "API access +$35/user per month",
+        "Webhooks (Change Data Capture) +$7000/org per month",
+        "SSO +$5/user per month",
+        "groups +$75/user per month",
+        "Switch to enterprise!",
+        "Maps view +$105/user per month",
+        "6 workflows +$75/user per month",
+        "✓ APEX tutorials Free for you!",
+        "Self-hosting Out of stock",
+        "Self-hosting, now for rent!",
+        "orchestration $1/orchestration run/org",
+        "+$75/user per month",
+        "AI (Einstein) +$75/user per month",
+        "Is Twenty really open-source?",
+        "Yes. Twenty is the #1 Open Source CRM on GitHub. You can self-host to fully own your infrastructure, or run it on our managed cloud for a zero-ops setup.",
+        "Sign up for Cloud in under a minute and start your 30-day trial. For larger rollouts, our 4-hour Onboarding Packs or certified partners get you live in 1–2 weeks.",
+        "Cloud Pro is $9/user/month and Organization is $39/user/month, billed yearly. Organization adds 5x more AI usage per member, custom roles with field and row-level permissions, and SSO. Self-hosting the open source core is free."
+      ]
+    },
+    "https://vigilsoc.org/docs/bifrost/": {
+      "tools": [
+        "Vigil"
+      ],
+      "hash": "ba0254da7308aa16",
+      "pricing": [
+        "VigilSOC 1.0.0 is live: General Availability for the open source AI SOC.",
+        "Self-hosted Ollama serves whatever the user has pulled or built, so a",
+        "VIGIL · Open Source AI SOC |",
+        "Apache 2.0 License |"
+      ]
+    },
+    "https://www.activepieces.com/pricing": {
+      "tools": [
+        "Activepieces"
+      ],
+      "hash": "a7e1e15165d4e62d",
+      "pricing": [
+        "Product Solutions Enterprise Pricing Docs",
+        "Pricing",
+        "Monthly Annual · Save 2 months",
+        "Free",
+        "$0",
+        "Free forever, no card",
+        "$20",
+        "flat per month",
+        "Everything in Free, plus",
+        "10× the Free plan",
+        "Then pay as you go",
+        "$200",
+        "5× the Plus plan",
+        "For enterprise scale",
+        "From $36k a year",
+        "Enterprise control",
+        "Everything you need to pick the right plan for your team.",
+        "Free Get started",
+        "Price Billed monthly",
+        "$20/mo",
+        "$200/mo",
+        "Monthly",
+        "$0.007/credit",
+        "Free Plus Team Ultimate",
+        "Price $20/mo",
+        "Credit reset Monthly",
+        "Going over $0.007/credit",
+        "Pricing questions.",
+        "Is the free plan really free?",
+        "Depends on your plan. On Free, your flows stay switched on but any runs past your quota do not go through until credits refresh the next day. On Plus and Team they keep running and you pay for the extra at $0.007 per credit. Ultimate has a yearly pool, so one heavy month is fine.",
+        "Can I cancel, change plans, or add seats anytime?",
+        "Yes. Upgrades and added seats take effect immediately and are prorated. Downgrades apply at the end of the billing period so you keep what you paid for.",
+        "All major cards on any plan. Team and Ultimate can pay by ACH or wire, and Ultimate can be invoiced with custom terms.",
+        "Why would I pay if I can self-host for free?",
+        "Self-hosting decides where Activepieces runs, not what it can do. Community Edition is the automation core on its own. Paying adds the layer you need once more than a couple of people depend on it: controlling who has access, seeing who changed what, keeping teams and clients separate, shipping c...",
+        "You are not stuck. Anything with an API works right away through the HTTP piece or a webhook. For a proper integration, pieces are open source TypeScript, so you or we can build one.",
+        "Pick a plan, and change it whenever.",
+        "Start free with no card. Move up when a flow earns it, and run it on our cloud or your own servers either way.",
+        "Free to start",
+        "No credit card",
+        "Open source"
+      ]
+    },
+    "https://www.librechat.ai/docs": {
+      "tools": [
+        "LibreChat"
+      ],
+      "hash": "b5af2c18e939a111",
+      "pricing": [
+        "LibreChat is joining ClickHouse to power the open-source Agentic Data Stack 🎉 Learn more",
+        "Try LibreChat right now on the project's free public demo at chat.librechat.ai : create an account there and start a conversation. The demo is for evaluation only, so it is not the place for private data or anything you need to keep ( terms , privacy ).",
+        "LibreChat is a self-hosted web application, not a native Windows, macOS, or Linux desktop app. On Windows, use Docker Desktop for the simplest local setup. On macOS, also use Docker Desktop ; on Apple Silicon (M-series) Macs, read the Apple Silicon MongoDB note in the Docker guide prerequisites b..."
+      ]
+    },
+    "https://www.promptfoo.dev/docs/red-team/configuration/": {
+      "tools": [
+        "promptfoo"
+      ],
+      "hash": "43d900270491149e",
+      "pricing": [
+        "Docs Blog Pricing",
+        "Enterprise",
+        "graderGuidance - Provide free-form instructions that take priority over default grading criteria when conflicts occur:"
+      ]
+    },
+    "https://www.promptfoo.dev/pricing/": {
+      "tools": [
+        "promptfoo"
+      ],
+      "hash": "28d18857014b1e22",
+      "pricing": [
+        "Docs Blog Pricing",
+        "Choose the plan that's right for your team.",
+        "Free Forever",
+        "Our open-source tool, perfect for individual developers and small teams.",
+        "Run locally or self-host on your own infrastructure",
+        "Enterprise",
+        "All Enterprise features",
+        "Enterprise Features",
+        "Enterprise On-Premise",
+        "Why are there usage limits on red teaming?",
+        "Certain red teaming plugins require inference for dynamic test generation and grading. The open-source Community version includes up to 10k probes per month at no charge. Enterprise customers can purchase additional probes for larger scale testing.",
+        "Who needs the Enterprise version?",
+        "How does Enterprise pricing work?",
+        "Enterprise pricing is customized based on your team's size and needs. Contact us for a personalized quote.",
+        "Can I upgrade from Community to Enterprise?",
+        "Yes, you can easily upgrade to Enterprise at any time to access additional features and support."
+      ]
+    }
+  },
+  "checkedAt": "2026-11-04"
+}
