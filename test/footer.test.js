@@ -30,7 +30,7 @@ test('the bottom bar has three parts: copyright and founder as plain text, Priva
   assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
-  assert.deepEqual(links, [['/privacy/', 'Privacy'], ['/security/', 'Security'], ['mailto:hello@openorbia.com', 'Contact']]);
+  assert.deepEqual(links, [['/privacy/', 'Privacy'], ['/security/', 'Security'], ['/contact/', 'Contact']]);
   // the links the OpenOrbia column already has are not repeated in the bottom bar
   for (const dup of ['/how-we-check/', '/how-voting-works/', '/makers/', '/request/']) assert.ok(!middle.includes(dup), dup);
   const right = html.match(/<div class="sf-r">(.*?)<\/div>/s)[1];
@@ -96,7 +96,7 @@ test('every other link in the footer site map goes to a real page, and the conta
   const { existsSync } = await import('node:fs');
   const { CONTACT_EMAIL } = await import('../lib/footer.js');
   const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js', '/faq/': 'functions/faq/index.js',
-    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js' };
+    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js', '/contact/': 'functions/contact/index.js' };
   const html = footerHtml(2026);
   const map = mapOf(html);
   for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {
@@ -106,7 +106,7 @@ test('every other link in the footer site map goes to a real page, and the conta
   }
   assert.equal(CONTACT_EMAIL, 'hello@openorbia.com');
   assert.ok(html.includes(`Questions? <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`));
-  assert.ok(map.includes('<a href="/faq/">FAQ</a>') && map.includes(`<a href="mailto:${CONTACT_EMAIL}">Contact us</a>`));
+  assert.ok(map.includes('<a href="/faq/">FAQ</a>') && map.includes('<a href="/contact/">Contact us</a>'));
 });
 
 test('the homepage has no numbers strip (45 tools / 43 run free / 0 paid / newest check)', () => {
