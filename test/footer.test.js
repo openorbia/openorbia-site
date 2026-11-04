@@ -30,7 +30,7 @@ test('the bottom bar has three parts: copyright and founder as plain text, Priva
   assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
-  assert.deepEqual(links, [['/privacy/', 'Privacy'], ['https://github.com/openorbia/openorbia-site/security/policy', 'Security'], ['mailto:hello@openorbia.com', 'Contact']]);
+  assert.deepEqual(links, [['/privacy/', 'Privacy'], ['/security/', 'Security'], ['mailto:hello@openorbia.com', 'Contact']]);
   // the links the OpenOrbia column already has are not repeated in the bottom bar
   for (const dup of ['/how-we-check/', '/how-voting-works/', '/makers/', '/request/']) assert.ok(!middle.includes(dup), dup);
   const right = html.match(/<div class="sf-r">(.*?)<\/div>/s)[1];

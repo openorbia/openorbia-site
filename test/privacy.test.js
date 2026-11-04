@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { renderPrivacy, privacyResponse, LAST_UPDATED } from '../lib/privacy.js';
+import { renderPrivacy, privacyResponse, LAST_UPDATED, COOKIE_LINE } from '../lib/privacy.js';
 import { STATIC_PATHS } from '../lib/seo.js';
 import { footerHtml, CONTACT_EMAIL } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
@@ -39,7 +39,8 @@ test('the "no cookies, no IP addresses" claims match the code', () => {
     assert.ok(!/set-cookie|document\.cookie/i.test(file(f)), `${f}: no cookies`);
   }
   assert.ok(!/remoteip/i.test(file('lib/turnstile.js').replace(/\/\/.*$/gm, '')), 'Turnstile gets the token only, not the IP');
-  assert.ok(text.includes("We don't send your IP address to the spam check"));
+  assert.ok(text.includes("Our server doesn't send your IP address to the spam check. The check runs in your browser, so Cloudflare sees your connection the way any website does."));
+  assert.ok(!text.includes('only its one-time token'), 'the old wording is gone');
   // the stored tables have no IP or user-agent column
   assert.ok(!/\b(ip|ip_address|user_agent|useragent)\b\s+TEXT/i.test(file('schema.sql')));
 });
@@ -117,4 +118,22 @@ test('"How long we keep it" matches the code: no automatic deletion of signups, 
 test('Last updated is Nov 4, 2026', () => {
   assert.equal(LAST_UPDATED, '2026-11-04');
   assert.ok(text.includes('Last updated November 4, 2026.'));
+});
+
+// ---- added 2026-11-04 (privacy-security-pages): who runs it, the change note, the cookie line ----
+
+test('near the top: who runs OpenOrbia, where, and the address for questions', () => {
+  const who = html.indexOf('OpenOrbia is run by Khaja Syed in the United States.');
+  assert.ok(who > 0 && who < html.indexOf('id="collect-h"'), 'before the first section');
+  assert.ok(html.includes('OpenOrbia is run by Khaja Syed in the United States. Questions: <a href="mailto:hello@openorbia.com">hello@openorbia.com</a>.'));
+});
+
+test('a note that changes update the page and the date, right before Last updated', () => {
+  const note = html.indexOf('If this changes, we’ll update this page and the date below.');
+  assert.ok(note > 0 && note < html.indexOf('Last updated') && note > html.indexOf('id="delete-h"'));
+});
+
+test('the cookie line is the one constant shared with /security/, and no first-party code sets a cookie', () => {
+  assert.equal(COOKIE_LINE, 'We don’t set cookies.');
+  assert.ok(html.includes(`<li>${COOKIE_LINE}</li>`));
 });
