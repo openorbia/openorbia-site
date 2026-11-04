@@ -35,14 +35,14 @@ header{padding-block:22px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
-.sf-top{display:grid;gap:26px;padding-block:24px 30px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.sf-top{display:grid;gap:26px;padding-block:24px 32px;border-bottom:1px solid rgba(143,166,255,.28);margin-bottom:20px}
 .sf-about{display:flex;flex-wrap:wrap;gap:8px 28px;align-items:baseline}
 .sf-word{justify-self:start;gap:0}
 .sf-about p{margin:0;font-size:14px;line-height:1.55;max-width:62ch}
 .sf-contact{margin-left:auto!important}
 .sf-contact a{color:var(--blue-l);text-decoration:none}
 .sf-contact a:hover{text-decoration:underline}
-.sf-map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 20px}
+.sf-map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:28px}
 .sf-col{min-width:0}
 .sf-h{margin:0 0 10px;font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
 .sf-col ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
@@ -54,8 +54,9 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
 .sf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 28px;align-items:center}
 .sf a{color:var(--muted);text-decoration:none}
 .sf a:hover{color:var(--ink)}
-.sf-l{display:grid;gap:2px;justify-items:start;white-space:nowrap}
-.sf-m{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 18px;max-width:560px}
+.sf-l{display:grid;gap:2px;justify-items:start;white-space:nowrap;line-height:1.5}
+.sf-m{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px 0}
+.sf-m a+a::before{content:"·";margin-inline:12px;color:var(--muted);opacity:.7}
 .sf-m a,.sf-l a{display:inline-flex;align-items:center;min-height:32px}
 .sf-r{display:flex;justify-content:flex-end;gap:6px}
 .sf-r a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
