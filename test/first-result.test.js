@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TOOLS, toolBySlug } from '../public/assets/tools.js';
-import { firstResultProblems, renderFirstResult, FIRST_RESULT_LABELS } from '../lib/first-result.js';
+import { firstResultProblems, renderFirstResult, FIRST_RESULT_LABELS, stepHtml } from '../lib/first-result.js';
 import { renderTool } from '../lib/tool-pages.js';
 
 const data = JSON.parse(readFileSync(new URL('../data/free-facts.json', import.meta.url), 'utf8'));
@@ -90,4 +90,32 @@ test('everything in the section is escaped', () => {
   assert.ok(!html.includes('<img') && !html.includes('<script>'), 'no raw tags');
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;&quot;&amp;'));
   assert.equal(renderFirstResult({ ...base, label: 'tested-ish' }), '', 'an invalid object renders nothing');
+});
+
+test('commands in steps: only `backtick` spans become <code>, and HTML inside them is still escaped', () => {
+  assert.equal(stepHtml('Run `ollama pull gemma3:4b` first'), 'Run <code>ollama pull gemma3:4b</code> first');
+  assert.equal(stepHtml('Two: `a` and `b`'), 'Two: <code>a</code> and <code>b</code>');
+  assert.equal(stepHtml('No command here'), 'No command here');
+  assert.equal(stepHtml('`<script>alert(1)</script>` & `"x" \'y\'`'),
+    '<code>&lt;script&gt;alert(1)&lt;/script&gt;</code> &amp; <code>&quot;x&quot; &#39;y&#39;</code>');
+  assert.equal(stepHtml('<b>bold</b> is text'), '&lt;b&gt;bold&lt;/b&gt; is text', 'only backticks make tags');
+  // a whole section: the commands in the data render as code, with nothing unescaped
+  const base = toolBySlug('garak').facts.firstResult;
+  const html = renderFirstResult({ ...base, steps: ['Run `<img src=x onerror=alert(1)>`', ...base.steps.slice(1)] });
+  assert.ok(html.includes('<li>Run <code>&lt;img src=x onerror=alert(1)&gt;</code></li>'));
+  assert.ok(!html.includes('<img'));
+});
+
+test('the commands in the data are marked, render in <code> on the tool pages, and no step has a stray backtick', () => {
+  const marked = {
+    'resume-matcher': ['ollama pull gemma3:4b', 'docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest'],
+    garak: ['python -m pip install -U garak', 'python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0'],
+  };
+  for (const [slug, cmds] of Object.entries(marked)) {
+    const html = renderTool(toolBySlug(slug));
+    for (const c of cmds) assert.ok(html.includes(`<code>${c}</code>`), `${slug}: ${c}`);
+    assert.ok(!/`/.test(html.match(/<ol class="fr-steps">[\s\S]*?<\/ol>/)[0]), `${slug}: no backticks left on the page`);
+  }
+  const base = withResult[0].facts.firstResult;
+  assert.ok(firstResultProblems({ ...base, steps: ['Run `oops', 'two', 'three'] }).some(p => p.includes('backtick')));
 });

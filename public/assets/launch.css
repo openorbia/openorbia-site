@@ -399,6 +399,7 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .fr-steps li::marker{color:var(--blue-l);font:600 14px var(--mono)}
 .first-result .fr-check{margin:16px 0 0;font-size:14px;color:var(--muted)}
 .fr-label{color:var(--green);font-weight:600}
+.fr-steps code{font:500 .88em/1.5 var(--mono);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:6px;padding:1px 6px;overflow-wrap:anywhere;word-break:break-word;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 @media (max-width:900px){.tool-grid{grid-template-columns:minmax(0,1fr)}.tool-side{position:static}}
 /* the Submit and Find me a free tool pages: the form on the left, a panel on what happens next on the right */
 .form-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(24px,4vw,48px);align-items:start}

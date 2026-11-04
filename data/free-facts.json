@@ -457,8 +457,8 @@
         "Internet to download the image and the model"
       ],
       "steps": [
-        "Install Ollama from ollama.com and pull a model: ollama pull gemma3:4b",
-        "Start Resume Matcher: docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest",
+        "Install Ollama from ollama.com and pull a model: `ollama pull gemma3:4b`",
+        "Start Resume Matcher: `docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest`",
         "Open http://localhost:3000/settings, choose Ollama, set the Base URL to http://host.docker.internal:11434, save, and click Test Connection.",
         "Back on the Dashboard, upload your master resume (PDF or DOCX).",
         "Paste the job description, review the tailored content, and export it as a PDF."
@@ -782,8 +782,8 @@
         "Internet to install garak and download the model"
       ],
       "steps": [
-        "Install garak: python -m pip install -U garak",
-        "Run the scan: python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0",
+        "Install garak: `python -m pip install -U garak`",
+        "Run the scan: `python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0`",
         "Wait for the progress bar: garak generates responses, then prints a result row for each detector.",
         "For the details, open the .jsonl report garak names at the start and end of the run; errors go in garak.log."
       ],
