@@ -79,11 +79,14 @@ test('the search also matches the plain-language task line', () => {
   assert.ok(!ROWS.some(r => matchesRow(r, { ...parseFilters(''), q: 'zzzz-no-such-task' })));
 });
 
-test('the hero is compact: the same headline, "Explore free tools" to /launch-list/ and "Get launch updates" to the signup', () => {
+test('the hero: the same headline, the new lede, "Explore free tools" and "Find my free setup"; the signup stays further down', () => {
   assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
-  assert.ok(home.includes('<a class="btn pri" href="/launch-list/">Explore free tools</a>'));
-  assert.ok(home.includes('<a class="btn ghost" href="#join">Get launch updates</a>'));
-  assert.match(home, /id="join"/);
+  assert.ok(home.includes('<p class="lede">Find AI that fits your task, your computer and your budget, with the catch shown upfront.</p>'));
+  const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
+  assert.deepEqual([...hero.matchAll(/<a class="btn (pri|ghost)" href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2], m[3]]),
+    [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);
+  assert.ok(!hero.includes('Get launch updates') && !hero.includes('href="#join"'), 'the launch-updates link is out of the hero');
+  assert.match(home, /<section class="join" id="join"/, 'the waitlist section stays');
   // the planet is small on phones
   assert.match(home, /@media \(max-width:820px\)\{\.hero\{[^}]*grid-template-columns:minmax\(0,1fr\) 68px/);
   assert.match(home, /\.hero\{padding-block:clamp\(16px,3vh,24px\) 12px/);

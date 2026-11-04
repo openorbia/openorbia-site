@@ -23,16 +23,21 @@ test('the static pages carry exactly the shared footer, and the server-rendered 
   for (const [name, html] of Object.entries(server)) assert.equal(footerOf(html), footerHtml(new Date().getFullYear()), name);
 });
 
-test('the footer has three groups: © and the founder credit as plain text, the four links, and the two social icons', () => {
+test('the bottom bar has three parts: copyright and founder as plain text, Privacy / Security / Contact, and three icons', () => {
   const html = footerHtml(2026);
   const left = html.match(/<div class="sf-l">(.*?)<\/div>/s)[1];
-  assert.equal(left, '<span>© 2026 OpenOrbia · Founder: Khaja Syed</span>');
+  assert.equal(left, '<span>© 2026 OpenOrbia. All rights reserved.</span><span>Founded by Khaja Syed</span>');
   assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
-  const links = [...middle.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
-  assert.deepEqual(links, [['/how-we-check/', 'How we check tools'], ['/how-voting-works/', 'How voting works'], ['/makers/', 'For makers'], ['/request/', 'Find me a free tool']]);
+  const links = [...middle.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
+  assert.deepEqual(links, [['/privacy/', 'Privacy'], ['https://github.com/openorbia/openorbia-site/security/policy', 'Security'], ['mailto:hello@openorbia.com', 'Contact']]);
+  // the links the OpenOrbia column already has are not repeated in the bottom bar
+  for (const dup of ['/how-we-check/', '/how-voting-works/', '/makers/', '/request/']) assert.ok(!middle.includes(dup), dup);
   const right = html.match(/<div class="sf-r">(.*?)<\/div>/s)[1];
-  assert.ok(right.indexOf('OpenOrbia on X') < right.indexOf('OpenOrbia on LinkedIn'));
+  const icons = [...right.matchAll(/<a href="([^"]+)" aria-label="([^"]+)" rel="me noopener" target="_blank"><svg/g)].map(m => [m[1], m[2]]);
+  assert.deepEqual(icons, [['https://x.com/OpenOrbia', 'OpenOrbia on X'], ['https://www.linkedin.com/company/openorbia', 'OpenOrbia on LinkedIn'], ['https://github.com/openorbia/openorbia-site', 'OpenOrbia on GitHub']]);
+  assert.match(FOOTER_CSS, /\.sf-r a\{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px\}/, '44px tap targets');
+  assert.match(FOOTER_CSS, /@media \(max-width:820px\)\{\.sf\{grid-template-columns:minmax\(0,1fr\);justify-items:center;text-align:center\}/, 'stacked and centred on phones');
 });
 
 test('the social icons are inline 22px SVGs with an aria-label, rel="me noopener" and target="_blank", and point at the right profiles', () => {
@@ -67,7 +72,7 @@ test("the footer site map: kinds of work, setup and OpenOrbia's pages, and no to
   const { CATEGORY_LINKS } = await import('../lib/footer.js');
   const { TOOLS } = await import('../public/assets/tools.js');
   const html = footerHtml(2026);
-  assert.deepEqual(headingsOf(html), ['Work &amp; productivity', 'Automation &amp; AI', 'Careers', 'Security', 'Browse', 'OpenOrbia']);
+  assert.deepEqual(headingsOf(html), ['Productivity', 'Automation &amp; AI', 'Careers', 'Security', 'Browse', 'OpenOrbia']);
   assert.ok(!html.includes('href="/tool/'), 'no links to single tools');
   const map = mapOf(html);
   for (const t of TOOLS) assert.ok(!map.includes(`>${t.name.replace(/&/g, '&amp;')}<`), `${t.name} is not named`);
