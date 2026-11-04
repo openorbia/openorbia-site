@@ -103,7 +103,7 @@ test('everything from the launch is escaped', () => {
 });
 
 test('the badge follows the rule on /makers/: offered only once the launch is featured (from launch day), linking to the launch page', () => {
-  assert.ok(file('lib/makers.js').includes('Once your tool is featured, show it off.'));
+  assert.ok(file('lib/makers.js').includes('Every launch is featured on OpenOrbia from its launch day.'));
   assert.equal(badgeAllowed(SAMPLE, BEFORE), false);
   assert.equal(badgeAllowed(SAMPLE, OPENS), true);
   const before = kit(BEFORE), after = kit(AFTER);
