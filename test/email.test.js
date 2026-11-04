@@ -202,3 +202,59 @@ test('the Pages handler passes waitUntil bound to the context', async () => {
   assert.ok(bound, 'waitUntil was called on the context, not detached');
   assert.equal(calls.length, 1);
 });
+
+// ---- the log line every signup leaves, so a missing welcome email can be traced ----
+
+// Runs one signup and returns what it logged; `siteverify` answers Cloudflare's check ('pass', 'fail' or 'down')
+async function logsFor(body, { siteverify = 'pass', envOverride = {}, request } = {}) {
+  const lines = [];
+  const orig = { log: console.log, error: console.error };
+  console.log = (...a) => lines.push(a.join(' '));
+  console.error = (...a) => lines.push(a.join(' '));
+  const fetchImpl = async (url, init) => {
+    if (url === SITEVERIFY_URL) {
+      if (siteverify === 'down') throw new Error('network down');
+      return new Response(JSON.stringify({ success: siteverify === 'pass' }), { status: 200 });
+    }
+    calls.push({ url, init, body: JSON.parse(init.body) });
+    return new Response('{}', { status: 201 });
+  };
+  try {
+    await handleWaitlist({ request: request || asJson(body), env: { ...env, ...envOverride }, fetchImpl });
+  } finally { Object.assign(console, orig); }
+  return lines;
+}
+const signupLine = lines => lines.filter(l => l.startsWith('Waitlist signup:'));
+
+test('every new signup logs its Turnstile result: passed, failed, no token, unavailable, not configured', async () => {
+  const cases = [
+    [{ email: 'p@example.com', turnstile: 'secret-token-123' }, {}, 'turnstile=passed', 1],
+    [{ email: 'f@example.com', turnstile: 'secret-token-123' }, { siteverify: 'fail' }, 'turnstile=failed welcome_email=not_sent', 0],
+    [{ email: 'n@example.com', turnstile: '' }, {}, 'turnstile=no_token welcome_email=not_sent', 0],
+    [{ email: 'u@example.com', turnstile: 'secret-token-123' }, { siteverify: 'down' }, 'turnstile=unavailable welcome_email=not_sent', 0],
+    [{ email: 'c@example.com', turnstile: 'secret-token-123' }, { envOverride: { TURNSTILE_SECRET_KEY: '' } }, 'turnstile=not_configured welcome_email=not_sent', 0],
+  ];
+  for (const [body, opts, expected, sends] of cases) {
+    calls = [];
+    const lines = await logsFor(body, opts);
+    const mine = signupLine(lines);
+    assert.equal(mine.length, 1, `one line for ${body.email}`);
+    assert.equal(mine[0], `Waitlist signup: outcome=new role=maker ${expected}`);
+    assert.equal(calls.length, sends, `${body.email}: welcome email sent only when Turnstile passed`);
+    for (const l of lines) {
+      assert.ok(!l.includes('@'), `no email address in the log: ${l}`);
+      assert.ok(!l.includes('secret-token-123'), 'no Turnstile token in the log');
+    }
+  }
+});
+
+test('the no-JavaScript form post (no token) logs no_token, and other outcomes log without checking Turnstile', async () => {
+  assert.deepEqual(signupLine(await logsFor(null, { request: asForm({ email: 'form@example.com', role: 'reader' }) })),
+    ['Waitlist signup: outcome=new role=reader turnstile=no_token welcome_email=not_sent']);
+  await logsFor({ email: 'twice@example.com' });
+  assert.deepEqual(signupLine(await logsFor({ email: 'twice@example.com' })), ['Waitlist signup: outcome=already turnstile=not_checked']);
+  assert.deepEqual(signupLine(await logsFor({ email: 'not-an-email' })), ['Waitlist signup: outcome=bad_email turnstile=not_checked']);
+  assert.deepEqual(signupLine(await logsFor({ email: 'bot@example.com', company: 'Acme' })), ['Waitlist signup: outcome=bot turnstile=not_checked']);
+  const foreign = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://evil.example' }, body: '{}' });
+  assert.deepEqual(signupLine(await logsFor(null, { request: foreign })), ['Waitlist signup: outcome=forbidden turnstile=not_checked']);
+});

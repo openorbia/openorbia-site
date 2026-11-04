@@ -81,7 +81,7 @@ test('the homepage waitlist has the Turnstile widget with the same public site k
   const key = readFileSync(new URL('wrangler.toml', root), 'utf8').match(/^\[vars\][\s\S]*?TURNSTILE_SITE_KEY = "([^"]+)"/m)[1];
   assert.ok(html.includes(`<div class="cf-turnstile" data-sitekey="${key}"`), 'widget with the production key');
   assert.ok(html.includes('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'));
-  assert.match(readFileSync(new URL('public/assets/home.js', root), 'utf8'), /turnstile:check\(\)/);
+  assert.match(readFileSync(new URL('public/assets/home.js', root), 'utf8'), /turnstile:token\}/); // the token it waited for (test/home-form.test.js)
 });
 
 test('the homepage form posts without JavaScript and every message it can be sent to exists', () => {
