@@ -788,7 +788,7 @@
         "For the details, open the .jsonl report garak names at the start and end of the run; errors go in garak.log."
       ],
       "expected": "A result row for each detector: responses with the unwanted behaviour are marked FAIL with a failure rate, and figures like 840/840 give the total generations and how many behaved OK.",
-      "catch": "This free path scans a model on your own computer; to scan a hosted chatbot or a commercial model you point garak at its REST endpoint or that provider's API, with its own key.",
+      "catch": "GPT-2 here is a small stand-in for learning how garak works; its results say nothing about your own chatbot, which you scan by pointing garak at it (a REST endpoint, or its provider's API with your own key).",
       "label": "docs",
       "sources": [
         "https://github.com/NVIDIA/garak#readme"
