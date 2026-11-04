@@ -110,7 +110,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
   assert.equal(rows.length, 45);
-  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage'];
+  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage', 'firstResult'];
   for (const r of rows) {
     const f = r[8];
     assert.ok(f && typeof f === 'object', r[0]);
@@ -148,6 +148,7 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
     assert.deepEqual([...f.sources], x.sources, `${r[0]}: sources`);
     assert.equal(f.task, x.task, `${r[0]}: task`);
     assert.equal(f.level, x.level, `${r[0]}: level`);
+    assert.deepEqual(f.firstResult === undefined ? undefined : JSON.parse(JSON.stringify(f.firstResult)), x.firstResult, `${r[0]}: firstResult`);
   }
   assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
   assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
