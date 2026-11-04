@@ -9,7 +9,17 @@ import { footerHtml, CONTACT_EMAIL } from '../lib/footer.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 const html = renderSecurity();
-const text = h => h.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+// The visible text of our own rendered HTML, for comparing sentences: drops everything between < and > with a plain loop (not a
+// regex replace, which CodeQL reads as an incomplete sanitizer), then decodes the few entities esc() makes.
+const text = h => {
+  let out = '', inTag = false;
+  for (const ch of h) {
+    if (ch === '<') inTag = true;
+    else if (ch === '>') inTag = false;
+    else if (!inTag) out += ch;
+  }
+  return out.split('&quot;').join('"').split('&#39;').join("'").split('&lt;').join('<').split('&gt;').join('>').split('&amp;').join('&').replace(/\s+/g, ' ');
+};
 const md = file('SECURITY.md');
 const sentences = SECURITY_SECTIONS.flatMap(s => [...(s.p || []), ...(s.li || []), ...(s.after || [])]);
 
