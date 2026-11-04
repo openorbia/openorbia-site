@@ -137,3 +137,19 @@ test('the cookie line is the one constant shared with /security/, and no first-p
   assert.equal(COOKIE_LINE, 'We don’t set cookies.');
   assert.ok(html.includes(`<li>${COOKIE_LINE}</li>`));
 });
+
+// ---- added 2026-11-04 (#7): the unsubscribe link ----
+
+test('Waitlist says every email has an unsubscribe link that deletes the signup, and the code does exactly that', async () => {
+  assert.ok(text.includes('Every email we send has an unsubscribe link; using it deletes your signup.'));
+  const waitlist = html.slice(html.indexOf('<b>Waitlist.</b>'), html.indexOf('</li>', html.indexOf('<b>Waitlist.</b>')));
+  assert.ok(waitlist.includes('Every email we send has an unsubscribe link'), 'it is in the Waitlist item');
+  // the welcome email (the only waitlist email today) carries the link and the one-click headers
+  const { welcomeEmail } = await import('../lib/email.js');
+  const url = 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef';
+  const e = welcomeEmail('reader', { unsubscribeUrl: url });
+  assert.ok(e.html.includes('>Unsubscribe</a>') && e.text.includes(`Unsubscribe: ${url}`));
+  assert.ok(file('functions/api/waitlist.js').includes('await unsubscribeUrl(env.VOTE_SECRET, id)'), 'every welcome email gets its own link');
+  // and the link deletes that signup
+  assert.ok(file('lib/unsubscribe.js').includes("DELETE FROM waitlist WHERE id = ?"));
+});

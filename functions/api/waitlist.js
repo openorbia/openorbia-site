@@ -19,6 +19,7 @@ import { requestIsOurs } from "../../lib/origin.js";
 import { rateLimit } from "../../lib/ratelimit.js";
 import { visitor } from "../../lib/visitor.js";
 import { verifyTurnstile } from "../../lib/turnstile.js";
+import { unsubscribeUrl } from "../../lib/unsubscribe.js";
 
 // 5 signups an hour per visitor
 export const WAITLIST_LIMIT = { max: 5, windowSeconds: 3600 };
@@ -73,20 +74,20 @@ async function signup(body, request, env) {
     ).bind(email, role, tool, country).run();
 
     if (res.meta && res.meta.changes === 0) return MESSAGES.already;
-    // a new signup: tell the caller who to welcome (never sent for duplicates or bots)
-    return { ...(role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader), welcome: { to: email, role } };
+    // a new signup: tell the caller who to welcome (never sent for duplicates or bots), and which row, for its unsubscribe link
+    return { ...(role === "maker" ? MESSAGES.ok_maker : MESSAGES.ok_reader), welcome: { to: email, role, id: res.meta && res.meta.last_row_id } };
   } catch (e) {
     return MESSAGES.failed;
   }
 }
 
 export async function handleWaitlist({ request, env, waitUntil, fetchImpl, turnstileFetch = fetchImpl, now = Date.now() }) {
-  if (!requestIsOurs(request)) return json({ error: MESSAGES.forbidden.error }, 403);
+  if (!requestIsOurs(request)) { console.log("Waitlist signup: outcome=forbidden turnstile=not_checked"); return json({ error: MESSAGES.forbidden.error }, 403); }
 
   if (env.DB && typeof env.VOTE_SECRET === "string" && env.VOTE_SECRET) {
     let limited = null;
     try { limited = await rateLimit(env.DB, env.VOTE_SECRET, { scope: "waitlist", ...WAITLIST_LIMIT }, visitor(request), now); } catch { /* never block a signup on the limiter */ }
-    if (limited) return reply(request, MESSAGES.rate_limited, { "retry-after": String(limited.wait) });
+    if (limited) { console.log("Waitlist signup: outcome=rate_limited turnstile=not_checked"); return reply(request, MESSAGES.rate_limited, { "retry-after": String(limited.wait) }); }
   }
 
   const type = (request.headers.get("content-type") || "").toLowerCase();
@@ -105,21 +106,39 @@ export async function handleWaitlist({ request, env, waitUntil, fetchImpl, turns
 
   // The welcome email goes out after the answer where the platform allows it; it can never change the answer. Only a visitor who passed
   // Turnstile gets one. The check runs in the same background task, so the visitor's answer never waits for it.
+  // Every signup leaves one log line: what happened and the Turnstile result (no email address, no token). For a new signup the email
+  // step then logs Brevo's answer (lib/email.js), so a missing welcome email can always be traced to one of the two.
   if (result.welcome) {
     const task = (async () => {
-      if (await passedTurnstile(body, env, turnstileFetch)) await sendWelcome({ apiKey: env.BREVO_API_KEY, ...result.welcome, fetchImpl });
+      const check = await turnstileResult(body, env, turnstileFetch);
+      console.log(`Waitlist signup: outcome=new role=${result.welcome.role} turnstile=${check}${check === "passed" ? "" : " welcome_email=not_sent"}`);
+      if (check !== "passed") return;
+      const { to, role, id } = result.welcome;
+      // this signup's own unsubscribe link (lib/unsubscribe.js); without the server secret the email asks for a reply instead
+      const unsub = typeof env.VOTE_SECRET === "string" && env.VOTE_SECRET && id ? await unsubscribeUrl(env.VOTE_SECRET, id) : "";
+      await sendWelcome({ apiKey: env.BREVO_API_KEY, to, role, unsubscribeUrl: unsub, fetchImpl });
     })();
     if (typeof waitUntil === "function") waitUntil(task); else await task;
+  } else {
+    console.log(`Waitlist signup: outcome=${outcomeName(result)} turnstile=not_checked`);
   }
 
   return reply(request, result);
 }
 
-async function passedTurnstile(body, env, fetchImpl) {
+// -> "passed" | "failed" (Cloudflare rejected the token: wrong, expired or used) | "no_token" | "unavailable" (Cloudflare not reachable)
+//    | "not_configured" (TURNSTILE_SECRET_KEY is not set for this deployment)
+export async function turnstileResult(body, env, fetchImpl) {
   const secret = env.TURNSTILE_SECRET_KEY;
-  if (typeof secret !== "string" || !secret) return false;
-  return (await verifyTurnstile({ secret, token: body && body.turnstile, fetchImpl })) === "ok";
+  if (typeof secret !== "string" || !secret) return "not_configured";
+  const token = body && body.turnstile;
+  if (typeof token !== "string" || !token) return "no_token";
+  const r = await verifyTurnstile({ secret, token, fetchImpl });
+  return r === "ok" ? "passed" : r;
 }
+
+// the MESSAGES key of a result, for the log line (never the visitor's input)
+const outcomeName = result => Object.keys(MESSAGES).find(k => MESSAGES[k] === result) || "unknown";
 
 function isFormPost(request) {
   const type = (request.headers.get("content-type") || "").toLowerCase();

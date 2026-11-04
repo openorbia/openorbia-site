@@ -1,3 +1,6 @@
 node_modules
 .wrangler
 .dev.vars
+
+# Local cache of public GitHub facts written by ops/scripts/tool-facts.mjs
+.ops-cache
