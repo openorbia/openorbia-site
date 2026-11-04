@@ -451,24 +451,28 @@
     "firstResult": {
       "canFinish": "Tailor your resume to one job description and export it as a PDF, using a local Ollama model so your resume stays on your computer.",
       "needs": [
-        "Docker (Docker Desktop on Windows and macOS)",
+        "Git and Docker (Docker Desktop on Windows and macOS)",
         "Ollama (free) with a small model such as gemma3:4b",
+        "On Linux, Ollama must also listen beyond 127.0.0.1 so the container can reach it (SETUP.md, \"Using Ollama with Docker\")",
         "No account and no API key",
-        "Internet to download the image and the model"
+        "Internet to download the code, the image and the model"
       ],
       "steps": [
         "Install Ollama from ollama.com and pull a model: `ollama pull gemma3:4b`",
-        "Start Resume Matcher: `docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest`",
+        "Get the code: `git clone https://github.com/srbhr/Resume-Matcher.git` then `cd Resume-Matcher`",
+        "Start it with Docker Compose, which opens it on this computer only (127.0.0.1): `docker compose up -d`",
         "Open http://localhost:3000/settings, choose Ollama, set the Base URL to http://host.docker.internal:11434, save, and click Test Connection.",
         "Back on the Dashboard, upload your master resume (PDF or DOCX).",
         "Paste the job description, review the tailored content, and export it as a PDF."
       ],
       "expected": "A resume tailored to that job, an ATS score out of 100 with the missing keywords on the JD Match tab, and a text-based PDF.",
-      "catch": "Setup needs a terminal and Docker, and the app has no login: anyone who can reach it can read your resumes, so keep it on this computer only (the default).",
+      "catch": "Setup needs a terminal, Git and Docker, and the app has no login: anyone who can reach it can read your resumes, so keep it on this computer only (the Docker Compose default).",
       "label": "docs",
       "sources": [
         "https://github.com/srbhr/Resume-Matcher#readme",
-        "https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md"
+        "https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md#docker-deployment",
+        "https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md#using-ollama-with-docker",
+        "https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md#option-b-local-ai-with-ollama-free"
       ],
       "lastChecked": "2026-11-04"
     }

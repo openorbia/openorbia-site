@@ -109,7 +109,7 @@ test('commands in steps: only `backtick` spans become <code>, and HTML inside th
 
 test('the commands in the data are marked, render in <code> on the tool pages, and no step has a stray backtick', () => {
   const marked = {
-    'resume-matcher': ['ollama pull gemma3:4b', 'docker run --name resume-matcher -p 3000:3000 -v resume-data:/app/backend/data ghcr.io/srbhr/resume-matcher:latest'],
+    'resume-matcher': ['ollama pull gemma3:4b', 'git clone https://github.com/srbhr/Resume-Matcher.git', 'cd Resume-Matcher', 'docker compose up -d'],
     garak: ['python -m pip install -U garak', 'python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0'],
   };
   for (const [slug, cmds] of Object.entries(marked)) {
@@ -153,4 +153,37 @@ test('the strip escapes names and text, and skips tools whose first result is mi
   assert.ok(!html.includes('<img') && html.includes('&lt;b&gt;x&lt;/b&gt;'));
   assert.equal((html.match(/<li>/g) || []).length, 1, 'only the valid one');
   assert.equal(toolsWithFirstResult(TOOLS).length, 5);
+});
+
+// Every command on a page is copied from the tool's official docs, never written by us. This pins each one to where it was copied
+// from (checked 2026-11-04), so a change to a command has to be a deliberate change here too.
+const COPIED_FROM_DOCS = {
+  'resume-matcher': {
+    'ollama pull gemma3:4b': 'SETUP.md, Option B: Local AI with Ollama (Free), Step 2',
+    'git clone https://github.com/srbhr/Resume-Matcher.git': 'SETUP.md, 1. Clone the Repository',
+    'cd Resume-Matcher': 'SETUP.md, 1. Clone the Repository',
+    'docker compose up -d': 'SETUP.md, Docker Deployment, Quick Start with Docker Compose',
+  },
+  garak: {
+    'python -m pip install -U garak': 'README, Install: Standard install with pip',
+    'python3 -m garak --target_type huggingface --target_name gpt2 --spec probes.dan.Dan_11_0': 'README, Examples',
+  },
+};
+
+test('every command in a step is one copied from the official docs (and listed here with where it came from)', () => {
+  for (const t of withResult) {
+    const cmds = t.facts.firstResult.steps.flatMap(s => [...s.matchAll(/`([^`]+)`/g)].map(m => m[1]));
+    assert.deepEqual(cmds.sort(), Object.keys(COPIED_FROM_DOCS[t.slug] || {}).sort(), `${t.name}: commands`);
+  }
+});
+
+test('Resume Matcher uses the documented Docker Compose method (bound to 127.0.0.1), not docker run -p, and says what Linux needs', () => {
+  const fr = toolBySlug('resume-matcher').facts.firstResult;
+  const all = JSON.stringify(fr);
+  assert.ok(!/docker run|-p 3000:3000|0\.0\.0\.0/.test(all), 'nothing that publishes the app to the network');
+  assert.ok(fr.steps.some(s => s.includes('`docker compose up -d`') && s.includes('127.0.0.1')));
+  assert.ok(fr.needs.some(n => n.startsWith('Git and Docker')));
+  assert.ok(fr.needs.some(n => n.startsWith('On Linux, Ollama must also listen beyond 127.0.0.1')));
+  for (const anchor of ['#docker-deployment', '#using-ollama-with-docker', '#option-b-local-ai-with-ollama-free'])
+    assert.ok(fr.sources.includes(`https://github.com/srbhr/Resume-Matcher/blob/main/SETUP.md${anchor}`), anchor);
 });

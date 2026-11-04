@@ -1,7 +1,7 @@
 // The Launch List page script (cards, filters). A module file of its own so the Content Security Policy can forbid inline scripts.
 import{factRows,formatChecked,isTested,needsPaidService,NEEDS_PAID_LABEL}from"./facts.js?v=bf871439b3";
-import{parseFilters,filterQuery,matchesRow}from"./launch-filters.js?v=d901c8908d";
-import{ROWS as T,CATEGORIES as CAT,slugOf}from"./tools.js?v=fa7c04611f";
+import{parseFilters,filterQuery,matchesRow}from"./launch-filters.js?v=b9aef2976f";
+import{ROWS as T,CATEGORIES as CAT,slugOf}from"./tools.js?v=6f58f75ebb";
 import{LOGOS}from"./logos.js?v=991a16939c";
 
 const COL={biz:["#5b7cff","#7a4dff"],job:["#2fb8a0","#5b7cff"],sec:["#ff6b8a","#7a4dff"]};
