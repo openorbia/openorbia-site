@@ -23,6 +23,8 @@
     "stamp": "node scripts/stamp-assets.mjs",
     "fetch:logos": "node scripts/fetch-logos.mjs",
     "deploy": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch main",
-    "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day"
+    "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day",
+    "build:email-art": "node scripts/build-email-art.mjs",
+    "email:test": "node scripts/send-test-email.mjs"
   }
 }

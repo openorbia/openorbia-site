@@ -18,6 +18,11 @@ test('/makers/ covers what makers get, the rules, the free facts, the checklist 
     'Launch Week 1', 'Monday, Nov 23', '12:01 AM Pacific']) assert.ok(text.includes(t), t);
 });
 
+test('/makers/ says every launch is featured from its launch day, and points to the maker kit for the badge', () => {
+  assert.ok(text.includes('Featured on OpenOrbia badge Every launch is featured on OpenOrbia from its launch day. Show it off: your maker kit has the badge ready to paste. Paste a badge into your README or website.'));
+  assert.ok(!text.includes('Once your tool is featured'));
+});
+
 test('/makers/ has the two buttons and the address as text with a copy button', () => {
   assert.match(html, /<a class="btn pri" href="https:\/\/github\.com\/openorbia\/openorbia-site\/issues\/new\?template=submit-a-tool\.yml"[^>]*>Submit via GitHub<\/a>/);
   assert.match(html, /<a class="btn ghost" href="mailto:launch@openorbia\.com">Email launch@openorbia\.com<\/a>/);
