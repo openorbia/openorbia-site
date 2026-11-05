@@ -7,4 +7,5 @@ useDefault = true
 description = "Fake secrets used by the tests"
 regexes = [
   '''^test-secret-0123456789abcdef$''',
+  '''^the-voting-secret-0123456789$''', # test/email.test.js, test/unsubscribe.test.js: a fake VOTE_SECRET
 ]
