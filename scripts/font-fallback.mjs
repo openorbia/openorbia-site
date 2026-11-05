@@ -1,44 +1,73 @@
 #!/usr/bin/env node
-// Works out the numbers for the "Sora Fallback" @font-face in the three stylesheets (public/index.html, public/launch-list/index.html,
-// public/assets/launch.css): Arial Bold scaled so a heading is the same width, and sits on the same baseline, as it is in Sora.
-// With it, headings wrap the same before and after Sora loads, so nothing jumps when the font swaps in.
+// Works out the metric-matched fallback @font-face rules in lib/fonts.js: a local system font (Arial, Arial Bold or Courier New)
+// scaled so text is the same width, and sits on the same baseline, as it is in each self-hosted web font (public/assets/fonts/).
+// With them, text wraps the same before and after a web font loads, so nothing jumps when it swaps in.
 //
-//   npm install --no-save fontkit
-//   node scripts/font-fallback.mjs [path/to/arialbd.ttf]        (Windows: C:/Windows/Fonts/arialbd.ttf, the default)
+//   npm install --no-save --prefix /tmp/fk fontkit playwright && /tmp/fk/node_modules/.bin/playwright install chromium
+//   TOOLS_DIR=/tmp/fk node scripts/font-fallback.mjs        (on a computer with Arial and Courier New, e.g. Windows or macOS)
 //
-// It fits size-adjust to the real heading text of the site (the strings in HEADINGS below, so update them if the headlines change) and
-// prints the CSS. ascent / descent / line-gap overrides are Sora's own vertical metrics divided by size-adjust, because size-adjust
-// also scales the font's metrics.
+// size-adjust is fitted to real text of the site (the samples below; update them if the copy changes a lot), measured in Chromium at
+// each weight (fontkit cannot read a weight's advances from these variable WOFF2 files). ascent / descent / line-gap overrides are the
+// web font's own vertical metrics (read with fontkit) divided by size-adjust, because size-adjust also scales the metrics.
 
-import * as fontkit from 'fontkit';
+import { createRequire } from 'node:module';
+import { readFileSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ARIAL_BOLD = process.argv[2] || 'C:/Windows/Fonts/arialbd.ttf';
+const need = createRequire(resolve(process.env.TOOLS_DIR || '.', 'package.json'));
+const fontkit = need('fontkit');
+const { chromium } = need('playwright');
+const FONTS = fileURLToPath(new URL('../public/assets/fonts/', import.meta.url));
+
 const HEADINGS = [
   'Where free AI tools take off.', 'Small businesses', 'Job seekers', 'Security teams', 'Launch Week 1 is coming', 'Get in before the first launch.',
   '44 free AI tools, checked before they launch.', 'Launch your free AI tool, for free.', 'What makers get', 'A launch page', 'Community upvotes',
   'Launch Week 1', 'Makers launch free AI tools', 'The community upvotes', "The week's top tools get featured", 'Page not found.',
   'Ready to launch?', 'Dark badge', 'Light badge', 'Launching weekly.',
 ];
+const BODY = [
+  'Open-source and free AI tools for small businesses, job seekers and security teams.',
+  'Every tool here has an open license or a real free plan, was updated in the last 6 months, and uses AI as a core feature.',
+  'No trials, no paywalls. How we check tools. Runs on your computer. Install & self-host. Browser, ready to use.',
+  'Free launches every week. No paid placement, ever. Makers launch free AI tools and the community upvotes them.',
+];
+const MONO = ['LAUNCH LIST · PREVIEW', 'ollama run llama3.2', 'docker compose up -d', '43 TOOLS', 'RUNS FREE'];
 
-// A pure width fit is not enough. Sora's wide letters ("Launch", "Where") make the fallback wrap one word earlier on a line that fits Sora
-// by a hair (the /makers/ headline at 375px). Testing the fallback against Sora blocked, at 1280 / 390 / 375 / 360 px on the four page
-// types, a fit 3% narrower matched every headline break; a fallback that is too wide wraps early, one that is a little narrow does not.
-const NARROWER = 0.97;
+// Sora's wide letters make a pure width fit wrap one word early on headlines that fit Sora by a hair (the /makers/ headline at 375px).
+// Tested against Sora blocked at 1280 / 390 / 375 / 360 px, a fit 3% narrower matched every headline break.
+const NARROWER = { Sora: 0.97 };
 
-const UA = 'curl/8.7.1';   // Google Fonts answers an unknown user agent with plain TrueType files
-const sora = async weight => {
-  const css = await (await fetch(`https://fonts.googleapis.com/css2?family=Sora:wght@${weight}`, { headers: { 'user-agent': UA } })).text();
-  return fontkit.create(Buffer.from(await (await fetch(css.match(/url\((https:[^)]+)\)/)[1])).arrayBuffer()));
-};
-const width = (font, text) => font.layout(text).positions.reduce((sum, p) => sum + p.xAdvance, 0) / font.unitsPerEm;   // in em, kerning included
-const arial = fontkit.openSync(ARIAL_BOLD);
-const pct = n => `${(Math.round(n * 10000) / 100).toString()}%`;
-const fit = (s, weight) => HEADINGS.reduce((a, t) => a + width(s, t), 0) / HEADINGS.reduce((a, t) => a + width(arial, t), 0) * NARROWER;
+const ARIAL = w => (w >= 600 ? ['Arial Bold', 'Arial-BoldMT', 'Arial'] : ['Arial', 'ArialMT']);
+const FAMILIES = [
+  { family: 'Sora', file: 'sora-v17-latin.woff2', weights: [700, 800], local: ARIAL, system: 'Arial', text: HEADINGS },
+  { family: 'IBM Plex Sans', file: 'ibm-plex-sans-v23-latin.woff2', weights: [400, 500, 600], local: ARIAL, system: 'Arial', text: BODY },
+  { family: 'JetBrains Mono', file: 'jetbrains-mono-v24-latin.woff2', weights: [500], local: () => ['Courier New', 'CourierNewPSMT'], system: 'Courier New', text: MONO },
+  { family: 'Bricolage Grotesque', file: 'bricolage-grotesque-v9-wordmark.woff2', weights: [800], local: ARIAL, system: 'Arial', text: ['OpenOrbia'] },
+];
 
-for (const weight of [700, 800]) {
-  const s = await sora(weight);
-  const adjust = fit(s, weight);
-  console.log(`@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:${weight};` +
-    `size-adjust:${pct(adjust)};ascent-override:${pct(s.ascent / s.unitsPerEm / adjust)};descent-override:${pct(-s.descent / s.unitsPerEm / adjust)};` +
-    `line-gap-override:${pct(s.lineGap / s.unitsPerEm / adjust)}}`);
+const pct = n => `${Math.round(n * 10000) / 100}%`;
+
+// The sample text's width at 100px in a real browser: the web font (from its file) at the given weight, divided by the system face
+// the fallback uses (Arial Bold from 600 up, else the regular face).
+const browser = await chromium.launch();
+const page = await browser.newPage();
+const ratio = (file, family, system, weight, texts) => page.evaluate(async ({ bytes, family, system, weight, texts }) => {
+  const face = new FontFace(`M-${family}`, new Uint8Array(bytes), { weight: '100 900' });
+  await face.load();
+  document.fonts.add(face);
+  const ctx = new OffscreenCanvas(10, 10).getContext('2d');
+  const total = font => texts.reduce((sum, t) => { ctx.font = font; return sum + ctx.measureText(t).width; }, 0);
+  return total(`${weight} 100px "M-${family}"`) / total(`${weight >= 600 ? 700 : 400} 100px "${system}"`);
+}, { bytes: [...readFileSync(file)], family, system, weight, texts });
+
+for (const f of FAMILIES) {
+  const file = join(FONTS, f.file), web = fontkit.openSync(file);
+  for (const w of f.weights) {
+    const adjust = await ratio(file, f.family, f.system, w, f.text) * (NARROWER[f.family] || 1);
+    console.log(`@font-face{font-family:"${f.family} Fallback";src:${f.local(w).map(n => `local("${n}")`).join(',')};font-weight:${w};` +
+      `size-adjust:${pct(adjust)};ascent-override:${pct(web.ascent / web.unitsPerEm / adjust)};descent-override:${pct(-web.descent / web.unitsPerEm / adjust)};` +
+      `line-gap-override:${pct(web.lineGap / web.unitsPerEm / adjust)}}`);
+  }
 }
+await browser.close();

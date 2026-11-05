@@ -1,14 +1,23 @@
 /* OpenOrbia launch pages: /launches/ and /launch/<slug>/. Same tokens, fonts and components as the homepage and the Launch List. */
-/* Sora Fallback: Arial Bold scaled to Sora's widths and vertical metrics (scripts/font-fallback.mjs), so headings wrap and sit the same before and after Sora loads */
-@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:700;size-adjust:104.02%;ascent-override:93.25%;descent-override:27.88%;line-gap-override:0%}
-@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:800;size-adjust:104.68%;ascent-override:92.66%;descent-override:27.7%;line-gap-override:0%}
+/* Fonts served from openorbia.com (lib/fonts.js; SIL Open Font License, licenses in /assets/fonts/), each with a metric-matched local fallback (scripts/font-fallback.mjs) */
+@font-face{font-family:"Sora";font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/sora-v17-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-v23-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;src:url(/assets/fonts/jetbrains-mono-v24-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:800;font-display:swap;src:url(/assets/fonts/bricolage-grotesque-v9-wordmark.woff2) format("woff2");unicode-range:U+4F,U+61-62,U+65,U+69,U+6E,U+70,U+72}
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:700;size-adjust:103.92%;ascent-override:93.34%;descent-override:27.91%;line-gap-override:0%}
+@font-face{font-family:"Sora Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:800;size-adjust:104.58%;ascent-override:92.75%;descent-override:27.73%;line-gap-override:0%}
+@font-face{font-family:"IBM Plex Sans Fallback";src:local("Arial"),local("ArialMT");font-weight:400;size-adjust:100.45%;ascent-override:102.04%;descent-override:27.38%;line-gap-override:0%}
+@font-face{font-family:"IBM Plex Sans Fallback";src:local("Arial"),local("ArialMT");font-weight:500;size-adjust:102.48%;ascent-override:100.02%;descent-override:26.83%;line-gap-override:0%}
+@font-face{font-family:"IBM Plex Sans Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:600;size-adjust:96.9%;ascent-override:105.78%;descent-override:28.38%;line-gap-override:0%}
+@font-face{font-family:"JetBrains Mono Fallback";src:local("Courier New"),local("CourierNewPSMT");font-weight:500;size-adjust:99.98%;ascent-override:102.02%;descent-override:30%;line-gap-override:0%}
+@font-face{font-family:"Bricolage Grotesque Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:800;size-adjust:92.04%;ascent-override:101.05%;descent-override:29.34%;line-gap-override:0%}
 :root{
   --bg:#05070f;--surface:rgba(18,24,48,.6);--ink:#eef2ff;--muted:#9aa6c8;--line:rgba(143,166,255,.18);
   --blue:#5b7cff;--blue-l:#9fb2ff;--violet:#a07bff;--cyan:#7fe7ff;--yellow:#ffd84d;--green:#62e3a8;--red:#ff9b8f;
   --display:"Sora","Sora Fallback","Avenir Next","Segoe UI",system-ui,sans-serif;
-  --wordmark:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
-  --body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wordmark:"Bricolage Grotesque","Bricolage Grotesque Fallback","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","IBM Plex Sans Fallback","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"JetBrains Mono","JetBrains Mono Fallback",ui-monospace,Menlo,Consolas,monospace;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
