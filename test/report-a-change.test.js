@@ -33,7 +33,8 @@ test('/contact/?tool=<real slug> starts a correction for that tool, with Copy bu
   assert.ok(html.includes('<code id="ct-r-mail">launch@openorbia.com</code><button class="copy" type="button" data-copy="launch@openorbia.com" data-copied="Copied" aria-describedby="ct-r-mail">Copy</button>'));
   assert.ok(html.includes(`<code id="ct-r-subj">Correction: ${tool.name}</code><button class="copy" type="button" data-copy="Correction: ${tool.name}" data-copied="Copied" aria-describedby="ct-r-subj">Copy</button>`));
   assert.ok(html.indexOf('ct-report') < html.indexOf('id="ct-h"'), 'at the top');
-  assert.ok(!/<script>/.test(html) && !/<script(?![^>]*\ssrc=)/.test(html), 'no inline scripts');
+  const lower = html.toLowerCase();
+  assert.equal(lower.split('<script').length, lower.split('<script src="/assets/').length, 'no inline scripts: every script is a file in /assets/');
   // a name with characters that need escaping is escaped
   const amp = TOOLS.find(t => /[&<>"']/.test(t.name));
   if (amp) assert.ok(!(await contact(`?tool=${amp.slug}`)).includes(`Reporting a change to ${amp.name}<`));
