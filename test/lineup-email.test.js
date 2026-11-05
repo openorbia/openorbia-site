@@ -102,7 +102,7 @@ function harness({ env = {}, people = PEOPLE, launches = LAUNCHES, gone = [], br
   h.brevo = () => calls.filter(c => c.url === BREVO_URL);
   return h;
 }
-const FULL = { POSTAL_ADDRESS: POSTAL, BREVO_API_KEY: KEY, VOTE_SECRET: SECRET };
+const FULL = { POSTAL_ADDRESS: POSTAL, BREVO_API_KEY: KEY, UNSUBSCRIBE_SECRET: SECRET };
 const noAddressesIn = (lines, people = PEOPLE) => {
   const all = lines.join('\n');
   for (const p of people) assert.ok(!all.includes(p.email), 'an address reached the log');
@@ -132,7 +132,7 @@ test('the dry run without POSTAL_ADDRESS still writes a sample, and says that se
 
 test('no send without POSTAL_ADDRESS, whatever else is set', async () => {
   for (const argv of [['--send', '--yes'], ['--test', 'me@example.com']]) {
-    const h = harness({ env: { BREVO_API_KEY: KEY, VOTE_SECRET: SECRET } });
+    const h = harness({ env: { BREVO_API_KEY: KEY, UNSUBSCRIBE_SECRET: SECRET } });
     assert.equal(await h.run(argv), 2);
     assert.equal(h.calls.length, 0, argv.join(' '));
     assert.ok(h.lines.some(l => l.includes('POSTAL_ADDRESS is not set') && l.includes('CAN-SPAM')));
@@ -140,7 +140,7 @@ test('no send without POSTAL_ADDRESS, whatever else is set', async () => {
 });
 
 test('no send without --yes, without the Brevo key, or without the unsubscribe secret', async () => {
-  const cases = [[['--send'], FULL, '--send also needs --yes'], [['--send', '--yes'], { ...FULL, BREVO_API_KEY: '' }, 'BREVO_API_KEY'], [['--send', '--yes'], { ...FULL, VOTE_SECRET: '' }, 'VOTE_SECRET']];
+  const cases = [[['--send'], FULL, '--send also needs --yes'], [['--send', '--yes'], { ...FULL, BREVO_API_KEY: '' }, 'BREVO_API_KEY'], [['--send', '--yes'], { ...FULL, UNSUBSCRIBE_SECRET: '' }, 'UNSUBSCRIBE_SECRET']];
   for (const [argv, env, why] of cases) {
     const h = harness({ env });
     assert.equal(await h.run(argv), 2, why);
@@ -149,7 +149,7 @@ test('no send without --yes, without the Brevo key, or without the unsubscribe s
   }
 });
 
-test('no send when the live site rejects the unsubscribe links (a wrong VOTE_SECRET); the check is a GET, which changes nothing', async () => {
+test('no send when the live site rejects the unsubscribe links (a wrong UNSUBSCRIBE_SECRET); the check is a GET, which changes nothing', async () => {
   const h = harness({ env: FULL, liveStatus: 400 });
   assert.equal(await h.run(['--send', '--yes']), 2);
   assert.equal(h.brevo().length, 0);
@@ -227,4 +227,28 @@ test('the command line: npm run email:lineup, the sample and the ledger go to .o
   const cli = file('scripts/send-lineup.mjs');
   assert.ok(cli.includes("|| '.ops-cache'") && !cli.includes("stdio: 'inherit'") && !/console\.log\([^)]*stdout/.test(cli));
   assert.deepEqual(parseArgs(['--send', '--test', 'a@b.co']).error, 'Choose one of --dry-run, --test <address> or --send.');
+});
+
+// ---- the GitHub Actions workflow that runs it ----
+
+test('the "Send lineup email" workflow: manual only, from main, in the production environment, secrets only where needed', () => {
+  const y = file('.github/workflows/send-lineup.yml');
+  const on = y.slice(y.indexOf('\non:'), y.indexOf('\npermissions:'));
+  assert.ok(on.includes('workflow_dispatch:') && !/\n  (push|pull_request|schedule|workflow_run|repository_dispatch):/.test(on), 'workflow_dispatch only');
+  assert.ok(y.includes('name: Send lineup email') && y.includes('options: [dry-run, test, send]') && y.includes('default: dry-run'));
+  assert.ok(y.includes("if: github.ref == 'refs/heads/main'") && y.includes('    environment: production\n'));
+  assert.ok(y.includes('permissions:\n  contents: read'));
+  // secrets come from the environment, through env:, never written into a command
+  for (const s of ['BREVO_API_KEY', 'UNSUBSCRIBE_SECRET', 'POSTAL_ADDRESS', 'CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID']) assert.ok(y.includes(`secrets.${s}`), s);
+  assert.ok(y.includes("BREVO_API_KEY: ${{ inputs.mode != 'dry-run' && secrets.BREVO_API_KEY || '' }}"), 'no Brevo key on a dry run');
+  assert.ok(y.includes("UNSUBSCRIBE_SECRET: ${{ inputs.mode == 'send' && secrets.UNSUBSCRIBE_SECRET || '' }}"), 'the signing secret only for send');
+  const runs = [...y.matchAll(/\n {8}run: \|?\n?([\s\S]*?)(?=\n      - |\n?$)/g)].map(m => m[1]).join('\n');
+  assert.equal([...y.matchAll(/\n {8}run: /g)].length, 3, 'three run steps');
+  assert.ok(!runs.includes('${{'), 'no ${{ }} inside a run: script (inputs go through env)');
+  assert.ok(y.includes('echo "::add-mask::${TEST_ADDRESS}"'), 'the test address is masked');
+  assert.ok(y.includes('send)    set -- --send --yes'));
+  assert.ok(y.includes('actions/upload-artifact@') && y.includes("if: inputs.mode == 'dry-run'") && y.includes('.ops-cache/lineup-week-${{ inputs.week }}-sample.*'));
+  assert.ok(!y.includes('-sent.json\n          retention') && !/upload-artifact[\s\S]*-sent\.json/.test(y.slice(y.indexOf('Upload the sample'))), 'the sent ids are never uploaded');
+  for (const [, ref] of y.matchAll(/uses: ([^\s]+)/g)) assert.match(ref, /@[0-9a-f]{40}$/, `${ref} is pinned to a commit`);
+  assert.ok(y.includes(`WRANGLER_VERSION: ${file('.github/workflows/deploy.yml').match(/WRANGLER_VERSION: ([\d.]+)/)[1]}`), 'same wrangler as deploy.yml');
 });

@@ -8,7 +8,7 @@ import { createDb } from './helpers/d1.js';
 const SECRET = 'unsub-test-secret';
 let db, env;
 beforeEach(async () => {
-  db = createDb(); env = { DB: db, VOTE_SECRET: SECRET };
+  db = createDb(); env = { DB: db, UNSUBSCRIBE_SECRET: SECRET };
   for (const e of ['one@example.com', 'two@example.com']) await db.prepare("INSERT INTO waitlist (email, role) VALUES (?, 'reader')").bind(e).run();
 });
 const rows = async () => (await db.prepare('SELECT id, email FROM waitlist ORDER BY id').all()).results;
@@ -62,7 +62,7 @@ test('without the server secret no link is valid; without the database nothing i
   const t = await tokenFor(SECRET, first.id);
   env = { DB: db };
   assert.equal((await post('https://openorbia.com/unsubscribe/', new URLSearchParams({ id: String(first.id), t }).toString())).status, 400);
-  env = { VOTE_SECRET: SECRET };
+  env = { UNSUBSCRIBE_SECRET: SECRET };
   assert.equal((await post('https://openorbia.com/unsubscribe/', new URLSearchParams({ id: String(first.id), t }).toString())).status, 503);
   assert.equal((await rows()).length, 2);
 });
@@ -71,4 +71,26 @@ test('the route answers GET and POST and has the security-header middleware', ()
   assert.equal(typeof route.onRequestGet, 'function');
   assert.equal(typeof route.onRequestPost, 'function');
   assert.ok(existsSync(new URL('../functions/unsubscribe/_middleware.js', import.meta.url)));
+});
+
+// ---- UNSUBSCRIBE_SECRET is its own secret: VOTE_SECRET never signs or checks an unsubscribe link, and voting keeps VOTE_SECRET ----
+
+test('a link signed with VOTE_SECRET is not accepted, and VOTE_SECRET alone accepts no link at all', async () => {
+  const [first] = await rows();
+  const VOTE = 'the-voting-secret-0123456789';
+  env = { DB: db, UNSUBSCRIBE_SECRET: SECRET, VOTE_SECRET: VOTE };
+  assert.equal((await get(await unsubscribeUrl(VOTE, first.id))).status, 400, 'signed with the voting secret');
+  assert.equal((await get(await unsubscribeUrl(SECRET, first.id))).status, 200, 'signed with UNSUBSCRIBE_SECRET');
+  env = { DB: db, VOTE_SECRET: VOTE };
+  assert.equal((await get(await unsubscribeUrl(VOTE, first.id))).status, 400, 'only VOTE_SECRET set');
+  assert.equal((await rows()).length, 2);
+});
+
+test('voting and the rate limits still use VOTE_SECRET, unchanged; unsubscribe code never reads it', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
+  assert.ok(src('lib/vote.js').includes('const secret = env.VOTE_SECRET;') && src('lib/vote.js').includes('voterHash(env.VOTE_SECRET'));
+  for (const f of ['lib/unsubscribe.js', 'lib/lineup-send.js', 'lib/lineup-email.js', 'scripts/send-lineup.mjs'])
+    assert.ok(!src(f).replace(/^\s*\/\/.*$/gm, '').includes('VOTE_SECRET'), f);
+  assert.ok(src('functions/api/waitlist.js').includes('await unsubscribeUrl(env.UNSUBSCRIBE_SECRET, id)'));
 });

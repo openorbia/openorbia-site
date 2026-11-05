@@ -2,12 +2,16 @@
 // The "Launch Week <n> lineup" email to the waitlist. What each mode does is in lib/lineup-send.js; this file only connects it to the
 // live database (through wrangler), the network, the console and two local files in .ops-cache/ (ignored by git).
 //
+// It runs in GitHub Actions: the manual workflow "Send lineup email" (.github/workflows/send-lineup.yml), in the production
+// environment, so every run waits for Khaja's approval and the secrets live only there. Not from a laptop.
+//
 //   npm run email:lineup                                   dry run: count the signups, write a sample to .ops-cache/; sends nothing
 //   npm run email:lineup -- --test you@example.com         send one "[Test]" copy (needs POSTAL_ADDRESS and BREVO_API_KEY)
-//   npm run email:lineup -- --send --yes                   send to the waitlist (also needs VOTE_SECRET)
+//   npm run email:lineup -- --send --yes                   send to the waitlist (also needs UNSUBSCRIBE_SECRET)
 //   options: --week <n> (default 1), --db <name> (default openorbia-db), --out <folder> (default .ops-cache)
 //
-// Set POSTAL_ADDRESS, BREVO_API_KEY and VOTE_SECRET in your own shell for the one command; nothing here prints or saves them.
+// POSTAL_ADDRESS, BREVO_API_KEY and UNSUBSCRIBE_SECRET come from the production environment's secrets; nothing here prints or saves them.
+// WRANGLER_VERSION pins wrangler (the workflow sets the same version as deploy.yml).
 
 import { dirname, join, resolve } from 'node:path';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -25,7 +29,8 @@ const outDir = resolve(root, (parseArgs(argv).out) || '.ops-cache');
 // for the waitlist it holds the addresses.
 function query(sql) {
   const npxCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npx-cli.js');
-  const wrangler = ['wrangler', 'd1', 'execute', dbName, '--remote', '--json', '--command', sql, '--yes'];
+  const pkg = /^\d+\.\d+\.\d+$/.test(process.env.WRANGLER_VERSION || '') ? `wrangler@${process.env.WRANGLER_VERSION}` : 'wrangler';
+  const wrangler = ['--yes', pkg, 'd1', 'execute', dbName, '--remote', '--json', '--command', sql, '--yes'];
   const [cmd, cmdArgs] = process.platform === 'win32' && existsSync(npxCli) ? [process.execPath, [npxCli, ...wrangler]] : ['npx', wrangler];
   const r = spawnSync(cmd, cmdArgs, { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   if (r.status !== 0) throw new Error('wrangler failed');
