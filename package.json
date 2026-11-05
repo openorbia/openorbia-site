@@ -25,6 +25,7 @@
     "deploy": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch main",
     "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day",
     "build:email-art": "node scripts/build-email-art.mjs",
-    "email:test": "node scripts/send-test-email.mjs"
+    "email:test": "node scripts/send-test-email.mjs",
+    "launch:check": "node scripts/launch-check.mjs"
   }
 }
