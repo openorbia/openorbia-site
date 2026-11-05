@@ -8,6 +8,7 @@ import { runLineup, parseArgs, BATCH_SIZE, SAMPLE_UNSUBSCRIBE } from '../lib/lin
 import { unsubscribeUrl } from '../lib/unsubscribe.js';
 import { welcomeEmail, BREVO_URL, SENDER } from '../lib/email.js';
 import { launchOpensAt, launchClosesAt, dayLabelLong } from '../lib/time.js';
+import { esc } from '../lib/html.js';
 
 const file = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 const SECRET = 'test-secret-0123456789abcdef';
@@ -63,7 +64,7 @@ test('everything from the database is escaped', () => {
 test('the footer carries the unsubscribe link and the postal address; the email cannot be built without either', () => {
   const url = 'https://openorbia.com/unsubscribe/?id=42&t=0123456789abcdef0123456789abcdef';
   const e = lineupEmail(LAUNCHES, { unsubscribeUrl: url, postalAddress: '123 Example Street\nSpringfield, IL 62701' });
-  assert.ok(e.html.includes(`<a href="${url.replace('&', '&amp;')}" style="color:#22d3ee;text-decoration:underline">Unsubscribe</a><br>`));
+  assert.ok(e.html.includes(`<a href="${esc(url)}" style="color:#22d3ee;text-decoration:underline">Unsubscribe</a><br>`));
   assert.ok(e.html.includes('OpenOrbia, 123 Example Street, Springfield, IL 62701') && e.text.includes('OpenOrbia, 123 Example Street, Springfield, IL 62701'));
   assert.ok(e.text.includes(`Unsubscribe: ${url}`));
   assert.throws(() => lineupEmail(LAUNCHES, { unsubscribeUrl: url, postalAddress: '' }), /POSTAL_ADDRESS/);
@@ -172,7 +173,7 @@ test('--send gives every signup their own unsubscribe link and the one-click hea
     assert.deepEqual(body.to, [{ email: p.email }]);
     assert.deepEqual(body.sender, SENDER);
     assert.deepEqual(body.headers, { 'List-Unsubscribe': `<${url}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' });
-    assert.ok(body.htmlContent.includes(url.replace('&', '&amp;')) && body.textContent.includes(`Unsubscribe: ${url}`), `${p.id}: own link`);
+    assert.ok(body.htmlContent.includes(esc(url)) && body.textContent.includes(`Unsubscribe: ${url}`), `${p.id}: own link`);
     for (const other of PEOPLE.filter(o => o.id !== p.id)) assert.ok(!body.textContent.includes(`id=${other.id}&`), 'no one else’s link');
     assert.ok(body.textContent.includes(POSTAL));
     assert.equal(sends[i].init.headers['api-key'], KEY);
