@@ -1,5 +1,6 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { handleClick } from '../lib/click.js';
@@ -272,9 +273,9 @@ test('if sendBeacon is missing or refuses, a keepalive fetch carries the same JS
 // ---- the links themselves are real ----
 
 test('the Launch List and the tool pages link straight to the tool and carry data-tool; /go/ is not in any page', () => {
-  const list = file('public/launch-list/index.html');
+  const list = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   assert.ok(list.includes('<a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>'));
-  assert.ok(list.includes('<script src="/assets/click-beacon.js" defer></script>'), 'the Launch List loads the beacon script');
+  assert.ok(list.includes(`<script src="${asset('click-beacon.js')}" defer></script>`), 'the Launch List loads the beacon script');
   assert.ok(!list.includes('/go/'));
   for (const t of TOOLS) {
     const page = renderTool(t);
@@ -282,9 +283,9 @@ test('the Launch List and the tool pages link straight to the tool and carry dat
     assert.ok(marked.length >= 2, `${t.name}: the button and the source link`);
     for (const [href, slug] of marked) { assert.equal(slug, t.slug); assert.ok(href === toolHref(t) || href === t.github, `${t.name}: ${href}`); }
     assert.ok(!page.includes('/go/'), `${t.name}: no /go/`);
-    assert.ok(page.includes('<script src="/assets/click-beacon.js" defer></script>'), `${t.name}: the script is loaded`);
+    assert.ok(page.includes(`<script src="${asset('click-beacon.js')}" defer></script>`), `${t.name}: the script is loaded`);
   }
-  assert.ok(layout({ title: 't', description: 'd', path: '/', body: '' }).includes('<script src="/assets/click-beacon.js" defer></script>'));
+  assert.ok(layout({ title: 't', description: 'd', path: '/', body: '' }).includes(`<script src="${asset('click-beacon.js')}" defer></script>`));
 });
 
 test('launch pages keep their real addresses and are not counted: they have no data-tool', () => {

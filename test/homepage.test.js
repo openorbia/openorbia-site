@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
@@ -62,7 +63,8 @@ test('the three audience cards link to the filtered Launch List', () => {
 });
 
 test('the six task links are filtered or search URLs that each return results', () => {
-  const links = [...home.matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
+  // the task links in the page itself (the footer's site map has filter links of its own)
+  const links = [...home.slice(0, home.indexOf('<footer>')).matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
   assert.deepEqual(links.map(l => l[1]), ['Transcribe meetings', 'Tailor a resume', 'Chat with documents', 'Automate small-business tasks', 'Triage security alerts', 'Test AI for vulnerabilities']);
   for (const [href, label] of links) {
     const state = parseFilters(new URL(href, 'https://openorbia.com').search);
@@ -77,11 +79,14 @@ test('the search also matches the plain-language task line', () => {
   assert.ok(!ROWS.some(r => matchesRow(r, { ...parseFilters(''), q: 'zzzz-no-such-task' })));
 });
 
-test('the hero is compact: the same headline, "Explore free tools" to /launch-list/ and "Get launch updates" to the signup', () => {
+test('the hero: the same headline, the new lede, "Explore free tools" and "Find my free setup"; the signup stays further down', () => {
   assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
-  assert.ok(home.includes('<a class="btn pri" href="/launch-list/">Explore free tools</a>'));
-  assert.ok(home.includes('<a class="btn ghost" href="#join">Get launch updates</a>'));
-  assert.match(home, /id="join"/);
+  assert.ok(home.includes('<p class="lede">Find AI that fits your task, your computer and your budget, with the catch shown upfront.</p>'));
+  const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
+  assert.deepEqual([...hero.matchAll(/<a class="btn (pri|ghost)" href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2], m[3]]),
+    [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);
+  assert.ok(!hero.includes('Get launch updates') && !hero.includes('href="#join"'), 'the launch-updates link is out of the hero');
+  assert.match(home, /<section class="join" id="join"/, 'the waitlist section stays');
   // the planet is small on phones
   assert.match(home, /@media \(max-width:820px\)\{\.hero\{[^}]*grid-template-columns:minmax\(0,1fr\) 68px/);
   assert.match(home, /\.hero\{padding-block:clamp\(16px,3vh,24px\) 12px/);
@@ -106,7 +111,7 @@ test('before launch the week block shows the countdown and the makers confirmed;
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');
   // the vote button and the shared script are on the homepage
   assert.match(home, /\.vote\{/);
-  assert.match(home, /<script src="\/assets\/launch\.js" defer><\/script>/);
+  assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
 });
 
 test('the homepage links to Find me a free tool, Submit a tool and the Launch List, and has no horizontal-overflow traps', () => {

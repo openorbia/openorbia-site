@@ -5,7 +5,7 @@ import { ROWS } from '../public/assets/tools.js';
 import { DatabaseSync } from 'node:sqlite';
 import { launchResponse } from '../lib/pages.js';
 import { validateLaunches, toSql } from '../lib/launch-data.js';
-import { factRows, formatChecked, isTested, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS, CATCH_MAX, isDataLocation, DATA_LOCATION_NOTE_MAX } from '../public/assets/facts.js';
+import { factRows, formatChecked, isTested, needsPaidService, CARD_REQUIRED, DATA_LOCATIONS, SETUPS, PAID_LEVELS, FACT_LEVELS, CATCH_MAX, isDataLocation, DATA_LOCATION_NOTE_MAX } from '../public/assets/facts.js';
 import { MIGRATIONS } from '../lib/migrations.js';
 import { launchOpensAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
@@ -102,7 +102,7 @@ test('migration adds facts to an older launches table, once', () => {
 });
 
 const listRows = () => {
-  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
+  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8') + readFileSync(new URL('public/assets/launch-list.js', root), 'utf8');   // the page and its script
   return { html, rows: ROWS };
 };
 const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -110,7 +110,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
   assert.equal(rows.length, 45);
-  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage'];
+  const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage', 'firstResult'];
   for (const r of rows) {
     const f = r[8];
     assert.ok(f && typeof f === 'object', r[0]);
@@ -148,6 +148,7 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
     assert.deepEqual([...f.sources], x.sources, `${r[0]}: sources`);
     assert.equal(f.task, x.task, `${r[0]}: task`);
     assert.equal(f.level, x.level, `${r[0]}: level`);
+    assert.deepEqual(f.firstResult === undefined ? undefined : JSON.parse(JSON.stringify(f.firstResult)), x.firstResult, `${r[0]}: firstResult`);
   }
   assert.ok(factsFile.every(x => ['high', 'medium', 'low'].includes(x.confidence)), 'every data entry has a confidence');
   assert.ok(!/confidence/i.test(html), 'confidence is never on the page');
@@ -158,14 +159,17 @@ test('Launch List: rows carry exactly the facts in the data file, matched by rep
   assert.ok(!/yourspeakreps/i.test(html) && !/yourspeakreps/i.test(JSON.stringify(factsFile)), 'yourspeakreps (no open license) is nowhere');
 });
 
-test('Launch List: the counts in the title, meta, headline and og:title match the number of rows', () => {
+test('Launch List: the counts in the title, meta, headline and og:title are the tools that run free, and the rest are named as needing a paid service', () => {
   const { html, rows } = listRows();
-  const n = rows.length;
-  assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools you can use free or self-host \\| OpenOrbia</title>`));
-  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools`));
-  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools you can use free or self-host"`));
-  assert.match(html, new RegExp(`<h1>${n} AI tools you can use free or self-host,`));
-  const stated = [...html.matchAll(/(\d+) (?:free (?:and open-source )?AI tools|AI tools you can use free or self-host)/g)].map(m => Number(m[1]));
+  const paid = rows.filter(r => needsPaidService(r[8])).length;
+  const n = rows.length - paid;
+  assert.ok(paid >= 1 && n >= 1);
+  assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools that run free \\| OpenOrbia</title>`));
+  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools that run without a paid service`));
+  assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools that run free"`));
+  assert.match(html, new RegExp(`<h1>${n} AI tools that run free,`));
+  assert.match(html, new RegExp(`${paid} more tools? needs? a paid service to run, so (?:they are|it is) hidden until you turn off Runs free`));
+  const stated = [...html.matchAll(/(\d+) (?:free (?:and open-source )?AI tools|AI tools that run free|AI tools you can use free)/g)].map(m => Number(m[1]));
   assert.ok(stated.length >= 4 && stated.every(x => x === n), `every stated count is ${n}: ${stated}`);
 });
 
@@ -178,7 +182,7 @@ test('Launch List: the cards show the facts, with Card required and the catch wh
 });
 
 test('Launch List: the local-AI tag and filter chip say "Works with local AI", never "Runs locally"', () => {
-  const html = readFileSync(new URL('public/launch-list/index.html', root), 'utf8');
+  const html = (readFileSync(new URL('public/launch-list/index.html', root), 'utf8') + readFileSync(new URL('public/assets/launch-list.js', root), 'utf8'));
   assert.ok(!/>Runs locally</i.test(html), 'no tag or chip says Runs locally (a fact like "runs locally with Docker" is fine)');
   assert.match(html, /data-f="loc"[^>]*>Works with local AI</);
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);

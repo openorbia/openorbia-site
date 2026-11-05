@@ -1,33 +1,69 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { welcomeEmail, sendWelcome, BREVO_URL, SENDER } from '../lib/email.js';
+import { welcomeEmail, sendWelcome, BREVO_URL, SENDER, EMAIL_ART } from '../lib/email.js';
+import { unsubscribeUrl } from '../lib/unsubscribe.js';
+import { existsSync } from 'node:fs';
 import { handleWaitlist } from '../functions/api/waitlist.js';
 import { createDb } from './helpers/d1.js';
+import { SITEVERIFY_URL } from '../lib/turnstile.js';
 
 const KEY = 'xkeysib-test-key-never-real';
 let db, env, calls;
-beforeEach(() => { db = createDb(); env = { DB: db, BREVO_API_KEY: KEY }; calls = []; });
+beforeEach(() => { db = createDb(); env = { DB: db, BREVO_API_KEY: KEY, TURNSTILE_SECRET_KEY: 'ts-secret' }; calls = []; });
 
 // A stand-in for Brevo: records every request, answers with the given status (or throws)
+// Turnstile's check is answered here too (as passed) and is not recorded, so `calls` holds only the Brevo requests.
 const brevo = (status = 201, { throws = false } = {}) => async (url, init) => {
+  if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: true }), { status: 200 });
   calls.push({ url, init, body: JSON.parse(init.body) });
   if (throws) throw new Error('network down');
   return new Response(JSON.stringify({ messageId: 'x' }), { status });
 };
-const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(body).toString() });
-const FOOTER = "You're getting this because you joined the waitlist at openorbia.com. Reply to this email if it wasn't you.";
+// Requests as the homepage sends them: from our own origin, with a Turnstile token in the JSON (none on the no-JS form)
+const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ turnstile: 'token-ok', ...body }) });
+const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://openorbia.com' }, body: new URLSearchParams(body).toString() });
+test('the welcome email: subject, preview text, and every section in both the HTML and the plain text', () => {
+  const e = welcomeEmail('reader', { unsubscribeUrl: 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef' });
+  assert.equal(e.subject, 'You’re in. OpenOrbia launches Nov 23');
+  assert.equal(e.preview, 'Free AI tools, with the catch spelled out.');
+  assert.match(e.html, /<div style="display:none;[^"]*">Free AI tools, with the catch spelled out\./, 'the preview text is the first thing in the body');
+  for (const s of ['You’re on the list.', 'Launch Week 1 · Monday, Nov 23, 2026', 'What’s free', 'What it needs', 'The catch', 'What happens next',
+    'The week before Nov 23: the Launch Week 1 lineup.', 'After that: at most one email a week with new free tools.',
+    'Building a free AI tool?', 'Khaja, founder of OpenOrbia', 'P.S.']) {
+    assert.ok(e.html.includes(s), `html: ${s}`);
+    assert.ok(e.text.includes(s), `text: ${s}`);
+  }
+  assert.ok(e.html.includes('<a href="https://openorbia.com/" style="display:inline-block;padding:14px 28px;') && e.html.includes('>Browse the tools</a>'));
+  assert.ok(e.html.includes('<a href="https://openorbia.com/makers/"') && e.text.split(/\s+/).some(w => w === 'https://openorbia.com/makers/'));
+  assert.ok(e.html.includes('<a href="https://openorbia.com/unsubscribe/?id=7&amp;t=0123456789abcdef0123456789abcdef"') && e.html.includes('>Unsubscribe</a>'));
+  assert.ok(e.text.includes('Unsubscribe: https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef'));
+});
 
-test('maker and reader emails say what was asked, with the footer', () => {
-  const m = welcomeEmail('maker');
-  assert.equal(m.subject, "You're on the OpenOrbia waitlist");
-  assert.ok(m.text.includes("You're on the OpenOrbia waitlist. Launch Week 1 is Monday, Nov 23, 2026."));
-  assert.ok(m.text.includes("Want to launch your tool? Here's how: https://openorbia.com/makers/"));
-  assert.ok(m.html.includes('<a href="https://openorbia.com/makers/">'));
-  const r = welcomeEmail('reader');
-  assert.ok(r.text.includes("You're on the list. We'll email you when Launch Week 1 goes live on Nov 23."));
-  assert.ok(!r.text.includes('/makers/'));
-  for (const e of [m, r]) { assert.ok(e.text.includes(FOOTER)); assert.ok(e.html.includes(FOOTER.replace(/'/g, '&#39;'))); }
+test('the welcome email is email-safe: tables and inline styles, system fonts, no scripts, a solid fallback under every colour effect', () => {
+  const { html } = welcomeEmail('reader');
+  assert.ok(!/<script|@import|fonts\.googleapis|<link /i.test(html), 'no scripts, no web fonts, no external CSS');
+  assert.ok(html.includes("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"));
+  assert.ok(html.includes('role="presentation"') && html.includes('width="600"'));
+  // the header: navy behind the hosted art, so it reads with images blocked
+  assert.ok(html.includes(`bgcolor="#0b1026" background="${EMAIL_ART}"`) && html.includes(`background:#0b1026 url('${EMAIL_ART}')`));
+  assert.ok(existsSync(new URL('../public/email/header.png', import.meta.url)), 'the art is published with the site');
+  // the line: solid purple, with the gradient on top where it is drawn
+  assert.ok(html.includes('bgcolor="#8b5cf6" style="height:4px;line-height:4px;font-size:0;background:#8b5cf6;background-image:linear-gradient(90deg,#8b5cf6,#22d3ee)"'));
+  assert.ok(html.includes('bgcolor="#6d28d9"'), 'the purple button');
+  // phones: the cards stack; dark mode: the body and cards change where the client honours it
+  assert.match(html, /@media \(max-width:620px\)\{[\s\S]*\.oo-card\{display:block!important;width:100%!important/);
+  assert.match(html, /@media \(prefers-color-scheme:dark\)\{[\s\S]*\.oo-body\{background:#11162e!important\}/);
+  assert.ok(html.includes('<meta name="color-scheme" content="light dark">'));
+  // three cards in one row, one cell each, so they share a height; the two spacers between them hide on phones
+  assert.equal((html.match(/<td class="oo-card oo-card-bg"/g) || []).length, 3);
+  assert.equal((html.match(/<td class="oo-gap"/g) || []).length, 2);
+  assert.match(html, /\.oo-gap\{display:none!important\}/);
+});
+
+test('without an unsubscribe link (no server secret) the email asks for a reply instead, and never shows a broken link', () => {
+  const e = welcomeEmail('maker');
+  assert.ok(e.text.includes('To unsubscribe, reply to this email.') && e.html.includes('To unsubscribe, reply to this email.'));
+  assert.ok(!e.html.includes('/unsubscribe/'));
 });
 
 test('a new signup sends one Brevo request: sender, reply-to, recipient, key in the header only', async () => {
@@ -41,20 +77,49 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
   assert.deepEqual(body.sender, { name: 'OpenOrbia', email: 'launch@openorbia.com' });
   assert.deepEqual(body.replyTo, { email: 'launch@openorbia.com' });
   assert.deepEqual(body.to, [{ email: 'new@example.com' }]);
-  assert.ok(body.textContent.includes('Launch Week 1 is Monday, Nov 23, 2026.'));
+  assert.equal(body.subject, 'You’re in. OpenOrbia launches Nov 23');
+  assert.ok(body.textContent.includes('You’re on the list.') && body.htmlContent.includes('You’re on the list.'));
   assert.ok(!init.body.includes(KEY), 'the key is never in the body');
 });
 
-test('readers get the reader text', async () => {
-  await handleWaitlist({ request: asJson({ email: 'r@example.com', role: 'reader' }), env, fetchImpl: brevo() });
-  assert.ok(calls[0].body.textContent.includes("We'll email you when Launch Week 1 goes live on Nov 23."));
+test('with the server secret, each welcome email carries its own unsubscribe link and the one-click List-Unsubscribe headers', async () => {
+  env.VOTE_SECRET = 'test-secret';
+  await handleWaitlist({ request: asJson({ email: 'a@example.com', role: 'reader' }), env, fetchImpl: brevo() });
+  await handleWaitlist({ request: asJson({ email: 'b@example.com', role: 'reader' }), env, fetchImpl: brevo() });
+  assert.equal(calls.length, 2);
+  const links = calls.map(c => c.body.headers['List-Unsubscribe'].slice(1, -1));
+  for (const [i, c] of calls.entries()) {
+    assert.match(links[i], /^https:\/\/openorbia\.com\/unsubscribe\/\?id=\d+&t=[0-9a-f]{32}$/);
+    assert.equal(c.body.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click');
+    assert.ok(c.body.textContent.includes(`Unsubscribe: ${links[i]}`));
+  }
+  assert.notEqual(links[0], links[1], 'every signup has its own link');
+  assert.equal(links[0], await unsubscribeUrl('test-secret', new URL(links[0]).searchParams.get('id')));
 });
 
-test('the no-JS form path sends the email too, and still redirects', async () => {
+test('makers and readers get the same email, with the card that invites makers to launch', async () => {
+  for (const role of ['maker', 'reader']) assert.ok(welcomeEmail(role).html.includes('Launch it on OpenOrbia, free'), role);
+});
+
+test('the no-JS form path saves the signup and redirects, but sends no email (there is no Turnstile token without JavaScript)', async () => {
   const res = await handleWaitlist({ request: asForm({ email: 'f@example.com', role: 'reader' }), env, fetchImpl: brevo() });
   assert.equal(res.status, 303);
   assert.equal(res.headers.get('location'), '/#wl-ok');
-  assert.equal(calls.length, 1);
+  assert.deepEqual(db.rows('SELECT email FROM waitlist').map(r => r.email), ['f@example.com']);
+  assert.equal(calls.length, 0);
+});
+
+test('no welcome email without a passed Turnstile check: missing token, failed token, or no secret configured', async () => {
+  const failing = async (url, init) => {
+    if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: false }), { status: 200 });
+    calls.push({ url, init }); return new Response('{}', { status: 201 });
+  };
+  const noToken = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ email: 'n1@example.com', role: 'reader' }) });
+  assert.equal((await handleWaitlist({ request: noToken, env, fetchImpl: brevo() })).status, 200);
+  assert.equal((await handleWaitlist({ request: asJson({ email: 'n2@example.com', role: 'reader' }), env, fetchImpl: failing })).status, 200);
+  assert.equal((await handleWaitlist({ request: asJson({ email: 'n3@example.com', role: 'reader' }), env: { DB: db, BREVO_API_KEY: KEY }, fetchImpl: brevo() })).status, 200);
+  assert.equal(calls.length, 0, 'no email went out');
+  assert.equal(db.rows('SELECT email FROM waitlist').length, 3, 'all three signups were still saved');
 });
 
 test('no email for duplicates, bad addresses, bots or when the database is missing', async () => {
@@ -92,10 +157,11 @@ test('without BREVO_API_KEY signups work and no request is made', async () => {
 test('waitUntil takes the email so the answer does not wait for Brevo', async () => {
   let held;
   let finish;
-  const slow = async (url, init) => { calls.push({ url, init }); await new Promise(r => { finish = r; }); return new Response('{}', { status: 201 }); };
+  const slow = async (url, init) => { if (url === SITEVERIFY_URL) return new Response(JSON.stringify({ success: true }), { status: 200 }); calls.push({ url, init }); await new Promise(r => { finish = r; }); return new Response('{}', { status: 201 }); };
   const res = await handleWaitlist({ request: asJson({ email: 'w@example.com', role: 'reader' }), env, fetchImpl: slow, waitUntil: p => { held = p; } });
   assert.equal(res.status, 200, 'answered while the email is still in flight');
   assert.ok(held instanceof Promise);
+  while (!finish) await new Promise(r => setTimeout(r, 1));   // the background task reaches Brevo after the Turnstile check
   finish(); await held;
   assert.equal(calls.length, 1);
 });
@@ -129,10 +195,66 @@ test('success and a missing key are logged too, so a tail shows which path ran',
 
 test('the Pages handler passes waitUntil bound to the context', async () => {
   const { onRequestPost } = await import('../functions/api/waitlist.js');
-  let bound = false;
-  const ctx = { request: asJson({ email: 'ctx@example.com', role: 'reader' }), env, waitUntil(p) { bound = this === ctx; return p; } };
+  let bound = false, held;
+  const ctx = { request: asJson({ email: 'ctx@example.com', role: 'reader' }), env, waitUntil(p) { bound = this === ctx; held = p; return p; } };
   const realFetch = globalThis.fetch; globalThis.fetch = brevo();
-  try { const res = await onRequestPost(ctx); assert.equal(res.status, 200); } finally { globalThis.fetch = realFetch; }
+  try { const res = await onRequestPost(ctx); assert.equal(res.status, 200); await held; } finally { globalThis.fetch = realFetch; }
   assert.ok(bound, 'waitUntil was called on the context, not detached');
   assert.equal(calls.length, 1);
+});
+
+// ---- the log line every signup leaves, so a missing welcome email can be traced ----
+
+// Runs one signup and returns what it logged; `siteverify` answers Cloudflare's check ('pass', 'fail' or 'down')
+async function logsFor(body, { siteverify = 'pass', envOverride = {}, request } = {}) {
+  const lines = [];
+  const orig = { log: console.log, error: console.error };
+  console.log = (...a) => lines.push(a.join(' '));
+  console.error = (...a) => lines.push(a.join(' '));
+  const fetchImpl = async (url, init) => {
+    if (url === SITEVERIFY_URL) {
+      if (siteverify === 'down') throw new Error('network down');
+      return new Response(JSON.stringify({ success: siteverify === 'pass' }), { status: 200 });
+    }
+    calls.push({ url, init, body: JSON.parse(init.body) });
+    return new Response('{}', { status: 201 });
+  };
+  try {
+    await handleWaitlist({ request: request || asJson(body), env: { ...env, ...envOverride }, fetchImpl });
+  } finally { Object.assign(console, orig); }
+  return lines;
+}
+const signupLine = lines => lines.filter(l => l.startsWith('Waitlist signup:'));
+
+test('every new signup logs its Turnstile result: passed, failed, no token, unavailable, not configured', async () => {
+  const cases = [
+    [{ email: 'p@example.com', turnstile: 'secret-token-123' }, {}, 'turnstile=passed', 1],
+    [{ email: 'f@example.com', turnstile: 'secret-token-123' }, { siteverify: 'fail' }, 'turnstile=failed welcome_email=not_sent', 0],
+    [{ email: 'n@example.com', turnstile: '' }, {}, 'turnstile=no_token welcome_email=not_sent', 0],
+    [{ email: 'u@example.com', turnstile: 'secret-token-123' }, { siteverify: 'down' }, 'turnstile=unavailable welcome_email=not_sent', 0],
+    [{ email: 'c@example.com', turnstile: 'secret-token-123' }, { envOverride: { TURNSTILE_SECRET_KEY: '' } }, 'turnstile=not_configured welcome_email=not_sent', 0],
+  ];
+  for (const [body, opts, expected, sends] of cases) {
+    calls = [];
+    const lines = await logsFor(body, opts);
+    const mine = signupLine(lines);
+    assert.equal(mine.length, 1, `one line for ${body.email}`);
+    assert.equal(mine[0], `Waitlist signup: outcome=new role=maker ${expected}`);
+    assert.equal(calls.length, sends, `${body.email}: welcome email sent only when Turnstile passed`);
+    for (const l of lines) {
+      assert.ok(!l.includes('@'), `no email address in the log: ${l}`);
+      assert.ok(!l.includes('secret-token-123'), 'no Turnstile token in the log');
+    }
+  }
+});
+
+test('the no-JavaScript form post (no token) logs no_token, and other outcomes log without checking Turnstile', async () => {
+  assert.deepEqual(signupLine(await logsFor(null, { request: asForm({ email: 'form@example.com', role: 'reader' }) })),
+    ['Waitlist signup: outcome=new role=reader turnstile=no_token welcome_email=not_sent']);
+  await logsFor({ email: 'twice@example.com' });
+  assert.deepEqual(signupLine(await logsFor({ email: 'twice@example.com' })), ['Waitlist signup: outcome=already turnstile=not_checked']);
+  assert.deepEqual(signupLine(await logsFor({ email: 'not-an-email' })), ['Waitlist signup: outcome=bad_email turnstile=not_checked']);
+  assert.deepEqual(signupLine(await logsFor({ email: 'bot@example.com', company: 'Acme' })), ['Waitlist signup: outcome=bot turnstile=not_checked']);
+  const foreign = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://evil.example' }, body: '{}' });
+  assert.deepEqual(signupLine(await logsFor(null, { request: foreign })), ['Waitlist signup: outcome=forbidden turnstile=not_checked']);
 });

@@ -142,7 +142,7 @@ test('recordClick is a plain upsert that can be used on its own', async () => {
 // ---- /go/ is for email and newsletters ----
 
 test('/go/<slug> stays as the counted link for email and newsletters; the pages themselves link straight to the tool', () => {
-  const html = file('public/launch-list/index.html');
+  const html = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   assert.ok(html.includes('<a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>'), 'the card link is the real address');
   assert.ok(!html.includes('href="/go/'), 'no /go/ links on the Launch List');
   for (const row of ROWS) assert.ok(toolBySlug(slugOf(row[0])), `${row[0]} has a /go/ target for email`);

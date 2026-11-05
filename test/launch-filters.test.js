@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
 import { parseFilters, filterQuery, matchesRow, emptyFilters, setupKey, SETUP_FILTERS } from '../public/assets/launch-filters.js';
 import { needsPaidService, paidSummary, NEEDS_PAID_LABEL, PAID_LEVELS } from '../public/assets/facts.js';
@@ -9,7 +10,8 @@ import { renderTool } from '../lib/tool-pages.js';
 const root = new URL('../', import.meta.url);
 const file = f => readFileSync(new URL(f, root), 'utf8');
 const data = JSON.parse(file('data/free-facts.json'));
-const run = state => ROWS.filter(r => matchesRow(r, { ...emptyFilters(), ...state }));
+// Every tool, Runs free turned off, so the other filters can be checked against the whole list
+const run = state => ROWS.filter(r => matchesRow(r, { ...emptyFilters(), free: false, ...state }));
 
 // ---- the address bar ----
 
@@ -18,9 +20,19 @@ test('filters are read from and written to the URL: /launch-list/?for=job&setup=
   assert.deepEqual(s, { ...emptyFilters(), for: 'job', setup: 'browser' });
   assert.equal(filterQuery(s), '?for=job&setup=browser');
   assert.equal(filterQuery(emptyFilters()), '');
-  const all = { for: 'sec', setup: 'selfhost', free: true, os: true, local: true, q: 'red team' };
-  assert.equal(filterQuery(all), '?for=sec&setup=selfhost&free=1&os=1&local=1&q=red+team');
+  const all = { for: 'sec', setup: 'selfhost', free: false, os: true, local: true, q: 'red team' };
+  assert.equal(filterQuery(all), '?for=sec&setup=selfhost&free=0&os=1&local=1&q=red+team');
   assert.deepEqual(parseFilters(filterQuery(all)), all, 'what is written can be read back');
+});
+
+test('Runs free is on by default: ?free=0 turns it off, and the older ?free=1 links still mean on', () => {
+  assert.equal(emptyFilters().free, true);
+  assert.equal(parseFilters('').free, true);
+  assert.equal(parseFilters('?free=1').free, true);
+  assert.equal(parseFilters('?free=0').free, false);
+  assert.equal(filterQuery({ ...emptyFilters(), free: false }), '?free=0');
+  const required = data.filter(e => e.paidDeps.level === 'required').length;
+  assert.equal(ROWS.filter(r => matchesRow(r, emptyFilters())).length, ROWS.length - required, 'the default list leaves out every tool that needs a paid service');
 });
 
 test('nothing unknown gets through: bad values are ignored, search text is trimmed and capped', () => {
@@ -55,7 +67,7 @@ test('Setup: every tool is in exactly one of No install / Desktop app / Self-hos
   assert.equal(setupKey({}), '');
   const counts = Object.keys(SETUP_FILTERS).map(k => run({ setup: k }).length);
   assert.equal(counts.reduce((a, b) => a + b, 0), ROWS.length, 'the three groups add up to every tool');
-  for (const row of ROWS) assert.equal(Object.keys(SETUP_FILTERS).filter(k => matchesRow(row, { ...emptyFilters(), setup: k })).length, 1, row[0]);
+  for (const row of ROWS) assert.equal(Object.keys(SETUP_FILTERS).filter(k => matchesRow(row, { ...emptyFilters(), free: false, setup: k })).length, 1, row[0]);
 });
 
 test('Runs free hides exactly the tools that need a paid service', () => {
@@ -114,11 +126,11 @@ test('the data file has the docs facts for all 45 listed tools, with sources', (
 // ---- the Launch List page ----
 
 test('the Launch List page has the Setup and Runs free controls, keeps the filters in the URL, and shows the label', () => {
-  const html = file('public/launch-list/index.html');
+  const html = (file('public/launch-list/index.html') + file('public/assets/launch-list.js'));
   for (const [key, label] of Object.entries(SETUP_FILTERS)) assert.ok(html.includes(`<button class="chip" data-setup="${key}" aria-pressed="false">${label}</button>`), label);
-  assert.ok(html.includes('<button class="chip" data-f="free" aria-pressed="false">Runs free</button>'));
+  assert.ok(html.includes('<button class="chip" data-f="free" aria-pressed="true">Runs free</button>'), 'Runs free starts on');
   assert.ok(html.includes('<div class="chips" role="group" aria-label="Setup">'));
-  assert.ok(html.includes('from"/assets/launch-filters.js"') && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
+  assert.ok(html.includes(`from"${asset('launch-filters.js').replace('/assets/', './')}"`) && html.includes('parseFilters(location.search,location.hash)'), 'the state starts from the URL');
   assert.ok(html.includes('history.replaceState(null,"",location.pathname+filterQuery(st))'), 'and is written back to it');
   assert.ok(html.includes('matchesRow(t,st)'));
   assert.ok(html.includes('needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`'), 'the label on the card');
@@ -127,11 +139,11 @@ test('the Launch List page has the Setup and Runs free controls, keeps the filte
 
 // ---- the tool pages ----
 
-test('tool pages: the label only where a paid service is required, and "Free facts from docs" with level, paid service, task and sources', () => {
+test('tool pages: the label only where a paid service is required, and "Paid parts and sources" with level, paid service, task and sources', () => {
   for (const t of TOOLS) {
     const html = renderTool(t), f = t.facts;
     assert.equal(html.includes('<span class="tg paid">Needs paid service</span>'), f.paidDeps.level === 'required', `${t.name}: label`);
-    assert.ok(html.includes('<h2 id="docs-h">Free facts from docs</h2>'), `${t.name}: heading`);
+    assert.ok(html.includes('<h2 id="docs-h">Paid parts and sources</h2>'), `${t.name}: heading`);
     assert.ok(html.includes('<dt>Level</dt><dd>Basic</dd>'), `${t.name}: level`);
     const text = html.replace(/&#39;/g, "'").replace(/&amp;/g, '&');
     assert.ok(text.includes(`<dt>Paid service</dt><dd>${paidSummary(f)}</dd>`), `${t.name}: paid service`);

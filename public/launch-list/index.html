@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Launch List: 45 AI tools you can use free or self-host | OpenOrbia</title>
-<meta name="description" content="45 free and open-source AI tools for small businesses, job seekers and security teams, each checked for license, recent updates and real AI features.">
+<title>Launch List: 43 AI tools that run free | OpenOrbia</title>
+<meta name="description" content="43 free and open-source AI tools that run without a paid service, for small businesses, job seekers and security teams, each checked for license, recent updates and real AI features.">
 <link rel="canonical" href="https://openorbia.com/launch-list/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#05070f">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://openorbia.com/launch-list/">
-<meta property="og:title" content="The OpenOrbia Launch List: 45 AI tools you can use free or self-host">
+<meta property="og:title" content="The OpenOrbia Launch List: 43 AI tools that run free">
 <meta property="og:description" content="Free and open-source AI tools for small business, job seekers and cybersecurity. Every one checked.">
 <meta property="og:image" content="https://openorbia.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -49,22 +49,70 @@ html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class]
 .badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15px}
 .btn.pri{background:linear-gradient(135deg,#4258d8,#5a45e0 55%,#6840e0);color:#fff;box-shadow:0 8px 30px rgba(91,124,255,.4),inset 0 0 0 1px rgba(255,255,255,.1)}
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padding-block:22px calc(22px + env(safe-area-inset-bottom));margin-top:20px}
+.sf-top{display:grid;gap:26px;padding-block:24px 32px;border-bottom:1px solid rgba(143,166,255,.28);margin-bottom:20px}
+.sf-about{display:flex;flex-wrap:wrap;gap:8px 28px;align-items:baseline}
+.sf-word{justify-self:start;gap:0}
+.sf-about p{margin:0;font-size:14px;line-height:1.55;max-width:62ch}
+.sf-contact{margin-left:auto!important}
+.sf-contact a{color:var(--blue-l);text-decoration:none}
+.sf-contact a:hover{text-decoration:underline}
+.sf-map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:28px}
+.sf-col{min-width:0}
+.sf-h{margin:0 0 10px;font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
+.sf-col ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.sf-col a{display:inline-block;padding-block:5px;color:#c9d2ee;text-decoration:none;font-size:14px;line-height:1.3}
+.sf-col a:hover{color:var(--ink)}
+.sf-col a.sf-all{color:var(--blue-l)}
+@media (max-width:980px){.sf-map{grid-template-columns:repeat(3,minmax(0,1fr))}.sf-contact{margin-left:0!important}}
+@media (max-width:600px){.sf-map{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-col a{padding-block:8px}}
 .sf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 28px;align-items:center}
 .sf a{color:var(--muted);text-decoration:none}
 .sf a:hover{color:var(--ink)}
-.sf-l{display:grid;gap:2px;justify-items:start;white-space:nowrap}
-.sf-m{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 18px;max-width:560px}
+.sf-l{display:grid;gap:2px;justify-items:start;white-space:nowrap;line-height:1.5}
+.sf-m{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px 0}
+.sf-m a+a::before{content:"·";margin-inline:12px;color:var(--muted);opacity:.7}
 .sf-m a,.sf-l a{display:inline-flex;align-items:center;min-height:32px}
 .sf-r{display:flex;justify-content:flex-end;gap:6px}
 .sf-r a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
 .sf svg{width:22px;height:22px;fill:currentColor;flex:none}
 @media (max-width:820px){.sf{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.sf-l{justify-items:center;white-space:normal}.sf-r{justify-content:center}}
+.nav{position:relative}
+.mm{position:relative;display:flex;align-items:center}
+.mm-btn{display:inline-grid;place-items:center;width:28px;min-height:44px;margin-left:-2px;padding:0;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:8px}
+.mm-btn svg{transition:transform .15s}
+.mm-btn:hover,.mm:hover>.mm-top,.mm.open>.mm-top{color:var(--ink)}
+.mm.open>.mm-btn svg{transform:rotate(180deg)}
+.mm-panel{display:none;position:absolute;z-index:50;top:calc(100% + 6px);left:-18px;width:min(460px,calc(100vw - 40px));padding:10px;border:1px solid var(--line);border-radius:16px;background:rgba(10,14,32,.97);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.03) inset;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.mm-panel::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+.mm.open>.mm-panel{display:block}
+html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
+@media (hover:hover) and (width>=821px){.mm:hover>.mm-panel{display:block}.mm:hover>.mm-btn svg{transform:rotate(180deg)}}
+.nav .links .mm-panel a:not(.btn){display:block;padding:7px 10px;border-radius:9px;color:var(--ink);font-size:14.5px;line-height:1.35}
+.nav .links .mm-panel a:not(.btn):hover{background:rgba(143,166,255,.09);color:#fff}
+.nav .links .mm-panel a.mm-feat{display:flex;gap:12px;align-items:flex-start;padding:12px;margin-bottom:6px;background:linear-gradient(135deg,rgba(91,124,255,.16),rgba(160,123,255,.10));border:1px solid rgba(143,166,255,.22)}
+.nav .links .mm-panel a.mm-feat:hover{background:linear-gradient(135deg,rgba(91,124,255,.24),rgba(160,123,255,.16))}
+.mm-feat b{display:block;font:700 15px/1.3 var(--display);color:var(--ink)}
+.mm-feat small{display:block;margin-top:3px;font-size:13px;line-height:1.4;color:var(--muted)}
+.mm-ic{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#4258d8,#6840e0);box-shadow:0 6px 18px rgba(91,124,255,.35)}
+.mm-ic svg{fill:#fff}
+.mm-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 10px;padding:4px 0}
+.mm-col{min-width:0}
+.mm-h{margin:8px 10px 4px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nav .links .mm-panel a.mm-foot{margin-top:6px;padding-top:10px;border-top:1px solid var(--line);border-radius:0 0 9px 9px;color:var(--blue-l)}
+.nsearch{position:relative;display:flex;align-items:center}
+.nsearch input{width:220px;min-height:40px;padding:8px 58px 8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:var(--ink);font:inherit;font-size:14px}
+.nsearch input:focus{outline:none;border-color:rgba(143,166,255,.55);background:rgba(255,255,255,.07)}
+.nsearch kbd{position:absolute;right:10px;padding:2px 6px;border:1px solid var(--line);border-radius:6px;font:500 11px/1.4 var(--mono);color:var(--muted);pointer-events:none}
+@media (max-width:960px){.nsearch{display:none}}
+@media (max-width:820px){.mm{position:static}.mm-panel{left:0;right:0;width:auto;top:100%}}
+@media (max-width:560px){.nav .links{flex-basis:100%;gap:2px 14px}.nav .links>.btn{position:absolute;top:-3px;right:0;padding:9px 13px}}
+@media (prefers-reduced-motion:reduce){.mm-btn svg{transition:none}}
 .hero2{padding-block:clamp(32px,7vh,72px) 18px}
 .hero2 h1{font:800 clamp(36px,6vw,64px)/1.02 var(--display);letter-spacing:-.01em;margin:18px 0 14px;text-wrap:balance}
 .hero2 h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -84,18 +132,26 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
 .chip[aria-pressed="true"]{color:var(--cyan);border-color:rgba(127,231,255,.5);background:rgba(127,231,255,.08)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .search{flex:1 1 220px;min-width:0;font:15px var(--body);color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-.count{font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.count{order:3;margin-left:auto;font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+.fscroll{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media (pointer:coarse){.tab,.chip{min-height:40px}}
+@media (max-width:560px){.bar{position:static}.tabs,.fscroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px}.tabs::-webkit-scrollbar,.fscroll::-webkit-scrollbar{display:none}.fscroll .chips{flex-wrap:nowrap}.tab,.chip,.chips-l{flex:none;white-space:nowrap}.search{flex:1 1 0}.count{order:0;margin-left:0}.fscroll{order:2;flex:1 1 100%}}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;padding-block:20px 32px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s}
-.card:hover{border-color:rgba(143,166,255,.45);transform:translateY(-2px)}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;transition:border-color .15s,transform .15s,box-shadow .15s}
+.card:hover{border-color:rgba(143,166,255,.45);transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.card:focus-within{border-color:rgba(143,166,255,.6)}
 .top{display:flex;gap:12px;align-items:center}
-.logo{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font:800 18px var(--display);color:#fff}
+.logo{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:800 19px var(--display);color:#fff}
+img.logo{object-fit:cover;background:#fff;box-shadow:0 0 0 1px var(--line)}
 .card h2 a{color:inherit;text-decoration:none}
+.card h2 a::after{content:"";position:absolute;inset:0;border-radius:16px}
+.card h2 a:focus-visible{outline:none}
+.card h2 a:focus-visible::after{outline:2px solid var(--blue-l);outline-offset:2px}
 .card h2 a:hover{text-decoration:underline}
 .card h2{font:700 18px/1.2 var(--display);margin:0}
 .card .by{font:500 12px var(--mono);color:var(--muted);overflow-wrap:anywhere}
-.card p{margin:0;color:#c9d2ee;font-size:15px;flex:1}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
+.card>p{margin:0;color:#c9d2ee;font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
 .tg{font:500 11px var(--mono);letter-spacing:.04em;padding:4px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
 .tg.os{color:#62e3a8;border-color:rgba(98,227,168,.35)}
 .tg.fsh{color:var(--yellow);border-color:rgba(255,216,77,.35)}
@@ -104,15 +160,17 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
 .skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
 .skip:focus{top:12px}
 .tg.tested{color:var(--cyan);border-color:rgba(127,231,255,.4)}
-.ff{display:grid;gap:3px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(5,7,15,.45);font-size:12.5px;line-height:1.45}
-.ff b{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l)}
-.ff ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.ff li{color:#c9d2ee}
-.ff li span{margin-right:6px;color:var(--muted)}
-.ff li.ff-catch{color:var(--yellow)}
+.ff{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;line-height:1.45}
+.ff p{margin:0;color:#c9d2ee}
+.ff p span{margin-right:8px;font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ff-free{color:var(--ink)}
+.ff-catch{color:#ffe7a3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ff-catch span{color:var(--yellow)!important}
+.fcs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.fc{font-size:12.5px;line-height:1.3;padding:4px 10px;border-radius:999px;background:rgba(143,166,255,.08);border:1px solid var(--line);color:#d9e0f5}
 .ff small{color:var(--muted);font-size:11.5px}
 .tg.cat{color:var(--blue-l)}
-.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
+.foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .foot a{text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
 .foot .claim{color:var(--muted);font-size:13px}
 .foot .claim:hover{color:var(--ink)}
@@ -127,14 +185,24 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
 <a class="skip" href="#main">Skip to content</a>
 <header class="wrap"><div class="nav">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
-  <nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>
+  <nav class="links" aria-label="Main">
+  <div class="mm"><a class="mm-top" href="/launch-list/">Tools</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-tools" aria-label="Tools menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="mm-panel" id="mm-tools"><a class="mm-feat" href="/request/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M10.5 4a6.5 6.5 0 1 0 4 11.6l4.2 4.2 1.4-1.4-4.2-4.2A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"/></svg></span><span><b>Find my free setup</b><small>Tell us the task. We reply with a free setup we have checked.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">For</p><a href="/launch-list/?for=biz">Small Business</a><a href="/launch-list/?for=job">Job Seekers</a><a href="/launch-list/?for=sec">Cybersecurity &amp; SOC</a><a href="/launch-list/">All tools</a></div><div class="mm-col"><p class="mm-h">Setup</p><a href="/launch-list/?setup=browser">No install</a><a href="/launch-list/?setup=desktop">Desktop app</a><a href="/launch-list/?setup=selfhost">Self-host</a><a href="/launch-list/?local=1">Works with local AI</a><a href="/launch-list/?os=1">Open source only</a></div></div><a class="mm-foot" href="/how-we-check/">How we check tools →</a></div></div>
+  <div class="mm"><a class="mm-top" href="/launches/">Launches</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-launches" aria-label="Launches menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="mm-panel" id="mm-launches"><a class="mm-feat" href="/launches/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2c3.3 2 5 5.2 5 9.2 0 1.4-.2 2.8-.7 4.1l2.2 2.2-1.4 1.4-1.8-1.8H8.7l-1.8 1.8-1.4-1.4 2.2-2.2A12.2 12.2 0 0 1 7 11.2C7 7.2 8.7 4 12 2Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM10 19h4l-2 3-2-3Z"/></svg></span><span><b>Launch Week</b><small>New free tools every Monday. You upvote, the best rise.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">Launches</p><a href="/launches/">This week’s launches</a><a href="/how-voting-works/">How voting works</a></div></div></div></div>
+  <div class="mm"><a class="mm-top" href="/makers/">Makers</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-makers" aria-label="Makers menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="mm-panel" id="mm-makers"><a class="mm-feat" href="/submit/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 14.6 8.6 21.6 9l-5.4 4.5 1.8 6.8L12 16.6 6 20.3l1.8-6.8L2.4 9l7-.4L12 2Z"/></svg></span><span><b>Launch your tool free</b><small>Free launches, no paid placement. Ever.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">Makers</p><a href="/makers/">For makers</a><a href="/submit/">Submit a tool</a><a href="/how-we-check/">How we check tools</a></div></div></div></div>
+  <form class="nsearch" action="/launch-list/" method="get" role="search"><input id="nav-q" name="q" type="search" placeholder="Search free tools" aria-label="Search free tools" maxlength="80" autocomplete="off"><kbd>Ctrl K</kbd></form>
+  <a class="btn ghost" href="/submit/">Submit a tool</a>
+  </nav>
 </div></header>
 
 <main class="wrap" id="main" tabindex="-1">
   <section class="hero2">
     <span class="badge"><i></i>Launch List · Preview</span>
-    <h1>45 AI tools you can use free or self-host, <em>checked</em> before they launch.</h1>
+    <h1>43 AI tools that run free, <em>checked</em> before they launch.</h1>
     <p>Open-source and free AI tools for small businesses, job seekers and security teams. Every tool here has an open license or a real free plan, was updated in the last 6 months, and uses AI as a core feature. No trials, no paywalls. <a href="/how-we-check/">How we check tools</a>.</p>
+    <p class="note">2 more tools need a paid service to run, so they are hidden until you turn off Runs free.</p>
   </section>
 
   <div class="bar" role="region" aria-label="Filters">
@@ -146,10 +214,12 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
     </div>
     <div class="row">
       <input class="search" id="q" type="search" placeholder="Search tools…" aria-label="Search tools">
+      <span class="count" id="count"></span>
+      <div class="fscroll">
       <div class="chips">
         <button class="chip" data-f="os" aria-pressed="false">Open source</button>
         <button class="chip" data-f="loc" aria-pressed="false">Works with local AI</button>
-        <button class="chip" data-f="free" aria-pressed="false">Runs free</button>
+        <button class="chip" data-f="free" aria-pressed="true">Runs free</button>
       </div>
       <div class="chips" role="group" aria-label="Setup">
         <span class="chips-l">Setup</span>
@@ -157,13 +227,13 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
         <button class="chip" data-setup="desktop" aria-pressed="false">Desktop app</button>
         <button class="chip" data-setup="selfhost" aria-pressed="false">Self-host</button>
       </div>
-      <span class="count" id="count"></span>
+      </div>
     </div>
   </div>
 
   <div class="grid" id="grid" aria-live="polite"></div>
 
-  <p class="note">Cannot find what you need? <a href="/request/">Find me a free tool</a>: tell us the task and we will look for one.</p>
+  <p class="note">Cannot find what you need? <a href="/request/">Find my free setup</a>: tell us the task and we will look for one.</p>
 
   <p class="note">Listed by OpenOrbia from public GitHub repositories, checked October 2026. Licenses can change, so check each repo before you deploy. Are you a maker? Claim your listing to add screenshots, a launch date and your story.</p>
 
@@ -173,57 +243,27 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
   </section>
 </main>
 
-<footer><div class="wrap sf">
-  <div class="sf-l"><span>© <span id="yr">2026</span> OpenOrbia · Founder: Khaja Syed</span></div>
-  <nav class="sf-m" aria-label="Footer"><a href="/how-we-check/">How we check tools</a><a href="/how-voting-works/">How voting works</a><a href="/makers/">For makers</a><a href="/request/">Find me a free tool</a></nav>
-  <div class="sf-r"><a href="https://x.com/OpenOrbia" aria-label="OpenOrbia on X" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.linkedin.com/company/openorbia" aria-label="OpenOrbia on LinkedIn" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg></a></div>
+<footer><div class="wrap">
+<div class="sf-top">
+  <div class="sf-about"><a class="brand sf-word" href="/" aria-label="OpenOrbia home">Open<span class="grad">Orbia</span></a><p>Free and open-source AI tools, checked against their official docs. New launches every Monday, free to enter, no paid placement.</p><p class="sf-contact">Questions? <a href="mailto:hello@openorbia.com">hello@openorbia.com</a></p></div>
+  <nav class="sf-map" aria-label="Site map">
+    <div class="sf-col"><p class="sf-h">Productivity</p><ul><li><a href="/launch-list/?q=chat">AI chat assistants</a></li><li><a href="/launch-list/?q=documents">Knowledge bases</a></li><li><a href="/launch-list/?q=meeting">Meeting notes</a></li><li><a href="/launch-list/?q=inbox">Email &amp; inbox</a></li><li><a href="/launch-list/?q=search+the+web">AI search</a></li><li><a href="/launch-list/?q=CRM">CRM &amp; sales</a></li><li><a href="/launch-list/?q=social+media">Social media</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Automation &amp; AI</p><ul><li><a href="/launch-list/?q=automat">Workflow automation</a></li><li><a href="/launch-list/?q=agents">AI agents</a></li><li><a href="/launch-list/?q=chatbot">Chatbots &amp; AI apps</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Careers</p><ul><li><a href="/launch-list/?q=resume">Resumes &amp; CVs</a></li><li><a href="/launch-list/?q=cover+letter">Cover letters</a></li><li><a href="/launch-list/?q=applications">Job search &amp; tracking</a></li><li><a href="/launch-list/?q=interview">Interview practice</a></li><li><a href="/launch-list/?q=LinkedIn">LinkedIn profile</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Security</p><ul><li><a href="/launch-list/?q=red-team">AI red teaming</a></li><li><a href="/launch-list/?q=jailbreak">Jailbreak testing</a></li><li><a href="/launch-list/?q=guardrails">AI guardrails</a></li><li><a href="/launch-list/?q=pentest">Penetration testing</a></li><li><a href="/launch-list/?q=triage">SOC &amp; alert triage</a></li><li><a href="/launch-list/?q=SOAR">Security automation</a></li><li><a href="/launch-list/?q=threats">Threat detection</a></li><li><a href="/launch-list/?q=capture-the-flag">CTF practice</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Browse</p><ul><li><a href="/launch-list/?for=biz">Small Business</a></li><li><a href="/launch-list/?for=job">Job Seekers</a></li><li><a href="/launch-list/?for=sec">Cybersecurity &amp; SOC</a></li><li><a href="/launch-list/?setup=browser">No install</a></li><li><a href="/launch-list/?local=1">Works with local AI</a></li><li><a href="/launch-list/?os=1">Open source only</a></li><li><a class="sf-all" href="/launch-list/">All tools →</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">OpenOrbia</p><ul><li><a href="/launches/">This week’s launches</a></li><li><a href="/submit/">Submit a tool</a></li><li><a href="/makers/">For makers</a></li><li><a href="/how-we-check/">How we check tools</a></li><li><a href="/how-voting-works/">How voting works</a></li><li><a href="/faq/">FAQ</a></li><li><a href="https://github.com/openorbia/openorbia-site/discussions">Community</a></li><li><a href="/request/">Find my free setup</a></li><li><a href="/contact/">Contact us</a></li></ul></div>
+  </nav>
+</div>
+<div class="sf">
+  <div class="sf-l"><span>© <span id="yr">2026</span> OpenOrbia. All rights reserved.</span><span>Founded by Khaja Syed</span></div>
+  <nav class="sf-m" aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/security/">Security</a><a href="/contact/">Contact</a></nav>
+  <div class="sf-r"><a href="https://x.com/OpenOrbia" aria-label="OpenOrbia on X" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.linkedin.com/company/openorbia" aria-label="OpenOrbia on LinkedIn" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg></a><a href="https://github.com/openorbia/openorbia-site" aria-label="OpenOrbia on GitHub" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a></div>
+</div>
 </div></footer>
 
-<script src="/assets/click-beacon.js" defer></script>
-<script type="module">
-import{factRows,formatChecked,isTested,needsPaidService,NEEDS_PAID_LABEL}from"/assets/facts.js";
-import{parseFilters,filterQuery,matchesRow}from"/assets/launch-filters.js";
-import{ROWS as T,CATEGORIES as CAT,slugOf}from"/assets/tools.js";
-
-const COL={biz:["#5b7cff","#7a4dff"],job:["#2fb8a0","#5b7cff"],sec:["#ff6b8a","#7a4dff"]};
-// the filters live in the address bar: /launch-list/?for=job&setup=browser (older #job links still work)
-const st=parseFilters(location.search,location.hash);
-const grid=document.getElementById("grid"),count=document.getElementById("count");
-const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-// A small "Free facts" box for the fields we know; with none of them there is no box. Same labels and date format as the launch pages.
-function ff(facts){
-  const rows=factRows(facts);
-  if(!rows.length)return"";
-  const when=formatChecked(facts&&facts.lastChecked);
-  return `<div class="ff"><b>Free facts</b><ul>${rows.map(r=>`<li class="ff-${r.key}"><span>${esc(r.label)}</span> ${esc(r.value)}</li>`).join("")}</ul>${when?`<small>Last checked ${esc(when)}</small>`:""}</div>`;
-}
-function card(t){
-  const [name,repo,desc,c,badge,lic,local,founder,facts]=t,[a,b]=COL[c];
-  const claim="mailto:launch@openorbia.com?subject="+encodeURIComponent("Claim listing: "+name)+"&body="+encodeURIComponent("Hi OpenOrbia, I maintain "+name+" (https://github.com/"+repo+") and would like to claim the listing.");
-  return `<article class="card"><div class="top"><div class="logo" style="background:linear-gradient(135deg,${a},${b})" aria-hidden="true">${esc(name[0].toUpperCase())}</div><div><h2><a href="/tool/${slugOf(name)}/">${esc(name)}</a></h2><div class="by">${esc(repo)}</div></div></div><p>${esc(desc)}</p>${ff(facts)}<div class="tags"><span class="tg cat">${CAT[c]}</span><span class="tg ${badge}">${badge==="os"?"Open source":"Free self-hosted"} · ${esc(lic)}</span>${local?'<span class="tg loc">Works with local AI</span>':''}${founder?`<span class="tg fnd">Built by Khaja Syed, OpenOrbia's founder</span>`:''}${isTested(facts)?'<span class="tg tested">✓ Tested by OpenOrbia</span>':''}${needsPaidService(facts)?`<span class="tg paid">${NEEDS_PAID_LABEL}</span>`:''}</div><div class="foot"><a href="https://github.com/${repo}" data-tool="${slugOf(name)}" target="_blank" rel="noopener">View on GitHub ↗</a>${founder?'':`<a class="claim" href="${claim}">Claim listing</a>`}</div></article>`;
-}
-function render(){
-  const r=T.filter(t=>matchesRow(t,st));
-  grid.innerHTML=r.length?r.map(card).join(""):'<div class="empty">No tools match. Try another search.</div>';
-  count.textContent=r.length+" TOOLS";
-}
-// show the state on the controls, and keep the address bar in step (replaceState: no extra history entries, no jump)
-const FLAG={os:"os",loc:"local",free:"free"};
-function sync(){
-  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-pressed",x.dataset.c===st.for));
-  document.querySelectorAll(".chip[data-f]").forEach(x=>x.setAttribute("aria-pressed",!!st[FLAG[x.dataset.f]]));
-  document.querySelectorAll(".chip[data-setup]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.setup===st.setup));
-  const q=document.getElementById("q");if(q.value!==st.q)q.value=st.q;
-}
-const url=()=>history.replaceState(null,"",location.pathname+filterQuery(st));
-const change=()=>{sync();render();url();};
-document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;st.for=b.dataset.c;change();});
-document.querySelectorAll(".chip[data-f]").forEach(b=>b.addEventListener("click",()=>{const k=FLAG[b.dataset.f];st[k]=!st[k];change();}));
-document.querySelectorAll(".chip[data-setup]").forEach(b=>b.addEventListener("click",()=>{st.setup=st.setup===b.dataset.setup?"":b.dataset.setup;change();}));
-document.getElementById("q").addEventListener("input",e=>{st.q=e.target.value;render();url();});
-sync();if(location.hash)url();
-document.getElementById("yr").textContent=new Date().getFullYear();
-render();
-</script>
+<script src="/assets/click-beacon.js?v=047f90022c" defer></script>
+<script type="module" src="/assets/launch-list.js?v=a76b64e78e"></script>
+<script src="/assets/nav.js?v=e11b817f2c" defer></script>
 </body>
 </html>

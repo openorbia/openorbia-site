@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { asset } from '../lib/asset-versions.js';
 import { handleSubmit, handleRequest, FORM_LIMIT } from '../lib/forms.js';
 import { verifyTurnstile, SITEVERIFY_URL } from '../lib/turnstile.js';
 import { renderSubmit, renderRequest, submitResponse } from '../lib/form-pages.js';
@@ -297,7 +298,7 @@ test('/submit/ has every field the maker form needs, the Turnstile widget, the G
   assert.ok(html.includes('https://challenges.cloudflare.com/turnstile/v0/api.js'));
   assert.ok(html.includes('https://github.com/openorbia/openorbia-site/issues/new?template=submit-a-tool.yml'));
   assert.ok(html.includes('maxlength="80"') && html.includes('maxlength="300"'));
-  assert.ok(html.includes('<script src="/assets/forms.js" defer></script>'));
+  assert.ok(html.includes(`<script src="${asset('forms.js')}" defer></script>`));
   assert.equal((html.match(/<h1/g) || []).length, 1);
 });
 
@@ -311,7 +312,9 @@ test('/request/ has the task, audience, the three constraints, an optional email
 });
 
 test('without a site key the pages say the form is not on yet instead of showing a form that cannot work', async () => {
-  for (const html of [renderSubmit(), renderRequest()]) {
+  for (const page of [renderSubmit(), renderRequest()]) {
+    // the header's search box is a form on every page; the page itself must have none
+    const html = page.slice(page.indexOf('</header>'));
     assert.ok(!html.includes('<form') && !html.includes('cf-turnstile'));
     assert.match(html, /not switched on yet/);
     assert.ok(html.includes('mailto:launch@openorbia.com'));

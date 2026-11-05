@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { renderMakers, makersResponse } from '../lib/makers.js';
 import { renderNotFound } from '../lib/pages.js';
-import { layout } from '../lib/layout.js';
+import { layout, MARK } from '../lib/layout.js';
+import { headerHtml } from '../lib/header.js';
 
 const root = new URL('../', import.meta.url);
 const html = renderMakers();
@@ -15,6 +16,11 @@ test('/makers/ covers what makers get, the rules, the free facts, the checklist 
     "What's free", 'Card required', 'Where your data goes', 'Setup', 'The catch', 'Last checked',
     'Logo, 512px square', 'Tagline, up to 60 characters', 'Description, 2 to 3 sentences', '3 to 5 screenshots', '60-second video or GIF', 'Links: website and source code', 'Your name and handles', 'Your maker story',
     'Launch Week 1', 'Monday, Nov 23', '12:01 AM Pacific']) assert.ok(text.includes(t), t);
+});
+
+test('/makers/ says every launch is featured from its launch day, and points to the maker kit for the badge', () => {
+  assert.ok(text.includes('Featured on OpenOrbia badge Every launch is featured on OpenOrbia from its launch day. Show it off: your maker kit has the badge ready to paste. Paste a badge into your README or website.'));
+  assert.ok(!text.includes('Once your tool is featured'));
 });
 
 test('/makers/ has the two buttons and the address as text with a copy button', () => {
@@ -33,11 +39,12 @@ test('/makers/ is a normal page: one h1, skip link, canonical, 200 HTML', async 
   assert.match(res.headers.get('content-type'), /text\/html/);
 });
 
-test('every page has the same nav (Tools, Launches, Submit a tool), and the homepage points to it too', () => {
+test('every page has the same nav (Tools, Launches, Makers, Submit a tool), and the homepage points to it too', () => {
   const file = f => readFileSync(new URL(f, root), 'utf8');
-  const NAV = '<nav class="links" aria-label="Main"><a href="/launch-list/">Tools</a><a href="/launches/">Launches</a><a class="btn ghost" href="/submit/">Submit a tool</a></nav>';
+  const NAV = headerHtml(MARK);
   for (const [name, h] of Object.entries({ layout: layout({ title: 't', description: 'd', path: '/', body: '' }), notFound: renderNotFound(), home: file('public/index.html'), list: file('public/launch-list/index.html'), notFoundStatic: file('public/404.html') })) {
     assert.ok(h.includes(NAV), name + ': nav');
   }
+  assert.ok(NAV.includes('<a class="mm-top" href="/makers/">Makers</a>'), 'the nav names For makers');
   assert.ok(file('public/index.html').includes('<a href="/makers/">see how launching works</a>'));
 });
