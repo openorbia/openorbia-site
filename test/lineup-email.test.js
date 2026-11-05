@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { lineupEmail, groupByCategory, cleanPostal, launchLink } from '../lib/lineup-email.js';
-import { runLineup, parseArgs, BATCH_SIZE, SAMPLE_UNSUBSCRIBE } from '../lib/lineup-send.js';
+import { runLineup, parseArgs, scrub, BATCH_SIZE, SAMPLE_UNSUBSCRIBE, SAMPLE_RECIPIENT } from '../lib/lineup-send.js';
 import { unsubscribeUrl } from '../lib/unsubscribe.js';
 import { welcomeEmail, BREVO_URL, SENDER } from '../lib/email.js';
 import { launchOpensAt, launchClosesAt, dayLabelLong } from '../lib/time.js';
@@ -116,7 +116,7 @@ test('the dry run is the default: it counts, writes one sample to a local file, 
     assert.equal(await h.run(argv), 0);
     assert.equal(h.calls.length, 0, 'no network call at all');
     assert.ok(h.lines.some(l => l.includes('4 launches; 3 signups on the waitlist')));
-    assert.ok(h.files['lineup-week-1-sample.html'].includes('Here’s the lineup.') && h.files['lineup-week-1-sample.txt'].startsWith('Subject: Launch Week 1 lineup'));
+    assert.ok(h.files['lineup-week-1-sample.html'].includes('Here’s the lineup.') && h.files['lineup-week-1-sample.txt'].includes('\nSubject: Launch Week 1 lineup'));
     assert.ok(h.lines.some(l => l.includes('Nothing was sent.')));
     noAddressesIn(h.lines);
   }
@@ -251,4 +251,42 @@ test('the "Send lineup email" workflow: manual only, from main, in the productio
   assert.ok(!y.includes('-sent.json\n          retention') && !/upload-artifact[\s\S]*-sent\.json/.test(y.slice(y.indexOf('Upload the sample'))), 'the sent ids are never uploaded');
   for (const [, ref] of y.matchAll(/uses: ([^\s]+)/g)) assert.match(ref, /@[0-9a-f]{40}$/, `${ref} is pinned to a commit`);
   assert.ok(y.includes(`WRANGLER_VERSION: ${file('.github/workflows/deploy.yml').match(/WRANGLER_VERSION: ([\d.]+)/)[1]}`), 'same wrangler as deploy.yml');
+});
+
+// ---- the repository is public: the sample, the logs and the workflow show nothing private ----
+
+test('the dry-run sample is a placeholder copy: placeholder recipient, fake unsubscribe link, no subscriber in it', async () => {
+  const h = harness({ env: FULL });
+  assert.equal(await h.run([]), 0);
+  const all = Object.values(h.files).join('\n');
+  assert.equal(SAMPLE_UNSUBSCRIBE, `https://openorbia.com/unsubscribe/?id=0&t=${'0'.repeat(32)}`);
+  assert.ok(h.files['lineup-week-1-sample.txt'].startsWith(`To: ${SAMPLE_RECIPIENT} (placeholder`));
+  assert.ok(all.includes(SAMPLE_UNSUBSCRIBE) || all.includes(esc(SAMPLE_UNSUBSCRIBE)));
+  for (const p of PEOPLE) {
+    assert.ok(!all.includes(p.email), 'no subscriber address');
+    assert.ok(!all.includes(`?id=${p.id}&`) && !all.includes(`?id=${p.id}&amp;`), 'no subscriber link');
+  }
+  assert.ok(!all.includes(await unsubscribeUrl(SECRET, 1)));
+});
+
+test('send and test logs never show an address or a signed link, even when Brevo echoes them back in an error', async () => {
+  const people = [{ id: 7, email: 'echo@example.com' }];
+  const url = await unsubscribeUrl(SECRET, 7);
+  const echo = `{"code":"invalid_parameter","message":"bad to echo@example.com for ${url} key ${KEY}"}`;
+  const h = harness({ env: FULL, people });
+  h.fetchImpl = async (u, init) => { h.calls.push({ url: String(u), init }); return String(u).startsWith('https://openorbia.com/unsubscribe/') ? { status: 200, ok: true, text: async () => '' } : { status: 400, ok: false, text: async () => echo }; };
+  assert.equal(await h.run(['--send', '--yes']), 1);
+  const t = harness({ env: FULL });
+  t.fetchImpl = async () => ({ status: 400, ok: false, text: async () => '{"message":"mine@example.com is not allowed"}' });
+  assert.equal(await t.run(['--test', 'mine@example.com']), 1);
+  const all = [...h.lines, ...t.lines].join('\n');
+  for (const bad of ['echo@example.com', 'mine@example.com', url, new URL(url).searchParams.get('t'), '/unsubscribe/?id=', KEY, SECRET]) assert.ok(!all.includes(bad), bad);
+  assert.ok(all.includes('[hidden]') && all.includes('[link]'), 'the known address and the link are replaced');
+  assert.equal(scrub(`see ${url} or 0123456789abcdef0123456789abcdef`), 'see [link] or [token]');
+});
+
+test('the workflow keeps the sample for 1 day and tells you to use only your own address for test_address', () => {
+  const y = file('.github/workflows/send-lineup.yml');
+  assert.ok(y.includes('retention-days: 1\n') && !/retention-days: (?!1\n)/.test(y));
+  assert.ok(y.includes("description: 'For mode \"test\" only. test_address: use only your own address.'"));
 });

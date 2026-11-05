@@ -2,11 +2,13 @@
 # the "production" environment, so every run waits for Khaja's approval and its secrets live only in that environment:
 #
 #   dry-run  read the launches and count the waitlist (read-only), upload one sample email as an artifact; sends nothing
-#   test     send one "[Test]" copy, with a sample unsubscribe link, to test_address
+#   test     send one "[Test]" copy, with a sample unsubscribe link, to test_address. test_address: use only your own address.
 #   send     email the whole waitlist, in small batches through Brevo
 #
-# This repository is public, so its logs and artifacts are too: the script logs counts only (never an address, the key or a secret),
-# wrangler's output (which holds the addresses) is never printed, and the sample uses a sample unsubscribe link.
+# This repository is public, so its logs, artifacts and run inputs are too. The script logs counts only: never an address, a signed
+# unsubscribe link, the key or a secret, and Brevo's errors are scrubbed of all of them. Wrangler's output (which holds the addresses)
+# is never printed. test_address is masked in the log. The dry-run sample is a placeholder recipient's copy with a fake unsubscribe
+# link, never a real subscriber's, and is kept for 1 day.
 #
 # Secrets in the production environment: BREVO_API_KEY, UNSUBSCRIBE_SECRET, POSTAL_ADDRESS, plus CLOUDFLARE_API_TOKEN (it needs
 # "D1 Read" to read the database) and CLOUDFLARE_ACCOUNT_ID. Dry runs get only the Cloudflare ones and POSTAL_ADDRESS.
@@ -22,7 +24,7 @@ on:
         default: dry-run
         required: true
       test_address:
-        description: 'For mode "test" only: the one address to send the test to'
+        description: 'For mode "test" only. test_address: use only your own address.'
         type: string
         required: false
       week:
@@ -109,4 +111,4 @@ jobs:
           name: lineup-week-${{ inputs.week }}-sample
           path: .ops-cache/lineup-week-${{ inputs.week }}-sample.*
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
