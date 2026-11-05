@@ -87,7 +87,7 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .nav .links .mm-panel a.mm-foot{margin-top:6px;padding-top:10px;border-top:1px solid var(--line);border-radius:0 0 9px 9px;color:var(--blue-l)}
 .nsearch{position:relative;display:flex;align-items:center}
 .nsearch input{width:220px;min-height:40px;padding:8px 58px 8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:var(--ink);font:inherit;font-size:14px}
-.nsearch input:focus{outline:none;border-color:rgba(143,166,255,.55);background:rgba(255,255,255,.07)}
+.nsearch input:focus{border-color:rgba(143,166,255,.55);background:rgba(255,255,255,.07)}
 .nsearch kbd{position:absolute;right:10px;padding:2px 6px;border:1px solid var(--line);border-radius:6px;font:500 11px/1.4 var(--mono);color:var(--muted);pointer-events:none}
 @media (max-width:960px){.nsearch{display:none}}
 @media (max-width:820px){.mm{position:static}.mm-panel{left:0;right:0;width:auto;top:100%}}

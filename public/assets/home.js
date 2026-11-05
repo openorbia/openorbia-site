@@ -1,8 +1,7 @@
 // Homepage script: footer year, copy-the-email button and the waitlist form. A file of its own so the Content Security Policy can
 // forbid inline scripts.
 document.getElementById('yr').textContent=new Date().getFullYear();
-const b=document.getElementById('copyBtn');
-b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('launch@openorbia.com');b.textContent='Copied';}catch(e){const r=document.createRange();r.selectNodeContents(document.getElementById('mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}setTimeout(()=>b.textContent='Copy',2000);});
+// The copy-the-email button is a shared [data-copy] button, handled (and announced) by launch.js
 // The Turnstile token (empty if the check has not run): only a visitor who passes it gets the welcome email
 const check=()=>{const t=document.querySelector('#wl [name="cf-turnstile-response"]');return t?t.value:'';};
 // The widget runs in the background after the page loads, so a quick visitor can press Join before the token exists. Wait for it (up to
