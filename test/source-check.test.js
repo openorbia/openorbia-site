@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { sourceTargets, toFetchUrl, pageText, pricingLines, snapshotOf, compare, buildReport, needsLook } from '../lib/source-check.js';
+import { sourceTargets, toFetchUrl, pageText, pricingLines, snapshotOf, compare, buildReport, needsLook, robotsRules, robotsAllows, robotsPolicy, tooSoon, byHost, codeSpan, capReport, ISSUE_BODY_MAX, USER_AGENT } from '../lib/source-check.js';
 
 test('GitHub README and blob links are fetched as raw files; other pages lose their #hash', () => {
   assert.equal(toFetchUrl('https://github.com/ollama/ollama#readme'), 'https://raw.githubusercontent.com/ollama/ollama/HEAD/README.md');
@@ -49,8 +49,8 @@ test('the report leads with listings to check and asks for a look only when one 
   assert.match(md, /^# Source check, 2026-11-09/);
   assert.match(md, /3 official pages checked\. 1 with pricing words changed, 1 broken/);
   assert.ok(md.indexOf('## Check these listings') < md.indexOf('## Broken source links'));
-  assert.match(md, /Now says:\n {4}- Free 14-day trial/);
-  assert.match(md, /No longer says:\n {4}- Free forever/);
+  assert.match(md, /Now says:\n {4}- ` Free 14-day trial `/);
+  assert.match(md, /No longer says:\n {4}- ` Free forever `/);
   assert.equal(needsLook(results), true);
   assert.equal(needsLook([{ status: 'changed' }, { status: 'error' }, { status: 'unchanged' }]), false);
   assert.match(buildReport([{ url: 'https://c.test/', tools: ['C'], status: 'new' }], '2026-11-09'), /First run/);

@@ -1,15 +1,19 @@
-# Weekly source check: re-reads every official page behind the Launch List (data/free-facts.json),
-# saves the new snapshots and opens an issue when a pricing line changed or a source link broke.
-# See scripts/check-sources.mjs. Scheduled runs only happen from the default branch (main).
+# Weekly source check: re-reads every official page behind the Launch List (data/free-facts.json), compares it with the
+# snapshots kept in the Actions cache (never committed), and opens an issue when a pricing line changed or a source link
+# broke. It only reports: it never edits a listing, commits or publishes. See scripts/check-sources.mjs.
+# Scheduled runs only happen from the default branch (main).
 name: Weekly source check
 
 on:
   schedule:
-    - cron: '0 15 * * 1' # Mondays 15:00 UTC (7 or 8 AM Pacific)
+    - cron: '0 15 * * 1' # Mondays 15:00 UTC (7 or 8 AM Pacific): the weekly check
+    # Thursdays: fetches nothing (under 6 days since Monday); restoring the snapshots keeps the cache entry in use, since
+    # GitHub removes cache entries not used for 7 days
+    - cron: '0 15 * * 4'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   issues: write
 
 concurrency:
@@ -21,30 +25,42 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
 
+      - name: Restore the last snapshots
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/source-snapshots.json
+          key: source-snapshots-${{ github.run_id }}
+          restore-keys: source-snapshots-
+
+      # Skips itself (fetches nothing) when the last saved run is under 6 days old, manual runs included
       - name: Check the official sources
         id: check
-        run: node scripts/check-sources.mjs --report "$RUNNER_TEMP/source-check.md"
+        run: node scripts/check-sources.mjs --report "$RUNNER_TEMP/source-check.md" --issue-body "$RUNNER_TEMP/source-issue.md"
+
+      # Saved before the issue step, so a failed issue never loses the new snapshots
+      - name: Save the new snapshots
+        if: ${{ !cancelled() && steps.check.outcome == 'success' && steps.check.outputs.skipped != 'true' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/source-snapshots.json
+          key: source-snapshots-${{ github.run_id }}
 
       - name: Add the report to the run summary
+        if: ${{ !cancelled() && steps.check.outcome == 'success' }}
         run: cat "$RUNNER_TEMP/source-check.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open an issue when a listing needs a look
-        if: steps.check.outputs.needs_look == 'true'
+        if: ${{ !cancelled() && steps.check.outputs.needs_look == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh issue create --title "Source check $(date -u +%F): ${{ steps.check.outputs.summary }}" --body-file "$RUNNER_TEMP/source-check.md"
-
-      - name: Save the new snapshots
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898599+github-actions[bot]@users.noreply.github.com"
-          git add data/source-snapshots.json
-          if git diff --cached --quiet; then echo "No snapshot changes."; exit 0; fi
-          git commit -m "Source check $(date -u +%F): update snapshots"
-          git push
+          GH_REPO: ${{ github.repository }}
+          SUMMARY: ${{ steps.check.outputs.summary }}
+        run: gh issue create --title "Source check $(date -u +%F): $SUMMARY" --body-file "$RUNNER_TEMP/source-issue.md"
