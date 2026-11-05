@@ -20,7 +20,7 @@ permissions:
 env:
   WRANGLER_VERSION: 4.156.2
   # Only for the preview's 375px width check; installed into a temporary folder, never a dependency of the site
-  PLAYWRIGHT_VERSION: 1.56.1
+  PLAYWRIGHT_VERSION: 1.64.1
 
 jobs:
   preview:
