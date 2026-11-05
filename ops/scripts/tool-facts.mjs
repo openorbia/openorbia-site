@@ -9,7 +9,7 @@
 // last run, saved in .ops-cache/tool-facts.json (gitignored), and prints a "changed" list, so unchanged tools need no re-reading.
 // It only reads public metadata: it never clones, installs or runs a project's code.
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
@@ -20,7 +20,9 @@ const MAX = 5;
 const facts = JSON.parse(readFileSync(join(root, 'data', 'free-facts.json'), 'utf8'));
 const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const cacheFile = join(root, '.ops-cache', 'tool-facts.json');
-const cache = existsSync(cacheFile) ? JSON.parse(readFileSync(cacheFile, 'utf8')) : {};
+// read the cache in one step (no exists-then-read check), an empty cache when there is none yet
+const readCache = () => { try { return JSON.parse(readFileSync(cacheFile, 'utf8')); } catch { return {}; } };
+const cache = readCache();
 
 const args = process.argv.slice(2);
 let picks;
@@ -38,7 +40,12 @@ if (picks.length > MAX) { console.error(`At most ${MAX} tools per run (asked for
 // `gh api` as the logged-in account, without a shell; null when the call fails
 const gh = path => { try { return JSON.parse(execFileSync('gh', ['api', path], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })); } catch { return null; } };
 
-async function status(url) {
+// Only the listing's own https source links are checked, and only through a URL rebuilt from its parts.
+const safeUrl = raw => { try { const u = new URL(raw); return u.protocol === 'https:' && !u.username && !u.password ? `https://${u.host}${u.pathname}${u.search}` : null; } catch { return null; } };
+
+async function status(raw) {
+  const url = safeUrl(raw);
+  if (!url) return 'not an https link';
   for (const method of ['HEAD', 'GET']) {
     try {
       const r = await fetch(url, { method, redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'openorbia-ops tool-facts' } });
@@ -77,5 +84,6 @@ for (const f of picks) {
   cache[f.repo] = { github, at: new Date().toISOString() };
 }
 mkdirSync(dirname(cacheFile), { recursive: true });
-writeFileSync(cacheFile, JSON.stringify(cache, null, 2));
+// written in one step; a concurrent run at worst overwrites the cache, which only holds public metadata
+writeFileSync(cacheFile, JSON.stringify(cache, null, 2), { flag: 'w' });
 console.log(JSON.stringify(out, null, 2));

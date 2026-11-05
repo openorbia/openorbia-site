@@ -39,6 +39,28 @@ test('the role rules that protect the founder are written down', () => {
   assert.ok(/Never send, post or schedule anything/.test(maker) && /Never mark a maker confirmed without their own words/.test(maker));
 });
 
+test('CLAUDE.md states every rule adopted for this repository', () => {
+  // whitespace is collapsed, so a rule may wrap across lines
+  const claude = file('CLAUDE.md').replace(/\s+/g, ' ');
+  const RULES = {
+    "openorbia account only": "Use only the `openorbia` GitHub account",
+    "nothing employer-related": "Never use another account, or an employer's systems, credentials or data",
+    "never read secrets": "Never read secret values",
+    "branches and PRs only": "Work on a branch, one per task, and open a pull request. Never commit or push to `main`",
+    "production deploys only with approval": "Production deploys only with the founder's approval: ask before approving each one, every time",
+    "npm run stamp after public/assets changes": "After any change in `public/assets/`, run `npm run stamp`",
+    "no inline scripts": "No inline scripts",
+    "commands copied from official docs, section cited": "copied verbatim from the tool's official docs, with the doc section cited",
+    "prefer the method that keeps a tool off the network": "prefer the method that doesn't expose the tool to the network",
+    "every email carries the unsubscribe link": "Every newsletter or waitlist email carries the unsubscribe link",
+    "maker emails sent by hand, agents only draft": "One-to-one maker emails are sent by hand, by the founder or a helper the founder names; agents only draft them",
+    "docs-checked vs hands-on tested, testedBy needs testedOn": "separate from \"hands-on tested\": `testedBy` only with a hand-set `testedOn` date",
+    "maker contact details never in the repo": "Contact details and conversations stay in the private store, never in this public repository",
+  };
+  const missing = Object.entries(RULES).filter(([, text]) => !claude.includes(text)).map(([name]) => name);
+  assert.deepEqual(missing, [], 'rules missing from CLAUDE.md');
+});
+
 test('dedupe.mjs finds listed tools by name, owner/repo or GitHub URL, and says "new" otherwise', () => {
   const run = (...args) => { try { return execFileSync(process.execPath, [join(root, 'ops/scripts/dedupe.mjs'), ...args], { encoding: 'utf8' }); } catch (e) { return e.stdout; } };
   const out = run('Open WebUI', 'ollama/ollama', 'https://github.com/NVIDIA/garak', 'zz-not-a-real-tool');

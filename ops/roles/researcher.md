@@ -13,7 +13,8 @@ You find and verify the facts about free AI tools. Priority: security tools, and
    - what is actually free, and its limits
    - license, and maintenance (updated in the last 6 months)
    - required accounts, hardware, hosting, models and APIs
-   - where data goes, and the setup path
+   - where data goes, and the setup path (commands copied verbatim from the official docs, with the section cited; prefer
+     the method that doesn't expose the tool to the network)
    - one useful task a person can do without any required paid service
 4. **Record** each fact with its source URL and the date you checked it. Mark anything you could not confirm as
    `UNCONFIRMED` and say what would confirm it.
