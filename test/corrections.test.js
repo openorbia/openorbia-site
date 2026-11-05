@@ -17,7 +17,7 @@ const CORRECTIONS = {
   'elie222/inbox-zero': ['Ollama (free) or your own key', 'https://docs.getinboxzero.com/hosting/environment-variables', [/and an AI key/i, /license terms/i]],
   'career-ops-hq/career-ops': ['rate limited', 'https://github.com/career-ops-hq/career-ops/blob/main/docs/RUNNING_ON_A_BUDGET.md', [/needs an AI coding CLI/i]],
   'activepieces/activepieces': ['SSO is on the paid Team plan', 'https://www.activepieces.com/pricing', [/SSO, audit logs and role controls are enterprise-only/i]],
-  'TracecatHQ/tracecat': ['Free plan includes SSO and audit logs', 'https://tracecat.com/pricing', []],
+  'TracecatHQ/tracecat': ['Free plan includes SSO and audit logs', 'https://www.tracecat.com/pricing', []],
   'mayank-glitch-cpu/JobSync-Service': ['supports MCP', 'https://github.com/mayank-glitch-cpu/JobSync-Service#readme', [/paid Anthropic/i, /Airtable account/i]],
   'saeedkolivand/ai-job-hunter-app': ['Sentry by default', 'https://github.com/saeedkolivand/ai-job-hunter-app#readme', [/beta/i]],
   'DaKheera47/job-ops': ['anonymous usage analytics', 'https://github.com/DaKheera47/job-ops#readme', [/analytics on by default/i]],
@@ -25,7 +25,7 @@ const CORRECTIONS = {
   'twentyhq/twenty': ['paid Organization key', 'https://github.com/twentyhq/twenty/blob/main/packages/twenty-docs/user-guide/billing/capabilities/pricing-plans.mdx', [/are paid-only/i]],
   'langgenius/dify': ['multi-workspace', 'https://github.com/langgenius/dify/blob/main/LICENSE', [/Self-host is one workspace/i, /can't be removed/i, /needs your own AI model keys/i]],
   'gitroomhq/postiz-app': ['developer app on each social network', 'https://docs.postiz.com/self-host/providers/overview.md', [/weeks/i]],
-  'vxcontrol/pentagi': ['EULA applies', 'https://github.com/vxcontrol/pentagi/blob/master/EULA.md', [/large local model/i]],
+  'vxcontrol/pentagi': ['EULA applies', 'https://github.com/vxcontrol/pentagi/blob/main/EULA.md', [/large local model/i]],
 };
 
 test('each corrected catch says what the docs say, cites the page that says it, and no longer carries the old claim', () => {
