@@ -185,7 +185,8 @@ test('the homepage headline is plain "take off" in Sora: the Bricolage-only spac
 test('every page gets Sora (no rule uses 600), Bricolage 800, IBM Plex Sans and JetBrains Mono from openorbia.com, with font-display:swap', () => {
   const pages = { home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'), layout: layout({ title: 't', description: 'd', path: '/', body: '' }) };
   for (const [name, html] of Object.entries(pages)) {
-    assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(html), `${name}: nothing from Google Fonts`);
+    // no stylesheet or preconnect to another site (test/performance.test.js checks that nothing at all comes from Google)
+    assert.ok(!/<link rel="(stylesheet|preconnect)" href="https:/.test(html), `${name}: no external stylesheet or preconnect`);
     assert.ok(html.includes('<link rel="preload" href="/assets/fonts/sora-v17-latin.woff2" as="font" type="font/woff2" crossorigin>'), `${name}: Sora preloaded`);
   }
   for (const css of [file('public/assets/launch.css'), pages.home, pages.list]) {
