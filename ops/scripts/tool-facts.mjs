@@ -48,6 +48,9 @@ async function status(raw) {
   if (!url) return 'not an https link';
   for (const method of ['HEAD', 'GET']) {
     try {
+      // CodeQL js/file-access-to-http, dismissed as "Won't fix". Intended: the script fetches the official source links from
+      // our own facts file, which only changes through reviewed PRs. Fetches are https only, carry no credentials, and only
+      // read pages.
       const r = await fetch(url, { method, redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'openorbia-ops tool-facts' } });
       if (method === 'HEAD' && [403, 405].includes(r.status)) continue;
       return r.status;
