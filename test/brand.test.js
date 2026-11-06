@@ -181,18 +181,17 @@ test('the homepage headline is plain "take off" in Sora: the Bricolage-only spac
   }
 });
 
-test('every page loads Sora 700/800 (no rule uses 600) with display=swap alongside Bricolage 800, IBM Plex Sans and JetBrains Mono, and preconnects to Google Fonts', () => {
-  const needles = ['family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800', 'family=IBM+Plex+Sans:wght@400', 'family=JetBrains+Mono:wght@500', 'family=Sora:wght@700;800', '&display=swap'];
+// changed 2026-11-05: the fonts are served from openorbia.com (lib/fonts.js, test/performance.test.js), no longer from Google Fonts
+test('every page gets Sora (no rule uses 600), Bricolage 800, IBM Plex Sans and JetBrains Mono from openorbia.com, with font-display:swap', () => {
   const pages = { home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'), layout: layout({ title: 't', description: 'd', path: '/', body: '' }) };
   for (const [name, html] of Object.entries(pages)) {
-    const link = html.split('\n').find(l => l.includes('fonts.googleapis.com/css2'));
-    assert.ok(link, `${name}: fonts link`);
-    for (const n of needles) assert.ok(link.includes(n), `${name}: ${n}`);
-    assert.equal(link.split('family=Sora').length - 1, 1, `${name}: Sora once`);
-    const soraPart = link.split('family=Sora')[1].split('&')[0];
-    assert.equal(soraPart, ':wght@700;800', `${name}: only Sora 700 and 800 are requested (no 600)`);
-    assert.ok(html.includes('<link rel="preconnect" href="https://fonts.googleapis.com">'), `${name}: preconnect to googleapis`);
-    assert.ok(html.includes('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'), `${name}: preconnect to gstatic`);
+    // no stylesheet or preconnect to another site (test/performance.test.js checks that nothing at all comes from Google)
+    assert.ok(!/<link rel="(stylesheet|preconnect)" href="https:/.test(html), `${name}: no external stylesheet or preconnect`);
+    assert.ok(html.includes('<link rel="preload" href="/assets/fonts/sora-v17-latin.woff2" as="font" type="font/woff2" crossorigin>'), `${name}: Sora preloaded`);
+  }
+  for (const css of [file('public/assets/launch.css'), pages.home, pages.list]) {
+    for (const family of ['Sora', 'IBM Plex Sans', 'JetBrains Mono', 'Bricolage Grotesque']) assert.match(css, new RegExp(`@font-face\\{font-family:"${family}";[^}]*font-display:swap;src:url\\(/assets/fonts/`), family);
+    for (const rule of rulesOf(css)) if (rule.includes('var(--display)')) assert.ok(!/font:600 /.test(rule), `no Sora 600: ${rule.slice(0, 60)}`);
   }
 });
 

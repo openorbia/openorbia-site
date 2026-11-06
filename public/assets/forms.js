@@ -20,6 +20,10 @@
     say('Please fix the highlighted field.', false);
   };
   const resetCheck = () => { try { if (window.turnstile) window.turnstile.reset(); } catch { /* the widget is not there yet */ } };
+  // The check starts when someone first uses the form (public/assets/turnstile.js). If the form is sent before its token exists, start it
+  // if needed and wait for the token (up to about 15 seconds, polled every 200 ms) instead of asking the visitor to send again.
+  const tokenNow = () => { const t = form.querySelector('[name="cf-turnstile-response"]'); return t ? t.value : ''; };
+  const waitForToken = () => new Promise(done => { let tries = 0; const poll = () => { const v = tokenNow(); if (v || ++tries >= 75) return done(v); setTimeout(poll, 200); }; poll(); });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -31,10 +35,15 @@
       else if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
       else data[el.name] = el.value;
     }
-    const token = form.querySelector('[name="cf-turnstile-response"]');
-    data.turnstile = token ? token.value : '';
-    if (!data.turnstile) { say('Please wait for the spam check to finish (it is under the form), then send again.', false); return; }
-    btn.disabled = true; btn.textContent = 'Sending...';
+    btn.disabled = true;
+    data.turnstile = tokenNow();
+    if (!data.turnstile) {
+      if (window.openorbiaCheck) window.openorbiaCheck();
+      btn.textContent = 'Checking...';
+      data.turnstile = await waitForToken();
+    }
+    if (!data.turnstile) { btn.disabled = false; btn.textContent = label; say('Please wait for the spam check to finish (it is under the form), then send again.', false); return; }
+    btn.textContent = 'Sending...';
     try {
       const res = await fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
       const out = await res.json().catch(() => ({}));

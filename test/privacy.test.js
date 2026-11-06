@@ -80,14 +80,16 @@ test('"Find my free setup" is the name visitors see everywhere; the URL and the 
 
 // ---- added 2026-11-04: Google Fonts, Turnstile in the browser, GitHub issues, how long we keep it ----
 
-test('Google Fonts is named, because every page loads its fonts from Google', () => {
-  assert.ok(file('lib/layout.js').includes('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'), 'pages load Google Fonts');
-  assert.ok(file('lib/security-headers.js').includes('font-src \'self\' https://fonts.gstatic.com'));
-  assert.ok(text.includes("Google Fonts serves the site's fonts, so your browser connects to Google, which receives your IP address under Google's own privacy policy."));
+// changed 2026-11-05: the fonts are served from openorbia.com itself (lib/fonts.js), so Google is no longer named; test/fonts.test.js
+// checks that no page loads anything from Google
+test('Google Fonts is not named any more, because no page loads anything from Google', () => {
+  assert.ok(!/Google/.test(text), 'no Google line');
+  assert.ok(file('lib/security-headers.js').includes(`"font-src 'self'",`), 'fonts only from openorbia.com');
 });
 
 test('Turnstile is described as running in the browser and connecting to Cloudflare directly; the widget script is Cloudflare\'s', () => {
-  assert.ok(file('public/index.html').includes('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'));
+  // loaded by public/assets/turnstile.js when someone starts using a form
+  assert.ok(file('public/assets/turnstile.js').includes("'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=openorbiaTurnstileReady'"));
   assert.ok(text.includes('it runs in your browser and connects to Cloudflare directly'));
 });
 
@@ -115,9 +117,9 @@ test('"How long we keep it" matches the code: no automatic deletion of signups, 
   assert.ok(text.includes('Rate-limit codes expire when their time window ends and are then cleared out.'));
 });
 
-test('Last updated is Nov 4, 2026', () => {
-  assert.equal(LAST_UPDATED, '2026-11-04');
-  assert.ok(text.includes('Last updated November 4, 2026.'));
+test('Last updated is Nov 5, 2026', () => {
+  assert.equal(LAST_UPDATED, '2026-11-05');
+  assert.ok(text.includes('Last updated November 5, 2026.'));
 });
 
 // ---- added 2026-11-04 (privacy-security-pages): who runs it, the change note, the cookie line ----

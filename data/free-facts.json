@@ -110,7 +110,7 @@
     },
     "sources": [
       "https://github.com/n8n-io/n8n#readme",
-      "https://docs.n8n.io/hosting/community-edition-features/"
+      "https://docs.n8n.io/deploy/host-n8n/community-edition-features"
     ],
     "task": "Build automated workflows and AI agents that connect your apps",
     "level": "basic",
@@ -602,8 +602,8 @@
     },
     "sources": [
       "https://github.com/AnalyticAce/myresumo#readme",
-      "https://api-docs.deepseek.com/quick_start/pricing",
-      "https://platform.openai.com/docs/pricing"
+      "https://api-docs.deepseek.com/quick_start/pricing/",
+      "https://developers.openai.com/api/docs/pricing"
     ],
     "task": "Tailor your resume to a job posting using AI",
     "level": "basic",
@@ -860,7 +860,7 @@
     },
     "sources": [
       "https://github.com/TracecatHQ/tracecat#readme",
-      "https://tracecat.com/pricing",
+      "https://www.tracecat.com/pricing",
       "https://github.com/TracecatHQ/tracecat/blob/main/docs/agents/llm-providers.mdx"
     ],
     "task": "Automate security and IT workflows with AI agents and case management",
@@ -925,7 +925,7 @@
     },
     "sources": [
       "https://github.com/vxcontrol/pentagi#readme",
-      "https://github.com/vxcontrol/pentagi/blob/master/EULA.md"
+      "https://github.com/vxcontrol/pentagi/blob/main/EULA.md"
     ],
     "task": "Run automated, AI-driven penetration tests on systems you are authorized to test",
     "level": "basic",
