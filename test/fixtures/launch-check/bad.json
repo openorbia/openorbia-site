@@ -1,0 +1,440 @@
+{
+  "_readme": [
+    "Fixtures for test/launch-check.test.js. Images are in public/launches/<slug>/ next to this file."
+  ],
+  "launches": [
+    {
+      "slug": "long-tagline",
+      "name": "Long Tagline",
+      "tagline": "This tagline goes on and on well past the sixty character limit for sure",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/long-tagline",
+      "website_url": "https://example.com/long-tagline",
+      "logo_url": "/launches/long-tagline/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/long-tagline/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/long-tagline/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/long-tagline/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "http-link",
+      "name": "Http Link",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/http-link",
+      "website_url": "http://example.com/http-link",
+      "logo_url": "/launches/http-link/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/http-link/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/http-link/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/http-link/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "bad-images",
+      "name": "Bad Images",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/bad-images",
+      "website_url": "https://example.com/bad-images",
+      "logo_url": "/launches/bad-images/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/bad-images/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/bad-images/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/bad-images/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "too-many-shots",
+      "name": "Too Many Shots",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/too-many-shots",
+      "website_url": "https://example.com/too-many-shots",
+      "logo_url": "/launches/too-many-shots/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/too-many-shots/shot-1.png"
+        },
+        {
+          "src": "/launches/too-many-shots/shot-2.png"
+        },
+        {
+          "src": "/launches/too-many-shots/shot-3.png"
+        },
+        {
+          "src": "/launches/too-many-shots/shot-4.png"
+        },
+        {
+          "src": "/launches/too-many-shots/shot-5.png"
+        },
+        {
+          "src": "/launches/too-many-shots/shot-6.png"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "remote-logo",
+      "name": "Remote Logo",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/remote-logo",
+      "website_url": "https://example.com/remote-logo",
+      "logo_url": "https://example.com/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/remote-logo/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/remote-logo/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/remote-logo/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "not-monday",
+      "name": "Not Monday",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/not-monday",
+      "website_url": "https://example.com/not-monday",
+      "logo_url": "/launches/not-monday/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/not-monday/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/not-monday/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/not-monday/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-24",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "wrong-week",
+      "name": "Wrong Week",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/wrong-week",
+      "website_url": "https://example.com/wrong-week",
+      "logo_url": "/launches/wrong-week/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/wrong-week/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/wrong-week/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/wrong-week/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 2,
+      "launch_date": "2026-11-30",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "placeholder-facts",
+      "name": "Placeholder Facts",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/placeholder-facts",
+      "website_url": "https://example.com/placeholder-facts",
+      "logo_url": "/launches/placeholder-facts/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/placeholder-facts/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/placeholder-facts/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/placeholder-facts/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "TBD",
+      "cardRequired": "unknown"
+    },
+    {
+      "slug": "tested-no-date",
+      "name": "Tested No Date",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/tested-no-date",
+      "website_url": "https://example.com/tested-no-date",
+      "logo_url": "/launches/tested-no-date/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/tested-no-date/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/tested-no-date/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/tested-no-date/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04",
+      "testedBy": "OpenOrbia"
+    },
+    {
+      "slug": "aisoc-again",
+      "name": "AiSOC",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "sec",
+      "repo_url": "https://github.com/beenuar/AiSOC",
+      "website_url": "https://example.com/aisoc-again",
+      "logo_url": "/launches/aisoc-again/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/aisoc-again/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/aisoc-again/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/aisoc-again/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "missing-fields",
+      "name": "Missing Fields",
+      "tagline": "Turns meeting notes into a task list, free",
+      "category": "biz",
+      "repo_url": "https://github.com/example/missing-fields",
+      "website_url": "https://example.com/missing-fields",
+      "logo_url": "/launches/missing-fields/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/missing-fields/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/missing-fields/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/missing-fields/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    }
+  ]
+}

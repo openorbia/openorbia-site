@@ -30,6 +30,8 @@ jobs:
         run: npm test
       - name: Check the launch data
         run: npm run seed:check
+      - name: Launch preflight (read-only; a launch day that has passed is only a warning here)
+        run: npm run launch:check -- --ci
 
   secrets:
     name: Secret scan
