@@ -332,7 +332,9 @@ test('the homepage section is wired up and its fallback date matches the launch 
   const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
   assert.ok(js.includes("setHeading(\"This week's launches\")"));
   assert.ok(js.includes('setHeading(`Launch Week ${data.week} is coming`)'));
-  assert.match(home, /<span class="badge" id="week-badge"><i><\/i>Launch Week 1<\/span>/); // exactly this text, nothing after the 1
+  // changed 2026-11-06: no pill inside the box (the heading says it); the hero badge carries the date on one line
+  assert.ok(!home.includes('id="week-badge"'));
+  assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
   assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, new RegExp(`data-countdown="${new Date(OPENS).toISOString()}"`));
   assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));

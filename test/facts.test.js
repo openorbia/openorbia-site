@@ -32,7 +32,7 @@ const errs = over => validateLaunches({ launches: [good(over)] }).errors;
 test('full facts: every row, in order, above the description, with the checked date', async () => {
   const html = await render(FULL);
   const box = html.slice(html.indexOf('class="ffacts"'), html.indexOf('</section>', html.indexOf('class="ffacts"')));
-  for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Last checked Oct 20, 2026']) assert.ok(box.includes(t), t);
+  for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Facts checked Oct 20, 2026']) assert.ok(box.includes(t), t);
   assert.match(box, /Card required<\/dt><dd>No</);
   const order = ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch'].map(l => box.indexOf(l));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));

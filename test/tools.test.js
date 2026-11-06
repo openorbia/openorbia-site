@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { asset } from '../lib/asset-versions.js';
 import { readFileSync } from 'node:fs';
-import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives } from '../public/assets/tools.js';
+import { TOOLS, ROWS, CATEGORIES, slugOf, toolBySlug, alternatives, TOPICS } from '../public/assets/tools.js';
 import { renderTool, toolTitle, toolDescription, toolResponse } from '../lib/tool-pages.js';
 import { renderHowWeCheck, howWeCheckResponse } from '../lib/how-we-check.js';
 import { renderMakers } from '../lib/makers.js';
@@ -44,9 +44,9 @@ test('every tool page has the full picture: name, description, category, license
     const box = get(html, /(<section class="ffacts"[\s\S]*?<\/section>)/);
     assert.ok(box, `${t.name}: Free facts box`);
     const boxText = textOf(box);
-    for (const label of ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Last checked']) assert.ok(boxText.includes(label), `${t.name}: ${label}`);
+    for (const label of ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Facts checked']) assert.ok(boxText.includes(label), `${t.name}: ${label}`);
     for (const v of [f.freeTier, f.dataLocation, f.setup, f.catch]) assert.ok(boxText.includes(v), `${t.name}: ${v}`);
-    assert.ok(boxText.includes('Last checked Oct 30, 2026'), `${t.name}: date`);
+    assert.ok(boxText.includes('Facts checked Oct 30, 2026'), `${t.name}: date`);
   }
 });
 
@@ -74,20 +74,32 @@ test('the description uses the tool\'s own facts', () => {
   assert.ok(t.includes('No card required') && t.includes('The catch: Free plan includes SSO and audit logs'), t);
 });
 
-test('Alternatives: three other tools from the same category, never itself, stable, all with pages', () => {
+// changed 2026-11-06: alternatives must do the same job (a shared topic in TOPICS), not just sit in the same category
+test('Alternatives: up to three tools from the same category that share a topic, never itself, stable, all with pages', () => {
   for (const t of TOOLS) {
     const alts = alternatives(t);
-    assert.equal(alts.length, 3, t.name);
-    assert.ok(alts.every(a => a.category === t.category && a.slug !== t.slug), t.name);
-    assert.equal(new Set(alts.map(a => a.slug)).size, 3);
+    assert.ok(alts.length <= 3, t.name);
+    const mine = new Set(TOPICS[t.slug]);
+    assert.ok(alts.every(a => a.category === t.category && a.slug !== t.slug && TOPICS[a.slug].some(k => mine.has(k))), `${t.name}: same category and a shared topic`);
+    assert.equal(new Set(alts.map(a => a.slug)).size, alts.length);
     assert.deepEqual(alternatives(t).map(a => a.slug), alts.map(a => a.slug), 'same answer every time');
     const html = renderTool(t);
     for (const a of alts) assert.ok(html.includes(`href="/tool/${a.slug}/"`), `${t.name} -> ${a.name}`);
-    assert.ok(html.includes('<h2 id="alt-h">Alternatives</h2>'));
+    // no peer: no Alternatives section and no "See alternatives" button, rather than unrelated tools
+    assert.equal(html.includes('<h2 id="alt-h">Alternatives</h2>'), alts.length > 0, t.name);
+    assert.equal(html.includes('href="#alt-h"'), alts.length > 0, t.name);
   }
-  // every tool is suggested by someone, so no page is an orphan
-  const suggested = new Set(TOOLS.flatMap(t => alternatives(t).map(a => a.slug)));
-  assert.equal(suggested.size, TOOLS.length);
+  // every tool has topics, and every topic list belongs to a real tool
+  assert.deepEqual(TOOLS.filter(t => !(TOPICS[t.slug] || []).length).map(t => t.slug), []);
+  assert.deepEqual(Object.keys(TOPICS).filter(s => !toolBySlug(s)), []);
+});
+
+test('Alternatives follow the job, not the category: Jan suggests other local chat apps, never Twenty (a CRM)', () => {
+  const jan = alternatives(toolBySlug('jan')).map(a => a.slug);
+  assert.ok(!jan.includes('twenty'));
+  assert.deepEqual(jan, ['anythingllm', 'ollama', 'open-webui']);
+  assert.deepEqual(alternatives(toolBySlug('twenty')), [], 'the only CRM has no alternatives');
+  assert.ok(alternatives(toolBySlug('grillkit')).every(a => TOPICS[a.slug].includes('interview')), 'interview tools suggest interview tools');
 });
 
 test('tags: local AI, the founder label and the "Not confirmed" note appear only where they apply', () => {
