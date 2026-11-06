@@ -1,0 +1,114 @@
+# Sends the "Launch Week <n> lineup" email to the waitlist (lib/lineup-send.js, scripts/send-lineup.mjs). Manual only, from main, in
+# the "production" environment, so every run waits for Khaja's approval and its secrets live only in that environment:
+#
+#   dry-run  read the launches and count the waitlist (read-only), upload one sample email as an artifact; sends nothing
+#   test     send one "[Test]" copy, with a sample unsubscribe link, to test_address. test_address: use only your own address.
+#   send     email the whole waitlist, in small batches through Brevo
+#
+# This repository is public, so its logs, artifacts and run inputs are too. The script logs counts only: never an address, a signed
+# unsubscribe link, the key or a secret, and Brevo's errors are scrubbed of all of them. Wrangler's output (which holds the addresses)
+# is never printed. test_address is masked in the log. The dry-run sample is a placeholder recipient's copy with a fake unsubscribe
+# link, never a real subscriber's, and is kept for 1 day.
+#
+# Secrets in the production environment: BREVO_API_KEY, UNSUBSCRIBE_SECRET, POSTAL_ADDRESS, plus CLOUDFLARE_API_TOKEN (it needs
+# "D1 Read" to read the database) and CLOUDFLARE_ACCOUNT_ID. Dry runs get only the Cloudflare ones and POSTAL_ADDRESS.
+name: Send lineup email
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'dry-run: count and upload a sample (sends nothing). test: one copy to test_address. send: the whole waitlist.'
+        type: choice
+        options: [dry-run, test, send]
+        default: dry-run
+        required: true
+      test_address:
+        description: 'For mode "test" only. test_address: use only your own address.'
+        type: string
+        required: false
+      week:
+        description: 'Launch week number'
+        type: string
+        default: '1'
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  WRANGLER_VERSION: 4.156.2 # the same as deploy.yml
+
+concurrency:
+  group: send-lineup # never two runs at once
+  cancel-in-progress: false
+
+jobs:
+  lineup:
+    name: Lineup email (${{ inputs.mode }})
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+
+      - name: Check the inputs
+        env:
+          WEEK: ${{ inputs.week }}
+        run: |
+          if ! [[ "$WEEK" =~ ^[1-9][0-9]{0,2}$ ]]; then echo "week must be a launch week number, like 1"; exit 2; fi
+
+      - name: Hide the test address in the log
+        if: inputs.mode == 'test'
+        env:
+          TEST_ADDRESS: ${{ inputs.test_address }}
+        run: echo "::add-mask::${TEST_ADDRESS}"
+
+      # The ids already sent (ids only, no addresses), so a send that stops can be run again without sending anyone a second copy
+      - name: Restore the list of ids already sent
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/lineup-week-${{ inputs.week }}-sent.json
+          key: lineup-sent-week-${{ inputs.week }}-${{ github.run_id }}
+          restore-keys: lineup-sent-week-${{ inputs.week }}-
+
+      - name: Run the lineup email (${{ inputs.mode }})
+        env:
+          MODE: ${{ inputs.mode }}
+          WEEK: ${{ inputs.week }}
+          TEST_ADDRESS: ${{ inputs.test_address }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          POSTAL_ADDRESS: ${{ secrets.POSTAL_ADDRESS }}
+          BREVO_API_KEY: ${{ inputs.mode != 'dry-run' && secrets.BREVO_API_KEY || '' }}
+          UNSUBSCRIBE_SECRET: ${{ inputs.mode == 'send' && secrets.UNSUBSCRIBE_SECRET || '' }}
+        run: |
+          case "$MODE" in
+            dry-run) set -- --dry-run ;;
+            test)    set -- --test "$TEST_ADDRESS" ;;
+            send)    set -- --send --yes ;;
+            *)       echo "Unknown mode"; exit 2 ;;
+          esac
+          node scripts/send-lineup.mjs --week "$WEEK" "$@"
+
+      - name: Save the list of ids already sent
+        if: always() && inputs.mode == 'send' && hashFiles(format('.ops-cache/lineup-week-{0}-sent.json', inputs.week)) != ''
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/lineup-week-${{ inputs.week }}-sent.json
+          key: lineup-sent-week-${{ inputs.week }}-${{ github.run_id }}
+
+      - name: Upload the sample email
+        if: inputs.mode == 'dry-run'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lineup-week-${{ inputs.week }}-sample
+          path: .ops-cache/lineup-week-${{ inputs.week }}-sample.*
+          if-no-files-found: error
+          retention-days: 1
