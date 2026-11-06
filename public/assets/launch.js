@@ -134,6 +134,13 @@
         if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? '' : 's'} launch on ${data.label}. Voting opens at 12:01 AM Pacific.`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
+        // the lineup exists: show it instead of offering it by email
+        if (data.total > 0) {
+          const cta = root.querySelector('[data-lineup-cta]');
+          if (cta) { cta.href = '/launches/'; cta.textContent = 'See the lineup →'; }
+          const when = root.querySelector('[data-lineup-date]');
+          if (when) when.remove();
+        }
         return;
       }
       const ended = !!data.closed;

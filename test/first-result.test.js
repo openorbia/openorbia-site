@@ -66,7 +66,7 @@ test('the section on a tool page: in order, numbered steps, label and date, sour
   const html = renderTool(toolBySlug('jan'));
   const at = s => html.indexOf(s);
   const order = ['<h2 id="fr-h">First useful result</h2>', '<h3>What you can finish for free</h3>', '<h3>What you need</h3>', '<h3>Steps</h3>', '<h3>Expected result</h3>', '<h3>The catch</h3>',
-    'Facts checked against docs</span> · Last checked Nov 4, 2026', 'Sources: <a href="https://docs.jan.ai/desktop/quickstart"'];
+    'Facts checked against docs</span> · Steps checked Nov 4, 2026', 'Sources: <a href="https://docs.jan.ai/desktop/quickstart"'];
   for (let i = 0; i < order.length; i++) assert.ok(at(order[i]) > (i ? at(order[i - 1]) : -1), `${order[i]} in order`);
   assert.ok(at('<h2 id="fr-h">') < at('class="ffacts'), 'before the Free facts');
   assert.equal((html.match(/<ol class="fr-steps">/g) || []).length, 1);

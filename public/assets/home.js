@@ -10,7 +10,9 @@ const check=()=>{const t=document.querySelector('#wl [name="cf-turnstile-respons
 const waitForCheck=()=>new Promise(done=>{let tries=0;const poll=()=>{const v=check();if(v||++tries>=75)return done(v);setTimeout(poll,200);};poll();});
 const resetCheck=()=>{try{if(window.turnstile)window.turnstile.reset();}catch(e){/* no widget */}};
 const form=document.getElementById('wl'),msg=document.getElementById('wl-msg'),btn=document.getElementById('wl-btn'),toolRow=document.getElementById('toolRow');
-form.addEventListener('change',()=>{toolRow.hidden=form.role.value!=='maker';});
+// "Your tool's website" is for makers only (CSS hides it without JavaScript too); readers are the default
+const syncTool=()=>{toolRow.hidden=form.role.value!=='maker';};
+syncTool();form.addEventListener('change',syncTool);
 form.addEventListener('submit',async e=>{
   e.preventDefault();msg.className='msg';
   const email=form.email.value.trim(),tool=form.tool.value.trim();
@@ -23,7 +25,7 @@ form.addEventListener('submit',async e=>{
   try{
     const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,role:form.role.value,tool:form.role.value==='maker'?tool:'',company:form.company.value,turnstile:token})});
     const d=await r.json().catch(()=>({}));
-    if(r.ok){form.reset();toolRow.hidden=false;msg.className='msg ok';msg.textContent=(d.message||"You're on the list. We'll be in touch before Launch Week 1.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
+    if(r.ok){form.reset();syncTool();msg.className='msg ok';msg.textContent=(d.message||"You're on the list. We'll be in touch before Launch Week 1.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
     else{msg.className='msg err';msg.textContent=d.error||'Something went wrong. Please try again, or email launch@openorbia.com.';}
   }catch(err){msg.className='msg err';msg.textContent='Could not reach the server. Check your connection and try again.';}
   resetCheck();btn.disabled=false;btn.textContent='Join the waitlist';
