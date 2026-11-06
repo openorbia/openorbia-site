@@ -1,0 +1,99 @@
+{
+  "_readme": [
+    "Fixtures for test/launch-check.test.js. Images are in public/launches/<slug>/ next to this file."
+  ],
+  "launches": [
+    {
+      "slug": "good-tool",
+      "name": "Good Tool",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "biz",
+      "repo_url": "https://github.com/example/good-tool",
+      "website_url": "https://example.com/good-tool",
+      "logo_url": "/launches/good-tool/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/good-tool/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/good-tool/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/good-tool/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04"
+    },
+    {
+      "slug": "listed-with-note",
+      "name": "AiSOC",
+      "tagline": "Turns meeting notes into a task list, free",
+      "description": "A test launch used by test/launch-check.test.js. It is not a real tool.",
+      "category": "sec",
+      "repo_url": "https://github.com/beenuar/AiSOC",
+      "website_url": "https://example.com/listed-with-note",
+      "logo_url": "/launches/listed-with-note/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/listed-with-note/shot-1.png",
+          "alt": "Screen 1"
+        },
+        {
+          "src": "/launches/listed-with-note/shot-2.png",
+          "alt": "Screen 2"
+        },
+        {
+          "src": "/launches/listed-with-note/shot-3.png",
+          "alt": "Screen 3"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Test Maker",
+      "maker_links": [
+        {
+          "label": "Website",
+          "url": "https://example.com/maker"
+        }
+      ],
+      "maker_story": "Why I built it.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free for one user",
+      "cardRequired": "no",
+      "lastChecked": "2026-11-04",
+      "duplicateNote": "Version 2 launches with a new free cloud tier; the Launch List entry stays."
+    },
+    {
+      "sample": true,
+      "slug": "sample-thing",
+      "name": "Sample Thing",
+      "tagline": "Placeholder",
+      "description": "Sample.",
+      "category": "job",
+      "website_url": "https://example.com/s",
+      "maker_name": "Sample",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23"
+    }
+  ]
+}
