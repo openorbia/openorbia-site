@@ -295,7 +295,7 @@ test('/submit/ has every field the maker form needs, the Turnstile widget, the G
     assert.ok(html.includes(`name="${name}"`), name);
   }
   assert.ok(html.includes('class="cf-turnstile" data-sitekey="site-key-123"'));
-  assert.ok(html.includes('https://challenges.cloudflare.com/turnstile/v0/api.js'));
+  assert.match(html, /<script src="\/assets\/turnstile\.js\?v=[0-9a-f]{10}" defer><\/script>/, 'Turnstile loads on first use (public/assets/turnstile.js)');
   assert.ok(html.includes('https://github.com/openorbia/openorbia-site/issues/new?template=submit-a-tool.yml'));
   assert.ok(html.includes('maxlength="80"') && html.includes('maxlength="300"'));
   assert.ok(html.includes(`<script src="${asset('forms.js')}" defer></script>`));

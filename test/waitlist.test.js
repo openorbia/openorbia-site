@@ -80,7 +80,7 @@ test('the homepage waitlist has the Turnstile widget with the same public site k
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
   const key = readFileSync(new URL('wrangler.toml', root), 'utf8').match(/^\[vars\][\s\S]*?TURNSTILE_SITE_KEY = "([^"]+)"/m)[1];
   assert.ok(html.includes(`<div class="cf-turnstile" data-sitekey="${key}"`), 'widget with the production key');
-  assert.ok(html.includes('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'));
+  assert.match(html, /<script src="\/assets\/turnstile\.js\?v=[0-9a-f]{10}" defer><\/script>/, 'Turnstile loads on first use (public/assets/turnstile.js)');
   assert.match(readFileSync(new URL('public/assets/home.js', root), 'utf8'), /turnstile:token\}/); // the token it waited for (test/home-form.test.js)
 });
 
