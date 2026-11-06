@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { launchOpensAt, dayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
-import { toolBySlug } from '../public/assets/tools.js';
+import { toolBySlug, TOOLS } from '../public/assets/tools.js';
 import { renderTool } from '../lib/tool-pages.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
@@ -66,6 +66,13 @@ test('hero: one badge with the date, short enough for one line; the week box kee
   assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
   assert.ok(home.includes('<h2 id="week-h">Launch Week 1 is coming</h2>'));
   assert.ok(!home.includes('id="week-badge"'));
+});
+
+test('no tagline makes a claim the facts do not back (approved rewrites, 2026-11-06)', () => {
+  const CLAIMS = /\b(zero setup|fully private|fully autonomous|nothing leaves|replaces?|best|no limits|privacy-first|friendly|modern|any AI model|verified against intel|private ChatGPT)\b|100%/i;
+  assert.deepEqual(TOOLS.filter(t => CLAIMS.test(t.description)).map(t => `${t.name}: ${t.description}`), []);
+  assert.equal(toolBySlug('ollama').description, 'Run open AI models on your own computer or server.');
+  assert.equal(toolBySlug('pentagi').description, 'Self-hosted multi-agent system for automated pentests on systems you are authorized to test.');
 });
 
 test('Jan\'s tagline is factual, and tool pages label the skill level and both dates plainly', () => {
