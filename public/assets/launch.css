@@ -292,6 +292,7 @@ img.logo{background:#fff}
 .contact code{font:500 14px var(--mono);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);padding:6px 10px;border-radius:8px;user-select:all}
 .ct-mail{margin-top:22px}.ct-mail code{font-size:17px;padding:10px 14px;overflow-wrap:anywhere}.ct-mail .copy{min-height:44px;padding-inline:16px}
 .ct-open{margin:16px 0 12px}
+.ct-report{margin:0 0 28px;padding:16px 18px;border:1px solid rgba(143,166,255,.45);border-radius:14px;background:rgba(91,124,255,.08)}.ct-report p{margin:0}.ct-report code{overflow-wrap:anywhere}
 .copy{font:inherit;font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 12px;min-height:32px;cursor:pointer}
 .copy:hover{border-color:rgba(143,166,255,.45)}
 @media (max-width:820px){.mk-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.mk-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
