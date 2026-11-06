@@ -2,5 +2,5 @@
 
 import { contactResponse } from '../../lib/contact.js';
 
-export const onRequestGet = () => contactResponse();
-export const onRequestHead = () => contactResponse();
+export const onRequestGet = context => contactResponse(context);
+export const onRequestHead = context => contactResponse(context);
