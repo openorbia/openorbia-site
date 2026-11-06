@@ -4,7 +4,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { launchOpensAt, dayLabel } from '../lib/time.js';
+import { launchOpensAt, lineupAnnouncedAt, weekdayLabel, LINEUP_DAYS_BEFORE } from '../lib/time.js';
+import { lineupHtml } from '../scripts/build-home.mjs';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { toolBySlug, TOOLS } from '../public/assets/tools.js';
 import { renderTool } from '../lib/tool-pages.js';
@@ -12,10 +13,17 @@ import { renderTool } from '../lib/tool-pages.js';
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 const home = file('public/index.html');
 
-test('no lineup yet: the box offers it by email, with the date it is announced (the week before launch, from lib/time.js)', () => {
-  const announced = dayLabel(launchOpensAt(FIRST_LAUNCH_WEEK.date) - 7 * 864e5);
-  assert.equal(announced, 'Monday, Nov 16, 2026');
-  assert.ok(home.includes(`<p class="week-lineup" data-lineup-date>Lineup announced ${announced}</p>`));
+test('no lineup yet: the box offers it by email, with the date it is announced (launch day minus 5 days, from lib/time.js)', () => {
+  // after the makers' deadline (the Monday before launch), so the lineup can include everyone who made it
+  const at = lineupAnnouncedAt(FIRST_LAUNCH_WEEK.date);
+  assert.equal(LINEUP_DAYS_BEFORE, 5);
+  assert.equal(weekdayLabel(at), 'Wednesday, Nov 18');
+  assert.ok(at > launchOpensAt(FIRST_LAUNCH_WEEK.date) - 7 * 864e5, 'after the Monday deadline');
+  assert.ok(home.includes(lineupHtml()), 'the page carries the computed line (npm run build:home writes it)');
+  assert.ok(home.includes('<p class="week-lineup" data-lineup-date>Lineup announced Wednesday, Nov 18</p>'));
+  // calendar arithmetic: a launch the Monday after a daylight saving change still gets the Wednesday before it
+  assert.equal(weekdayLabel(lineupAnnouncedAt('2027-03-15')), 'Wednesday, Mar 10');
+  assert.ok(Number.isNaN(lineupAnnouncedAt('not-a-date')));
   assert.ok(home.includes('<a class="btn ghost" href="#join" data-lineup-cta>Get the lineup by email</a>'));
   assert.ok(home.includes('<section class="join" id="join"'), 'the link goes to the waitlist');
   assert.ok(!home.includes('>See the lineup →<'), 'no lineup link before there is a lineup');
