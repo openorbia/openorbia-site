@@ -28,6 +28,9 @@ Security headers (Content Security Policy and others) come from `lib/security-he
   `npx wrangler pages secret put VOTE_SECRET --project-name openorbia`
 - Secret `BREVO_API_KEY` (optional): a Brevo API key. With it, each new waitlist signup that passes the Turnstile check gets a welcome email from launch@openorbia.com (`lib/email.js`); without it signups still work and no email is sent. The waitlist only accepts posts from our own pages and allows 5 signups an hour per visitor; a signup without JavaScript (no Turnstile token) is saved but gets no email, so the form cannot be used to send email to strangers. launch@openorbia.com must be a verified sender in Brevo:
   `npx wrangler pages secret put BREVO_API_KEY --project-name openorbia`
+- Secret `UNSUBSCRIBE_SECRET` (a long random string, separate from `VOTE_SECRET`): signs and checks the unsubscribe link in every waitlist email (`lib/unsubscribe.js`). Without it the welcome email asks people to reply to unsubscribe, and the lineup email refuses to send. The same value goes in the GitHub `production` environment, where the "Send lineup email" workflow signs the links:
+  `npx wrangler pages secret put UNSUBSCRIBE_SECRET --project-name openorbia`
+- The "Launch Week lineup" email is sent only by the manual GitHub Actions workflow "Send lineup email" (`.github/workflows/send-lineup.yml`): dry run (uploads a sample), test, or send. It runs in the `production` environment, so each run waits for approval. Its secrets live in that environment: `BREVO_API_KEY`, `UNSUBSCRIBE_SECRET`, `POSTAL_ADDRESS` (the mailing address every marketing email must show), and a `CLOUDFLARE_API_TOKEN` that can read D1.
 - First time on a database: `npm run db:schema:remote` (safe to re-run)
 
 
