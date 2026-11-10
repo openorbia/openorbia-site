@@ -63,4 +63,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           SUMMARY: ${{ steps.check.outputs.summary }}
-        run: gh issue create --title "Source check $(date -u +%F): $SUMMARY" --body-file "$RUNNER_TEMP/source-issue.md"
+        run: |
+          gh issue create --title "Source check $(date -u +%F): $SUMMARY" --body-file "$RUNNER_TEMP/source-issue.md"
