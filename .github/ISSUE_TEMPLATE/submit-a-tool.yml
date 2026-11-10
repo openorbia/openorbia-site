@@ -32,9 +32,9 @@ body:
       label: Category
       description: (required, please choose)
       options:
-        - Small Business
-        - Job Seekers
-        - Cybersecurity & SOC
+        - Small businesses
+        - Job seekers
+        - Security teams
     validations:
       required: false
   - type: dropdown
