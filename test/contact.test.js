@@ -39,7 +39,7 @@ test('the Copy button (public/assets/launch.js) copies the address, shows "Copie
   const ctx = {
     document: { addEventListener: (type, fn) => handlers.push([type, fn]), querySelectorAll: () => [], querySelector: () => null, getElementById: () => null },
     navigator: { clipboard: { writeText: async t => { copied.push(t); } } },
-    setTimeout: (fn, ms) => { timers.push([fn, ms]); return 0; }, setInterval: () => 0, clearInterval: () => {},
+    setTimeout: (fn, ms) => { timers.push([fn, ms]); return 0; }, clearTimeout: () => {}, setInterval: () => 0, clearInterval: () => {},
     getSelection: () => ({ removeAllRanges() {}, addRange() {} }), WeakMap, Date, Number, String, Math, JSON, URL, console,
     fetch: async () => ({ ok: false, json: async () => ({}) }), location: { pathname: '/contact/' },
   };

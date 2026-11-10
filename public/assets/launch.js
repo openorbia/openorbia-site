@@ -4,13 +4,29 @@
   const pad = n => String(n).padStart(2, '0');
 
   // ---- copy buttons: <button data-copy="text" data-copied="Copied"> ----
+  // One visually hidden status line, shared by every copy button on the page, tells screen readers what happened: a changed button
+  // label is not reliably read out. It exists before any click, so the first message is announced too.
+  let copyStatus = null;
+  if (document.querySelector('[data-copy]')) {
+    copyStatus = document.createElement('p');
+    copyStatus.id = 'copy-status';
+    copyStatus.setAttribute('role', 'status');
+    Object.assign(copyStatus.style, { position: 'absolute', width: '1px', height: '1px', margin: '-1px', padding: '0', border: '0', overflow: 'hidden', clip: 'rect(0 0 0 0)', clipPath: 'inset(50%)', whiteSpace: 'nowrap' });
+    document.body.append(copyStatus);
+  }
+  const announce = text => {
+    if (!copyStatus) return;
+    copyStatus.textContent = '';
+    setTimeout(() => { copyStatus.textContent = text; }, 50); // emptied first, so the same message twice is read twice
+  };
   document.addEventListener('click', async e => {
     const b = e.target.closest && e.target.closest('[data-copy]');
     if (!b) return;
-    const was = b.textContent;
-    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = b.dataset.copied || 'Copied'; }
-    catch { const code = b.parentElement.querySelector('code'); if (code) { const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } b.textContent = 'Selected'; }
-    setTimeout(() => { b.textContent = was; }, 2000);
+    const was = b.dataset.label || (b.dataset.label = b.textContent);
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = b.dataset.copied || 'Copied'; announce('Copied to clipboard'); }
+    catch { const code = b.parentElement.querySelector('code'); if (code) { const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } b.textContent = 'Selected'; announce('Selected'); }
+    clearTimeout(b._reset);
+    b._reset = setTimeout(() => { b.textContent = was; }, 2000);
   });
 
   // ---- countdowns: [data-countdown="<ISO time>"] with <b data-unit="d|h|m|s"> inside; data-now is the server's clock ----
@@ -118,6 +134,13 @@
         if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? '' : 's'} launch on ${data.label}. Voting opens at 12:01 AM Pacific.`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
+        // the lineup exists: show it instead of offering it by email
+        if (data.total > 0) {
+          const cta = root.querySelector('[data-lineup-cta]');
+          if (cta) { cta.href = '/launches/'; cta.textContent = 'See the lineup →'; }
+          const when = root.querySelector('[data-lineup-date]');
+          if (when) when.remove();
+        }
         return;
       }
       const ended = !!data.closed;

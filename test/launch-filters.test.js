@@ -144,7 +144,9 @@ test('tool pages: the label only where a paid service is required, and "Paid par
     const html = renderTool(t), f = t.facts;
     assert.equal(html.includes('<span class="tg paid">Needs paid service</span>'), f.paidDeps.level === 'required', `${t.name}: label`);
     assert.ok(html.includes('<h2 id="docs-h">Paid parts and sources</h2>'), `${t.name}: heading`);
-    assert.ok(html.includes('<dt>Level</dt><dd>Basic</dd>'), `${t.name}: level`);
+    // changed 2026-11-06: "Skill level" sits in At a glance, not under Paid parts
+    assert.ok(html.includes('<div><dt>Skill level</dt><dd>Basic</dd></div>') && html.indexOf('<dt>Skill level</dt>') > html.indexOf('id="side-h"'), `${t.name}: skill level`);
+    assert.ok(!html.includes('<dt>Level</dt>'), `${t.name}: no old Level row`);
     const text = html.replace(/&#39;/g, "'").replace(/&amp;/g, '&');
     assert.ok(text.includes(`<dt>Paid service</dt><dd>${paidSummary(f)}</dd>`), `${t.name}: paid service`);
     assert.ok(text.includes(f.task), `${t.name}: task`);

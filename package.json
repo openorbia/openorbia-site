@@ -15,6 +15,7 @@
     "db:migrate:local": "node scripts/migrate.mjs --local",
     "db:migrate:remote": "node scripts/migrate.mjs --remote",
     "seed:check": "node scripts/seed-launches.mjs --dry-run",
+    "check:sources": "node scripts/check-sources.mjs",
     "seed:local": "node scripts/seed-launches.mjs --local",
     "seed:remote": "node scripts/seed-launches.mjs --remote",
     "db:schema:preview": "npx wrangler d1 execute openorbia-db-preview --remote --file=schema.sql",
@@ -26,6 +27,7 @@
     "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day",
     "build:email-art": "node scripts/build-email-art.mjs",
     "email:test": "node scripts/send-test-email.mjs",
+    "launch:check": "node scripts/launch-check.mjs",
     "email:lineup": "node scripts/send-lineup.mjs"
   }
 }

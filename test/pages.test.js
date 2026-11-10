@@ -7,7 +7,7 @@ import { currentWeek } from '../lib/launches.js';
 import { videoEmbed, esc, paragraphs, isOpenLicense } from '../lib/html.js';
 import { handleVote } from '../lib/vote.js';
 import { launchOpensAt } from '../lib/time.js';
-import { FIRST_LAUNCH_WEEK, MAKERS_CONFIRMED } from '../lib/site.js';
+import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const SECRET = 'test-secret-0123456789abcdef';
@@ -218,14 +218,14 @@ test('nothing scheduled yet, before launch day: the Launch Week 1 intro', async 
   assert.ok(text.includes('How it works'));
   const steps = [...html.matchAll(/<li><span class="n">0(\d)<\/span><b>([^<]+)<\/b><\/li>/g)].map(m => `${m[1]} ${m[2].replace('&#39;', "'")}`);
   assert.deepEqual(steps, ['1 Makers launch free AI tools', '2 The community upvotes', "3 The week's top tools get featured"]);
-  assert.ok(text.includes(`Makers confirmed: ${MAKERS_CONFIRMED}`));
+  assert.ok(text.includes('3 makers confirmed · 26 invited'));
   assert.match(html, /<a class="btn ghost" href="\/launch-list\/">Browse the Launch List<\/a>/);
   assert.match(html, /<a class="btn pri" href="\/#join">Launch your tool<\/a>/);
   assert.match(html, /<title>Launch Week 1 \| OpenOrbia<\/title>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/launches\/">/);
   assert.ok(!text.includes('Nothing has been scheduled'));
   assert.ok(!html.includes('lrow'), 'no launch cards, and no maker names, are shown');
-  assert.equal(html.match(/Makers confirmed/g).length, 1);
+  assert.equal(html.match(/makers confirmed/gi).length, 1);
 });
 
 test('the intro uses the same countdown as the homepage', async () => {
@@ -247,7 +247,7 @@ test('past the opening time with nothing scheduled: no countdown, an honest mess
   assert.ok(text.includes('Launch Week 1 is open. The first launches are being added, so check back soon.'));
   assert.ok(!text.includes('Coming Monday'));
   assert.ok(!html.includes('data-countdown'));
-  assert.ok(text.includes('How it works') && text.includes(`Makers confirmed: ${MAKERS_CONFIRMED}`));
+  assert.ok(text.includes('How it works') && text.includes(makersLine()));
   assert.ok(html.includes('href="/launch-list/"') && html.includes('href="/#join"'));
 });
 
@@ -332,7 +332,9 @@ test('the homepage section is wired up and its fallback date matches the launch 
   const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
   assert.ok(js.includes("setHeading(\"This week's launches\")"));
   assert.ok(js.includes('setHeading(`Launch Week ${data.week} is coming`)'));
-  assert.match(home, /<span class="badge" id="week-badge"><i><\/i>Launch Week 1<\/span>/); // exactly this text, nothing after the 1
+  // changed 2026-11-06: no pill inside the box (the heading says it); the hero badge carries the date on one line
+  assert.ok(!home.includes('id="week-badge"'));
+  assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
   assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, new RegExp(`data-countdown="${new Date(OPENS).toISOString()}"`));
   assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
