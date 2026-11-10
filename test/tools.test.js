@@ -44,9 +44,9 @@ test('every tool page has the full picture: name, description, category, license
     const box = get(html, /(<section class="ffacts"[\s\S]*?<\/section>)/);
     assert.ok(box, `${t.name}: Free facts box`);
     const boxText = textOf(box);
-    for (const label of ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Facts checked']) assert.ok(boxText.includes(label), `${t.name}: ${label}`);
+    for (const label of ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Free facts checked']) assert.ok(boxText.includes(label), `${t.name}: ${label}`);
     for (const v of [f.freeTier, f.dataLocation, f.setup, f.catch]) assert.ok(boxText.includes(v), `${t.name}: ${v}`);
-    assert.ok(boxText.includes('Facts checked Oct 30, 2026'), `${t.name}: date`);
+    assert.ok(boxText.includes('Free facts checked Oct 30, 2026'), `${t.name}: date`);
   }
 });
 

@@ -90,7 +90,8 @@ test('Jan\'s tagline is factual, and tool pages label the skill level and both d
   assert.ok(html.includes('<div><dt>Skill level</dt><dd>Basic</dd></div>'));
   assert.ok(html.indexOf('<dt>Skill level</dt>') > html.indexOf('id="side-h"'), 'in At a glance');
   assert.ok(!html.slice(html.indexOf('id="docs-h"'), html.indexOf('</section>', html.indexOf('id="docs-h"'))).includes('Level'), 'not under Paid parts');
-  assert.match(html, /· Steps checked [A-Z][a-z]{2} \d{1,2}, \d{4}<\/p>/);
-  assert.match(html, /<p class="ff-checked">Facts checked [A-Z][a-z]{2} \d{1,2}, \d{4}<\/p>/);
+  assert.match(html, /· First result checked [A-Z][a-z]{2} \d{1,2}, \d{4}<\/p>/);
+  assert.match(html, /<p class="ff-checked">Free facts checked [A-Z][a-z]{2} \d{1,2}, \d{4}<\/p>/);
+  assert.ok(!html.includes('Steps checked'));
   assert.ok(!html.includes('Last checked'));
 });

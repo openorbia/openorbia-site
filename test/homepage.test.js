@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
 import { pickFeatured, renderFeatured, PINNED_SEC } from '../lib/featured.js';
-import { MAKERS_CONFIRMED } from '../lib/site.js';
+import { MAKERS_CONFIRMED, MAKERS_INVITED, makersLine } from '../lib/site.js';
 import { confidenceByRepo, featuredHtml } from '../scripts/build-home.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -103,7 +103,7 @@ test('the sections come in order: hero, this week, featured tools, audiences and
 test('before launch the week block shows the countdown and the makers confirmed; after launch launch.js shows cards with vote buttons and the closing time', () => {
   assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, /data-countdown="2026-11-23T08:01:00\.000Z"/);
-  assert.ok(home.includes(`<p class="week-makers" data-makers>${MAKERS_CONFIRMED} makers confirmed</p>`));
+  assert.ok(home.includes(`<p class="week-makers" data-makers>${makersLine()}</p>`));
   const js = file('public/assets/launch.js');
   assert.ok(js.includes("'Voting closes Sunday 11:59 PM PT'"));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
@@ -148,7 +148,9 @@ test('garak is the first security pick; promptfoo takes its place only when gara
   assert.ok(!secs.includes('garak') && !secs.includes('promptfoo'));
 });
 
-test('MAKERS_CONFIRMED is 23 and the homepage shows it', () => {
-  assert.equal(MAKERS_CONFIRMED, 23);
-  assert.ok(home.includes('<p class="week-makers" data-makers>23 makers confirmed</p>'));
+test('MAKERS_CONFIRMED is 3, MAKERS_INVITED is 26, and the homepage shows both', () => {
+  assert.equal(MAKERS_CONFIRMED, 3);
+  assert.equal(MAKERS_INVITED, 26);
+  assert.equal(makersLine(), '3 makers confirmed · 26 invited');
+  assert.ok(home.includes('<p class="week-makers" data-makers>3 makers confirmed · 26 invited</p>'));
 });
