@@ -149,7 +149,7 @@ test('the results page lists the final ranks per category once voting is over', 
   assert.ok(!res.html.includes('noindex'));
   const rows = [...res.html.matchAll(/res-rank" aria-label="Rank (\d+)">\d+<\/span>.*?<b>([^<]+)<\/b>.*?(\d+) upvotes?/g)].map(m => `${m[1]} ${m[2]} ${m[3]}`);
   assert.deepEqual(rows, ['1 Alpha 4', '1 Zeta 4', '3 Omega 1', '1 Hire 2'], 'ties share rank 1 ordered by name, then rank 3; other categories and weeks do not mix in');
-  assert.ok(res.html.indexOf('Small Business') < res.html.indexOf('Job Seekers'));
+  assert.ok(res.html.indexOf('Small businesses') < res.html.indexOf('Job seekers'));
   assert.ok(!res.html.includes('Next Week'));
 });
 
