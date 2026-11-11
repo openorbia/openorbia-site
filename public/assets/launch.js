@@ -154,6 +154,15 @@
         const link = el('a', 'mini-text');
         link.href = `/launch/${encodeURIComponent(l.slug)}/`;
         link.append(el('b', '', l.name), el('span', '', l.tagline));
+        // the category chip, and "Runs free · <setup>" / "Needs paid service" when the launch's facts have been checked
+        const parts = [];
+        if (l.category_name) parts.push(el('span', 'mini-cat', l.category_name));
+        if (l.signal) parts.push(el('span', `mini-signal${l.signal === 'Needs paid service' ? ' paid' : ''}`, l.signal));
+        if (parts.length) { const meta = el('span', 'mini-meta'); meta.append(...parts); link.append(meta); }
+        // the logo (an address the server checked), or the first letter of the name
+        let mark;
+        if (l.logo_url) { mark = el('img', 'mini-logo'); mark.src = l.logo_url; mark.alt = ''; mark.width = 40; mark.height = 40; mark.decoding = 'async'; }
+        else { mark = el('span', 'mini-logo mini-initial', (l.name || '?').trim().charAt(0).toUpperCase()); mark.setAttribute('aria-hidden', 'true'); }
         const state = ended ? 'ended' : voted.has(l.slug) ? 'voted' : 'ready';
         const btn = el('button', 'vote');
         btn.type = 'button';
@@ -166,7 +175,11 @@
         const n = el('span', 'n', num(l.votes));
         n.dataset.count = '';
         btn.append(el('span', 'arrow', '▲'), n, sr);
-        row.append(el('span', 'mini-rank', String(i + 1)), link, btn);
+        // ties share a rank (1, 1, 3), worked out by the server over the whole week
+        const rank = Number.isInteger(l.rank) ? l.rank : i + 1;
+        const rankEl = el('span', 'mini-rank', String(rank));
+        rankEl.setAttribute('aria-label', `Rank ${rank}`);
+        row.append(rankEl, mark, link, btn);
         li.append(row);
         list.append(li);
       });

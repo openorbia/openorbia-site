@@ -117,7 +117,13 @@ test('package scripts for the preview database never name the live one, and the 
     assert.ok(scripts[name].includes('openorbia-db-preview'), `${name} targets the preview database`);
     assert.ok(!/openorbia-db(?!-preview)/.test(scripts[name]), `${name} never names openorbia-db`);
   }
-  assert.ok(scripts['seed:preview'].includes('--include-samples') && scripts['seed:preview'].includes('--no-images') && scripts['seed:preview'].includes('--sample-date this-week'));
+  // changed 2026-11-06: previews now carry the samples' images (the Preview job copies test/fixtures/launches into the preview
+  // build only), so seed:preview keeps them; production never gets them
+  assert.ok(scripts['seed:preview'].includes('--include-samples') && !scripts['seed:preview'].includes('--no-images') && scripts['seed:preview'].includes('--sample-date this-week'));
+  const wf = readFileSync(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+  const preview = wf.slice(wf.indexOf('  preview:'), wf.indexOf('  production:'));
+  assert.ok(preview.includes('cp -R test/fixtures/launches/. public/launches/'), 'the preview build gets the sample images');
+  assert.ok(!wf.slice(wf.indexOf('  production:')).includes('test/fixtures'), 'the production build never does');
   for (const name of ['db:schema:remote', 'db:migrate:remote', 'seed:remote']) assert.ok(!scripts[name].includes('preview'), name);
 });
 
