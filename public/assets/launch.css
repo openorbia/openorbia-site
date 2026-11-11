@@ -454,3 +454,10 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .faq-a a,.faq-more a{color:var(--blue-l)}
 .faq-more h2{margin:0 0 8px;font:700 clamp(20px,2.4vw,24px)/1.2 var(--display)}
 .faq-more p{margin:0;color:#c9d2ee}
+
+/* /newsletter/: Orbia Weekly issue and archive */
+.nl-item{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:0 0 10px}
+.nl-item h3{margin:0 0 6px;font:700 18px/1.35 var(--display)}
+.nl-item p{margin:0}
+.nl-picks,.nl-archive{padding-left:20px;display:grid;gap:8px}
+.nl-archive span{color:var(--muted,inherit);opacity:.75}
