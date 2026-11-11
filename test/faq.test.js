@@ -40,7 +40,7 @@ test('the answers match the site rules: free, no paid placement, the recheck pol
 });
 
 test('every link in the answers goes to a real page or one of the two email addresses', () => {
-  const pages = { '/how-we-check/': 'functions/how-we-check/index.js', '/launch-list/': 'public/launch-list/index.html', '/how-voting-works/': 'functions/how-voting-works/index.js', '/submit/': 'functions/submit/index.js', '/makers/': 'functions/makers/index.js' };
+  const pages = { '/how-we-check/': 'functions/how-we-check/index.js', '/launch-list/': 'public/launch-list/index.html', '/how-voting-works/': 'functions/how-voting-works/index.js', '/submit/': 'functions/submit/index.js', '/makers/': 'functions/makers/index.js', '/newsletter/': 'functions/newsletter/index.js' };
   const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
   for (const [, href] of main.matchAll(/href="([^"]+)"/g)) {
     if (href.startsWith('mailto:')) { assert.ok([`mailto:${CONTACT_EMAIL}`, 'mailto:launch@openorbia.com'].includes(href), href); continue; }
