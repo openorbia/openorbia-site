@@ -27,6 +27,10 @@
         {
           "src": "/launches/sample-business-tool/shot-2.svg",
           "alt": "Sample screenshot of the settings screen"
+        },
+        {
+          "src": "/launches/sample-business-tool/shot-3.svg",
+          "alt": "Sample screenshot of the reports screen"
         }
       ],
       "video_url": null,
@@ -47,7 +51,11 @@
       "setup": "Install & self-host",
       "catch": "Sample text: team features are paid.",
       "lastChecked": "2026-10-20",
-      "testedBy": "OpenOrbia"
+      "testedBy": "OpenOrbia",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Sample text: your own AI key, or a free local model"
+      }
     },
     {
       "sample": true,
@@ -74,7 +82,11 @@
       "launch_date": "2026-11-23",
       "freeTier": "Free, no limits",
       "dataLocation": "Runs on your computer",
-      "lastChecked": "2026-10-20"
+      "lastChecked": "2026-10-20",
+      "paidDeps": {
+        "level": "required",
+        "what": "Sample text: a paid AI API key"
+      }
     },
     {
       "sample": true,

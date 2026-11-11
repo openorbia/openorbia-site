@@ -34,20 +34,25 @@ test('full facts: every row, in order, above the description, with the checked d
   const box = html.slice(html.indexOf('class="ffacts"'), html.indexOf('</section>', html.indexOf('class="ffacts"')));
   for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Facts checked Oct 20, 2026']) assert.ok(box.includes(t), t);
   assert.match(box, /Card required<\/dt><dd>No</);
-  const order = ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch'].map(l => box.indexOf(l));
+  // changed 2026-11-06: a launch page shows all six rows, in this order (Paid service is "Not confirmed yet" here)
+  const order = ['Free tier', 'Card required', 'Setup', 'Your data', 'Paid service', 'The catch'].map(l => box.indexOf(`<dt>${l}</dt>`));
+  assert.ok(order.every(i => i > 0), String(order));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.ok(html.indexOf('class="ffacts"') < html.indexOf('About T'));
 });
 
-test('partial facts: only the known rows show', async () => {
+test('partial facts: the known rows show their value, the others "Not confirmed yet" (nothing is filled in)', async () => {
   const html = await render({ freeTier: 'Free', lastChecked: '2026-10-20' });
-  assert.ok(html.includes('Free tier'));
-  for (const l of ['Card required', 'Your data', 'Setup', 'The catch']) assert.ok(!html.includes(`<dt>${l}</dt>`), l);
+  assert.ok(html.includes('<dt>Free tier</dt><dd>Free</dd>'));
+  for (const l of ['Card required', 'Setup', 'Your data', 'Paid service', 'The catch']) assert.ok(html.includes(`<dt>${l}</dt><dd>Not confirmed yet</dd>`), l);
 });
 
-test('no facts, or only a date: no box at all', async () => {
-  assert.ok(!(await render(undefined)).includes('ffacts'));
-  assert.ok(!(await render({ lastChecked: '2026-10-20' })).includes('ffacts'));
+test('no facts, or only a date: "Free facts are being checked" instead of an empty box', async () => {
+  for (const facts of [undefined, { lastChecked: '2026-10-20' }]) {
+    const html = await render(facts);
+    assert.ok(html.includes('<p class="ff-pending">Free facts are being checked.</p>'));
+    assert.ok(!html.includes('Not confirmed yet') && !html.includes('<dt>Free tier</dt>'));
+  }
 });
 
 test('facts are escaped', async () => {
@@ -188,11 +193,11 @@ test('Launch List: the local-AI tag and filter chip say "Works with local AI", n
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);
 });
 
-test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pages and the Launch List', async () => {
+test('cardRequired "unknown" is valid: "Not confirmed yet" on launch pages, "Not confirmed" on the Launch List', async () => {
   assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'unknown' }), []);
   assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'Unknown' }), [], 'case is normalized like yes/no');
   const html = await render({ freeTier: 'Free', cardRequired: 'unknown' });
-  assert.ok(html.includes('Card required</dt><dd>Not confirmed</dd>'));
+  assert.ok(html.includes('Card required</dt><dd>Not confirmed yet</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
   assert.deepEqual([...unknown], ['Reactive Resume']);

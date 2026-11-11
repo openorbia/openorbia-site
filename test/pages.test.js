@@ -71,7 +71,9 @@ test('external links open safely, and only https links are rendered', async () =
   assert.ok(!html.includes('insecure.example'));
   assert.ok(!html.includes('Visit website'));
   for (const m of html.matchAll(/<a [^>]*target="_blank"[^>]*>/g)) assert.match(m[0], /rel="(?:me )?noopener"/, m[0]);
-  assert.ok(!html.includes('Discussion'), 'no maker story, no discussion section');
+  // changed 2026-11-06: Discussion is always there with the Community link; with no maker story there is no maker comment
+  assert.ok(!html.includes('class="comment"'), 'no maker story, no maker comment');
+  assert.ok(html.includes('Questions for the maker? <a href="https://github.com/openorbia/openorbia-site/discussions/categories/q-a">Ask in Community</a>'));
 });
 
 test('everything from the database is escaped (no script injection)', async () => {
@@ -199,9 +201,11 @@ test('once launch day has opened the leaderboard is ranked by votes, ties by nam
   assert.ok(!html.includes('data-countdown'));
   assert.deepEqual([...html.matchAll(/<span class="lrow-text"><b>([^<]+)<\/b>/g)].map(m => m[1]), ['Zeta Tool', 'Mid Tool', 'Alpha Tool', 'Late Tool']);
   assert.deepEqual([...html.matchAll(/data-count>(\d+)</g)].map(m => m[1]), ['3', '2', '1', '1']);
-  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)"/g)].map(m => m[1]), ['1', '2', '3', '4']);
-  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 3);
+  // changed 2026-11-06: equal upvotes share a rank, as on the results page (Alpha and Late both have 1: both are 3rd)
+  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)"/g)].map(m => m[1]), ['1', '2', '3', '3']);
+  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 4);
   assert.match(html, /class="lrow top top-1"/);
+  assert.equal([...html.matchAll(/class="lrow top top-3"/g)].length, 2);
   assert.ok(!/lrow top top-4/.test(html));
   assert.match(html, /Ranked by upvotes\. You get one upvote for each launch for the whole week\./);
 });
@@ -303,7 +307,8 @@ test('the API hides vote counts before launch day and lists the top launches aft
   const after = await (await launchesApiResponse({ request: req('/api/launches?limit=2'), env, now: AFTER })).json();
   assert.equal(after.open, true);
   assert.deepEqual(after.launches.map(l => [l.slug, l.votes]), [['zeta-tool', 2], ['mid-tool', 1]]);
-  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'logo_url', 'name', 'slug', 'tagline', 'votes']);
+  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'category_name', 'logo_url', 'name', 'rank', 'signal', 'slug', 'tagline', 'votes']);
+  assert.deepEqual(after.launches.map(l => l.rank), [1, 2]);
 });
 
 test('the API limit is clamped, and an empty database and a missing database are handled', async () => {
