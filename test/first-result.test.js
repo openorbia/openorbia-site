@@ -76,7 +76,7 @@ test('the section on a tool page: in order, numbered steps, label and date, sour
 
 test('tools without a first result show no section at all', () => {
   const others = TOOLS.filter(t => !t.facts.firstResult);
-  assert.ok(others.length >= 40);
+  assert.ok(others.length >= 39);   // 44 tools since Twenty was removed (2026-11-11)
   for (const t of others) {
     const html = renderTool(t);
     assert.ok(!html.includes('First useful result') && !html.includes('fr-h'), t.name);

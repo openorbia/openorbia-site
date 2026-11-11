@@ -112,8 +112,8 @@ test('paidSummary reads the level and what it is', () => {
   assert.equal(paidSummary(null), '');
 });
 
-test('the data file has the docs facts for all 45 listed tools, with sources', () => {
-  assert.equal(data.length, 45);
+test('the data file has the docs facts for all 44 listed tools, with sources', () => {
+  assert.equal(data.length, 44);
   for (const e of data) {
     assert.ok(PAID_LEVELS.includes(e.paidDeps.level) && e.paidDeps.what, e.name);
     assert.equal(e.level, 'basic', e.name);
