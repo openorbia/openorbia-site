@@ -195,7 +195,8 @@ test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pag
   assert.ok(html.includes('Card required</dt><dd>Not confirmed</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
-  assert.deepEqual([...unknown], ['Reactive Resume']);
+  // changed 2026-11-11: Reactive Resume's README says "Create a free account" and "no paid tier", so its card answer is "no"
+  assert.deepEqual([...unknown], []);
 });
 
 test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also in the data file', () => {

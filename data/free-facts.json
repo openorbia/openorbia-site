@@ -481,7 +481,7 @@
     "repo": "reactive-resume/reactive-resume",
     "name": "Reactive Resume",
     "freeTier": "All features free at rxresu.me; MIT self-host too",
-    "cardRequired": "unknown",
+    "cardRequired": "no",
     "dataLocation": "Vendor cloud (or your server if you self-host)",
     "setup": "Browser, ready to use",
     "catch": "AI writing help needs your own key or Ollama",
@@ -498,7 +498,7 @@
     "level": "basic",
     "confidence": "medium",
     "category": "job",
-    "lastChecked": "2026-10-30"
+    "lastChecked": "2026-11-11"
   },
   {
     "repo": "Gsync/jobsync",
