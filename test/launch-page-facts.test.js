@@ -80,7 +80,7 @@ test('the gallery: images from the launch folder, lazy-loaded, with width and he
 });
 
 test('a sample launch has 3 screenshots for the preview; its images exist and only previews get them', () => {
-  const data = JSON.parse(file('data/launches.json'));
+  const data = JSON.parse(file('data/launches.samples.json'));   // the placeholders live here since #26
   const biz = data.launches.find(l => l.slug === 'sample-business-tool');
   assert.equal(biz.sample, true);
   assert.equal(biz.screenshots.length, 3);
