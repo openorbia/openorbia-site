@@ -47,3 +47,11 @@ test('issue text is escaped', () => {
   const html = renderIssue({ slug: 'x', date: '2026-01-05', title: '<b>T</b>', summary: 's', news: [{ headline: '<i>h</i>', text: 't', source: { label: 'S', url: 'javascript:alert(1)' } }], picks: [], catch: 'c' });
   assert.ok(!html.includes('<b>T</b>') && !html.includes('<i>h</i>') && !html.includes('javascript:'));
 });
+
+test('every newsletter page ends with the ad line and the contact email', () => {
+  const { CONTACT_EMAIL } = { CONTACT_EMAIL: 'hello@openorbia.com' };
+  for (const html of [renderNewsletter(), renderIssue(publishedIssues()[0])]) {
+    assert.ok(html.includes(`Want your ad here? Contact <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`));
+    assert.ok(html.indexOf('Want your ad here?') > html.indexOf('Get Orbia Weekly in your inbox'));
+  }
+});

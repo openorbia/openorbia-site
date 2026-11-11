@@ -461,3 +461,4 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .nl-item p{margin:0}
 .nl-picks,.nl-archive{padding-left:20px;display:grid;gap:8px}
 .nl-archive span{color:var(--muted,inherit);opacity:.75}
+.nl-ad{margin:28px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:15px;opacity:.85}
