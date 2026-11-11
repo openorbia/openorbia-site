@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { asset } from '../lib/asset-versions.js';
 import { readdirSync, existsSync, readFileSync, statSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -52,9 +52,14 @@ test('the local preview adds the samples to a copy, and never touches public/', 
   assert.ok(!existsSync(join(root, 'public', 'launches', 'sample-business-tool')));
 });
 
-test('the seed script accepts sample entries whose images are only in test/fixtures, and the live seed skips them', () => {
-  const run = args => execFileSync(process.execPath, [join(root, 'scripts', 'seed-launches.mjs'), ...args], { cwd: root, encoding: 'utf8' });
-  assert.match(run(['--dry-run']), /3 launches \(3 sample, 0 real\)/);
-  assert.match(run(['--remote']), /Skipping 3 sample entries[\s\S]*Nothing to load/); // remote with only samples loads nothing, without touching wrangler
-  assert.ok(readFileSync(join(root, 'data', 'launches.json'), 'utf8').includes('test/fixtures/launches/<slug>/'));
+test('the seed script adds the samples (images only in test/fixtures) only when asked, and never for the live database', () => {
+  // --dry-run only: these runs never call wrangler, whatever data/launches.json holds
+  const run = args => spawnSync(process.execPath, [join(root, 'scripts', 'seed-launches.mjs'), ...args], { cwd: root, encoding: 'utf8' });
+  assert.match(run(['--dry-run']).stdout, /data\/launches\.json: \d+ launch(es)? \(0 sample, \d+ real\)/);
+  assert.match(run(['--dry-run', '--include-samples']).stdout, /\(3 sample, \d+ real\)/);
+  assert.match(run(['--remote', '--db', 'openorbia-db-preview', '--include-samples', '--dry-run']).stdout, /\(3 sample, \d+ real\)[\s\S]*sample-business-tool/);
+  const live = run(['--remote', '--include-samples', '--dry-run']);
+  assert.equal(live.status, 1);
+  assert.match(live.stderr, /Refusing --include-samples: samples never go to the live database \(openorbia-db\)/);
+  assert.ok(readFileSync(join(root, 'data', 'launches.samples.json'), 'utf8').includes('test/fixtures/launches/<slug>/'));
 });

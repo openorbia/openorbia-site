@@ -131,7 +131,7 @@
         const coming = root.querySelector('[data-week-coming]');
         if (coming && data.label) coming.textContent = `Coming ${data.label}`;
         const intro = root.querySelector('[data-week-intro]');
-        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? '' : 's'} launch on ${data.label}. Voting opens at 12:01 AM Pacific.`;
+        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}. Voting opens at 12:01 AM Pacific.`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
         // the lineup exists: show it instead of offering it by email

@@ -14,18 +14,19 @@ const problems = over => check(good(over)).errors;
 
 // ---- the shipped data/launches.json ----
 
-test('data/launches.json is valid, its images exist, and it only holds clearly marked samples for now', () => {
-  const data = JSON.parse(readFileSync(new URL('data/launches.json', root), 'utf8'));
-  const { launches, errors } = validateLaunches(data);
+test('data/launches.json (real launches) and data/launches.samples.json (placeholders) are valid, and their images exist', () => {
+  const real = JSON.parse(readFileSync(new URL('data/launches.json', root), 'utf8'));
+  const samples = JSON.parse(readFileSync(new URL('data/launches.samples.json', root), 'utf8'));
+  assert.ok(!real.launches.some(l => l.sample), 'no sample in data/launches.json: it is what goes to the live database');
+  assert.ok(samples.launches.length >= 1 && samples.launches.every(l => l.sample === true), 'every placeholder says "sample": true');
+  const { launches, errors } = validateLaunches({ launches: [...real.launches, ...samples.launches] });
   assert.deepEqual(errors, []);
-  assert.ok(launches.length >= 1);
   // real entries keep their images in public/ (deployed); sample entries keep them in test/fixtures/ (never deployed)
   for (const l of launches) {
     const files = [l.logo_url, l.video_url, ...l.screenshots.map(s => s.src)].filter(p => p && p.startsWith('/'));
     assert.ok(files.length >= 1, `${l.slug} has no local images`);
     for (const f of files) assert.ok(existsSync(new URL(`${l.sample ? 'test/fixtures' : 'public'}${f}`, root)), `${l.slug}: missing ${f}`);
   }
-  assert.ok(launches.every(l => l.sample), 'every shipped entry is a sample until the real launches are added');
 });
 
 test('sample entries never go to the live database unless asked', () => {
