@@ -82,7 +82,7 @@ test('docs-only pass: claims no official page states are gone from the catches a
 });
 
 test('docs-only pass: every row still has valid, sourced facts that match the data file', () => {
-  assert.equal(data.length, 45);
+  assert.equal(data.length, 44);
   for (const e of data) {
     assert.ok(e.sources.length >= 1 && e.sources.length <= 3 && e.sources.every(u => u.startsWith('https://')), `${e.name}: sources`);
     assert.ok(e.freeTier.length <= 80 && e.catch.length <= CATCH_MAX, `${e.name}: lengths`);

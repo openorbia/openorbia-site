@@ -74,29 +74,6 @@
     "lastChecked": "2026-11-03"
   },
   {
-    "repo": "twentyhq/twenty",
-    "name": "Twenty",
-    "freeTier": "Free when self-hosted (AGPL); paid cloud optional",
-    "cardRequired": "no",
-    "dataLocation": "Your server",
-    "setup": "Install & self-host",
-    "catch": "SSO, row-level permissions and audit logs need a paid Organization key, even when self-hosted",
-    "paidDeps": {
-      "level": "none",
-      "what": "None"
-    },
-    "sources": [
-      "https://github.com/twentyhq/twenty#readme",
-      "https://github.com/twentyhq/twenty/blob/main/packages/twenty-docs/user-guide/billing/capabilities/pricing-plans.mdx",
-      "https://twenty.com/pricing"
-    ],
-    "task": "Run a customizable open-source CRM to track contacts, companies and deals",
-    "level": "basic",
-    "confidence": "high",
-    "category": "biz",
-    "lastChecked": "2026-10-30"
-  },
-  {
     "repo": "n8n-io/n8n",
     "name": "n8n",
     "freeTier": "Free self-hosted Community Edition (fair-code license)",

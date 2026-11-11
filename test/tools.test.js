@@ -19,7 +19,7 @@ const textOf = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repl
 
 test('there is one tool per Launch List row, each with its own URL-safe slug', () => {
   assert.equal(TOOLS.length, ROWS.length);
-  assert.equal(TOOLS.length, 45);
+  assert.equal(TOOLS.length, 44);
   assert.equal(new Set(TOOLS.map(t => t.slug)).size, TOOLS.length);
   for (const t of TOOLS) assert.match(t.slug, /^[a-z0-9]+(-[a-z0-9]+)*$/, t.name);
   assert.equal(slugOf('Open WebUI'), 'open-webui');
@@ -99,7 +99,9 @@ test('Alternatives follow the job, not the category: Jan suggests other local ch
   const jan = alternatives(toolBySlug('jan')).map(a => a.slug);
   assert.ok(!jan.includes('twenty'));
   assert.deepEqual(jan, ['anythingllm', 'ollama', 'open-webui']);
-  assert.deepEqual(alternatives(toolBySlug('twenty')), [], 'the only CRM has no alternatives');
+  // Twenty (a CRM, AI not its core) was removed from the Launch List on 2026-11-11
+  assert.equal(toolBySlug('twenty'), null);
+  assert.deepEqual(alternatives(toolBySlug('postiz')), [], 'a tool with no peer (the only social media scheduler) has no alternatives');
   assert.ok(alternatives(toolBySlug('grillkit')).every(a => TOPICS[a.slug].includes('interview')), 'interview tools suggest interview tools');
 });
 
