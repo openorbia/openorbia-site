@@ -32,7 +32,7 @@ const errs = over => validateLaunches({ launches: [good(over)] }).errors;
 test('full facts: every row, in order, above the description, with the checked date', async () => {
   const html = await render(FULL);
   const box = html.slice(html.indexOf('class="ffacts"'), html.indexOf('</section>', html.indexOf('class="ffacts"')));
-  for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Facts checked Oct 20, 2026']) assert.ok(box.includes(t), t);
+  for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Free facts checked Oct 20, 2026']) assert.ok(box.includes(t), t);
   assert.match(box, /Card required<\/dt><dd>No</);
   // changed 2026-11-06: a launch page shows all six rows, in this order (Paid service is "Not confirmed yet" here)
   const order = ['Free tier', 'Card required', 'Setup', 'Your data', 'Paid service', 'The catch'].map(l => box.indexOf(`<dt>${l}</dt>`));

@@ -22,18 +22,18 @@ const FULL = { freeTier: 'Free forever', cardRequired: 'no', setup: 'Desktop app
 
 // ---- 1. Free facts ----
 
-test('Free facts: all six rows in order, the paid service from the facts, and "Facts checked <date>"', () => {
+test('Free facts: all six rows in order, the paid service from the facts, and "Free facts checked <date>" (as on tool pages)', () => {
   const box = launchFactsBox(FULL);
   const rows = [...box.matchAll(/<dt>([^<]+)<\/dt><dd>([^<]+)<\/dd>/g)].map(m => [m[1], m[2]]);
   assert.deepEqual(rows, [['Free tier', 'Free forever'], ['Card required', 'No'], ['Setup', 'Desktop app'], ['Your data', 'Runs on your computer'], ['Paid service', 'Optional: Your own AI key'], ['The catch', 'No sync.']]);
-  assert.ok(box.includes('<p class="ff-checked">Facts checked Nov 6, 2026</p>'));
+  assert.ok(box.includes('<p class="ff-checked">Free facts checked Nov 6, 2026</p>'));
 });
 
 test('Free facts: unknown fields say "Not confirmed yet"; no facts at all say they are being checked; values are escaped', () => {
   const some = launchFactsBox({ freeTier: 'Free plan', cardRequired: 'unknown' });
   assert.ok(some.includes('<dt>Free tier</dt><dd>Free plan</dd>'));
   for (const l of ['Card required', 'Setup', 'Your data', 'Paid service', 'The catch']) assert.ok(some.includes(`<dt>${l}</dt><dd>${NOT_CONFIRMED_YET}</dd>`), l);
-  assert.ok(!some.includes('ff-checked'), 'no date, no "Facts checked"');
+  assert.ok(!some.includes('ff-checked'), 'no date, no "Free facts checked"');
   for (const none of [undefined, {}, { lastChecked: '2026-11-06' }, { testedBy: 'OpenOrbia' }]) {
     const box = launchFactsBox(none);
     assert.ok(box.includes('Free facts are being checked.') && !box.includes('<dl>'), JSON.stringify(none));
