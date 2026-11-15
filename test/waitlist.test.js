@@ -137,7 +137,7 @@ test('the "Submit a tool" issue form has every field and the homepage links to i
   for (const label of ['Tool name', 'Repo URL', 'Website', 'Category', 'License', "What's free", 'Card required', 'Where your data goes', 'Setup', 'Maker contact']) {
     assert.ok(yml.includes(`label: ${label}`), label);
   }
-  for (const option of ['Small Business', 'Job Seekers', 'Cybersecurity & SOC', 'Runs on your computer', 'Your server', 'Vendor cloud', 'Browser, ready to use', 'Desktop app', 'Install & self-host']) {
+  for (const option of ['Small businesses', 'Job seekers', 'Security teams', 'Runs on your computer', 'Your server', 'Vendor cloud', 'Browser, ready to use', 'Desktop app', 'Install & self-host']) {
     assert.ok(yml.includes(`- ${option}`), option);
   }
   assert.ok(yml.includes('This issue is public'), 'tells makers the contact details are public');
