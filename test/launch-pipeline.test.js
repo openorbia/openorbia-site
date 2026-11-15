@@ -115,6 +115,34 @@ test('the draft CLI writes drafts outside data/, and --add refuses a sample or a
   }
 });
 
+test('--add runs seed:check on the file as it would be, and adds the draft only when it passes', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'draft-add-'));
+  try {
+    const into = join(dir, 'launches.json');
+    const base = readFileSync(new URL('data/launches.json', root), 'utf8');
+    writeFileSync(into, base);
+    const run = args => spawnSync(process.execPath, ['scripts/draft-launch.mjs', ...args, '--into', into], { cwd: root, encoding: 'utf8' });
+    const ok = { slug: 'zz-add-tool', name: 'ZZ Add Tool', tagline: 'Adds things', description: 'A tool.', category: 'biz', repo_url: 'https://github.com/example/zz-add-tool',
+      maker_name: 'Zed', license: 'MIT', launch_week: 1, launch_date: '2026-11-23' };
+    writeFileSync(join(dir, 'ok.json'), JSON.stringify(ok));
+    const added = run(['--add', join(dir, 'ok.json')]);
+    assert.equal(added.status, 0, added.stderr);
+    assert.match(added.stdout, /seed:check: PASS/);
+    assert.ok(JSON.parse(readFileSync(into, 'utf8')).launches.some(l => l.slug === 'zz-add-tool'));
+    // valid on its own, but its logo file isn't there: seed:check fails, nothing is written
+    const before = readFileSync(into, 'utf8');
+    writeFileSync(join(dir, 'noimg.json'), JSON.stringify({ ...ok, slug: 'zz-no-image', logo_url: '/launches/zz-no-image/logo.png' }));
+    const refused = run(['--add', join(dir, 'noimg.json')]);
+    assert.equal(refused.status, 1);
+    assert.match(refused.stderr, /Not added: seed:check fails/);
+    assert.match(refused.stderr, /image or video not found/);
+    assert.equal(readFileSync(into, 'utf8'), before, 'the file is untouched');
+    assert.equal(readFileSync(new URL('data/launches.json', root), 'utf8'), base, 'data/launches.json untouched');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 // ---- the preflight's image checks ----
 
 // A PNG header of the given size, padded to `bytes`
