@@ -16,17 +16,18 @@
     "db:migrate:remote": "node scripts/migrate.mjs --remote",
     "seed:check": "node scripts/seed-launches.mjs --dry-run",
     "check:sources": "node scripts/check-sources.mjs",
-    "seed:local": "node scripts/seed-launches.mjs --local",
+    "seed:local": "node scripts/seed-launches.mjs --local --include-samples",
     "seed:remote": "node scripts/seed-launches.mjs --remote",
     "db:schema:preview": "npx wrangler d1 execute openorbia-db-preview --remote --file=schema.sql",
     "db:migrate:preview": "node scripts/migrate.mjs --remote --db openorbia-db-preview",
-    "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --no-images --sample-date this-week --yes",
+    "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --sample-date this-week --yes",
     "stamp": "node scripts/stamp-assets.mjs",
     "fetch:logos": "node scripts/fetch-logos.mjs",
     "deploy": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch main",
     "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day",
     "build:email-art": "node scripts/build-email-art.mjs",
     "email:test": "node scripts/send-test-email.mjs",
-    "launch:check": "node scripts/launch-check.mjs"
+    "launch:check": "node scripts/launch-check.mjs",
+    "launch:draft": "node scripts/draft-launch.mjs"
   }
 }
