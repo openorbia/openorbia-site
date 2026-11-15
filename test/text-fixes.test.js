@@ -7,6 +7,7 @@ import { CATEGORIES, toolBySlug } from '../public/assets/tools.js';
 import { CATEGORIES as LAUNCH_CATEGORIES } from '../lib/launch-data.js';
 import { CATEGORIES as FORM_CATEGORIES, AUDIENCES } from '../lib/forms.js';
 import { MENUS } from '../lib/header.js';
+import { esc } from '../lib/html.js';
 import { staticFooter } from '../scripts/build-home.mjs';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
