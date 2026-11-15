@@ -1,30 +1,33 @@
 #!/usr/bin/env node
-// Load data/launches.json into the D1 database.
+// Load data/launches.json (real launches only) into the D1 database.
 //
 //   node scripts/seed-launches.mjs --dry-run          validate and print the SQL, change nothing
 //   node scripts/seed-launches.mjs --local            load into the local database used by `wrangler pages dev`
-//   node scripts/seed-launches.mjs --remote           load into the live openorbia-db (sample entries are skipped)
+//   node scripts/seed-launches.mjs --remote           load into the live openorbia-db
 //
 // Options: --file <path>  --db <name>  --include-samples  --prune  --yes  --sample-date <this-week|last-week|YYYY-MM-DD>  --no-images
 //
+// The placeholders are in data/launches.samples.json (every entry "sample": true). --include-samples adds them, for the local and
+// preview databases (npm run seed:local, npm run seed:preview). The live database (openorbia-db) never gets a sample: with
+// --remote and that database, --include-samples is refused, and a "sample": true entry in --file is skipped.
 // For the preview database (npm run seed:preview): --sample-date moves the SAMPLE entries (only) to a launch week that is open today
 // (this-week: the Monday of the current Pacific week, so voting works until Sunday 11:59 PM) or already closed (last-week: so the
 // final results page can be tried); --no-images drops the samples' images, which are not deployed (they live in test/fixtures).
-// Entries marked "sample": true are placeholders: they are loaded locally, but only go to the live database with
-// --include-samples. Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
+// Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
 // votes) that are no longer in the file.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { validateLaunches, toSql, forTarget } from '../lib/launch-data.js';
+import { validateLaunches, toSql, forTarget, PRODUCTION_DB } from '../lib/launch-data.js';
 import { launchOpensAt, pacificDay } from '../lib/time.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const DEFAULT_FILE = 'data/launches.json', SAMPLES_FILE = 'data/launches.samples.json';
 
 function parseArgs(argv) {
-  const o = { mode: 'local', file: 'data/launches.json', db: 'openorbia-db', samples: false, prune: false, dryRun: false, yes: false, sampleDate: null, noImages: false };
+  const o = { mode: 'local', file: DEFAULT_FILE, db: 'openorbia-db', samples: false, prune: false, dryRun: false, yes: false, sampleDate: null, noImages: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--local') o.mode = 'local';
@@ -59,10 +62,25 @@ function wrangler(args) {
 const opts = parseArgs(process.argv.slice(2));
 const file = resolve(root, opts.file);
 
-let data;
-try { data = JSON.parse(readFileSync(file, 'utf8')); } catch (e) {
-  console.error(`Could not read ${opts.file}: ${e.message}`);
+const live = opts.mode === 'remote' && opts.db === PRODUCTION_DB;
+if (live && opts.samples) {
+  console.error(`Refusing --include-samples: samples never go to the live database (${PRODUCTION_DB}). Use them locally or on the preview database.`);
   process.exit(1);
+}
+
+const readJson = (path, label) => {
+  try { return JSON.parse(readFileSync(path, 'utf8')); } catch (e) {
+    console.error(`Could not read ${label}: ${e.message}`);
+    process.exit(1);
+  }
+};
+const data = readJson(file, opts.file);
+// With the default file, --include-samples adds the placeholders from data/launches.samples.json (each must say "sample": true)
+if (opts.samples && opts.file === DEFAULT_FILE) {
+  const samples = readJson(resolve(root, SAMPLES_FILE), SAMPLES_FILE);
+  const list = Array.isArray(samples.launches) ? samples.launches : [];
+  if (list.some(l => !l || l.sample !== true)) { console.error(`${SAMPLES_FILE}: every entry must have "sample": true`); process.exit(1); }
+  data.launches = [...(Array.isArray(data.launches) ? data.launches : []), ...list];
 }
 
 const { launches, errors } = validateLaunches(data);
@@ -98,10 +116,11 @@ if (errors.length) {
 }
 
 const samples = launches.filter(l => l.sample);
-const toLoad = forTarget(launches, { remote: opts.mode === 'remote', includeSamples: opts.samples });
+const toLoad = forTarget(launches, { remote: opts.mode === 'remote', includeSamples: opts.samples, db: opts.db });
 console.log(`${opts.file}: ${launches.length} launch${launches.length === 1 ? '' : 'es'} (${samples.length} sample, ${launches.length - samples.length} real)`);
 if (toLoad.length !== launches.length) {
-  console.log(`Skipping ${launches.length - toLoad.length} sample entr${launches.length - toLoad.length === 1 ? 'y' : 'ies'} for the live database (add --include-samples to load them).`);
+  const n = launches.length - toLoad.length;
+  console.log(`Skipping ${n} sample entr${n === 1 ? 'y' : 'ies'}: ${live ? `samples never go to the live database (${PRODUCTION_DB})` : 'add --include-samples to load them'}.`);
 }
 for (const l of toLoad) console.log(`  - ${l.slug}  [${l.category}]  week ${l.launch_week}  ${l.launch_date}${l.sample ? '  (sample)' : ''}`);
 

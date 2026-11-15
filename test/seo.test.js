@@ -24,10 +24,13 @@ test('robots.txt allows everything and links to the sitemap', () => {
   assert.deepEqual(t.split('\n').filter(l => l.startsWith('Disallow:')), ['Disallow: /go/']);
 });
 
-test('the sitemap lists the fixed pages and every launch, and nothing else', async () => {
+test('the sitemap lists the fixed pages and every announced launch, and nothing else', async () => {
   addLaunch(db, { slug: 'zeta-tool', name: 'Zeta Tool', launch_date: '2026-11-23' });
   addLaunch(db, { slug: 'alpha-tool', name: 'Alpha Tool', launch_date: '2026-11-23' });
-  const res = await sitemapResponse({ env });
+  // changed 2026-11-14: launch pages are listed from the lineup announcement (Wednesday, Nov 18), not before
+  const before = await (await sitemapResponse({ env, now: Date.parse('2026-11-18T07:00:00Z') })).text();
+  assert.ok(!before.includes('/launch/'), 'not listed before the lineup is announced');
+  const res = await sitemapResponse({ env, now: Date.parse('2026-11-18T09:00:00Z') });
   assert.match(res.headers.get('content-type'), /application\/xml/);
   const xml = await res.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);

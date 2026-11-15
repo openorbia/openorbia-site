@@ -159,14 +159,17 @@ img.logo{background:#fff}
 .ffacts .ff-catch{grid-column:1/-1;border-color:rgba(255,216,77,.4);background:rgba(255,216,77,.06)}
 .ffacts .ff-catch dt{color:var(--yellow)}
 .ff-checked{margin:10px 2px 0;font:500 12px var(--mono);letter-spacing:.04em;color:var(--muted)}
+.ffacts .ff-unknown dd{color:var(--muted);font-weight:400}
+.ff-pending{margin:0;padding:11px 14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.ask-maker{margin:12px 0 0}
 /* separate from the tags and from the upvote button */
 .tested{display:inline-flex;align-items:center;gap:7px;margin:12px 0 0;padding:5px 12px;border:1px solid rgba(127,231,255,.4);border-radius:999px;background:rgba(127,231,255,.07);font:500 12px var(--mono);letter-spacing:.06em;color:var(--cyan)}
 .frame{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000}
 .frame iframe,.frame video{position:absolute;inset:0;width:100%;height:100%;border:0}
 .shots ul{display:flex;gap:12px;margin:0;padding:0 0 8px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .shots li{flex:0 0 min(88%,620px);scroll-snap-align:start}
-.shots a{display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
-.shots img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.shots a{position:relative;display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.shots img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover}
 .about h2,.comments h2{font:700 clamp(22px,2.6vw,26px)/1.2 var(--display);margin:0 0 10px}
 .about p{margin:0 0 12px;color:#c9d2ee;max-width:72ch}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0 0}
@@ -206,6 +209,7 @@ img.logo{background:#fff}
 .lrow-text{display:grid;gap:3px;min-width:0}
 .lrow-text b{font:700 18px/1.2 var(--display)}
 .lrow-tag{color:#c9d2ee;font-size:15px}
+.free-signal{font:500 12px var(--mono);letter-spacing:.03em;color:var(--green)}.free-signal.paid{color:var(--red)}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 .cta{border:1px solid var(--line);border-radius:16px;padding:26px;margin:36px 0 48px;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05));display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
 .cta h2{font:800 clamp(22px,3vw,30px)/1.1 var(--display);margin:0 0 6px}

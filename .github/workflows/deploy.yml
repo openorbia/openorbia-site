@@ -46,13 +46,19 @@ jobs:
         with:
           node-version: '22'
       - run: npm test
+      # The sample launches' images live in test/fixtures/ and are never deployed to production. A preview gets them, after the
+      # tests, so the sample launch pages (npm run seed:preview) show their screenshots.
+      - name: Add the sample launch images to the preview build
+        run: |
+          mkdir -p public/launches
+          cp -R test/fixtures/launches/. public/launches/
       - name: Deploy the preview
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes "wrangler@${WRANGLER_VERSION}" pages deploy --project-name openorbia --branch "pr-${{ github.event.pull_request.number }}"
-      # No page may scroll sideways on a 375px phone (scripts/check-width.mjs)
-      - name: Check that no page is wider than a 375px phone
+      # No page may scroll sideways on a 375px phone or a 1280px or 1366px laptop screen (scripts/check-width.mjs)
+      - name: Check that no page is wider than the screen (375, 1280 and 1366px)
         env:
           PREVIEW_URL: https://pr-${{ github.event.pull_request.number }}.openorbia.pages.dev
           PLAYWRIGHT_DIR: ${{ runner.temp }}/pw
