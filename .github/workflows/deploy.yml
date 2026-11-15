@@ -58,7 +58,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes "wrangler@${WRANGLER_VERSION}" pages deploy --project-name openorbia --branch "pr-${{ github.event.pull_request.number }}"
       # No page may scroll sideways on a 375px phone or a 1280px or 1366px laptop screen (scripts/check-width.mjs)
-      - name: Check that no page is wider than the screen (375, 1280 and 1366px)
+      - name: Check that no page is wider than the screen (320, 375, 1280 and 1366px)
         env:
           PREVIEW_URL: https://pr-${{ github.event.pull_request.number }}.openorbia.pages.dev
           PLAYWRIGHT_DIR: ${{ runner.temp }}/pw
