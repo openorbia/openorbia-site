@@ -28,7 +28,7 @@ test('no page, menu, footer or form uses an old audience label, and the ?for= li
   for (const [name, text] of [...PAGES.map(p => [p, file(p)]), ['header menu', MENUS.tools], ['footer', staticFooter()]]) {
     for (const old of OLD) assert.ok(!text.includes(old), `${name}: ${old}`);
   }
-  for (const k of Object.keys(LABELS)) assert.ok(MENUS.tools.includes(`href="/launch-list/?for=${k}">${LABELS[k].replace('&', '&amp;')}</a>`), k);
+  for (const k of Object.keys(LABELS)) assert.ok(MENUS.tools.includes(`href="/launch-list/?for=${k}">${esc(LABELS[k])}</a>`), k);
 });
 
 test('Meetily\'s first result and Reactive Resume\'s free tier follow their docs', () => {
