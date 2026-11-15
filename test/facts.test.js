@@ -214,7 +214,7 @@ test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also
   const { freeTier, cardRequired, dataLocation, setup, lastChecked } = r[8];
   assert.deepEqual({ freeTier, cardRequired, dataLocation, setup, catch: r[8].catch, lastChecked }, {
     freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
-    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
+    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-11-14',
   });
   const x = factsFile.find(e => e.repo === 'saeedkolivand/ai-job-hunter-app');
   assert.ok(x && x.confidence === 'high' && x.category === 'job');
