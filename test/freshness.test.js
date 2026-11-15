@@ -5,10 +5,20 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TOOLS } from '../public/assets/tools.js';
+import { listChecked, withListChecked } from '../scripts/build-home.mjs';
 
 const data = JSON.parse(readFileSync(new URL('../data/free-facts.json', import.meta.url), 'utf8'));
 const RECHECKED = '2026-11-14';
 const by = repo => data.find(e => e.repo === repo);
+
+test('the Launch List note gives the month of the oldest check, written by build:home from the data', () => {
+  const list = readFileSync(new URL('../public/launch-list/index.html', import.meta.url), 'utf8');
+  assert.equal(withListChecked(list), list, 'run npm run build:home');
+  assert.equal(listChecked(), 'November 2026');
+  assert.ok(list.includes('Listed by OpenOrbia from public GitHub repositories, checked November 2026.'));
+  assert.equal(listChecked([{ facts: { lastChecked: '2026-11-14' } }, { facts: { lastChecked: '2026-09-02' } }]), 'September 2026', 'the oldest row decides');
+  assert.throws(() => withListChecked('<p></p>'), /expected one/);
+});
 
 test('every row was re-checked on Nov 14, in the data file and on the Launch List', () => {
   assert.equal(data.length, 45);
