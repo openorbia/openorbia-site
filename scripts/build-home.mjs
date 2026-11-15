@@ -12,7 +12,8 @@ import { pickFeatured, renderFeatured } from '../lib/featured.js';
 import { footerHtml } from '../lib/footer.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
-import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
+import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
+import { needsPaidService } from '../public/assets/facts.js';
 
 const root = new URL('../', import.meta.url);
 const data = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -26,6 +27,41 @@ export const firstResultsHtml = () => renderFirstResultStrip(TOOLS);
 // The homepage week box: "Lineup announced Wednesday, Nov 18", worked out from the first launch week (lib/time.js)
 export const LINEUP_RE = /<p class="week-lineup" data-lineup-date>[^<]*<\/p>/;
 export const lineupHtml = () => `<p class="week-lineup" data-lineup-date>Lineup announced ${weekdayLabel(lineupAnnouncedAt(FIRST_LAUNCH_WEEK.date))}</p>`;
+
+// The homepage makers line ("3 makers confirmed · 26 invited"), from lib/site.js
+export const MAKERS_RE = /<p class="week-makers" data-makers>[^<]*<\/p>/;
+export const makersHtml = () => `<p class="week-makers" data-makers>${makersLine()}</p>`;
+
+// The Launch List's counts, from the Launch List itself: the tools that run free (no required paid service) in the title,
+// description, og:title and headline, and the ones that need a paid service in the note under it
+export const listCounts = () => { const paid = TOOLS.filter(t => needsPaidService(t.facts)).length; return { free: TOOLS.length - paid, paid }; };
+export function withListCounts(html, { free, paid } = listCounts()) {
+  const swaps = [
+    [/(<title>Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
+    [/(<meta name="description" content=")\d+( free and open-source AI tools that run without a paid service)/, `$1${free}$2`],
+    [/(<meta property="og:title" content="The OpenOrbia Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
+    [/(<h1>)\d+( AI tools that run free,)/, `$1${free}$2`],
+    [/(<p class="note">)\d+ more tools? needs? a paid service/, `$1${paid} more tool${paid === 1 ? ' needs' : 's need'} a paid service`],
+  ];
+  for (const [re, to] of swaps) {
+    if ((html.match(new RegExp(re.source, 'g')) || []).length !== 1) throw new Error(`public/launch-list/index.html: expected one ${re}`);
+    html = html.replace(re, to);
+  }
+  return html;
+}
+
+// The Launch List's "checked <Month Year>" note, from the oldest row-level lastChecked (so it never claims more than every row has)
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export const listChecked = (tools = TOOLS) => {
+  const oldest = tools.map(t => t.facts.lastChecked).sort()[0];
+  const [y, m] = oldest.split('-').map(Number);
+  return `${MONTH_NAMES[m - 1]} ${y}`;
+};
+const CHECKED_RE = /(Listed by OpenOrbia from public GitHub repositories, checked )[A-Z][a-z]+ \d{4}(\.)/;
+export function withListChecked(html, when = listChecked()) {
+  if ((html.match(new RegExp(CHECKED_RE.source, 'g')) || []).length !== 1) throw new Error(`public/launch-list/index.html: expected one ${CHECKED_RE}`);
+  return html.replace(CHECKED_RE, `$1${when}$2`);
+}
 
 // The static pages carry the footer with <span id="yr">2026</span>; a small script there puts in this year
 export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html', 'public/404.html'];
@@ -43,7 +79,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
   const filled = fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml());
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
-  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()));
+  if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
+  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
+  const list = new URL('public/launch-list/index.html', root);
+  writeFileSync(list, withListChecked(withListCounts(readFileSync(list, 'utf8'))));
   for (const page of STATIC_PAGES) {
     const file = new URL(page, root), html = readFileSync(file, 'utf8');
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;

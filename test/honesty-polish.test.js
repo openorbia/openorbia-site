@@ -46,11 +46,13 @@ function runWeek(apiAnswer) {
 }
 
 test('once the week has launches, the box shows "See the lineup" again; with none it keeps the email offer', async () => {
-  const withLineup = await runWeek({ ok: true, week: 1, open: false, total: 12, label: 'Monday, Nov 23, 2026', now: 0 });
-  assert.equal(withLineup.cta.textContent, 'See the lineup →');
+  // changed 2026-11-14: the homepage now lists up to 6 of the lineup, so with 12 the button offers all 12
+  const launches = Array.from({ length: 6 }, (_, i) => ({ slug: `t${i}`, name: `T${i}`, tagline: 't', category_name: 'Small businesses' }));
+  const withLineup = await runWeek({ ok: true, week: 1, open: false, total: 12, label: 'Monday, Nov 23, 2026', now: 0, launches });
+  assert.equal(withLineup.cta.textContent, 'See all 12 launches →');
   assert.equal(withLineup.cta.href, '/launches/');
   assert.ok(withLineup.dateRemoved);
-  const none = await runWeek({ ok: true, week: 1, open: false, total: 0, label: 'Monday, Nov 23, 2026', now: 0 });
+  const none = await runWeek({ ok: true, week: 1, open: false, total: 0, label: 'Monday, Nov 23, 2026', now: 0, launches: [] });
   assert.equal(none.cta.textContent, 'Get the lineup by email');
   assert.ok(!none.dateRemoved);
 });

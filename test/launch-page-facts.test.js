@@ -123,7 +123,7 @@ test('leaderboard rows: logo, category chip and the free-signal line (or none)',
     launch({ slug: 'c', name: 'C', votes: 0, facts: {} }),
   ] });
   assert.ok(html.includes('<img class="logo" src="/launches/a/logo.png"'));
-  assert.equal([...html.matchAll(/<span class="tg cat">Small Business<\/span>/g)].length, 3);
+  assert.equal([...html.matchAll(/<span class="tg cat">Small businesses<\/span>/g)].length, 3);
   assert.ok(html.includes('<span class="free-signal">Runs free · Desktop app</span>'));
   assert.ok(html.includes('<span class="free-signal paid">Needs paid service</span>'));
   assert.equal([...html.matchAll(/class="free-signal/g)].length, 2, 'nothing for unchecked facts');
@@ -150,22 +150,22 @@ function homepageRows(api) {
 
 test('homepage rows: the shared rank, the logo (or an initial), the category chip and the free-signal line', async () => {
   const api = { ok: true, week: 1, open: true, closed: false, total: 3, voted: [], launches: [
-    { slug: 'a', name: 'Alpha', tagline: 't', category: 'biz', category_name: 'Small Business', logo_url: '/launches/a/logo.png', votes: 4, rank: 1, signal: 'Runs free · Desktop app' },
-    { slug: 'b', name: 'Beta', tagline: 't', category: 'job', category_name: 'Job Seekers', logo_url: null, votes: 4, rank: 1, signal: 'Needs paid service' },
-    { slug: 'c', name: 'Gamma', tagline: 't', category: 'sec', category_name: 'Cybersecurity & SOC', logo_url: null, votes: 1, rank: 3, signal: null },
+    { slug: 'a', name: 'Alpha', tagline: 't', category: 'biz', category_name: 'Small businesses', logo_url: '/launches/a/logo.png', votes: 4, rank: 1, signal: 'Runs free · Desktop app' },
+    { slug: 'b', name: 'Beta', tagline: 't', category: 'job', category_name: 'Job seekers', logo_url: null, votes: 4, rank: 1, signal: 'Needs paid service' },
+    { slug: 'c', name: 'Gamma', tagline: 't', category: 'sec', category_name: 'Security teams', logo_url: null, votes: 1, rank: 3, signal: null },
   ] };
   const made = await homepageRows(api);
   assert.deepEqual(made.filter(n => n.className === 'mini-rank').map(n => n.textContent), ['1', '1', '3']);
   assert.ok(made.some(n => n.tag === 'img' && n.className === 'mini-logo' && n.src === '/launches/a/logo.png' && n.alt === ''));
   assert.deepEqual(made.filter(n => n.className === 'mini-logo mini-initial').map(n => n.textContent), ['B', 'G']);
-  assert.deepEqual(made.filter(n => n.className === 'mini-cat').map(n => n.textContent), ['Small Business', 'Job Seekers', 'Cybersecurity & SOC']);
+  assert.deepEqual(made.filter(n => n.className === 'mini-cat').map(n => n.textContent), ['Small businesses', 'Job seekers', 'Security teams']);
   assert.deepEqual(made.filter(n => n.className.startsWith('mini-signal')).map(n => [n.className, n.textContent]),
     [['mini-signal', 'Runs free · Desktop app'], ['mini-signal paid', 'Needs paid service']]);
 });
 
 // ---- 6. widths ----
 
-test('the Preview job checks every audited page at 375px, 1280px and 1366px', () => {
-  assert.deepEqual(SCREENS.map(s => s.width), [375, 1280, 1366]);
+test('the Preview job checks every audited page at 320px, 375px, 1280px and 1366px', () => {
+  assert.deepEqual(SCREENS.map(s => s.width), [320, 375, 1280, 1366]);
   assert.ok(file('.github/workflows/deploy.yml').includes('node scripts/check-width.mjs "$PREVIEW_URL"'));
 });

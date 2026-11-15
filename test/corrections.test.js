@@ -37,7 +37,7 @@ test('each corrected catch says what the docs say, cites the page that says it, 
     assert.ok(e.sources.length >= 1 && e.sources.length <= 3, `${e.name}: 1 to 3 sources`);
     for (const re of gone) assert.ok(!re.test(e.catch), `${e.name}: the old claim ${re} is gone`);
     assert.ok(e.catch.length <= CATCH_MAX, `${e.name}: catch length ${e.catch.length}`);
-    assert.equal(e.lastChecked, '2026-10-30', `${e.name}: lastChecked updated`);
+    assert.ok(e.lastChecked >= '2026-10-30', `${e.name}: lastChecked updated (corrected on 2026-10-30, re-checked since)`);
     // the Launch List row carries exactly the same catch, sources and date
     const r = row(repo);
     assert.equal(r[8].catch, e.catch, `${e.name}: row catch`);

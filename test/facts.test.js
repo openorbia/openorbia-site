@@ -61,12 +61,14 @@ test('facts are escaped', async () => {
   assert.ok(html.includes('&lt;img'));
 });
 
-test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia, apart from the vote button', async () => {
-  const yes = await render({ ...FULL, testedBy: 'OpenOrbia' });
+test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia with a hand-set testedOn date, apart from the vote button', async () => {
+  const yes = await render({ ...FULL, testedBy: 'OpenOrbia', testedOn: '2026-11-01' });
   assert.ok(yes.includes('Tested by OpenOrbia'));
   assert.ok(!(await render(FULL)).includes('Tested by'));
-  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia' })).includes('Tested by'));
-  assert.ok(isTested({ testedBy: 'OpenOrbia' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone' }));
+  assert.ok(!(await render({ ...FULL, testedBy: 'OpenOrbia' })).includes('Tested by'), 'no testedOn, no badge');
+  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia', testedOn: '2026-11-01' })).includes('Tested by'));
+  assert.ok(isTested({ testedBy: 'OpenOrbia', testedOn: '2026-11-01' }));
+  assert.ok(!isTested({ testedBy: 'OpenOrbia' }) && !isTested({ testedBy: 'OpenOrbia', testedOn: '2026-02-30' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone', testedOn: '2026-11-01' }));
 });
 
 test('factRows and formatChecked', () => {
@@ -180,7 +182,7 @@ test('Launch List: the counts in the title, meta, headline and og:title are the 
 
 test('Launch List: the cards show the facts, with Card required and the catch where known', () => {
   const { html } = listRows();
-  assert.match(html, /function ff\(facts\)/);
+  assert.match(html, /\$\{cardFactsHtml\(facts\)\}/);
   const rows = factRows({ freeTier: 'x', cardRequired: 'yes', catch: 'Needs a paid plan' });
   assert.deepEqual(rows.map(r => r.label), ['Free tier', 'Card required', 'The catch']);
   assert.equal(rows[1].value, 'Yes');
@@ -200,8 +202,8 @@ test('cardRequired "unknown" is valid: "Not confirmed yet" on launch pages, "Not
   assert.ok(html.includes('Card required</dt><dd>Not confirmed yet</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
-  // changed 2026-11-11: Reactive Resume's README says "Create a free account" and "no paid tier", so its card answer is "no"
-  assert.deepEqual([...unknown], []);
+  // Reactive Resume: its README and docs say "no paid tier" but neither states whether a card is needed (re-checked 2026-11-14)
+  assert.deepEqual([...unknown], ['Reactive Resume']);
 });
 
 test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also in the data file', () => {
@@ -213,7 +215,7 @@ test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also
   const { freeTier, cardRequired, dataLocation, setup, lastChecked } = r[8];
   assert.deepEqual({ freeTier, cardRequired, dataLocation, setup, catch: r[8].catch, lastChecked }, {
     freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
-    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
+    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-11-14',
   });
   const x = factsFile.find(e => e.repo === 'saeedkolivand/ai-job-hunter-app');
   assert.ok(x && x.confidence === 'high' && x.category === 'job');

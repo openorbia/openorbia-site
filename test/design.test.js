@@ -48,13 +48,8 @@ test('Launch List cards: logo or letter tile, the name\'s link covers the card, 
   assert.ok(html.includes('.card h2 a::after{content:"";position:absolute;inset:0'), 'the whole card opens the tool page');
   assert.ok(html.includes('.foot{position:relative;z-index:1;'), 'the GitHub and claim links still work on top of it');
   assert.match(html, /\.card>p\{[^}]*-webkit-line-clamp:2/);
-  assert.ok(html.includes('<ul class="fcs" aria-label="Free facts">'), 'card, your data and setup as chips');
-  // the chips drop a trailing "(note)" and nothing else
-  const src = html.match(/const short=v=>String\(v\)\.replace\((\/.*\/),""\);/)[1];
-  const short = v => String(v).replace(new Function(`return ${src}`)(), '');
-  assert.equal(short('Runs on your computer (cloud AI only if you pick one)'), 'Runs on your computer');
-  assert.equal(short('Install & self-host'), 'Install & self-host');
-  assert.ok(html.includes('Checked against docs'), 'the date says what kind of check it was');
+  assert.ok(html.includes('<p>${esc(desc)}</p>${cardFactsHtml(facts)}'), 'the three fact rows and the trust marks, shared with the homepage');
+  assert.ok(html.includes('.cf-catch dd{color:#ffe7a3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'), 'the catch is one line on the card');
 });
 
 test('Launch List on phones: the filter chips are one row that scrolls sideways, and the count sits next to the search', () => {

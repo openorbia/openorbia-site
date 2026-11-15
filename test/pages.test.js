@@ -48,7 +48,7 @@ test('a launch page shows everything: logo, tagline, screenshots, description, l
   });
   const { status, html } = await page(await launchResponse({ request: req('/launch/full-tool/'), env, params: { slug: 'full-tool' }, now: AFTER }));
   assert.equal(status, 200);
-  for (const text of ['<h1>Full Tool</h1>', 'Does everything', 'First paragraph.', 'Second paragraph.', 'Apache-2.0', 'Job Seekers', 'Mia Maker',
+  for (const text of ['<h1>Full Tool</h1>', 'Does everything', 'First paragraph.', 'Second paragraph.', 'Apache-2.0', 'Job seekers', 'Mia Maker',
     'I built this for my sister.', 'It is free.', 'The editor', 'The report', 'Visit website', 'View on GitHub']) {
     assert.ok(html.includes(text), `missing: ${text}`);
   }
