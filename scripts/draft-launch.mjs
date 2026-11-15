@@ -6,14 +6,17 @@
 //   npm run launch:draft -- --submission <file.json>        a submissions row: one object, or `wrangler d1 execute --json` output
 //                                [--id <n>]                 (pick that row when the file has several)
 //   options: --slug <slug>  --week <n> (default 1)
-//   npm run launch:draft -- --add <draft.json>              add a reviewed draft to data/launches.json (replaces the same slug)
+//   npm run launch:draft -- --add <draft.json>              add a reviewed draft to data/launches.json (replaces the same slug),
+//                                                          only after seed:check passes on the file as it would be
 //
 // Drafts are written to .ops-cache/launch-drafts/<slug>.json (gitignored), never to data/. The maker's email address is never
 // copied. Images are looked up in public/launches/<slug>/: put the maker's files there first (logo.png, shot-1.png, ...).
-// Then: npm run launch:check and npm run seed:check, as the README's Launch Week checklist says.
+// After --add: npm run launch:check, as the README's Launch Week checklist says (--add has already run seed:check).
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseEmail, fromSubmission, draftEntry, withDraft } from '../lib/launch-draft.js';
 import { validateLaunches } from '../lib/launch-data.js';
@@ -34,15 +37,25 @@ function report(entry) {
   return { errors, check };
 }
 
-// ---- --add: put a reviewed draft into data/launches.json ----
+// ---- --add: put a reviewed draft into data/launches.json, after seed:check passes on the result ----
+// (--into <file> adds to another copy of the launches file instead; the tests use it)
 if (opt('--add')) {
   const entry = readJson(resolve(opt('--add')));
+  const target = opt('--into') ? resolve(opt('--into')) : launchesFile;
   if (entry.sample) die('A sample never goes into data/launches.json (samples are in data/launches.samples.json).');
   const { errors } = validateLaunches({ launches: [entry] });
   if (errors.length) die(`Not added: the draft is not valid yet:\n${errors.map(e => `  - ${e}`).join('\n')}`, 1);
-  const next = withDraft(readJson(launchesFile), entry);
-  writeFileSync(launchesFile, `${JSON.stringify(next, null, 2)}\n`);
-  console.log(`Added ${entry.slug} to data/launches.json. Next: npm run launch:check, then npm run seed:check.`);
+  const next = `${JSON.stringify(withDraft(readJson(target), entry), null, 2)}\n`;
+  // seed:check (seed-launches.mjs --dry-run) on the file as it would be, before writing it: every launch valid, images present
+  const tmp = mkdtempSync(join(tmpdir(), 'launch-add-'));
+  const candidate = join(tmp, 'launches.json');
+  writeFileSync(candidate, next);
+  const seed = spawnSync(process.execPath, [join(root, 'scripts', 'seed-launches.mjs'), '--dry-run', '--file', candidate], { cwd: root, encoding: 'utf8' });
+  rmSync(tmp, { recursive: true, force: true });
+  if (seed.status !== 0) die(`Not added: seed:check fails with this draft in the file:\n${(seed.stderr || seed.stdout).trim()}`, 1);
+  writeFileSync(target, next);
+  console.log(`Added ${entry.slug} to ${target === launchesFile ? 'data/launches.json' : target}. seed:check: PASS.`);
+  console.log('Next: npm run launch:check (images, date, facts), then open a pull request and run npm run seed:preview.');
   process.exit(0);
 }
 
