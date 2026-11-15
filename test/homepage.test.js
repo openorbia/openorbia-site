@@ -47,12 +47,15 @@ test('picks prefer confidence high with no paid dependency, then no paid depende
   assert.ok(!pickFeatured(ruled, conf).some(p => p.tool.slug === 'd'));
 });
 
-test('each featured card has the task line, free line, setup, catch and a link to the tool page, taken from the data file', () => {
+test('each featured card has the task line, the Free, Card and Catch rows, the docs-checked date and a link to the tool page, from the data file', () => {
   for (const { tool } of pickFeatured(TOOLS, confidenceByRepo)) {
     const e = data.find(x => x.repo === tool.repo);
     const card = home.slice(home.indexOf(`data-tool-slug="${tool.slug}"`));
     const one = card.slice(0, card.indexOf('</article>'));
-    for (const text of [e.task, e.freeTier, e.setup, e.catch]) assert.ok(one.includes(text.replace(/&/g, '&amp;')), `${tool.name}: ${text}`);
+    const amp = s => s.replace(/&/g, '&amp;').replace(/'/g, '&#39;');
+    const card3 = { yes: 'Yes', no: 'No', unknown: 'Not confirmed' }[e.cardRequired];
+    for (const text of [amp(e.task), `<dt>Free</dt><dd>${amp(e.freeTier)}</dd>`, `<dt>Card</dt><dd>${card3}</dd>`, `<dt>Catch</dt><dd>${amp(e.catch)}</dd>`]) assert.ok(one.includes(text), `${tool.name}: ${text}`);
+    assert.ok(one.includes('<a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked '), `${tool.name}: docs checked`);
     assert.equal((one.match(new RegExp(`href="/tool/${tool.slug}/"`, 'g')) || []).length, 2, 'name and "See the facts" both link to the tool page');
   }
   assert.equal((home.match(/class="ft" data-tool-slug/g) || []).length, 5);
@@ -92,11 +95,11 @@ test('the hero: the same headline, the new lede, "Explore free tools" and "Find 
   assert.match(home, /\.hero\{padding-block:clamp\(16px,3vh,24px\) 12px/);
 });
 
-test('the sections come in order: hero, this week, featured tools, audiences and tasks, how launching works, signup last; none is empty', () => {
+test('the sections come in order: hero, signup, this week, search, featured tools, first results, audiences and tasks, how launching works; none is empty', () => {
   const at = s => { const i = home.indexOf(s); assert.ok(i > 0, s); return i; };
-  const order = [at('<section class="hero">'), at('<section class="week" id="week"'), at('<section class="featured"'), at('<section class="cats"'), at('<section class="how"'), at('<section class="join" id="join"')];
+  const order = [at('<section class="hero">'), at('<section class="join" id="join"'), at('<section class="week" id="week"'), at('<section class="hsearch"'), at('<section class="featured"'), at('<section class="frs-sec"'), at('<section class="cats"'), at('<section class="how"')];
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
-  assert.ok(home.indexOf('</section>', order[5]) > order[5] && home.indexOf('<section', order[5] + 10) < 0, 'the signup is the last section');
+  assert.equal(home.indexOf('<section', order[0] + 10), order[1], 'the signup comes right after the hero');
   for (const m of home.matchAll(/<section[^>]*>([\s\S]*?)<\/section>/g)) assert.ok(m[1].replace(/<[^>]+>/g, '').trim().length > 20, 'a section has text');
 });
 

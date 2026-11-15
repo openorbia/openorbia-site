@@ -270,7 +270,7 @@ test('numbers that change use tabular figures, and the rule out-ranks the font s
   const tnum = 'font-variant-numeric:tabular-nums';
   const rule = css.find(r => r.startsWith('html .countdown b,'));
   assert.equal(rule, `html .countdown b,html .vote,html .rank{${tnum}}`, 'countdown digits, upvote counts and ranks');
-  assert.ok(home.includes(`html .countdown b{${tnum}}`) && home.includes(`html .vote,html .ft-facts{${tnum}}`), 'the homepage countdown, vote counts and fact lines');
+  assert.ok(home.includes(`html .countdown b{${tnum}}`) && home.includes(`html .vote,html .cf{${tnum}}`), 'the homepage countdown, vote counts and fact lines');
   // .vote and .countdown b set the font shorthand, which resets font-variant-numeric, so the new rule must be more specific
   for (const [selector, base] of [['html .countdown b', '.countdown b'], ['html .vote', '.vote'], ['html .rank', '.rank']]) {
     assert.ok(outranks(spec(selector), spec(base)), `${selector} out-ranks ${base}`);
