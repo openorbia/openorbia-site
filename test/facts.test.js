@@ -61,12 +61,14 @@ test('facts are escaped', async () => {
   assert.ok(html.includes('&lt;img'));
 });
 
-test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia, apart from the vote button', async () => {
-  const yes = await render({ ...FULL, testedBy: 'OpenOrbia' });
+test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia with a hand-set testedOn date, apart from the vote button', async () => {
+  const yes = await render({ ...FULL, testedBy: 'OpenOrbia', testedOn: '2026-11-01' });
   assert.ok(yes.includes('Tested by OpenOrbia'));
   assert.ok(!(await render(FULL)).includes('Tested by'));
-  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia' })).includes('Tested by'));
-  assert.ok(isTested({ testedBy: 'OpenOrbia' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone' }));
+  assert.ok(!(await render({ ...FULL, testedBy: 'OpenOrbia' })).includes('Tested by'), 'no testedOn, no badge');
+  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia', testedOn: '2026-11-01' })).includes('Tested by'));
+  assert.ok(isTested({ testedBy: 'OpenOrbia', testedOn: '2026-11-01' }));
+  assert.ok(!isTested({ testedBy: 'OpenOrbia' }) && !isTested({ testedBy: 'OpenOrbia', testedOn: '2026-02-30' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone', testedOn: '2026-11-01' }));
 });
 
 test('factRows and formatChecked', () => {
@@ -180,7 +182,7 @@ test('Launch List: the counts in the title, meta, headline and og:title are the 
 
 test('Launch List: the cards show the facts, with Card required and the catch where known', () => {
   const { html } = listRows();
-  assert.match(html, /function ff\(facts\)/);
+  assert.match(html, /\$\{cardFactsHtml\(facts\)\}/);
   const rows = factRows({ freeTier: 'x', cardRequired: 'yes', catch: 'Needs a paid plan' });
   assert.deepEqual(rows.map(r => r.label), ['Free tier', 'Card required', 'The catch']);
   assert.equal(rows[1].value, 'Yes');

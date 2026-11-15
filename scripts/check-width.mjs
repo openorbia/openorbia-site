@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Checks that no audited page is wider than the screen (no sideways scrolling), in a real browser: on a 375px phone and on
+// Checks that no audited page is wider than the screen (no sideways scrolling), in a real browser: on 320px and 375px phones and on
 // 1280px and 1366px laptop screens.
 //
 //   PLAYWRIGHT_DIR=/tmp/pw node scripts/check-width.mjs https://pr-12.openorbia.pages.dev
@@ -11,8 +11,9 @@ import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const PAGES = ['/', '/launch-list/', '/tool/jan/', '/launches/', '/submit/', '/request/', '/contact/', '/privacy/', '/faq/'];
+export const PAGES = ['/', '/launch-list/', '/tool/jan/', '/launches/', '/submit/', '/request/', '/contact/', '/privacy/', '/faq/', '/makers/', '/how-we-check/'];
 export const SCREENS = [
+  { width: 320, height: 700, mobile: true },
   { width: 375, height: 812, mobile: true },
   { width: 1280, height: 800, mobile: false },
   { width: 1366, height: 768, mobile: false },

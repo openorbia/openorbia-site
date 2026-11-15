@@ -47,8 +47,34 @@ export function formatChecked(date) {
   return `${MONTHS[mo - 1]} ${d}, ${y}`;
 }
 
-// Only an exact "OpenOrbia" counts: it is a claim that we tested the tool, so nothing else switches the badge on
-export const isTested = facts => !!facts && typeof facts === 'object' && facts.testedBy === TESTED_BY;
+// Only an exact "OpenOrbia" with a real, hand-set testedOn date counts: it is a claim that we ran the tool ourselves, so nothing
+// else switches the badge on
+export const isTested = facts => !!facts && typeof facts === 'object' && facts.testedBy === TESTED_BY && formatChecked(facts.testedOn) !== '';
+
+// ---- the tool cards (homepage featured tools and the Launch List) ----
+
+export const HOW_WE_CHECK = '/how-we-check/';
+const escHtml = s => String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+
+// The three rows every card shows, the same on both pages: Free, Card (Yes / No / Not confirmed) and the Catch. A missing fact says
+// "Not confirmed"; the catch is cut to one line on the card (all of it is on the tool page, and screen readers get all of it).
+export function cardRows(facts) {
+  const f = facts && typeof facts === 'object' ? facts : {};
+  const or = v => text(v) || 'Not confirmed';
+  return [['Free', or(f.freeTier)], ['Card', CARD_LABELS[f.cardRequired] || 'Not confirmed'], ['Catch', or(f.catch)]];
+}
+
+// The rows, then the trust marks: "✓ Docs checked <date>" when the docs were checked, and "✓ Hands-on tested" only with testedBy
+// and testedOn. Both link to /how-we-check/.
+export function cardFactsHtml(facts) {
+  const rows = cardRows(facts).map(([k, v]) => `<div class="cf-${k.toLowerCase()}"><dt>${k}</dt><dd>${escHtml(v)}</dd></div>`).join('');
+  const checked = formatChecked(facts && facts.lastChecked);
+  const marks = [
+    checked ? `<a class="mark mark-docs" href="${HOW_WE_CHECK}"><span aria-hidden="true">✓</span> Docs checked ${checked}</a>` : '',
+    isTested(facts) ? `<a class="mark mark-tested" href="${HOW_WE_CHECK}"><span aria-hidden="true">✓</span> Hands-on tested</a>` : '',
+  ].join('');
+  return `<dl class="cf">${rows}</dl>${marks ? `<p class="marks">${marks}</p>` : ''}`;
+}
 
 // ---- paid dependencies ("Free facts from docs"): what a tool needs that costs money, read from its official docs ----
 

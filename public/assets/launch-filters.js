@@ -7,7 +7,7 @@
 // The older links ending in #biz / #job / #sec (they are in public posts) still work: a hash is read when there is no ?for=.
 
 import { CATEGORIES } from './tools.js?v=12e0680265';
-import { needsPaidService } from './facts.js?v=bf871439b3';
+import { needsPaidService } from './facts.js?v=ac132e9281';
 
 // The three ways to get started, in the words people use; the keys are what goes in the URL
 export const SETUP_FILTERS = { browser: 'No install', desktop: 'Desktop app', selfhost: 'Self-host' };

@@ -165,7 +165,7 @@ test('homepage rows: the shared rank, the logo (or an initial), the category chi
 
 // ---- 6. widths ----
 
-test('the Preview job checks every audited page at 375px, 1280px and 1366px', () => {
-  assert.deepEqual(SCREENS.map(s => s.width), [375, 1280, 1366]);
+test('the Preview job checks every audited page at 320px, 375px, 1280px and 1366px', () => {
+  assert.deepEqual(SCREENS.map(s => s.width), [320, 375, 1280, 1366]);
   assert.ok(file('.github/workflows/deploy.yml').includes('node scripts/check-width.mjs "$PREVIEW_URL"'));
 });

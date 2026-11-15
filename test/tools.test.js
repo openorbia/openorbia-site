@@ -145,7 +145,7 @@ test('/how-we-check/ explains the rules, every fact, the recheck cycle, "Not con
     'Free tier', 'Card required', 'Your data', 'Setup', 'The catch', 'Last checked',
     "We check every tool's activity and license every month, and recheck the full Free facts at least every 3 months. Each card shows its last-checked date.",
     '"Not confirmed" means we could not verify',
-    'launch@openorbia.com', 'Built by Khaja Syed, OpenOrbia\'s founder', 'kept off the Launch Week leaderboard', 'Tested by OpenOrbia']) assert.ok(text.includes(t), t);
+    'launch@openorbia.com', 'Built by Khaja Syed, OpenOrbia\'s founder', 'kept off the Launch Week leaderboard', 'Docs checked', 'Hands-on tested']) assert.ok(text.includes(t), t);
   assert.ok(html.includes('href="mailto:launch@openorbia.com"'));
   assert.equal((html.match(/<h1/g) || []).length, 1);
   assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/how-we-check\/">/);

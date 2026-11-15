@@ -168,16 +168,17 @@ img.logo{object-fit:cover;background:#fff;box-shadow:0 0 0 1px var(--line)}
 .tg.fnd{color:#ffb3d1;border-color:rgba(255,179,209,.35)}
 .skip{position:absolute;left:12px;top:-64px;z-index:100;padding:10px 16px;border-radius:8px;background:#fff;color:#05070f;font-weight:600;text-decoration:none}
 .skip:focus{top:12px}
-.tg.tested{color:var(--cyan);border-color:rgba(127,231,255,.4)}
-.ff{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;line-height:1.45}
-.ff p{margin:0;color:#c9d2ee}
-.ff p span{margin-right:8px;font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.ff-free{color:var(--ink)}
-.ff-catch{color:#ffe7a3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ff-catch span{color:var(--yellow)!important}
-.fcs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
-.fc{font-size:12.5px;line-height:1.3;padding:4px 10px;border-radius:999px;background:rgba(143,166,255,.08);border:1px solid var(--line);color:#d9e0f5}
-.ff small{color:var(--muted);font-size:11.5px}
+.cf{margin:0;display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;line-height:1.45}
+.cf div{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;align-items:baseline}
+.cf dt{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cf dd{margin:0;min-width:0;color:#c9d2ee}
+.cf-free dd{color:var(--ink)}
+.cf-catch dd{color:#ffe7a3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.marks{margin:0;display:flex;flex-wrap:wrap;gap:0 14px;font-size:12.5px}
+.mark{color:var(--muted);text-decoration:none;padding-block:6px}
+.mark span{color:#62e3a8}
+.mark:hover{text-decoration:underline}
+.mark-tested,.mark-tested span{color:var(--cyan)}
 .tg.cat{color:var(--blue-l)}
 .foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
 .foot a{text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
@@ -273,7 +274,7 @@ img.logo{object-fit:cover;background:#fff;box-shadow:0 0 0 1px var(--line)}
 </div></footer>
 
 <script src="/assets/click-beacon.js?v=047f90022c" defer></script>
-<script type="module" src="/assets/launch-list.js?v=00324b2790"></script>
+<script type="module" src="/assets/launch-list.js?v=f0f6d0ee12"></script>
 <script src="/assets/nav.js?v=e11b817f2c" defer></script>
 <!--/email_off-->
 </body>
