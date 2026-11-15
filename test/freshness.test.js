@@ -31,10 +31,10 @@ test('the stale catches follow the docs: Meetily ships Linux installers, Inbox Z
   const meetily = by('Zackriya-Solutions/meetily');
   assert.ok(!/no linux installer/i.test(meetily.catch));
   assert.ok(meetily.catch.startsWith('Speaker identification, integrations and advanced exports are in paid PRO'));
-  assert.ok(meetily.sources.includes('https://github.com/Zackriya-Solutions/meetily/releases/tag/v0.5.0'));
+  assert.deepEqual(meetily.sources, ['https://github.com/Zackriya-Solutions/meetily#readme', 'https://meetily.ai/pricing', 'https://github.com/Zackriya-Solutions/meetily/releases/tag/v0.5.0']);
   const inbox = by('elie222/inbox-zero');
   assert.ok(inbox.catch.startsWith('Self-hosting needs your own Google OAuth app (Microsoft is optional)'));
-  assert.ok(inbox.sources.includes('https://docs.getinboxzero.com/hosting/environment-variables'));
+  assert.deepEqual(inbox.sources, ['https://github.com/elie222/inbox-zero#readme', 'https://docs.getinboxzero.com/hosting/environment-variables']);
   assert.ok(!/32B/.test(by('career-ops-hq/career-ops').catch));
   // and the Launch List rows carry the same text
   for (const repo of ['Zackriya-Solutions/meetily', 'elie222/inbox-zero', 'career-ops-hq/career-ops'])
