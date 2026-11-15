@@ -269,12 +269,14 @@ for (const f of FORMS) {
   });
 }
 
-test('confirmation emails say what was received and make no promise about timing', () => {
+test('confirmation emails say what was received; a submission is told it is not approved yet and we reply within 2 days', () => {
   const s = confirmationEmail('submit', 'Orbit Notes');
   assert.match(s.text, /We got your submission of Orbit Notes/);
+  assert.ok(s.text.includes("It isn't approved yet."));
+  assert.ok(s.text.includes('within 2 days'));
   const r = confirmationEmail('request', 'Transcribe meetings');
   assert.match(r.text, /We got your question to OpenOrbia: Transcribe meetings/);
-  for (const m of [s, r]) assert.ok(!/within \d|hours|days/i.test(m.text));
+  assert.ok(!/within \d|hours|days/i.test(r.text), 'the request email still makes no promise about timing');
 });
 
 test('verifyTurnstile: ok, failed and unavailable', async () => {
