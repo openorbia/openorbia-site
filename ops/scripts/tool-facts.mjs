@@ -14,6 +14,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TOOLS } from '../../public/assets/tools.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const MAX = 5;
@@ -30,7 +31,10 @@ if (args.includes('--all-stale')) {
   const cutoff = Date.now() - 90 * 864e5;
   picks = facts.filter(f => Date.parse(f.lastChecked) < cutoff);
 } else {
-  picks = args.map(a => facts.find(f => slug(f.name) === slug(a) || f.repo.toLowerCase() === a.toLowerCase()));
+  // a Launch List slug ("vane") finds its facts through the repo, since a facts name can differ ("Vane (ex-Perplexica)")
+  const repoOfSlug = Object.fromEntries(TOOLS.map(t => [t.slug, String(t.repo).toLowerCase()]));
+  picks = args.map(a => facts.find(f => slug(f.name) === slug(a) || f.repo.toLowerCase() === a.toLowerCase()
+    || f.repo.toLowerCase() === repoOfSlug[slug(a)]));
   const missing = args.filter((a, i) => !picks[i]);
   if (missing.length) { console.error(`Not on the Launch List: ${missing.join(', ')}`); process.exit(2); }
 }
