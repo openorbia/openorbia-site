@@ -3,6 +3,7 @@
 //
 //   node ops/scripts/tool-facts.mjs garak pentestgpt ollama     (names or slugs from public/assets/tools.js; at most 5)
 //   node ops/scripts/tool-facts.mjs --all-stale                  (every listed tool whose lastChecked is over 90 days old, at most 5)
+//   node ops/scripts/tool-facts.mjs --all                        (every listed tool: the weekly GitHub workflow uses this)
 //
 // For each tool: the listing's current Free facts (data/free-facts.json), GitHub metadata through `gh api` (license, archived,
 // last push, latest release, README fingerprint), and the HTTP status of every source URL. It compares the GitHub part with the
@@ -27,7 +28,9 @@ const cache = readCache();
 
 const args = process.argv.slice(2);
 let picks;
-if (args.includes('--all-stale')) {
+if (args.includes('--all')) {
+  picks = facts;
+} else if (args.includes('--all-stale')) {
   const cutoff = Date.now() - 90 * 864e5;
   picks = facts.filter(f => Date.parse(f.lastChecked) < cutoff);
 } else {
@@ -39,7 +42,8 @@ if (args.includes('--all-stale')) {
   if (missing.length) { console.error(`Not on the Launch List: ${missing.join(', ')}`); process.exit(2); }
 }
 if (!picks.length) { console.error('Nothing to check.'); process.exit(2); }
-if (picks.length > MAX) { console.error(`At most ${MAX} tools per run (asked for ${picks.length}).`); process.exit(2); }
+// the 5-tool limit is for runs by hand (ops/README.md); --all is the unattended weekly workflow, which only reports
+if (!args.includes('--all') && picks.length > MAX) { console.error(`At most ${MAX} tools per run (asked for ${picks.length}).`); process.exit(2); }
 
 // `gh api` as the logged-in account, without a shell; null when the call fails
 const gh = path => { try { return JSON.parse(execFileSync('gh', ['api', path], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })); } catch { return null; } };
@@ -69,7 +73,7 @@ for (const f of picks) {
   const release = gh(`repos/${f.repo}/releases/latest`);
   const readme = gh(`repos/${f.repo}/readme`);
   const github = repo ? {
-    license: repo.license?.spdx_id || 'none', archived: repo.archived, pushedAt: repo.pushed_at?.slice(0, 10),
+    fullName: repo.full_name, license: repo.license?.spdx_id || 'none', archived: repo.archived, pushedAt: repo.pushed_at?.slice(0, 10),
     latestRelease: release ? `${release.tag_name} (${release.published_at?.slice(0, 10)})` : 'none',
     readme: readme ? createHash('sha256').update(readme.content || '').digest('hex').slice(0, 12) : 'none',
   } : { error: 'GitHub lookup failed' };
@@ -83,7 +87,11 @@ for (const f of picks) {
     listing: { freeTier: f.freeTier, cardRequired: f.cardRequired, dataLocation: f.dataLocation, setup: f.setup, catch: f.catch, paidDeps: f.paidDeps, level: f.level, confidence: f.confidence, lastChecked: f.lastChecked },
     github, sources, changedSinceLastRun: changed,
     flags: [
+      github.error && 'GitHub lookup failed (repo deleted, private or renamed?)',
       github.archived && 'archived',
+      // GitHub answers for a transferred or renamed repo with its new name: the owner or name changed
+      github.fullName && github.fullName.toLowerCase() !== f.repo.toLowerCase() && `repo is now ${github.fullName} (moved or transferred)`,
+      before && github.license && before.license && before.license !== github.license && `license changed: ${before.license} -> ${github.license}`,
       monthsSincePush !== null && monthsSincePush > 6 && `no push for ${monthsSincePush} months (rule: updated in the last 6)`,
       ...Object.entries(sources).filter(([, s]) => s !== 200).map(([u, s]) => `source ${u} answered ${s}`),
     ].filter(Boolean),
