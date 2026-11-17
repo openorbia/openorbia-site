@@ -50,6 +50,19 @@ export function withListCounts(html, { free, paid } = listCounts()) {
   return html;
 }
 
+// The Launch List's "checked <Month Year>" note, from the oldest row-level lastChecked (so it never claims more than every row has)
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export const listChecked = (tools = TOOLS) => {
+  const oldest = tools.map(t => t.facts.lastChecked).sort()[0];
+  const [y, m] = oldest.split('-').map(Number);
+  return `${MONTH_NAMES[m - 1]} ${y}`;
+};
+const CHECKED_RE = /(Listed by OpenOrbia from public GitHub repositories, checked )[A-Z][a-z]+ \d{4}(\.)/;
+export function withListChecked(html, when = listChecked()) {
+  if ((html.match(new RegExp(CHECKED_RE.source, 'g')) || []).length !== 1) throw new Error(`public/launch-list/index.html: expected one ${CHECKED_RE}`);
+  return html.replace(CHECKED_RE, `$1${when}$2`);
+}
+
 // The static pages carry the footer with <span id="yr">2026</span>; a small script there puts in this year
 export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html', 'public/404.html'];
 export const staticFooter = () => footerHtml('<span id="yr">2026</span>');
@@ -69,7 +82,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
   writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
   const list = new URL('public/launch-list/index.html', root);
-  writeFileSync(list, withListCounts(readFileSync(list, 'utf8')));
+  writeFileSync(list, withListChecked(withListCounts(readFileSync(list, 'utf8'))));
   for (const page of STATIC_PAGES) {
     const file = new URL(page, root), html = readFileSync(file, 'utf8');
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;

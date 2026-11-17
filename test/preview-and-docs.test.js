@@ -13,7 +13,8 @@ const data = JSON.parse(file('data/free-facts.json'));
 const entry = name => data.find(e => e.name === name);
 const row = name => ROWS.find(r => r[0] === name)[8];
 const rowOf = e => ROWS.find(r => r[1].toLowerCase() === e.repo.toLowerCase())[8];   // by repo: the list says "Vane" where the data says "Vane (ex-Perplexica)"
-const TODAY = '2026-10-30';
+// the day of the PR 9 re-check of every row (data freshness sprint)
+const TODAY = '2026-11-14';
 
 // ---- the three tools the founder checked ----
 
@@ -23,7 +24,7 @@ test('Interview Coach: facts kept, confidence high, and a data location with a n
   assert.equal(e.dataLocation, 'Runs on your computer (cloud AI only if you pick one)');
   assert.equal(e.freeTier, 'Free command-line tool with a local web dashboard');
   assert.equal(e.catch, 'Use Ollama for offline use, or a cloud AI provider');
-  assert.deepEqual(e.sources, ['https://github.com/J3rry320/interview-coach#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/J3rry320/interview-coach#readme', 'https://www.codemedialabs.in/labs/interview-coach', 'https://github.com/J3rry320/interview-coach/blob/main/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(row('Interview Coach').dataLocation, e.dataLocation, 'and the card shows it');
 });
@@ -34,7 +35,7 @@ test('JobSync-Service: the new catch, an optional MCP AI app, no card, confidenc
   assert.deepEqual(e.paidDeps, { level: 'optional', what: 'An MCP AI app; Airtable optional (local markdown file works)' });
   assert.equal(e.cardRequired, 'no');
   assert.equal(e.confidence, 'medium');
-  assert.deepEqual(e.sources, ['https://github.com/mayank-glitch-cpu/JobSync-Service#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/mayank-glitch-cpu/JobSync-Service#readme', 'https://github.com/Mayank-glitch-cpu/JobSync-Service/blob/main/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(row('JobSync-Service').cardRequired, 'no');
   assert.equal(row('JobSync-Service').paidDeps.level, 'optional');
@@ -46,7 +47,7 @@ test('HexStrike AI: the new catch and paid dependencies, confidence medium, and 
   assert.ok(e.catch.length > 140 && e.catch.length <= CATCH_MAX, 'longer than the old 140-character limit, so the limit is now 160');
   assert.deepEqual(e.paidDeps, { level: 'optional', what: 'An MCP AI app; optional commercial tools such as Binary Ninja, Shodan, Censys' });
   assert.equal(e.confidence, 'medium');
-  assert.deepEqual(e.sources, ['https://github.com/0x4m4/hexstrike-ai#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/0x4m4/hexstrike-ai#readme', 'https://github.com/0x4m4/hexstrike-ai/blob/master/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(e.featureOnHomepage, false);
   assert.equal(row('HexStrike AI').featureOnHomepage, false);

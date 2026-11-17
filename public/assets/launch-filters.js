@@ -6,7 +6,7 @@
 //                                                  os = 1 (open source only), local = 1 (works with local AI), q = search text
 // The older links ending in #biz / #job / #sec (they are in public posts) still work: a hash is read when there is no ?for=.
 
-import { CATEGORIES } from './tools.js?v=12e0680265';
+import { CATEGORIES } from './tools.js?v=3f9c765b9e';
 import { needsPaidService } from './facts.js?v=ac132e9281';
 
 // The three ways to get started, in the words people use; the keys are what goes in the URL
