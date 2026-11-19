@@ -9,11 +9,11 @@ import { renderSubmit } from '../lib/form-pages.js';
 import { TOOLS, toolBySlug } from '../public/assets/tools.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
-const CREDIT = '<span>© ' + new Date().getFullYear() + ' OpenOrbia. All rights reserved.</span><span>Founded by Khaja Syed</span>';
+const CREDIT = '<span>© ' + new Date().getFullYear() + ' OpenOrbia. All rights reserved.</span><a class="sf-founder" href="/contact/">Founded by Khaja Syed</a>';
 const LABEL = "Built by Khaja Syed, OpenOrbia's founder";
 const OLD_LABEL = "Built by OpenOrbia's founder";
 
-test('every page has "Founded by Khaja Syed" in its footer as plain text, with no link to a personal profile', () => {
+test('every page has "Founded by Khaja Syed" in its footer, linked to /contact/ and never to a personal profile', () => {
   const pages = {
     layout: layout({ title: 't', description: 'd', path: '/', body: '' }), makers: renderMakers(), howWeCheck: renderHowWeCheck(), submit: renderSubmit(), tool: renderTool(toolBySlug('meetily')),
     home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'),
