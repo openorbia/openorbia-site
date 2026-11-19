@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Writes the featured tools into public/index.html (between <!-- featured:start --> and <!-- featured:end -->), the "Get a first
-// result" strip (between <!-- first-results:start --> and <!-- first-results:end -->), and the shared
+// result" strip (between <!-- first-results:start --> and <!-- first-results:end -->), the category cards (between
+// <!-- categories:start --> and <!-- categories:end -->, from lib/categories.js), the shared header, and the shared
 // footer, whose site map lists tools from the Launch List, into the three static pages.
 // Run it after changing data/free-facts.json or the Launch List:  node scripts/build-home.mjs   (npm run build:home)
 // A test fails when the page does not match what this would write.
@@ -10,6 +11,10 @@ import { fileURLToPath } from 'node:url';
 import { TOOLS } from '../public/assets/tools.js';
 import { pickFeatured, renderFeatured } from '../lib/featured.js';
 import { footerHtml } from '../lib/footer.js';
+import { headerHtml } from '../lib/header.js';
+import { MARK } from '../lib/layout.js';
+import { homeCategoriesHtml } from '../lib/categories.js';
+import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
@@ -63,9 +68,19 @@ export function withListChecked(html, when = listChecked()) {
   return html.replace(CHECKED_RE, `$1${when}$2`);
 }
 
+// The Launch List's default cards (no filters), written into the page so the tools are in the HTML for crawlers and visitors
+// without JavaScript; the page script then renders the same markup (public/assets/launch-list.js), so nothing moves
+const CARDS_RE = /<!-- cards:start -->[\s\S]*?<!-- cards:end -->/;
+const COUNT_RE = /<span class="count" id="count">[^<]*<\/span>/;
+export function withListCards(html, cards = defaultCardsHtml(), n = defaultRows().length) {
+  for (const re of [CARDS_RE, COUNT_RE]) if ((html.match(new RegExp(re.source, 'g')) || []).length !== 1) throw new Error(`public/launch-list/index.html: expected one ${re}`);
+  return html.replace(CARDS_RE, () => `<!-- cards:start -->${cards}<!-- cards:end -->`).replace(COUNT_RE, `<span class="count" id="count">${n} TOOLS</span>`);
+}
+
 // The static pages carry the footer with <span id="yr">2026</span>; a small script there puts in this year
 export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html', 'public/404.html'];
 export const staticFooter = () => footerHtml('<span id="yr">2026</span>');
+export const staticHeader = () => headerHtml(MARK);
 
 // html with what is between <!-- name:start --> and <!-- name:end --> replaced by `inner`
 function fill(html, name, inner) {
@@ -77,17 +92,24 @@ function fill(html, name, inner) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
-  const filled = fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml());
+  const filled = fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml());
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
   if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
   writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
   const list = new URL('public/launch-list/index.html', root);
-  writeFileSync(list, withListChecked(withListCounts(readFileSync(list, 'utf8'))));
+  writeFileSync(list, withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))));
   for (const page of STATIC_PAGES) {
     const file = new URL(page, root), html = readFileSync(file, 'utf8');
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;
     if (start < 0 || end < start) { console.error(`${page} has no <footer>`); process.exit(1); }
     writeFileSync(file, html.slice(0, start) + staticFooter() + html.slice(end));
+  }
+  // the shared header (lib/header.js) too, so a menu change reaches the static pages without copying it by hand
+  for (const page of STATIC_PAGES) {
+    const file = new URL(page, root), html = readFileSync(file, 'utf8');
+    const start = html.indexOf('<header class="wrap">'), end = html.indexOf('</header>') + '</header>'.length;
+    if (start < 0 || end < start) { console.error(`${page} has no <header class="wrap">`); process.exit(1); }
+    writeFileSync(file, html.slice(0, start) + staticHeader() + html.slice(end));
   }
   console.log('Featured tools written to public/index.html, and the footer to the static pages');
 }

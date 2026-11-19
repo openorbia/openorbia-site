@@ -67,7 +67,9 @@ test('the three audience cards link to the filtered Launch List', () => {
 
 test('the six task links are filtered or search URLs that each return results', () => {
   // the task links in the page itself (the footer's site map has filter links of its own)
-  const links = [...home.slice(0, home.indexOf('<footer>')).matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
+  // (the category cards have topic links of their own, checked in test/categories.test.js)
+  const tasks = home.slice(home.indexOf('<ul class="tasks"'), home.indexOf('</ul>', home.indexOf('<ul class="tasks"')));
+  const links = [...tasks.matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
   assert.deepEqual(links.map(l => l[1]), ['Transcribe meetings', 'Tailor a resume', 'Chat with documents', 'Automate small-business tasks', 'Triage security alerts', 'Test AI for vulnerabilities']);
   for (const [href, label] of links) {
     const state = parseFilters(new URL(href, 'https://openorbia.com').search);
@@ -83,8 +85,9 @@ test('the search also matches the plain-language task line', () => {
 });
 
 test('the hero: the same headline, the new lede, "Explore free tools" and "Find my free setup"; the signup stays further down', () => {
-  assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
-  assert.ok(home.includes('<p class="lede">Find AI that fits your task, your computer and your budget, with the catch shown upfront.</p>'));
+  // changed 2026-11-19 (platform positioning): every kind of task, not three audiences; the lede says what is free and what is not
+  assert.ok(home.includes('<h1>Find free AI tools for <em>what you want to do</em>.</h1>'));
+  assert.ok(home.includes('<p class="lede">Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and more. See what is actually free, what needs a paid API and how each tool works.</p>'));
   const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
   assert.deepEqual([...hero.matchAll(/<a class="btn (pri|ghost)" href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2], m[3]]),
     [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);

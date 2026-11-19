@@ -170,12 +170,14 @@ test('ligatures are off on headings and the wordmark, and the "ff" workaround is
     assert.ok(!/\.lig\b|class="lig"|common-ligatures/.test(file(f)), `${name}: no .lig workaround`);
   }
   const h1 = file('public/index.html').match(/<h1>([\s\S]*?)<\/h1>/)[1];
-  assert.equal(h1.replace(/<[^>]+>/g, ''), 'Where free AI tools take off.', 'the headline still reads "take off" (a screen reader sees one word)');
+  // changed 2026-11-19 (platform positioning): the headline says what OpenOrbia is for. Compared as exact markup (no tag
+  // stripping): plain words and one <em>, so a screen reader reads one sentence.
+  assert.equal(h1, 'Find free AI tools for <em>what you want to do</em>.', 'the headline is plain text with one <em>');
 });
 
-test('the homepage headline is plain "take off" in Sora: the Bricolage-only spacing workaround is gone', () => {
+test('the homepage headline is plain text in Sora: the Bricolage-only spacing workaround is gone', () => {
   const home = file('public/index.html');
-  assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
+  assert.ok(home.includes('<h1>Find free AI tools for <em>what you want to do</em>.</h1>'));
   for (const f of [...Object.values(PAGES), 'public/404.html', 'lib/layout.js', 'lib/makers.js', 'lib/pages.js']) {
     assert.ok(!file(f).includes('fsp'), `${f}: no .fsp spacing workaround`);
   }
