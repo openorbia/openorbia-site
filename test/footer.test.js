@@ -23,12 +23,13 @@ test('the static pages carry exactly the shared footer, and the server-rendered 
   for (const [name, html] of Object.entries(server)) assert.equal(footerOf(html), footerHtml(new Date().getFullYear()), name);
 });
 
-test('the bottom bar has three parts: copyright and the founder credit (linked to /contact/), Privacy / Security / Contact, and three icons', () => {
+test('the bottom bar has three parts: copyright and the founder credit (linked to his LinkedIn), Privacy / Security / Contact, and three icons', () => {
   const html = footerHtml(2026);
   const left = html.match(/<div class="sf-l">(.*?)<\/div>/s)[1];
-  // changed 2026-11-19: the founder credit links to /contact/ (an OpenOrbia page), still never to a personal profile
-  assert.equal(left, '<span>© 2026 OpenOrbia. All rights reserved.</span><a class="sf-founder" href="/contact/">Founded by Khaja Syed</a>');
-  assert.ok(!html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'no personal profile link');
+  // changed 2026-11-19: the founder asked for his name to link to his LinkedIn profile; it is the only personal profile linked
+  assert.equal(left, '<span>© 2026 OpenOrbia. All rights reserved.</span><a class="sf-founder" href="https://www.linkedin.com/in/khaja-syed-185a03234" rel="me noopener" target="_blank">Founded by Khaja Syed</a>');
+  assert.ok(!html.includes('Built by Khaja Syed'));
+  assert.deepEqual([...html.matchAll(/linkedin\.com\/in\/[^"]+/g)].map(m => m[0]), ['linkedin.com/in/khaja-syed-185a03234'], 'only the founder profile');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
   assert.deepEqual(links, [['/privacy/', 'Privacy'], ['/security/', 'Security'], ['/contact/', 'Contact']]);

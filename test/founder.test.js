@@ -9,18 +9,19 @@ import { renderSubmit } from '../lib/form-pages.js';
 import { TOOLS, toolBySlug } from '../public/assets/tools.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
-const CREDIT = '<span>© ' + new Date().getFullYear() + ' OpenOrbia. All rights reserved.</span><a class="sf-founder" href="/contact/">Founded by Khaja Syed</a>';
+const CREDIT = '<span>© ' + new Date().getFullYear() + ' OpenOrbia. All rights reserved.</span><a class="sf-founder" href="https://www.linkedin.com/in/khaja-syed-185a03234" rel="me noopener" target="_blank">Founded by Khaja Syed</a>';
 const LABEL = "Built by Khaja Syed, OpenOrbia's founder";
 const OLD_LABEL = "Built by OpenOrbia's founder";
 
-test('every page has "Founded by Khaja Syed" in its footer, linked to /contact/ and never to a personal profile', () => {
+test('every page has "Founded by Khaja Syed" in its footer, linked to his LinkedIn profile (his choice, 2026-11-19) and to nothing else personal', () => {
   const pages = {
     layout: layout({ title: 't', description: 'd', path: '/', body: '' }), makers: renderMakers(), howWeCheck: renderHowWeCheck(), submit: renderSubmit(), tool: renderTool(toolBySlug('meetily')),
     home: file('public/index.html'), list: file('public/launch-list/index.html'), notFound: file('public/404.html'),
   };
   for (const [name, html] of Object.entries(pages)) {
     const footer = html.slice(html.indexOf('<footer>'), html.indexOf('</footer>'));
-    assert.ok(footer.includes('Founded by Khaja Syed') && !footer.includes('Built by Khaja Syed') && !footer.includes('linkedin.com/in/'), name);
+    assert.ok(footer.includes('Founded by Khaja Syed') && !footer.includes('Built by Khaja Syed'), name);
+    assert.deepEqual([...footer.matchAll(/linkedin\.com\/in\/[^"]+/g)].map(m => m[0]), ['linkedin.com/in/khaja-syed-185a03234'], `${name}: only the founder profile`);
     assert.ok(footer.replace('<span id="yr">2026</span>', String(new Date().getFullYear())).includes(CREDIT), `${name}: credit`);
   }
 });
