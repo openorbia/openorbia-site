@@ -156,7 +156,7 @@ test('garak is the first security pick; promptfoo takes its place only when gara
 });
 
 test('MAKERS_CONFIRMED and MAKERS_INVITED stay for the launch check, but the site no longer shows them (2026-11-19)', () => {
-  assert.equal(MAKERS_CONFIRMED, 3);
+  assert.equal(MAKERS_CONFIRMED, 46);   // all 46 makers confirmed (2026-11-19)
   assert.equal(MAKERS_INVITED, 26);
   assert.ok(!home.includes('makers confirmed') && !home.includes('invited</p>'));
 });

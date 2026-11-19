@@ -11,5 +11,1272 @@
     "Maker images go in public/launches/<slug>/ and are referenced as /launches/<slug>/logo.png etc.",
     "Re-running the seed updates entries in place and never touches votes. Use --prune to also remove launches deleted from this file."
   ],
-  "launches": []
+  "launches": [
+    {
+      "slug": "n8n",
+      "name": "n8n",
+      "tagline": "Automate business tasks with AI agents across 400+ apps.",
+      "description": "Automate business tasks with AI agents across 400+ apps.\n\nIt helps you build automated workflows and AI agents that connect your apps.",
+      "category": "biz",
+      "repo_url": "https://github.com/n8n-io/n8n",
+      "website_url": null,
+      "logo_url": "/launches/n8n/logo.jpg",
+      "screenshots": [
+        {
+          "src": "/launches/n8n/shot-1.webp",
+          "alt": "n8n workflow editor with a multi-step automation"
+        },
+        {
+          "src": "/launches/n8n/shot-2.webp",
+          "alt": "n8n workflow editor connecting GitHub and Slack steps"
+        },
+        {
+          "src": "/launches/n8n/shot-3.webp",
+          "alt": "n8n chat widget answering a support question"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "n8n - Workflow Automation",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/n8n-io"
+        }
+      ],
+      "maker_story": "",
+      "license": "Sustainable Use",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free self-hosted Community Edition (fair-code license)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "SSO, Git version control and Projects are not in the free Community Edition; they need a paid Business or Enterprise plan",
+      "paidDeps": {
+        "level": "optional",
+        "what": "None needed; AI steps can use paid OpenAI/Anthropic keys or open-source models"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "activepieces",
+      "name": "Activepieces",
+      "tagline": "No-code automation with AI steps and agents.",
+      "description": "No-code automation with AI steps and agents.\n\nIt helps you automate tasks between apps with a no-code workflow builder, like Zapier.",
+      "category": "biz",
+      "repo_url": "https://github.com/activepieces/activepieces",
+      "website_url": null,
+      "logo_url": "/launches/activepieces/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/activepieces/shot-1.webp",
+          "alt": "Activepieces template gallery of ready-made automations"
+        },
+        {
+          "src": "/launches/activepieces/shot-2.webp",
+          "alt": "Activepieces run details while debugging a flow step"
+        },
+        {
+          "src": "/launches/activepieces/shot-3.webp",
+          "alt": "Activepieces flow builder with a scheduled trigger and steps"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Activepieces",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/activepieces"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT core",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free self-hosted (MIT core); free cloud plan with 1,000 credits/mo",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "SSO is on the paid Team plan; audit logs, Git sync and custom roles are on the enterprise plan",
+      "paidDeps": {
+        "level": "none",
+        "what": "None (free self-hosted core; AI steps are optional)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "meetily",
+      "name": "Meetily",
+      "tagline": "Meeting notes recorded and summarized on your laptop",
+      "description": "Records, transcribes and summarizes meetings on your own laptop.\n\nIt helps you record, transcribe and summarize meetings privately on your own computer.",
+      "category": "biz",
+      "repo_url": "https://github.com/Zackriya-Solutions/meetily",
+      "website_url": null,
+      "logo_url": "/launches/meetily/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/meetily/shot-1.webp",
+          "alt": "Meetily recording view with a live transcript"
+        },
+        {
+          "src": "/launches/meetily/shot-2.webp",
+          "alt": "Meetily meeting summary with action items"
+        },
+        {
+          "src": "/launches/meetily/shot-3.webp",
+          "alt": "Meetily summary editor with headings and notes"
+        },
+        {
+          "src": "/launches/meetily/shot-4.webp",
+          "alt": "Meetily settings for local transcription and storage"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Zackriya Solutions",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Zackriya-Solutions"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free desktop app (MIT Community Edition); paid PRO separate",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Desktop app",
+      "catch": "Speaker identification, integrations and advanced exports are in paid PRO; Ollama is the recommended local option for summaries",
+      "paidDeps": {
+        "level": "none",
+        "what": "None; local Whisper/Parakeet and free Ollama (paid cloud AI is optional)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "postiz",
+      "name": "Postiz",
+      "tagline": "Schedule social media posts and write them with AI.",
+      "description": "Schedule social media posts and write them with AI.\n\nIt helps you schedule and analyze posts across your social media accounts from one place.",
+      "category": "biz",
+      "repo_url": "https://github.com/gitroomhq/postiz-app",
+      "website_url": null,
+      "logo_url": "/launches/postiz/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/postiz/shot-1.webp",
+          "alt": "Postiz calendar for scheduling social media posts"
+        },
+        {
+          "src": "/launches/postiz/shot-2.webp",
+          "alt": "Postiz post editor with a media library"
+        },
+        {
+          "src": "/launches/postiz/shot-3.webp",
+          "alt": "Postiz analytics with impressions per channel"
+        },
+        {
+          "src": "/launches/postiz/shot-4.webp",
+          "alt": "Postiz marketplace for posts from community members"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Gitroom",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/gitroomhq"
+        }
+      ],
+      "maker_story": "",
+      "license": "AGPL-3.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (AGPL); paid cloud with 7-day trial",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Self-hosting means registering your own developer app on each social network; some, like Meta and TikTok, need app review",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Optional OpenAI key for AI features; paid Postiz Cloud not needed"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "vane",
+      "name": "Vane",
+      "tagline": "Self-hosted AI search with cited sources",
+      "description": "Self-hosted AI search with cited sources. Formerly Perplexica.\n\nIt helps you search the web and get cited answers from AI models you run yourself.",
+      "category": "biz",
+      "repo_url": "https://github.com/ItzCrazyKns/Vane",
+      "website_url": null,
+      "logo_url": "/launches/vane/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/vane/shot-1.webp",
+          "alt": "Vane answering a question with sources and images"
+        },
+        {
+          "src": "/launches/vane/shot-2.webp",
+          "alt": "Vane answer with cited sources in dark mode"
+        },
+        {
+          "src": "/launches/vane/shot-3.webp",
+          "alt": "Vane start page: Research begins here"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Kushagra Srivastava",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/ItzCrazyKns"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free and open source when self-hosted (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Needs your own AI API key or a local model via Ollama",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama (free local models) or your own OpenAI/Claude/Groq key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "jan",
+      "name": "Jan",
+      "tagline": "Offline desktop app for chatting with local AI models",
+      "description": "Offline desktop app for chatting with local AI models.\n\nIt helps you chat with AI models that run privately on your own computer.",
+      "category": "biz",
+      "repo_url": "https://github.com/janhq/jan",
+      "website_url": null,
+      "logo_url": "/launches/jan/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/jan/shot-1.webp",
+          "alt": "Jan chat app running a model from Hugging Face"
+        },
+        {
+          "src": "/launches/jan/shot-2.webp",
+          "alt": "Jan settings listing inference providers"
+        },
+        {
+          "src": "/launches/jan/shot-3.webp",
+          "alt": "Jan answering a travel-planning question"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Jan",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/janhq"
+        }
+      ],
+      "maker_story": "",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free desktop app with offline local models",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Desktop app",
+      "catch": "Needs 8 GB RAM minimum (16 GB recommended); cloud models need your own API key from that provider",
+      "paidDeps": {
+        "level": "none",
+        "what": "None"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "langflow",
+      "name": "Langflow",
+      "tagline": "Build AI agents and workflows visually",
+      "description": "Build AI agents and automated workflows visually, then run them as an API or MCP server.\n\nIt helps you build AI agents and automated workflows visually and run them as an API.",
+      "category": "biz",
+      "repo_url": "https://github.com/langflow-ai/langflow",
+      "website_url": null,
+      "logo_url": "/launches/langflow/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/langflow/shot-1.webp",
+          "alt": "Langflow canvas: an agent running another flow as a tool"
+        },
+        {
+          "src": "/launches/langflow/shot-2.webp",
+          "alt": "Langflow canvas: adding an embedding model to a chat flow"
+        },
+        {
+          "src": "/launches/langflow/shot-3.webp",
+          "alt": "Langflow canvas: adding tools to an agent"
+        },
+        {
+          "src": "/launches/langflow/shot-4.webp",
+          "alt": "Langflow canvas: one agent used as a tool by another"
+        },
+        {
+          "src": "/launches/langflow/shot-5.webp",
+          "alt": "Langflow canvas: a chatbot flow that embeds uploaded files"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Langflow",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/langflow-ai"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free & open source (MIT); you pay only for a cloud AI model you connect",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Needs Python 3.10-3.14 and uv, or Docker. Local models need Ollama and enough memory. The Desktop app download asks for your email",
+      "paidDeps": {
+        "level": "optional",
+        "what": "None with local models through Ollama; cloud models such as OpenAI need your own paid key"
+      },
+      "lastChecked": "2026-11-19",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "career-ops",
+      "name": "career-ops",
+      "tagline": "AI agent that runs your job search pipeline",
+      "description": "AI agent that scans job boards, scores your fit, tailors your CV and letters, and tracks your pipeline.\n\nIt helps you score job listings against your CV and draft tailored applications.",
+      "category": "job",
+      "repo_url": "https://github.com/career-ops-hq/career-ops",
+      "website_url": null,
+      "logo_url": "/launches/career-ops/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/career-ops/shot-1.webp",
+          "alt": "career-ops in the terminal: job pipeline with fit scores"
+        },
+        {
+          "src": "/launches/career-ops/shot-2.webp",
+          "alt": "career-ops in the terminal: role-by-role fit evaluation"
+        },
+        {
+          "src": "/launches/career-ops/shot-3.webp",
+          "alt": "career-ops in the terminal: company and compensation notes"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "career-ops",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/career-ops-hq"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free (MIT); runs inside an AI coding CLI on your machine",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Free AI tiers (Gemini, OpenRouter) are rate limited; local Ollama needs suitable hardware and larger models for reliable results",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Free Gemini key, OpenRouter free models or local Ollama; paid AI CLI is optional"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "reactive-resume",
+      "name": "Reactive Resume",
+      "tagline": "Open-source resume builder with optional AI writing help.",
+      "description": "Open-source resume builder with optional AI writing help.\n\nIt helps you build, edit and download resumes and cover letters, and track job applications.",
+      "category": "job",
+      "repo_url": "https://github.com/reactive-resume/reactive-resume",
+      "website_url": null,
+      "logo_url": "/launches/reactive-resume/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/reactive-resume/shot-1.webp",
+          "alt": "Reactive Resume editor with a live resume preview"
+        },
+        {
+          "src": "/launches/reactive-resume/shot-2.webp",
+          "alt": "Reactive Resume sign-in screen"
+        },
+        {
+          "src": "/launches/reactive-resume/shot-3.webp",
+          "alt": "Reactive Resume checker results beside the resume"
+        },
+        {
+          "src": "/launches/reactive-resume/shot-4.webp",
+          "alt": "Reactive Resume showing the resume as screening software reads it"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Reactive Resume",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/reactive-resume"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "All resume features free at rxresu.me; MIT self-host too",
+      "dataLocation": "Vendor cloud (or your server if you self-host)",
+      "setup": "Browser, ready to use",
+      "catch": "AI writing help needs your own key or Ollama",
+      "paidDeps": {
+        "level": "none",
+        "what": "None (AI help is optional; Ollama or your own key)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "jobsync",
+      "name": "JobSync",
+      "tagline": "Self-hosted job tracker with AI resume review",
+      "description": "Self-hosted job application tracker with AI resume review and fit scoring.\n\nIt helps you track job applications and get AI resume reviews and job matches.",
+      "category": "job",
+      "repo_url": "https://github.com/Gsync/jobsync",
+      "website_url": null,
+      "logo_url": "/launches/jobsync/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/jobsync/shot-1.webp",
+          "alt": "JobSync AI job match for a Senior Full-Stack Engineer role"
+        },
+        {
+          "src": "/launches/jobsync/shot-2.webp",
+          "alt": "JobSync dashboard with application activity charts"
+        },
+        {
+          "src": "/launches/jobsync/shot-3.webp",
+          "alt": "JobSync list of jobs applied to"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Khuram Niaz",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Gsync"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Docker setup; AI uses Ollama by default, or your own cloud key",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama (free, default) or your own cloud AI key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "jobops",
+      "name": "JobOps",
+      "tagline": "Self-hosted job search pipeline with AI scoring",
+      "description": "Self-hosted job search pipeline: find jobs, AI-score them 0–100, tailor your resume.\n\nIt helps you find jobs, tailor your CV to each one and track applications.",
+      "category": "job",
+      "repo_url": "https://github.com/DaKheera47/job-ops",
+      "website_url": null,
+      "logo_url": "/launches/jobops/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/jobops/shot-1.webp",
+          "alt": "JobOps job list with an AI-scored job open"
+        },
+        {
+          "src": "/launches/jobops/shot-2.webp",
+          "alt": "JobOps job search with filtered results"
+        },
+        {
+          "src": "/launches/jobops/shot-3.webp",
+          "alt": "JobOps settings for AI providers and models"
+        },
+        {
+          "src": "/launches/jobops/shot-4.webp",
+          "alt": "JobOps tracking inbox for application emails"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Shaheer Sarfaraz",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/DaKheera47"
+        }
+      ],
+      "maker_story": "",
+      "license": "AGPL + Commons Clause",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted; hosted cloud is paid",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Includes anonymous usage analytics (opt out by blocking umami.dakheera47.com); Commons Clause: no selling or paid hosting",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama/LM Studio (free) or your own OpenAI/Claude key; hosted Cloud is paid"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "deepinterview",
+      "name": "DeepInterview",
+      "tagline": "Voice AI mock interviews from your CV and the job",
+      "description": "Voice AI mock interviewer built from your CV and the job description.\n\nIt helps you practice job interviews out loud with an AI interviewer and get a scored report.",
+      "category": "job",
+      "repo_url": "https://github.com/ngoanpv/DeepInterview",
+      "website_url": null,
+      "logo_url": "/launches/deepinterview/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/deepinterview/shot-1.webp",
+          "alt": "DeepInterview live voice interview screen"
+        },
+        {
+          "src": "/launches/deepinterview/shot-2.webp",
+          "alt": "DeepInterview report on the role and company"
+        },
+        {
+          "src": "/launches/deepinterview/shot-3.webp",
+          "alt": "DeepInterview preparing an interview from your CV and the job"
+        },
+        {
+          "src": "/launches/deepinterview/shot-4.webp",
+          "alt": "DeepInterview voice interview with the AI interviewer"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Pham Van Ngoan",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/ngoanpv"
+        }
+      ],
+      "maker_story": "",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (Apache-2.0)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Live voice needs LiveKit plus speech and AI keys, or a fully local setup",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Free local models (Ollama, Whisper, Kokoro) or paid cloud voice/AI keys"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "myresumo",
+      "name": "MyResumo",
+      "tagline": "Tailor your resume to a specific job description",
+      "description": "Tailors your resume and skills to a specific job description.\n\nIt helps you tailor your resume to a job posting using AI.",
+      "category": "job",
+      "repo_url": "https://github.com/AnalyticAce/myresumo",
+      "website_url": null,
+      "logo_url": "/launches/myresumo/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/myresumo/shot-1.webp",
+          "alt": "MyResumo home page for AI resume optimization"
+        },
+        {
+          "src": "/launches/myresumo/shot-2.webp",
+          "alt": "MyResumo dashboard listing your resumes and scores"
+        },
+        {
+          "src": "/launches/myresumo/shot-3.webp",
+          "alt": "MyResumo upload step for an optimized resume"
+        },
+        {
+          "src": "/launches/myresumo/shot-4.webp",
+          "alt": "MyResumo resume analysis with match scores"
+        },
+        {
+          "src": "/launches/myresumo/shot-5.webp",
+          "alt": "MyResumo optimization results with ATS scores"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "DOSSEH Shalom",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/AnalyticAce"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Needs an AI API key (DeepSeek by default, or OpenAI) and a MongoDB database",
+      "paidDeps": {
+        "level": "required",
+        "what": "Paid AI API key (DeepSeek default; OpenAI also supported)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "grillkit",
+      "name": "GrillKit",
+      "tagline": "Voice trainer for technical interviews, self-hosted",
+      "description": "Self-hosted voice trainer for technical interviews with real-time scoring.\n\nIt helps you practice technical interviews with AI follow-ups and scoring.",
+      "category": "job",
+      "repo_url": "https://github.com/Forkfield/grillkit",
+      "website_url": null,
+      "logo_url": "/launches/grillkit/logo.jpg",
+      "screenshots": [
+        {
+          "src": "/launches/grillkit/shot-1.webp",
+          "alt": "GrillKit dashboard with interview history"
+        },
+        {
+          "src": "/launches/grillkit/shot-2.webp",
+          "alt": "GrillKit interview setup options"
+        },
+        {
+          "src": "/launches/grillkit/shot-3.webp",
+          "alt": "GrillKit system design interview in progress"
+        },
+        {
+          "src": "/launches/grillkit/shot-4.webp",
+          "alt": "GrillKit coding question with a code editor"
+        },
+        {
+          "src": "/launches/grillkit/shot-5.webp",
+          "alt": "GrillKit interview evaluation and feedback"
+        }
+      ],
+      "video_url": null,
+      "maker_name": " ForkField",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Forkfield"
+        }
+      ],
+      "maker_story": "",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (Apache-2.0)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Bring your own model: Ollama/vLLM locally or a cloud API key",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama or vLLM (free, local) or your own cloud model key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "promptfoo",
+      "name": "promptfoo",
+      "tagline": "Test and red-team AI apps, agents and RAG",
+      "description": "Tests and red-teams AI apps, agents and RAG for vulnerabilities.\n\nIt helps you test and red-team your AI prompts, models and apps for failures.",
+      "category": "sec",
+      "repo_url": "https://github.com/promptfoo/promptfoo",
+      "website_url": null,
+      "logo_url": "/launches/promptfoo/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/promptfoo/shot-1.webp",
+          "alt": "promptfoo red team report with vulnerability categories"
+        },
+        {
+          "src": "/launches/promptfoo/shot-2.webp",
+          "alt": "promptfoo red team conversation flagged as a failure"
+        },
+        {
+          "src": "/launches/promptfoo/shot-3.webp",
+          "alt": "promptfoo results table for CyberSecEval test cases"
+        },
+        {
+          "src": "/launches/promptfoo/shot-4.webp",
+          "alt": "promptfoo results with attack payload examples"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "promptfoo",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/promptfoo"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free CLI (MIT); red teaming capped at 10k probes/month",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Red-team generation uses promptfoo's servers unless you set your own key or model",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Your own LLM key or local Ollama; promptfoo Community plan is free"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "tracecat",
+      "name": "Tracecat",
+      "tagline": "AI-agent security automation (SOAR) for SOC teams",
+      "description": "Security automation (SOAR) platform built around AI agents for SOC teams.\n\nIt helps you automate security and IT workflows with AI agents and case management.",
+      "category": "sec",
+      "repo_url": "https://github.com/TracecatHQ/tracecat",
+      "website_url": null,
+      "logo_url": "/launches/tracecat/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/tracecat/shot-1.webp",
+          "alt": "Tracecat case list and a case with an agent summary"
+        },
+        {
+          "src": "/launches/tracecat/shot-2.gif",
+          "alt": "Tracecat workspace tables with an entities tab"
+        },
+        {
+          "src": "/launches/tracecat/shot-3.gif",
+          "alt": "Claude Code calling Tracecat MCP tools in a terminal"
+        },
+        {
+          "src": "/launches/tracecat/shot-4.webp",
+          "alt": "Tracecat credentials and OAuth integrations"
+        },
+        {
+          "src": "/launches/tracecat/shot-5.webp",
+          "alt": "Tracecat workflow editor with an error workflow"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Tracecat",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/TracecatHQ"
+        }
+      ],
+      "maker_story": "",
+      "license": "AGPL-3.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free self-hosted (AGPL): 1 workspace, unlimited workflows",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Free plan includes SSO and audit logs; REST API, Git sync, forms and metrics need the paid Team plan",
+      "paidDeps": {
+        "level": "optional",
+        "what": "None for core; Ollama (free) or your own AI key for agents"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "pentagi",
+      "name": "PentAGI",
+      "tagline": "Self-hosted multi-agent automated pentesting",
+      "description": "Self-hosted multi-agent system for automated pentests on systems you are authorized to test.\n\nIt helps you run automated, AI-driven penetration tests on systems you are authorized to test.",
+      "category": "sec",
+      "repo_url": "https://github.com/vxcontrol/pentagi",
+      "website_url": null,
+      "logo_url": "/launches/pentagi/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/pentagi/shot-1.webp",
+          "alt": "PentAGI dashboard with test statistics, light theme"
+        },
+        {
+          "src": "/launches/pentagi/shot-2.webp",
+          "alt": "PentAGI dashboard with test statistics, dark theme"
+        },
+        {
+          "src": "/launches/pentagi/shot-3.webp",
+          "alt": "PentAGI prompt settings, dark theme"
+        },
+        {
+          "src": "/launches/pentagi/shot-4.webp",
+          "alt": "PentAGI prompt settings, light theme"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "VXControl",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/vxcontrol"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted with Docker (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Needs an LLM (cloud key or local Ollama/vLLM); a EULA applies; only test systems you own or are authorized to assess",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama or vLLM local model (free), or your own cloud AI key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "shannon",
+      "name": "Shannon",
+      "tagline": "AI agent that pentests web apps and APIs.",
+      "description": "AI agent that pentests web apps and APIs.\n\nIt helps you run an AI pentester that finds and proves web app security flaws.",
+      "category": "sec",
+      "repo_url": "https://github.com/KeygraphHQ/shannon",
+      "website_url": null,
+      "logo_url": "/launches/shannon/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/shannon/shot-1.webp",
+          "alt": "Shannon start screen in the terminal"
+        },
+        {
+          "src": "/launches/shannon/shot-2.webp",
+          "alt": "Shannon findings list from a scan"
+        },
+        {
+          "src": "/launches/shannon/shot-3.webp",
+          "alt": "Shannon access control settings"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Keygraph",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/KeygraphHQ"
+        }
+      ],
+      "maker_story": "",
+      "license": "AGPL-3.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free CLI (AGPL); you pay only your own AI costs",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Needs your source code and an AI key; black-box testing is paid Pro",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Your own AI key (Anthropic/OpenAI/xAI) or local Ollama/vLLM via custom config"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "purplellama",
+      "name": "PurpleLlama",
+      "tagline": "Meta's AI safety models and security benchmarks",
+      "description": "Meta's AI safety models, prompt-injection detection and security benchmarks.\n\nIt helps you check AI models and their code for safety and cybersecurity risks.",
+      "category": "sec",
+      "repo_url": "https://github.com/meta-llama/PurpleLlama",
+      "website_url": null,
+      "logo_url": "/launches/purplellama/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/purplellama/shot-1.webp",
+          "alt": "Llama Guard classifying a prompt and a response"
+        },
+        {
+          "src": "/launches/purplellama/shot-2.webp",
+          "alt": "Llama Guard 2 marking a conversation as unsafe"
+        },
+        {
+          "src": "/launches/purplellama/shot-3.webp",
+          "alt": "Prompt Guard scanning user dialogue and documents"
+        },
+        {
+          "src": "/launches/purplellama/shot-4.webp",
+          "alt": "Llama Guard 3 Vision classifying an image prompt"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Meta Llama",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/meta-llama"
+        }
+      ],
+      "maker_story": "",
+      "license": "Llama Community License",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Benchmarks test an LLM you supply, through a provider API key or a self-hosted model",
+      "paidDeps": {
+        "level": "none",
+        "what": "None (open models and MIT-licensed evals)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "aisoc",
+      "name": "AiSOC",
+      "tagline": "Self-hosted AI SOC with alert triage and ATT&CK",
+      "description": "Self-hosted AI SOC: alert merging, AI triage and MITRE ATT&CK investigations.\n\nIt helps you detect and investigate security threats with AI agents a human approves.",
+      "category": "sec",
+      "repo_url": "https://github.com/beenuar/AiSOC",
+      "website_url": null,
+      "logo_url": "/launches/aisoc/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/aisoc/shot-1.webp",
+          "alt": "AiSOC sign-in screen on a self-hosted install"
+        },
+        {
+          "src": "/launches/aisoc/shot-2.webp",
+          "alt": "AiSOC alerts queue"
+        },
+        {
+          "src": "/launches/aisoc/shot-3.webp",
+          "alt": "AiSOC AI triage verdict in the investigation rail"
+        },
+        {
+          "src": "/launches/aisoc/shot-4.webp",
+          "alt": "AiSOC threat intelligence page with CISA KEV entries"
+        },
+        {
+          "src": "/launches/aisoc/shot-5.webp",
+          "alt": "AiSOC SOC operations dashboard"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Beenu Arora",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/beenuar"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Open source and self-hostable (MIT); runs without an API key",
+      "cardRequired": "no",
+      "dataLocation": "Your server",
+      "setup": "Install & self-host",
+      "catch": "Needs Docker Compose with 8 GB memory; the bundled local AI model is small, not a frontier model",
+      "paidDeps": {
+        "level": "none",
+        "what": "None (ships with a free local model; hosted AI is optional)"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "hexstrike-ai",
+      "name": "HexStrike AI",
+      "tagline": "Connect AI agents to 150+ security tools via MCP",
+      "description": "Connects AI agents to 150+ existing security tools through MCP.\n\nIt helps you let an AI assistant run 150+ security tools for penetration testing.",
+      "category": "sec",
+      "repo_url": "https://github.com/0x4m4/hexstrike-ai",
+      "website_url": null,
+      "logo_url": "/launches/hexstrike-ai/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/hexstrike-ai/shot-1.webp",
+          "alt": "HexStrike AI server log while running security tools"
+        },
+        {
+          "src": "/launches/hexstrike-ai/shot-2.webp",
+          "alt": "HexStrike AI server starting in the terminal"
+        },
+        {
+          "src": "/launches/hexstrike-ai/shot-3.webp",
+          "alt": "An AI assistant sending a recon task to HexStrike AI"
+        },
+        {
+          "src": "/launches/hexstrike-ai/shot-4.webp",
+          "alt": "HexStrike AI recon results returned to the assistant"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Muhammad Osama",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/0x4m4"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free MCP server (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Needs an MCP AI app and the security tools installed; some optional tools are paid; run in an isolated VM on systems you're authorized to test",
+      "paidDeps": {
+        "level": "optional",
+        "what": "An MCP AI app; optional commercial tools such as Binary Ninja, Shodan, Censys"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "nebula",
+      "name": "Nebula",
+      "tagline": "AI assistant for pentest operators. Works with local models.",
+      "description": "AI assistant for pentest operators. Works with local models.\n\nIt helps you run and document security tests on authorized systems from one desktop app.",
+      "category": "sec",
+      "repo_url": "https://github.com/berylliumsec/nebula",
+      "website_url": null,
+      "logo_url": "/launches/nebula/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/nebula/shot-1.gif",
+          "alt": "Nebula empty chat with the Quiet Lens tour"
+        },
+        {
+          "src": "/launches/nebula/shot-2.gif",
+          "alt": "Nebula Butler Voice in a review conversation"
+        },
+        {
+          "src": "/launches/nebula/shot-3.webp",
+          "alt": "Nebula application model view"
+        },
+        {
+          "src": "/launches/nebula/shot-4.webp",
+          "alt": "Nebula desktop app in the dense layout"
+        },
+        {
+          "src": "/launches/nebula/shot-5.webp",
+          "alt": "Nebula chat checking model performance"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "berylliumsec",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/berylliumsec"
+        }
+      ],
+      "maker_story": "",
+      "license": "BSD-2-Clause",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free desktop app (BSD-2)",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Desktop app",
+      "catch": "Linux x86_64 preview installers only (DEB or AppImage); needs your own model (Ollama, vLLM, Claude, OpenRouter); voice incurs OpenAI charges",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama or vLLM (free), or Claude/OpenRouter/Codex; voice needs paid OpenAI key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "agentic-security",
+      "name": "Agentic Security",
+      "tagline": "Scan AI apps for jailbreaks and prompt injection",
+      "description": "Scan your AI app or LLM endpoint with jailbreak and prompt-injection test datasets.\n\nIt helps you scan your own AI app or model endpoint for jailbreaks and prompt injection.",
+      "category": "sec",
+      "repo_url": "https://github.com/msoedov/agentic_security",
+      "website_url": null,
+      "logo_url": "/launches/agentic-security/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/agentic-security/shot-1.webp",
+          "alt": "Agentic Security setting up a scan of an LLM API"
+        },
+        {
+          "src": "/launches/agentic-security/shot-2.webp",
+          "alt": "Agentic Security scan running with live logs"
+        },
+        {
+          "src": "/launches/agentic-security/shot-3.webp",
+          "alt": "Agentic Security scan results by vulnerability module"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Alexander Myasoedov",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/msoedov"
+        }
+      ],
+      "maker_story": "",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free & open source (Apache 2.0); no SaaS, no account",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "Needs Python 3.15+. Scanning a paid API costs one call per prompt; test datasets download from Hugging Face",
+      "paidDeps": {
+        "level": "optional",
+        "what": "None for the built-in mock or a local model; scanning a paid API bills per prompt"
+      },
+      "lastChecked": "2026-11-19",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "pyrit",
+      "name": "PyRIT",
+      "tagline": "Microsoft's open framework for red-teaming generative AI",
+      "description": "Microsoft's open framework for red-teaming generative AI systems.\n\nIt helps you test generative AI systems for safety and security risks with a Python toolkit.",
+      "category": "sec",
+      "repo_url": "https://github.com/microsoft/PyRIT",
+      "website_url": null,
+      "logo_url": "/launches/pyrit/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/pyrit/shot-1.webp",
+          "alt": "CoPyRIT chat sending an image prompt"
+        },
+        {
+          "src": "/launches/pyrit/shot-2.webp",
+          "alt": "CoPyRIT attack history table"
+        },
+        {
+          "src": "/launches/pyrit/shot-3.webp",
+          "alt": "PyRIT scanner run in a Jupyter notebook"
+        },
+        {
+          "src": "/launches/pyrit/shot-4.webp",
+          "alt": "PyRIT sending an attack to a chat target in a notebook"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Microsoft",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/microsoft"
+        }
+      ],
+      "maker_story": "",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free Python library (MIT)",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Install & self-host",
+      "catch": "You configure your own AI endpoints and keys",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama or HuggingFace (free), or your own OpenAI/Azure key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "resume-matcher",
+      "name": "Resume Matcher",
+      "tagline": "Score and tailor your resume to a job post",
+      "description": "Scores your resume against a job post, then tailors it and drafts a cover letter.\n\nIt helps you tailor your resume to each job description using AI.",
+      "category": "job",
+      "repo_url": "https://github.com/srbhr/Resume-Matcher",
+      "website_url": null,
+      "logo_url": "/launches/resume-matcher/logo.svg",
+      "screenshots": [
+        {
+          "src": "/launches/resume-matcher/shot-1.webp",
+          "alt": "Resume Matcher review of AI tailoring changes"
+        },
+        {
+          "src": "/launches/resume-matcher/shot-2.webp",
+          "alt": "Resume Matcher resume builder with a live preview"
+        },
+        {
+          "src": "/launches/resume-matcher/shot-3.webp",
+          "alt": "Resume Matcher job description keyword match"
+        },
+        {
+          "src": "/launches/resume-matcher/shot-4.webp",
+          "alt": "Resume Matcher application tracker board"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Saurabh Rai",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/srbhr"
+        }
+      ],
+      "maker_story": "",
+      "license": "Apache-2.0",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free when self-hosted (Apache-2.0)",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer (cloud AI only if you pick one)",
+      "setup": "Install & self-host",
+      "catch": "You pick the model: local Ollama, your coding agent, or your own cloud API key",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Ollama (free) or your own OpenAI/Anthropic/Gemini key"
+      },
+      "lastChecked": "2026-11-14",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    }
+  ]
 }

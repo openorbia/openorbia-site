@@ -149,7 +149,7 @@ test('seed --sample-date moves only the samples to a Pacific Monday that is open
   assert.ok(!now.out.includes('/launches/sample-'), 'no sample image is referenced');
   const last = seedDryRun(['--include-samples', '--sample-date', 'last-week']);
   assert.deepEqual([...last.out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill(pacificMonday(1)));
-  assert.deepEqual([...seedDryRun(['--include-samples', '--sample-date', '2026-11-23']).out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})/g)].map(m => m[1]), Array(3).fill('2026-11-23'));
+  assert.deepEqual([...seedDryRun(['--include-samples', '--sample-date', '2026-11-23']).out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill('2026-11-23'));   // only the samples (real Week 1 launches are listed too)
   const bad = seedDryRun(['--include-samples', '--sample-date', 'someday']);
   assert.equal(bad.status, 2);
   assert.match(bad.out, /this-week, last-week or a date/);
