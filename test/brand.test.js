@@ -170,8 +170,9 @@ test('ligatures are off on headings and the wordmark, and the "ff" workaround is
     assert.ok(!/\.lig\b|class="lig"|common-ligatures/.test(file(f)), `${name}: no .lig workaround`);
   }
   const h1 = file('public/index.html').match(/<h1>([\s\S]*?)<\/h1>/)[1];
-  // changed 2026-11-19 (platform positioning): the headline says what OpenOrbia is for; one <em>, read as plain text
-  assert.equal(h1.replace(/<[^>]+>/g, ''), 'Find free AI tools for what you want to do.', 'the headline reads as one sentence to a screen reader');
+  // changed 2026-11-19 (platform positioning): the headline says what OpenOrbia is for. Compared as exact markup (no tag
+  // stripping): plain words and one <em>, so a screen reader reads one sentence.
+  assert.equal(h1, 'Find free AI tools for <em>what you want to do</em>.', 'the headline is plain text with one <em>');
 });
 
 test('the homepage headline is plain text in Sora: the Bricolage-only spacing workaround is gone', () => {
