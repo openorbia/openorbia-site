@@ -18,7 +18,7 @@ import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
-import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
+import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
 
 const root = new URL('../', import.meta.url);
@@ -34,9 +34,6 @@ export const firstResultsHtml = () => renderFirstResultStrip(TOOLS);
 export const LINEUP_RE = /<p class="week-lineup" data-lineup-date>[^<]*<\/p>/;
 export const lineupHtml = () => `<p class="week-lineup" data-lineup-date>Lineup announced ${weekdayLabel(lineupAnnouncedAt(FIRST_LAUNCH_WEEK.date))}</p>`;
 
-// The homepage makers line ("3 makers confirmed · 26 invited"), from lib/site.js
-export const MAKERS_RE = /<p class="week-makers" data-makers>[^<]*<\/p>/;
-export const makersHtml = () => `<p class="week-makers" data-makers>${makersLine()}</p>`;
 
 // The Launch List's counts, from the Launch List itself: the tools that run free (no required paid service) in the title,
 // description, og:title and headline, and the ones that need a paid service in the note under it
@@ -105,8 +102,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
   const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
-  if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
-  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
+  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()));
   const list = new URL('public/launch-list/index.html', root);
   writeFileSync(list, fill(withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))), 'stars', listStarsHtml(stats()), 'public/launch-list/index.html'));
   for (const page of STATIC_PAGES) {
