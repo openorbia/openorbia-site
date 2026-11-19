@@ -31,12 +31,14 @@ test('every category page has its own title, description and canonical, one h1, 
   }
 });
 
-test('no empty topics or filler: every topic lists checked tools, and every tool link is a real tool page', () => {
+test('no empty sections or filler: a topic with no checked tools is left off the page, and every tool link is a real tool page', () => {
   const slugs = new Set(TOOLS.map(t => t.slug));
   for (const cat of MAIN_CATEGORIES) {
-    assert.deepEqual(emptyTopics(cat), [], `${cat.key}: a topic with no tools is a content gap, not a page section`);
+    // a topic with no tools (a content gap, listed by emptyTopics for docs/seo/SEO_AUDIT.md) gets no heading or section
+    for (const label of emptyTopics(cat)) assert.ok(!renderCategory(cat).includes(`>${label}</h2>`), `${cat.key} / ${label}`);
     for (const t of categoryTopics(cat)) assert.ok(t.tools.length > 0, `${cat.key} / ${t.label}`);
     const html = renderCategory(cat);
+    for (const section of html.split('<section class="alts cat-topic"').slice(1)) assert.match(section.slice(0, section.indexOf('</section>')), /<li>/, `${cat.key}: no empty section`);
     for (const [, slug] of html.matchAll(/href="\/tool\/([^/"]+)\/"/g)) assert.ok(slugs.has(slug), `${cat.key}: /tool/${slug}/`);
   }
 });
