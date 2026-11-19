@@ -90,7 +90,7 @@ test('everything from the database is escaped (no script injection)', async () =
   assert.ok(!html.includes('"><script>'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
   const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
-  assert.deepEqual(scripts, [`<script src="${asset('nav.js')}" defer>`, `<script src="${asset('launch.js')}" defer>`, `<script src="${asset('click-beacon.js')}" defer>`], 'only the three site script tags');
+  assert.deepEqual(scripts, [`<script src="${asset('launch-lock.js')}">`, `<script src="${asset('nav.js')}" defer>`, `<script src="${asset('launch.js')}" defer>`, `<script src="${asset('click-beacon.js')}" defer>`], 'only the site script tags');
 });
 
 test('the upvote button: closed before launch day, ready after, voted once this visitor has voted', async () => {
@@ -100,7 +100,7 @@ test('the upvote button: closed before launch day, ready after, voted once this 
   const closed = await render(BEFORE);
   assert.match(closed, /<button class="vote vote-lg" type="button" data-slug="vote-tool" data-state="closed" aria-pressed="false" disabled>/);
   assert.match(closed, />Soon</);
-  assert.match(closed, /Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific\./);
+  assert.match(closed, /Voting opens Monday, Nov 23, 2026 at 12:00 AM Central\./);
 
   const who = { 'cf-connecting-ip': '198.51.100.20', 'user-agent': 'Reader/1.0' };
   const ready = await render(AFTER, who);
@@ -179,10 +179,10 @@ test('before launch day the leaderboard shows the countdown and the lineup, with
   const { status, html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE }));
   assert.equal(status, 200);
   assert.match(html, /Coming Monday, Nov 23, 2026/);
-  assert.match(html, /data-countdown="2026-11-23T08:01:00\.000Z"/);
+  assert.match(html, /data-countdown="2026-11-23T06:00:00\.000Z"/);
   assert.match(html, /data-on-zero="reload"/);
   assert.match(html, new RegExp(`data-now="${BEFORE}"`));
-  assert.match(html, /3 free AI tools launch on Monday, Nov 23, 2026\. Voting opens at 12:01 AM Pacific\./);
+  assert.match(html, /3 free AI tools launch on Monday, Nov 23, 2026\. Voting opens at 12:00 AM Central\./);
   assert.match(html, /<b data-unit="d">3<\/b>/); // three days to go
   assert.equal([...html.matchAll(/class="rank"/g)].length, 0);
   assert.equal([...html.matchAll(/data-state="closed"/g)].length, 3);
@@ -218,7 +218,7 @@ test('nothing scheduled yet, before launch day: the Launch Week 1 intro', async 
   assert.equal(status, 200);
   const text = plain(html);
   assert.match(html, /<h1 id="lw-h">Launch Week <em>1<\/em><\/h1>/);
-  assert.ok(text.includes('Coming Monday, Nov 23, 2026. Voting opens 12:01 AM Pacific.'));
+  assert.ok(text.includes('Coming Monday, Nov 23, 2026. Voting opens 12:00 AM Central.'));
   assert.ok(text.includes('How it works'));
   const steps = [...html.matchAll(/<li><span class="n">0(\d)<\/span><b>([^<]+)<\/b><\/li>/g)].map(m => `${m[1]} ${m[2].replace('&#39;', "'")}`);
   assert.deepEqual(steps, ['1 Makers launch free AI tools', '2 The community upvotes', "3 The week's top tools get featured"]);
@@ -297,7 +297,7 @@ test('the API hides vote counts before launch day and lists the top launches aft
   seedThree();
   const before = await (await launchesApiResponse({ request: req('/api/launches'), env, now: BEFORE })).json();
   assert.equal(before.open, false);
-  assert.equal(before.opens_at, '2026-11-23T08:01:00.000Z');
+  assert.equal(before.opens_at, '2026-11-23T06:00:00.000Z');
   assert.equal(before.label, 'Monday, Nov 23, 2026');
   assert.equal(before.total, 3);
   assert.equal(before.now, BEFORE);

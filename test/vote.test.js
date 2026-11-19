@@ -6,7 +6,7 @@ import { onRequestPost, onRequest } from '../functions/api/vote.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const SECRET = 'test-secret-0123456789abcdef';
-const OPENS = launchOpensAt('2026-11-23');          // Monday, Nov 23, 2026, 2026, 12:01 AM Pacific
+const OPENS = launchOpensAt('2026-11-23');          // Monday, Nov 23, 2026, 2026, 12:00 AM Central
 const NOW = OPENS + 24 * 3600 * 1000;               // a day into launch week 1
 
 let db, env;
@@ -158,11 +158,11 @@ test('voting is not available without the database or the secret', async () => {
 
 // ---- when voting opens ----
 
-test('voting opens at 12:01 AM Pacific on the launch date, not a moment before', async () => {
+test('voting opens at 12:00 AM Central on the launch date, not a moment before', async () => {
   const before = await vote({ slug: 'alpha-tool' }, { now: OPENS - 1 });
   assert.equal(before.status, 403);
   assert.equal(before.json.code, 'voting_closed');
-  assert.match(before.json.error, /Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific/);
+  assert.match(before.json.error, /Voting opens Monday, Nov 23, 2026 at 12:00 AM Central/);
   assert.equal(votesFor('alpha-tool'), 0);
   const exactly = await vote({ slug: 'alpha-tool' }, { now: OPENS });
   assert.equal(exactly.status, 200);
@@ -254,7 +254,7 @@ test('the Pages Function handles POST with the real clock and answers other meth
   assert.equal(res.status, 200);
   assert.equal((await res.json()).count, 1);
 
-  t.mock.timers.setTime(Date.UTC(2026, 11, 1, 8, 0));   // Tuesday Dec 1: the week closed on Sunday Nov 29 at 11:59 PM Pacific
+  t.mock.timers.setTime(Date.UTC(2026, 11, 1, 8, 0));   // Tuesday Dec 1: the week closed on Sunday Nov 29 at 11:59 PM Central
   const late = await post('198.51.100.71');
   assert.equal(late.status, 403);
   assert.equal((await late.json()).code, 'voting_closed');

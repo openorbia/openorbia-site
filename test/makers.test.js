@@ -15,7 +15,7 @@ test('/makers/ covers what makers get, the rules, the free facts, the checklist 
     'open-source license, or a real free plan', 'No trials and no credit card', 'Updated in the last 6 months', 'AI is a core part',
     "What's free", 'Card required', 'Where your data goes', 'Setup', 'The catch', 'Last checked',
     'Logo, 512px square', 'Tagline, up to 60 characters', 'Description, 2 to 3 sentences', '3 to 5 screenshots', '60-second video or GIF', 'Links: website and source code', 'Your name and handles', 'Your maker story',
-    'Launch Week 1', 'Monday, Nov 23', 'Monday 12:01 AM to Sunday 11:59 PM Pacific']) assert.ok(text.includes(t), t);
+    'Launch Week 1', 'Monday, Nov 23', 'Monday 12:00 AM to Sunday 11:59 PM Central']) assert.ok(text.includes(t), t);
 });
 
 test('/makers/ says every launch is featured from its launch day, and points to the maker kit for the badge', () => {

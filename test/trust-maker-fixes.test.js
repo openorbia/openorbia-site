@@ -39,7 +39,7 @@ test('/makers/ gives the Week 1 dates, what happens after submitting, the maker 
   const t = text(renderMakers());
   for (const s of [
     `Assets due ${weekdayLabel(assetDeadlineAt(FIRST_LAUNCH_WEEK.date))}: logo, screenshots, description and your story`,
-    'Assets due Monday, Nov 16', 'Lineup announced Wednesday, Nov 18', 'Voting Monday 12:01 AM to Sunday 11:59 PM Pacific',
+    'Assets due Monday, Nov 16', 'Lineup announced Wednesday, Nov 18', 'Voting Monday 12:00 AM to Sunday 11:59 PM Central',
     'After you submit', 'We reply within 2 days with a decision or any questions.',
     'Your maker kit', 'ready-to-post text for X and LinkedIn', 'You get it as soon as your launch page is set up from your assets, before launch day',
     "Launch-week makers in security and AI are featured in Khaja's Cyber Chronicle newsletter.",

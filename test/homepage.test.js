@@ -109,10 +109,10 @@ test('the sections come in order: hero, signup, this week, search, featured tool
 
 test('before launch the week block shows the countdown and the makers confirmed; after launch launch.js shows cards with vote buttons and the closing time', () => {
   assert.match(home, /Coming Monday, Nov 23, 2026/);
-  assert.match(home, /data-countdown="2026-11-23T08:01:00\.000Z"/);
+  assert.match(home, /data-countdown="2026-11-23T06:00:00\.000Z"/);
   assert.ok(home.includes(`<p class="week-makers" data-makers>${makersLine()}</p>`));
   const js = file('public/assets/launch.js');
-  assert.ok(js.includes("'Voting closes Sunday 11:59 PM PT'"));
+  assert.ok(js.includes("'Voting closes Sunday 11:59 PM CT'"));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
   assert.ok(js.includes('data.voted') && js.includes("'ended'"), 'the visitor\'s votes and the closed state are handled');
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');
