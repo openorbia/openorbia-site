@@ -38,8 +38,8 @@ test('the asset deadline is the Monday a week before launch day, worked out from
 test('/makers/ gives the Week 1 dates, what happens after submitting, the maker kit, the newsletter and the same-treatment rule', () => {
   const t = text(renderMakers());
   for (const s of [
-    `Assets due ${weekdayLabel(assetDeadlineAt(FIRST_LAUNCH_WEEK.date))}: logo, screenshots, description and your story`,
-    'Assets due Monday, Nov 16', 'Lineup announced Wednesday, Nov 18', 'Voting Monday 12:00 AM to Sunday 11:59 PM Central',
+    // changed 2026-11-19: Week 1 assets are due Saturday, Nov 21 (FIRST_LAUNCH_WEEK.assetsDue); the Nov 18 lineup date is left out
+    'Assets due Saturday, Nov 21: logo, screenshots, description and your story', 'Voting Monday 12:00 AM to Sunday 11:59 PM Central',
     'After you submit', 'We reply within 2 days with a decision or any questions.',
     'Your maker kit', 'ready-to-post text for X and LinkedIn', 'You get it as soon as your launch page is set up from your assets, before launch day',
     "Launch-week makers in security and AI are featured in Khaja's Cyber Chronicle newsletter.",
@@ -83,4 +83,12 @@ test('/submit/ category labels match the site', () => {
 test('the submit confirmation email is the agreed text', () => {
   assert.equal(confirmationEmail('submit', 'Orbit Notes').text.split('\n\n')[0],
     "We got your submission of Orbit Notes to OpenOrbia. Thank you! This confirms we've received it. It isn't approved yet. We check every tool against its official docs (licence, free plan, card, data, activity) before listing it, and we'll reply within 2 days with a decision or any questions.");
+});
+
+test('Week 1 has its own asset deadline, and a lineup date before it is not shown, so the dates never read out of order', () => {
+  const t = text(renderMakers());
+  assert.equal(FIRST_LAUNCH_WEEK.assetsDue, '2026-11-21');
+  assert.ok(!t.includes('Assets due Monday, Nov 16'));
+  assert.ok(!t.includes('Lineup announced Wednesday, Nov 18'), 'Nov 18 is before the Nov 21 deadline');
+  assert.equal(weekdayLabel(assetDeadlineAt('2026-11-30')), 'Monday, Nov 23', 'later weeks keep the 7-day rule');
 });
