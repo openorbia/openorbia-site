@@ -20,10 +20,11 @@ test('the Launch List note gives the month of the oldest check, written by build
   assert.throws(() => withListChecked('<p></p>'), /expected one/);
 });
 
-test('every row was re-checked on Nov 14, in the data file and on the Launch List', () => {
-  assert.equal(data.length, 44);   // Twenty removed (#30)
-  for (const e of data) assert.equal(e.lastChecked, RECHECKED, e.name);
-  for (const t of TOOLS) assert.equal(t.facts.lastChecked, RECHECKED, t.name);
+test('every row was checked on or after the Nov 14 re-check, in the data file and on the Launch List', () => {
+  assert.equal(data.length, 47);   // Twenty removed (#30); 3 tools added 2026-11-19, checked that day
+  for (const e of data) assert.ok(e.lastChecked >= RECHECKED, e.name);
+  for (const t of TOOLS) assert.ok(t.facts.lastChecked >= RECHECKED, t.name);
+  for (const t of TOOLS) assert.equal(t.facts.lastChecked, data.find(e => e.repo === t.repo).lastChecked, `${t.name}: same date in both`);
 });
 
 test('confidence is high only where at least two official sources back it', () => {
