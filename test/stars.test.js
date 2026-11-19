@@ -47,9 +47,10 @@ test('the wording credits the stars to the tools on GitHub, with the date, and n
   const s = starStats(TOOLS, data);
   for (const html of [homeStarsHtml(s), listStarsHtml(s)]) {
     assert.match(html, /GitHub stars/);
-    assert.match(html, /counted on GitHub, [A-Z][a-z]{2} \d{1,2}, \d{4}/i);
+    assert.match(html, /counted on GitHub, [A-Z][a-z]{2} \d{1,2}, \d{4}/i, 'the count date, shown or in the tooltip');
     assert.doesNotMatch(html, /users|#1|number one|trusted by/i);
   }
   assert.match(homeStarsHtml(s), /between them/);
+  assert.doesNotMatch(homeStarsHtml(s), /solo makers|proof-sub/, 'the homepage has one star line (the second line was removed 2026-11-19 at the founder\'s request)');
   assert.match(listStarsHtml(s), /Home to free AI tools with/);
 });
