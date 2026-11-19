@@ -46,7 +46,8 @@ test('without JavaScript nothing is lost: each menu name is a link, the search i
 
 test('every link in the menus goes to a real page, and every Launch List filter link shows tools', () => {
   const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js',
-    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js' };
+    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js',
+    '/category/productivity/': 'functions/category/[slug].js', '/category/automation-and-ai/': 'functions/category/[slug].js', '/category/careers/': 'functions/category/[slug].js', '/category/security/': 'functions/category/[slug].js' };
   const hrefs = [...new Set([...Object.values(MENUS).join('').matchAll(/href="([^"]+)"/g)].map(m => m[1].replace(/&amp;/g, '&')))];
   for (const h of hrefs) {
     const url = new URL(h, 'https://openorbia.com');

@@ -9,14 +9,15 @@
 //
 // Run it after adding tools to public/assets/tools.js, then commit public/logos/ and public/assets/logos.js and deploy.
 
-import { writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // tools.js imports logos.js, so it has to exist before tools.js can be read
 const logosFile = join(root, 'public', 'assets', 'logos.js');
-if (!existsSync(logosFile)) writeFileSync(logosFile, 'export const LOGOS = {};\n');
+// create it only when missing, in one step (flag wx), so there is no gap between checking and writing
+try { writeFileSync(logosFile, 'export const LOGOS = {};\n', { flag: 'wx' }); } catch (e) { if (e.code !== 'EEXIST') throw e; }
 const { ROWS, slugOf } = await import('../public/assets/tools.js');
 const dir = join(root, 'public', 'logos');
 const refresh = process.argv.includes('--refresh');
@@ -37,11 +38,18 @@ for (const [name, repo] of ROWS) {
   if (!u.ok) { console.error(`${name}: GitHub answered ${u.status} for ${owner}`); process.exitCode = 1; continue; }
   const user = await u.json();
   if (user.type !== 'Organization') { skipped++; continue; }
-  const img = await fetch(`${user.avatar_url}${user.avatar_url.includes('?') ? '&' : '?'}s=128`);
+  // only ever download from GitHub's avatar host, over https
+  let avatar = null;
+  try { avatar = new URL(user.avatar_url); } catch { /* not a URL */ }
+  if (!avatar || avatar.protocol !== 'https:' || avatar.hostname !== 'avatars.githubusercontent.com') {
+    console.error(`${name}: avatar is not on avatars.githubusercontent.com`); process.exitCode = 1; continue;
+  }
+  avatar.searchParams.set('s', '128');
+  const img = await fetch(avatar);
   const ext = TYPES[(img.headers.get('content-type') || '').split(';')[0]];
   const bytes = Buffer.from(await img.arrayBuffer());
   if (!img.ok || !ext || bytes.length > MAX_BYTES) { console.error(`${name}: not a usable image (${img.status}, ${img.headers.get('content-type')}, ${bytes.length} bytes)`); process.exitCode = 1; continue; }
-  if (have[slug] && have[slug] !== `${slug}.${ext}`) unlinkSync(join(dir, have[slug]));
+  if (have[slug] && have[slug] !== `${slug}.${ext}`) rmSync(join(dir, have[slug]), { force: true });
   writeFileSync(join(dir, `${slug}.${ext}`), bytes);
   logos[slug] = `/logos/${slug}.${ext}`;
   fetched++;
