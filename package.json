@@ -23,6 +23,7 @@
     "seed:preview": "node scripts/seed-launches.mjs --remote --db openorbia-db-preview --include-samples --sample-date this-week --yes",
     "stamp": "node scripts/stamp-assets.mjs",
     "fetch:logos": "node scripts/fetch-logos.mjs",
+    "fetch:stars": "node scripts/fetch-stars.mjs",
     "deploy": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch main",
     "deploy:preview": "npm run stamp && npm test && npx wrangler pages deploy --project-name openorbia --branch launch-day",
     "build:email-art": "node scripts/build-email-art.mjs",

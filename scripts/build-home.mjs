@@ -14,6 +14,7 @@ import { footerHtml } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
 import { MARK } from '../lib/layout.js';
 import { homeCategoriesHtml } from '../lib/categories.js';
+import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
@@ -82,22 +83,25 @@ export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html
 export const staticFooter = () => footerHtml('<span id="yr">2026</span>');
 export const staticHeader = () => headerHtml(MARK);
 
+// The GitHub star lines (lib/stars.js), from data/stars.json (npm run fetch:stars)
+export const stats = () => starStats(TOOLS, JSON.parse(readFileSync(new URL('data/stars.json', root), 'utf8')));
+
 // html with what is between <!-- name:start --> and <!-- name:end --> replaced by `inner`
-function fill(html, name, inner) {
+function fill(html, name, inner, page = 'public/index.html') {
   const start = html.indexOf(`<!-- ${name}:start -->`);
   const end = html.indexOf(`<!-- ${name}:end -->`);
-  if (start < 0 || end < start) { console.error(`public/index.html has no ${name}:start / ${name}:end markers`); process.exit(1); }
+  if (start < 0 || end < start) { console.error(`${page} has no ${name}:start / ${name}:end markers`); process.exit(1); }
   return `${html.slice(0, start)}<!-- ${name}:start -->\n    ${inner}\n    ${html.slice(end)}`;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
-  const filled = fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml());
+  const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
   if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
   writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
   const list = new URL('public/launch-list/index.html', root);
-  writeFileSync(list, withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))));
+  writeFileSync(list, fill(withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))), 'stars', listStarsHtml(stats()), 'public/launch-list/index.html'));
   for (const page of STATIC_PAGES) {
     const file = new URL(page, root), html = readFileSync(file, 'utf8');
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;
