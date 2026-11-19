@@ -5,6 +5,15 @@
 /assets/*
   Cache-Control: public, max-age=0, must-revalidate
 
+# Copies of the site on Cloudflare's own hosts (the production pages.dev address and every preview deployment) stay out of search
+# results; openorbia.com is the address to index. Patterns from the Cloudflare Pages headers docs. Pages Functions responses get the
+# same header from lib/security-headers.js.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
 # Security headers for every static file. Pages Functions responses get the same list from lib/security-headers.js (Cloudflare
 # does not apply this file to them). A test keeps the two in step: change lib/security-headers.js first, then this block.
 /*
