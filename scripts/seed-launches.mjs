@@ -11,7 +11,7 @@
 // preview databases (npm run seed:local, npm run seed:preview). The live database (openorbia-db) never gets a sample: with
 // --remote and that database, --include-samples is refused, and a "sample": true entry in --file is skipped.
 // For the preview database (npm run seed:preview): --sample-date moves the SAMPLE entries (only) to a launch week that is open today
-// (this-week: the Monday of the current Pacific week, so voting works until Sunday 11:59 PM) or already closed (last-week: so the
+// (this-week: the Monday of the current launch-clock (Central) week, so voting works until Sunday 11:59 PM) or already closed (last-week: so the
 // final results page can be tried); --no-images drops the samples' images, which are not deployed (they live in test/fixtures).
 // Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
 // votes) that are no longer in the file.
@@ -21,7 +21,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { validateLaunches, toSql, forTarget, PRODUCTION_DB } from '../lib/launch-data.js';
-import { launchOpensAt, pacificDay } from '../lib/time.js';
+import { launchOpensAt, launchDay } from '../lib/time.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_FILE = 'data/launches.json', SAMPLES_FILE = 'data/launches.samples.json';
@@ -89,7 +89,7 @@ const { launches, errors } = validateLaunches(data);
 function sampleDate(spec) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(spec)) return spec;
   if (spec !== 'this-week' && spec !== 'last-week') { console.error('--sample-date must be this-week, last-week or a date like 2026-11-23'); process.exit(2); }
-  const [y, m, d] = pacificDay(Date.now()).split('-').map(Number);
+  const [y, m, d] = launchDay(Date.now()).split('-').map(Number);
   const day = new Date(Date.UTC(y, m - 1, d));
   day.setUTCDate(day.getUTCDate() - ((day.getUTCDay() + 6) % 7) - (spec === 'last-week' ? 7 : 0));   // back to the Monday
   return day.toISOString().slice(0, 10);

@@ -12,13 +12,13 @@ import { TOOLS } from '../public/assets/tools.js';
 import { pickFeatured, renderFeatured } from '../lib/featured.js';
 import { footerHtml } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
-import { MARK } from '../lib/layout.js';
+import { MARK, launchLockHead } from '../lib/layout.js';
 import { homeCategoriesHtml } from '../lib/categories.js';
 import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
-import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
+import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
 
 const root = new URL('../', import.meta.url);
@@ -34,9 +34,6 @@ export const firstResultsHtml = () => renderFirstResultStrip(TOOLS);
 export const LINEUP_RE = /<p class="week-lineup" data-lineup-date>[^<]*<\/p>/;
 export const lineupHtml = () => `<p class="week-lineup" data-lineup-date>Lineup announced ${weekdayLabel(lineupAnnouncedAt(FIRST_LAUNCH_WEEK.date))}</p>`;
 
-// The homepage makers line ("3 makers confirmed · 26 invited"), from lib/site.js
-export const MAKERS_RE = /<p class="week-makers" data-makers>[^<]*<\/p>/;
-export const makersHtml = () => `<p class="week-makers" data-makers>${makersLine()}</p>`;
 
 // The Launch List's counts, from the Launch List itself: the tools that run free (no required paid service) in the title,
 // description, og:title and headline, and the ones that need a paid service in the note under it
@@ -83,6 +80,13 @@ export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html
 export const staticFooter = () => footerHtml('<span id="yr">2026</span>');
 export const staticHeader = () => headerHtml(MARK);
 
+// The launch curtain's head block (lib/layout.js launchLockHead) between <!-- launch-lock:start --> and <!-- launch-lock:end -->
+const LOCK_RE = /<!-- launch-lock:start -->\n[\s\S]*?<!-- launch-lock:end -->/;
+export function withLaunchLock(html, page = 'page') {
+  if ((html.match(new RegExp(LOCK_RE.source, 'g')) || []).length !== 1) throw new Error(`${page}: expected one launch-lock block`);
+  return html.replace(LOCK_RE, () => `<!-- launch-lock:start -->\n${launchLockHead()}<!-- launch-lock:end -->`);
+}
+
 // The GitHub star lines (lib/stars.js), from data/stars.json (npm run fetch:stars)
 export const stats = () => starStats(TOOLS, JSON.parse(readFileSync(new URL('data/stars.json', root), 'utf8')));
 
@@ -98,8 +102,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
   const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
-  if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
-  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
+  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()));
   const list = new URL('public/launch-list/index.html', root);
   writeFileSync(list, fill(withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))), 'stars', listStarsHtml(stats()), 'public/launch-list/index.html'));
   for (const page of STATIC_PAGES) {
@@ -107,6 +110,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;
     if (start < 0 || end < start) { console.error(`${page} has no <footer>`); process.exit(1); }
     writeFileSync(file, html.slice(0, start) + staticFooter() + html.slice(end));
+  }
+  // the launch curtain's head block (lib/layout.js), so the static pages lock and unlock at the same moment as the rest
+  for (const page of STATIC_PAGES) {
+    const file = new URL(page, root);
+    writeFileSync(file, withLaunchLock(readFileSync(file, 'utf8'), page));
   }
   // the shared header (lib/header.js) too, so a menu change reaches the static pages without copying it by hand
   for (const page of STATIC_PAGES) {

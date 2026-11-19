@@ -5,8 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TOOLS } from '../public/assets/tools.js';
 import { needsPaidService } from '../public/assets/facts.js';
-import { makersLine, MAKERS_CONFIRMED, MAKERS_INVITED } from '../lib/site.js';
-import { listCounts, withListCounts, makersHtml, MAKERS_RE } from '../scripts/build-home.mjs';
+import { listCounts, withListCounts } from '../scripts/build-home.mjs';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 
@@ -28,12 +27,7 @@ test('withListCounts rewrites every count, with the right singular or plural', (
   assert.throws(() => withListCounts('<html></html>'), /expected one/, 'a page without the counts stops the build');
 });
 
-test('the homepage makers line is the one in lib/site.js (confirmed in writing only)', () => {
-  const home = file('public/index.html');
-  assert.equal(home.match(new RegExp(MAKERS_RE.source, 'g')).length, 1);
-  assert.ok(home.includes(makersHtml()));
-  assert.equal(makersLine(), `${MAKERS_CONFIRMED} makers confirmed · ${MAKERS_INVITED} invited`);
-});
+// removed 2026-11-19: the founder took the "3 makers confirmed · 26 invited" line off the site (test/homepage.test.js checks it is gone)
 
 test('no page states a reader, subscriber or user count, or an old makers number', () => {
   const pages = ['public/index.html', 'public/launch-list/index.html', 'public/404.html'].map(file).join('\n');

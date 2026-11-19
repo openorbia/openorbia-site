@@ -44,5 +44,5 @@ test('Meetily\'s first result and Reactive Resume\'s free tier follow their docs
 });
 
 test('the homepage week intro gives the day and time', () => {
-  assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:01 AM Pacific.</p>'));
+  assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:00 AM Central.</p>'));
 });

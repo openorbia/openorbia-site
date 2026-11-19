@@ -11,7 +11,7 @@ let db, env;
 beforeEach(() => { db = createDb(); env = { DB: db, VOTE_SECRET: SECRET }; });
 
 const iso = ms => new Date(ms).toISOString();
-const pacific = ms => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).format(ms);
+const pacific = ms => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).format(ms);
 let who = 0;
 const vote = (slug, now) => handleVote({ env, now, request: new Request('https://openorbia.com/api/vote', {
   method: 'POST', headers: { 'content-type': 'application/json', 'cf-connecting-ip': `198.51.100.${(who++ % 250) + 1}`, 'user-agent': `T${who}` }, body: JSON.stringify({ slug }),
@@ -21,10 +21,10 @@ const page = async res => ({ status: res.status, html: await res.text(), headers
 
 // ---- when a launch week closes ----
 
-test('a launch week closes on the Sunday at 11:59 PM Pacific: the launch date plus 6 days', () => {
-  assert.equal(iso(launchClosesAt('2026-11-23')), '2026-11-30T07:59:00.000Z');   // Sunday Nov 29, PST (UTC-8)
+test('a launch week closes on the Sunday at 11:59 PM Central: the launch date plus 6 days', () => {
+  assert.equal(iso(launchClosesAt('2026-11-23')), '2026-11-30T05:59:00.000Z');   // Sunday Nov 29, PST (UTC-8)
   assert.equal(pacific(launchClosesAt('2026-11-23')), 'Sunday 11:59 PM');
-  assert.equal(iso(launchClosesAt('2026-07-06')), '2026-07-13T06:59:00.000Z');   // Sunday Jul 12, PDT (UTC-7)
+  assert.equal(iso(launchClosesAt('2026-07-06')), '2026-07-13T04:59:00.000Z');   // Sunday Jul 12, PDT (UTC-7)
   assert.equal(pacific(launchClosesAt('2026-07-06')), 'Sunday 11:59 PM');
 });
 
@@ -32,7 +32,7 @@ test('every Monday launch of a whole year closes at Sunday 11:59 PM on the Pacif
   let day = Date.UTC(2027, 0, 4);                                                // Monday Jan 4, 2027
   for (let i = 0; i < 52; i++, day += 7 * 24 * 3600 * 1000) {
     const date = new Date(day).toISOString().slice(0, 10);
-    assert.equal(pacific(launchOpensAt(date)), 'Monday 12:01 AM', `${date} opens`);
+    assert.equal(pacific(launchOpensAt(date)), 'Monday 12:00 AM', `${date} opens`);
     assert.equal(pacific(launchClosesAt(date)), 'Sunday 11:59 PM', `${date} closes`);
   }
 });
@@ -40,34 +40,34 @@ test('every Monday launch of a whole year closes at Sunday 11:59 PM on the Pacif
 test('DST edges: the week that loses an hour and the week that gains one', () => {
   // spring forward: Sunday 14 March 2027 has 23 hours, so the week is an hour shorter in real time
   const springOpen = launchOpensAt('2027-03-08'), springClose = launchClosesAt('2027-03-08');
-  assert.equal(iso(springOpen), '2027-03-08T08:01:00.000Z');                     // PST
-  assert.equal(iso(springClose), '2027-03-15T06:59:00.000Z');                    // PDT: 06:59 UTC, not 07:59
-  assert.equal(springClose - springOpen, (6 * 24 + 22) * 3600 * 1000 + 58 * 60 * 1000);
+  assert.equal(iso(springOpen), '2027-03-08T06:00:00.000Z');                     // CST
+  assert.equal(iso(springClose), '2027-03-15T04:59:00.000Z');                    // CDT: 04:59 UTC, not 05:59
+  assert.equal(springClose - springOpen, (6 * 24 + 22) * 3600 * 1000 + 59 * 60 * 1000);
   // fall back: Sunday 1 November 2026 has 25 hours
   const fallOpen = launchOpensAt('2026-10-26'), fallClose = launchClosesAt('2026-10-26');
-  assert.equal(iso(fallOpen), '2026-10-26T07:01:00.000Z');                       // PDT
-  assert.equal(iso(fallClose), '2026-11-02T07:59:00.000Z');                      // PST
-  assert.equal(fallClose - fallOpen, (7 * 24 * 60 + 58) * 60 * 1000);          // 6 days 23:58 on the clock, plus the extra hour of the 25-hour Sunday
+  assert.equal(iso(fallOpen), '2026-10-26T05:00:00.000Z');                       // CDT
+  assert.equal(iso(fallClose), '2026-11-02T05:59:00.000Z');                      // CST
+  assert.equal(fallClose - fallOpen, (7 * 24 * 60 + 59) * 60 * 1000);          // 6 days 23:59 on the clock, plus the extra hour of the 25-hour Sunday
   // across a month, a year and a leap day
-  assert.equal(iso(launchClosesAt('2026-12-28')), '2027-01-04T07:59:00.000Z');
-  assert.equal(iso(launchClosesAt('2028-02-28')), '2028-03-06T07:59:00.000Z');   // Feb 29 exists in 2028
+  assert.equal(iso(launchClosesAt('2026-12-28')), '2027-01-04T05:59:00.000Z');
+  assert.equal(iso(launchClosesAt('2028-02-28')), '2028-03-06T05:59:00.000Z');   // Feb 29 exists in 2028
   assert.ok(Number.isNaN(launchClosesAt('2026-02-31')) && Number.isNaN(launchClosesAt('soon')) && Number.isNaN(launchClosesAt('')));
 });
 
 // ---- the vote API ----
 
-test('voting is open from 12:01 AM Monday until 11:59 PM Sunday Pacific, and closed after', async () => {
+test('voting is open from 12:00 AM Monday until 11:59 PM Sunday Central, and closed after', async () => {
   addLaunch(db, { slug: 'a-tool', name: 'A Tool', launch_week: 1, launch_date: '2026-11-23' });
   const opens = launchOpensAt('2026-11-23'), closes = launchClosesAt('2026-11-23');
   const before = await vote('a-tool', opens - 1000);
   assert.equal(before.status, 403);
-  assert.match((await before.json()).error, /^Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific\.$/);
+  assert.match((await before.json()).error, /^Voting opens Monday, Nov 23, 2026 at 12:00 AM Central\.$/);
   assert.equal((await vote('a-tool', opens)).status, 200, 'open at the opening minute');
   assert.equal((await vote('a-tool', closes - 1000)).status, 200, 'still open one second before the close');
   for (const t of [closes, closes + 1000, closes + 3600 * 1000, closes + 30 * 24 * 3600 * 1000]) {
     const res = await vote('a-tool', t);
     assert.equal(res.status, 403, iso(t));
-    assert.deepEqual(await res.json(), { ok: false, code: 'voting_closed', error: 'Voting closed Sunday at 11:59 PM Pacific.' });
+    assert.deepEqual(await res.json(), { ok: false, code: 'voting_closed', error: 'Voting closed Sunday at 11:59 PM Central.' });
   }
   assert.equal(db.rows('SELECT COUNT(*) AS n FROM votes')[0].n, 2, 'nothing was counted after the close');
 });
@@ -76,12 +76,12 @@ test('the close follows the Pacific clock across DST: a fixed UTC-8 would keep t
   addLaunch(db, { slug: 'spring', name: 'Spring', launch_week: 1, launch_date: '2027-03-08' });
   addLaunch(db, { slug: 'fall', name: 'Fall', launch_week: 2, launch_date: '2026-10-26' });
   // spring week: closes 06:59 UTC. 07:30 UTC is 12:30 AM Monday PDT, so voting must already be closed
-  assert.equal((await vote('spring', Date.parse('2027-03-15T06:58:59Z'))).status, 200);
-  assert.equal((await vote('spring', Date.parse('2027-03-15T06:59:00Z'))).status, 403);
-  assert.equal((await vote('spring', Date.parse('2027-03-15T07:30:00Z'))).status, 403);
+  assert.equal((await vote('spring', Date.parse('2027-03-15T04:58:59Z'))).status, 200);
+  assert.equal((await vote('spring', Date.parse('2027-03-15T04:59:00Z'))).status, 403);
+  assert.equal((await vote('spring', Date.parse('2027-03-15T05:30:00Z'))).status, 403);
   // fall week: closes 07:59 UTC (PST), and an hour earlier (06:59 UTC, which is 11:59 PM PDT of the same night) it is still open
-  assert.equal((await vote('fall', Date.parse('2026-11-02T07:58:59Z'))).status, 200);
-  assert.equal((await vote('fall', Date.parse('2026-11-02T07:59:00Z'))).status, 403);
+  assert.equal((await vote('fall', Date.parse('2026-11-02T05:58:59Z'))).status, 200);
+  assert.equal((await vote('fall', Date.parse('2026-11-02T05:59:00Z'))).status, 403);
 });
 
 // ---- the pages ----
@@ -90,7 +90,7 @@ test('a launch page says when voting closes while it is open, and "Final results
   addLaunch(db, { slug: 'a-tool', name: 'A Tool', launch_week: 1, launch_date: '2026-11-23' });
   const req = new Request('https://openorbia.com/launch/a-tool/');
   const open = await page(await launchResponse({ request: req, env, params: { slug: 'a-tool' }, now: launchOpensAt('2026-11-23') + 3600 * 1000 }));
-  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM PT'));
+  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM CT'));
   assert.ok(!open.html.includes('Final results'));
   assert.match(open.html, /data-state="ready"/);
 
@@ -108,7 +108,7 @@ test('the leaderboard and the homepage JSON know when a week is over', async () 
   addLaunch(db, { slug: 'a-tool', name: 'A Tool', launch_week: 1, launch_date: '2026-11-23' });
   const req = new Request('https://openorbia.com/launches/');
   const open = await page(await leaderboardResponse({ request: req, env, now: launchOpensAt('2026-11-23') + 24 * 3600 * 1000 }));
-  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM PT'));
+  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM CT'));
   assert.ok(!open.html.includes('Final results'));
   const done = await page(await leaderboardResponse({ request: req, env, now: launchClosesAt('2026-11-23') + 1000 }));
   assert.ok(done.html.includes('Final results') && done.html.includes('Voting is closed.'));
@@ -116,7 +116,7 @@ test('the leaderboard and the homepage JSON know when a week is over', async () 
   assert.match(done.html, /data-state="ended"/);
   const json = await (await launchesApiResponse({ request: new Request('https://openorbia.com/api/launches'), env, now: launchClosesAt('2026-11-23') + 1000 })).json();
   assert.equal(json.closed, true);
-  assert.equal(json.closes_at, '2026-11-30T07:59:00.000Z');
+  assert.equal(json.closes_at, '2026-11-30T05:59:00.000Z');
 });
 
 // ---- final ranks ----
@@ -169,5 +169,5 @@ test('before the week is final the results page shows no ranks and is not indexe
 
 test('in the fall week 06:59 UTC (11:59 PM PDT) is still an hour before the close', async () => {
   addLaunch(db, { slug: 'fall', name: 'Fall', launch_week: 2, launch_date: '2026-10-26' });
-  assert.equal((await vote('fall', Date.parse('2026-11-02T06:59:00Z'))).status, 200);
+  assert.equal((await vote('fall', Date.parse('2026-11-02T04:59:00Z'))).status, 200);
 });

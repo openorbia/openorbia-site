@@ -28,9 +28,9 @@ test('the sitemap lists the fixed pages and every announced launch, and nothing 
   addLaunch(db, { slug: 'zeta-tool', name: 'Zeta Tool', launch_date: '2026-11-23' });
   addLaunch(db, { slug: 'alpha-tool', name: 'Alpha Tool', launch_date: '2026-11-23' });
   // changed 2026-11-14: launch pages are listed from the lineup announcement (Wednesday, Nov 18), not before
-  const before = await (await sitemapResponse({ env, now: Date.parse('2026-11-18T07:00:00Z') })).text();
+  const before = await (await sitemapResponse({ env, now: Date.parse('2026-11-18T05:00:00Z') })).text();
   assert.ok(!before.includes('/launch/'), 'not listed before the lineup is announced');
-  const res = await sitemapResponse({ env, now: Date.parse('2026-11-18T09:00:00Z') });
+  const res = await sitemapResponse({ env, now: Date.parse('2026-11-18T07:00:00Z') });
   assert.match(res.headers.get('content-type'), /application\/xml/);
   const xml = await res.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);

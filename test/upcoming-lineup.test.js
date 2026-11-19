@@ -9,7 +9,7 @@ import { currentWeek } from '../lib/launches.js';
 import { lineupAnnouncedAt } from '../lib/time.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
-const ANNOUNCE = lineupAnnouncedAt('2026-11-23');   // Wednesday, Nov 18, 12:01 AM Pacific
+const ANNOUNCE = lineupAnnouncedAt('2026-11-23');   // Wednesday, Nov 18, 12:00 AM Central
 const BEFORE = ANNOUNCE - 3600 * 1000, AFTER = ANNOUNCE + 3600 * 1000;
 const req = path => new Request(`https://openorbia.com${path}`);
 let db, env;
@@ -20,7 +20,7 @@ beforeEach(() => {
 });
 
 test('the lineup is announced on the Wednesday before launch day', async () => {
-  assert.equal(new Date(ANNOUNCE).toISOString(), '2026-11-18T08:01:00.000Z');
+  assert.equal(new Date(ANNOUNCE).toISOString(), '2026-11-18T06:00:00.000Z');
   assert.equal((await currentWeek(db, BEFORE)).announced, false);
   assert.equal((await currentWeek(db, AFTER)).announced, true);
 });
@@ -30,7 +30,7 @@ test('before the announcement the API names no launch and /launches/ shows the i
   assert.equal(api.week, 1);
   assert.equal(api.total, 0);
   assert.deepEqual(api.launches, []);
-  assert.equal(api.lineup_at, '2026-11-18T08:01:00.000Z');
+  assert.equal(api.lineup_at, '2026-11-18T06:00:00.000Z');
   const html = await (await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE })).text();
   assert.ok(!html.includes('Alpha Tool') && !html.includes('Beta Tool'), 'no launch named');
   assert.ok(html.includes('<p class="lw-lineup">Lineup announced Wednesday, Nov 18</p>'));
@@ -82,7 +82,7 @@ test('homepage: once announced, next Monday\'s lineup is listed (up to 6) above 
   assert.equal(two.inserted.children.length, 2);
   assert.equal(two.cta.textContent, 'See the lineup →');
   // before the announcement the API sends no launches: the email offer and the date line stay
-  const before = await homepage({ ok: true, week: 1, open: false, total: 0, label: 'Monday, Nov 23, 2026', now: BEFORE, launches: [], lineup_at: '2026-11-18T08:01:00.000Z' });
+  const before = await homepage({ ok: true, week: 1, open: false, total: 0, label: 'Monday, Nov 23, 2026', now: BEFORE, launches: [], lineup_at: '2026-11-18T06:00:00.000Z' });
   assert.equal(before.inserted, null);
   assert.equal(before.cta.textContent, 'Get the lineup by email');
   assert.ok(!before.dateRemoved);
