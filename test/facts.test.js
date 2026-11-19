@@ -116,7 +116,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
-  assert.equal(rows.length, 44);   // Twenty removed 2026-11-11
+  assert.equal(rows.length, 47);   // Twenty removed 2026-11-11; Open Notebook, Langflow, Agentic Security added 2026-11-19
   const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage', 'firstResult'];
   for (const r of rows) {
     const f = r[8];

@@ -1110,5 +1110,73 @@
     "confidence": "medium",
     "category": "sec",
     "lastChecked": "2026-11-14"
+  },
+  {
+    "repo": "lfnovo/open-notebook",
+    "name": "Open Notebook",
+    "freeTier": "Free & open source (MIT); you pay only for a cloud AI if you use one",
+    "cardRequired": "no",
+    "dataLocation": "Runs on your computer",
+    "setup": "Install & self-host",
+    "catch": "Needs Docker. No password by default: bind it to 127.0.0.1 or set one. Podcasts need a text-to-speech provider; Ollama has none",
+    "paidDeps": {
+      "level": "optional",
+      "what": "None with free local models through Ollama; cloud providers such as OpenAI bill per use"
+    },
+    "sources": [
+      "https://github.com/lfnovo/open-notebook#readme",
+      "https://github.com/lfnovo/open-notebook/blob/main/docs/0-START-HERE/quick-start-local.md",
+      "https://github.com/lfnovo/open-notebook/blob/main/docs/1-INSTALLATION/docker-compose.md"
+    ],
+    "task": "Chat with your own documents, PDFs and web pages and turn them into notes",
+    "level": "basic",
+    "confidence": "high",
+    "category": "biz",
+    "lastChecked": "2026-11-19"
+  },
+  {
+    "repo": "langflow-ai/langflow",
+    "name": "Langflow",
+    "freeTier": "Free & open source (MIT); you pay only for a cloud AI model you connect",
+    "cardRequired": "no",
+    "dataLocation": "Runs on your computer",
+    "setup": "Install & self-host",
+    "catch": "Needs Python 3.10-3.14 and uv, or Docker. Local models need Ollama and enough memory. The Desktop app download asks for your email",
+    "paidDeps": {
+      "level": "optional",
+      "what": "None with local models through Ollama; cloud models such as OpenAI need your own paid key"
+    },
+    "sources": [
+      "https://github.com/langflow-ai/langflow#readme",
+      "https://docs.langflow.org/bundles-ollama",
+      "https://www.langflow.org/desktop"
+    ],
+    "task": "Build AI agents and automated workflows visually and run them as an API",
+    "level": "basic",
+    "confidence": "high",
+    "category": "biz",
+    "lastChecked": "2026-11-19"
+  },
+  {
+    "repo": "msoedov/agentic_security",
+    "name": "Agentic Security",
+    "freeTier": "Free & open source (Apache 2.0); no SaaS, no account",
+    "cardRequired": "no",
+    "dataLocation": "Runs on your computer",
+    "setup": "Install & self-host",
+    "catch": "Needs Python 3.15+. Scanning a paid API costs one call per prompt; test datasets download from Hugging Face",
+    "paidDeps": {
+      "level": "optional",
+      "what": "None for the built-in mock or a local model; scanning a paid API bills per prompt"
+    },
+    "sources": [
+      "https://github.com/msoedov/agentic_security#readme",
+      "https://github.com/msoedov/agentic_security/blob/main/docs/cli.md"
+    ],
+    "task": "Scan your own AI app or model endpoint for jailbreaks and prompt injection",
+    "level": "basic",
+    "confidence": "high",
+    "category": "sec",
+    "lastChecked": "2026-11-19"
   }
 ]

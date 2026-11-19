@@ -19,7 +19,7 @@ const textOf = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repl
 
 test('there is one tool per Launch List row, each with its own URL-safe slug', () => {
   assert.equal(TOOLS.length, ROWS.length);
-  assert.equal(TOOLS.length, 44);
+  assert.equal(TOOLS.length, 47);   // 3 tools added 2026-11-19
   assert.equal(new Set(TOOLS.map(t => t.slug)).size, TOOLS.length);
   for (const t of TOOLS) assert.match(t.slug, /^[a-z0-9]+(-[a-z0-9]+)*$/, t.name);
   assert.equal(slugOf('Open WebUI'), 'open-webui');
