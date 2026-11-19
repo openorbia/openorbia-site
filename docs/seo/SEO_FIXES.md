@@ -46,8 +46,8 @@ pages.dev hosts), rate limits, crawler permissions or any tool's facts. No depen
 
 ### 3. Positioning (commit "Positioning: ...")
 
-- **Homepage:** title "OpenOrbia: free and open-source AI tools for what you want to do"; headline "Find free AI tools for
-  what you want to do."; lede "Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and
+- **Homepage:** title and headline stay "Where free AI tools take off" (the founder's choice, after trying the suggested
+  "Find free AI tools for what you want to do"); lede "Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and
   more. See what is actually free, what needs a paid API and how each tool works."
 - **Explore AI tools by category:** four cards (tool count, short description, link to the category page, and each topic as
   its existing Launch List search). The three audience cards follow under "Or browse by who you are", and the six task links
@@ -69,8 +69,9 @@ render puts back the same markup: identical DOM after parsing, layout shift 0. F
 
 ## Decisions to confirm
 
-- **Headline and title.** The spec's suggested headline replaces "Where free AI tools take off." The tagline still appears in
-  the X and GitHub bios. To keep it on the site, restore the `<h1>` in `public/index.html` and the three tests that name it.
+- **Headline and title: decided.** The suggested "Find free AI tools for what you want to do." was live briefly; the founder
+  chose to keep "Where free AI tools take off." for the headline, page title and og:title (2026-11-19). The lede under it and
+  the "Explore AI tools by category" section carry the four-category positioning.
 - **AI crawler access: unchanged.** `robots.txt` allows every crawler except `/go/`. Tradeoffs, for a decision later:
   - *Allowing* (current): AI assistants and AI search can read and cite the free-facts pages, which suits a site whose value is
     accurate, citable facts. It also means the text can be used to train models.
