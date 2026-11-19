@@ -26,7 +26,7 @@ test('every page carries the curtain in <head>, before any other script and with
   for (const [name, html] of Object.entries(pages)) {
     const head = html.slice(0, html.indexOf('</head>'));
     assert.ok(head.includes(launchLockHead()), `${name}: the same head block (npm run build:home for the static pages)`);
-    const first = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]).find(tag => !/application\/ld\+json/.test(tag));
+    const first = [...html.matchAll(/<script\b[^>]*>/gi)].map(m => m[0]).find(tag => !/application\/ld\+json/.test(tag));
     assert.equal(first, `<script src="${asset('launch-lock.js')}">`, `${name}: first script, not deferred`);
   }
 });
