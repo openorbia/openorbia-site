@@ -14,6 +14,7 @@ import { footerHtml } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
 import { MARK } from '../lib/layout.js';
 import { homeCategoriesHtml } from '../lib/categories.js';
+import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
 import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
@@ -67,6 +68,15 @@ export function withListChecked(html, when = listChecked()) {
   return html.replace(CHECKED_RE, `$1${when}$2`);
 }
 
+// The Launch List's default cards (no filters), written into the page so the tools are in the HTML for crawlers and visitors
+// without JavaScript; the page script then renders the same markup (public/assets/launch-list.js), so nothing moves
+const CARDS_RE = /<!-- cards:start -->[\s\S]*?<!-- cards:end -->/;
+const COUNT_RE = /<span class="count" id="count">[^<]*<\/span>/;
+export function withListCards(html, cards = defaultCardsHtml(), n = defaultRows().length) {
+  for (const re of [CARDS_RE, COUNT_RE]) if ((html.match(new RegExp(re.source, 'g')) || []).length !== 1) throw new Error(`public/launch-list/index.html: expected one ${re}`);
+  return html.replace(CARDS_RE, () => `<!-- cards:start -->${cards}<!-- cards:end -->`).replace(COUNT_RE, `<span class="count" id="count">${n} TOOLS</span>`);
+}
+
 // The static pages carry the footer with <span id="yr">2026</span>; a small script there puts in this year
 export const STATIC_PAGES = ['public/index.html', 'public/launch-list/index.html', 'public/404.html'];
 export const staticFooter = () => footerHtml('<span id="yr">2026</span>');
@@ -87,7 +97,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (!MAKERS_RE.test(filled)) { console.error('public/index.html has no <p class="week-makers" data-makers>'); process.exit(1); }
   writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()).replace(MAKERS_RE, makersHtml()));
   const list = new URL('public/launch-list/index.html', root);
-  writeFileSync(list, withListChecked(withListCounts(readFileSync(list, 'utf8'))));
+  writeFileSync(list, withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8')))));
   for (const page of STATIC_PAGES) {
     const file = new URL(page, root), html = readFileSync(file, 'utf8');
     const start = html.indexOf('<footer>'), end = html.indexOf('</footer>') + '</footer>'.length;

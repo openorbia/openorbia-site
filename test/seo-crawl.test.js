@@ -48,3 +48,12 @@ test('public/_headers sends noindex for the static files on pages.dev, using the
   assert.match(t, /^https:\/\/:version\.:project\.pages\.dev\/\*\n  X-Robots-Tag: noindex$/m);
   assert.doesNotMatch(t, /^\/\*\n(?:  .*\n)*  X-Robots-Tag/m, 'never noindex for every host');
 });
+
+test('the Launch List HTML carries the default tool cards, with a link to every tool page, as build:home writes them', async () => {
+  const { defaultCardsHtml, defaultRows } = await import('../public/assets/launch-list.js');
+  const html = readFileSync(new URL('../public/launch-list/index.html', import.meta.url), 'utf8');
+  assert.ok(html.includes(`<!-- cards:start -->${defaultCardsHtml()}<!-- cards:end -->`), 'run npm run build:home after changing the Launch List');
+  assert.ok(html.includes(`<span class="count" id="count">${defaultRows().length} TOOLS</span>`));
+  const linked = new Set([...html.matchAll(/href="\/tool\/([a-z0-9-]+)\/"/g)].map(m => m[1]));
+  assert.equal(linked.size, defaultRows().length, 'one crawlable link per tool in the default view');
+});
