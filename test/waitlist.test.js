@@ -93,7 +93,9 @@ test('the homepage form posts without JavaScript and every message it can be sen
 
 // The one description of OpenOrbia, word for word the same on the site and in its LinkedIn, X and GitHub profiles, so search
 // engines connect them as one organization. The launch date is on the page itself (badge, countdown), not in the description.
-const ORG_DESCRIPTION = 'A weekly launch platform for free and open-source AI tools, with the catch shown up front, for small businesses, job seekers and security teams.';
+// changed 2026-11-19 (platform positioning): four categories instead of three audiences. The LinkedIn, X and GitHub profiles need the
+// same words (docs/seo/SEO_FIXES.md, owner tasks).
+const ORG_DESCRIPTION = 'A weekly launch platform for free and open-source AI tools for productivity, automation, careers and security, with the catch shown up front.';
 
 test('homepage meta description, og:description and the Organization data all use the one OpenOrbia description', () => {
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
