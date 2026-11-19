@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
 import { pickFeatured, renderFeatured, PINNED_SEC } from '../lib/featured.js';
-import { MAKERS_CONFIRMED, MAKERS_INVITED, makersLine } from '../lib/site.js';
+import { MAKERS_CONFIRMED, MAKERS_INVITED } from '../lib/site.js';
 import { confidenceByRepo, featuredHtml } from '../scripts/build-home.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -107,10 +107,10 @@ test('the sections come in order: hero, signup, this week, search, featured tool
   for (const m of home.matchAll(/<section[^>]*>([\s\S]*?)<\/section>/g)) assert.ok(m[1].replace(/<[^>]+>/g, '').trim().length > 20, 'a section has text');
 });
 
-test('before launch the week block shows the countdown and the makers confirmed; after launch launch.js shows cards with vote buttons and the closing time', () => {
+test('before launch the week block shows the countdown; after launch launch.js shows cards with vote buttons and the closing time', () => {
   assert.match(home, /Coming Monday, Nov 23, 2026/);
   assert.match(home, /data-countdown="2026-11-23T08:01:00\.000Z"/);
-  assert.ok(home.includes(`<p class="week-makers" data-makers>${makersLine()}</p>`));
+  assert.ok(!/makers confirmed|data-makers/.test(home), 'no makers line (removed 2026-11-19)');
   const js = file('public/assets/launch.js');
   assert.ok(js.includes("'Voting closes Sunday 11:59 PM PT'"));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
@@ -155,9 +155,8 @@ test('garak is the first security pick; promptfoo takes its place only when gara
   assert.ok(!secs.includes('garak') && !secs.includes('promptfoo'));
 });
 
-test('MAKERS_CONFIRMED is 3, MAKERS_INVITED is 26, and the homepage shows both', () => {
+test('MAKERS_CONFIRMED and MAKERS_INVITED stay for the launch check, but the site no longer shows them (2026-11-19)', () => {
   assert.equal(MAKERS_CONFIRMED, 3);
   assert.equal(MAKERS_INVITED, 26);
-  assert.equal(makersLine(), '3 makers confirmed · 26 invited');
-  assert.ok(home.includes('<p class="week-makers" data-makers>3 makers confirmed · 26 invited</p>'));
+  assert.ok(!home.includes('makers confirmed') && !home.includes('invited</p>'));
 });
