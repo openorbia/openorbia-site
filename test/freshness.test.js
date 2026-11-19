@@ -21,7 +21,7 @@ test('the Launch List note gives the month of the oldest check, written by build
 });
 
 test('every row was re-checked on Nov 14, in the data file and on the Launch List', () => {
-  assert.equal(data.length, 45);
+  assert.equal(data.length, 44);   // Twenty removed (#30)
   for (const e of data) assert.equal(e.lastChecked, RECHECKED, e.name);
   for (const t of TOOLS) assert.equal(t.facts.lastChecked, RECHECKED, t.name);
 });

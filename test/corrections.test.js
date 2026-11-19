@@ -22,14 +22,13 @@ const CORRECTIONS = {
   'saeedkolivand/ai-job-hunter-app': ['Sentry by default', 'https://github.com/saeedkolivand/ai-job-hunter-app#readme', [/beta/i]],
   'DaKheera47/job-ops': ['anonymous usage analytics', 'https://github.com/DaKheera47/job-ops#readme', [/analytics on by default/i]],
   'NVIDIA-NeMo/Guardrails': ['DO_NOT_TRACK=1', 'https://github.com/NVIDIA-NeMo/Guardrails/blob/develop/docs/telemetry.mdx', [/on by default/i]],
-  'twentyhq/twenty': ['paid Organization key', 'https://github.com/twentyhq/twenty/blob/main/packages/twenty-docs/user-guide/billing/capabilities/pricing-plans.mdx', [/are paid-only/i]],
   'langgenius/dify': ['multi-workspace', 'https://github.com/langgenius/dify/blob/main/LICENSE', [/Self-host is one workspace/i, /can't be removed/i, /needs your own AI model keys/i]],
   'gitroomhq/postiz-app': ['developer app on each social network', 'https://docs.postiz.com/self-host/providers/overview.md', [/weeks/i]],
   'vxcontrol/pentagi': ['EULA applies', 'https://github.com/vxcontrol/pentagi/blob/main/EULA.md', [/large local model/i]],
 };
 
 test('each corrected catch says what the docs say, cites the page that says it, and no longer carries the old claim', () => {
-  assert.equal(Object.keys(CORRECTIONS).length, 14);
+  assert.equal(Object.keys(CORRECTIONS).length, 13);   // 14 until Twenty was removed (2026-11-11)
   for (const [repo, [says, source, gone]] of Object.entries(CORRECTIONS)) {
     const e = entry(repo);
     assert.ok(e, repo);
@@ -65,6 +64,6 @@ test('yourspeakreps is gone from the data file, and the three tools the founder 
 
 test('tools that were not corrected keep their catch, their sources and their date', () => {
   const untouched = data.filter(e => !Object.keys(CORRECTIONS).some(k => k.toLowerCase() === e.repo.toLowerCase()));
-  assert.equal(untouched.length, data.length - 14);
+  assert.equal(untouched.length, data.length - 13);
   for (const e of untouched) assert.equal(row(e.repo)[8].catch, e.catch, e.name);
 });

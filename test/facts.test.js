@@ -116,7 +116,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
-  assert.equal(rows.length, 45);
+  assert.equal(rows.length, 44);   // Twenty removed 2026-11-11
   const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage', 'firstResult'];
   for (const r of rows) {
     const f = r[8];
@@ -202,6 +202,7 @@ test('cardRequired "unknown" is valid: "Not confirmed yet" on launch pages, "Not
   assert.ok(html.includes('Card required</dt><dd>Not confirmed yet</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
+  // Reactive Resume: its README and docs say "no paid tier" but neither states whether a card is needed (re-checked 2026-11-14)
   assert.deepEqual([...unknown], ['Reactive Resume']);
 });
 
