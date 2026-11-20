@@ -1,7 +1,7 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { sitemapXml, sitemapResponse, STATIC_PATHS, TOOL_PATHS, CATEGORY_PATHS } from '../lib/seo.js';
+import { sitemapXml, sitemapResponse, STATIC_PATHS, TOOL_PATHS, CATEGORY_PATHS, COLLECTION_PATHS } from '../lib/seo.js';
 import { launchResponse, leaderboardResponse, renderNotFound } from '../lib/pages.js';
 import { launchOpensAt } from '../lib/time.js';
 import { renderMakers } from '../lib/makers.js';
@@ -35,13 +35,13 @@ test('the sitemap lists the fixed pages and every announced launch, and nothing 
   const xml = await res.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
   assert.ok(locs.includes('https://openorbia.com/makers/'));
-  assert.deepEqual(locs, [...STATIC_PATHS, ...CATEGORY_PATHS, ...TOOL_PATHS, '/launch/alpha-tool/', '/launch/zeta-tool/'].map(p => `https://openorbia.com${p}`));
+  assert.deepEqual(locs, [...STATIC_PATHS, ...CATEGORY_PATHS, ...COLLECTION_PATHS, ...TOOL_PATHS, '/launch/alpha-tool/', '/launch/zeta-tool/'].map(p => `https://openorbia.com${p}`));
   assert.ok(!xml.includes('404'));
 });
 
 test('the sitemap still lists the fixed pages when the database is unavailable', async () => {
   const xml = await (await sitemapResponse({ env: {} })).text();
-  assert.equal([...xml.matchAll(/<loc>/g)].length, STATIC_PATHS.length + CATEGORY_PATHS.length + TOOL_PATHS.length);
+  assert.equal([...xml.matchAll(/<loc>/g)].length, STATIC_PATHS.length + CATEGORY_PATHS.length + COLLECTION_PATHS.length + TOOL_PATHS.length);
   assert.equal(sitemapXml(['a&b']).includes('a%26b'), true);
 });
 

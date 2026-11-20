@@ -34,7 +34,7 @@ test('the Tools menu offers category, audience and setup, plus all tools, and st
   const heads = [...MENUS.tools.matchAll(/<p class="mm-h">([^<]+)<\/p>/g)].map(m => m[1]);
   assert.deepEqual(heads, ['By category', 'By audience', 'By setup']);
   for (const c of MAIN_CATEGORIES) assert.ok(MENUS.tools.includes(`href="/category/${c.slug}/"`), c.slug);
-  for (const h of ['/launch-list/?for=biz', '/launch-list/?for=job', '/launch-list/?for=sec', '/launch-list/?setup=browser', '/launch-list/?setup=desktop', '/launch-list/?setup=selfhost', '/launch-list/?local=1', '/launch-list/?os=1', '/launch-list/']) {
+  for (const h of ['/launch-list/?for=biz', '/launch-list/?for=job', '/launch-list/?for=sec', '/launch-list/?setup=browser', '/launch-list/?setup=desktop', '/collection/self-hosted/', '/launch-list/?local=1', '/launch-list/?os=1', '/launch-list/']) {
     assert.ok(MENUS.tools.includes(`href="${h.replace(/&/g, '&amp;')}"`), `${h} kept`);
   }
   assert.ok(MENUS.tools.includes('<b>Find my free setup</b>'), 'Find my free setup stays at the top');

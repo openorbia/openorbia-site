@@ -6,7 +6,7 @@ import { launchResponse, leaderboardResponse, launchesApiResponse, renderLaunch,
 import { currentWeek } from '../lib/launches.js';
 import { videoEmbed, esc, paragraphs, isOpenLicense } from '../lib/html.js';
 import { handleVote } from '../lib/vote.js';
-import { launchOpensAt } from '../lib/time.js';
+import { launchOpensAt, launchClosesAt } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
@@ -198,7 +198,9 @@ test('once launch day has opened the leaderboard is ranked by votes, ties by nam
   await castVote('late-tool', '1.1.1.1');
 
   const { html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: AFTER }));
-  assert.ok(!html.includes('data-countdown'));
+  // while voting runs the only clock is the one to closing time (Sunday 11:59 PM Central), not the opening countdown
+  assert.equal([...html.matchAll(/data-countdown="([^"]+)"/g)].map(m => m[1]).join(), new Date(launchClosesAt('2026-11-23')).toISOString());
+  assert.ok(html.includes('Voting closes in') && html.includes('aria-label="Time until voting closes"'));
   assert.deepEqual([...html.matchAll(/<span class="lrow-text"><b>([^<]+)<\/b>/g)].map(m => m[1]), ['Zeta Tool', 'Mid Tool', 'Alpha Tool', 'Late Tool']);
   assert.deepEqual([...html.matchAll(/data-count>(\d+)</g)].map(m => m[1]), ['3', '2', '1', '1']);
   // changed 2026-11-06: equal upvotes share a rank, as on the results page (Alpha and Late both have 1: both are 3rd)
@@ -365,4 +367,16 @@ test('renderLaunch and renderLeaderboard are pure: same input, same output', () 
   const week = { week: 1, launchDate: '2026-11-23', opensAt: OPENS, open: true };
   assert.equal(renderLeaderboard({ week, launches: [launch], now: AFTER }), renderLeaderboard({ week, launches: [launch], now: AFTER }));
   assert.match(renderLaunch({ launch, now: AFTER }), /logo-initial/); // no logo: the initial on a gradient, like the Launch List
+});
+
+test('a launch page shows its rank in the week once voting is open and it has an upvote (ties shared), and none before', async () => {
+  seedThree();
+  for (const who of ['1.1.1.1', '1.1.1.2']) await castVote('zeta-tool', who);
+  await castVote('mid-tool', '1.1.1.1');
+  const at = async (slug, now) => (await page(await launchResponse({ request: req('/x'), env, params: { slug }, now }))).html;
+  assert.ok((await at('zeta-tool', AFTER)).includes('#1 of 3 in Launch Week 1'));
+  assert.ok((await at('mid-tool', AFTER)).includes('#2 of 3 in Launch Week 1'));
+  assert.ok(!(await at('alpha-tool', AFTER)).includes('class="rank-badge"'), 'no upvotes yet: no rank');
+  assert.ok(!(await at('zeta-tool', BEFORE)).includes('class="rank-badge"'), 'before launch day: no rank');
+  assert.ok((await at('zeta-tool', launchClosesAt('2026-11-23') + 1000)).includes('Finished #1 of 3 in Launch Week 1'));
 });
