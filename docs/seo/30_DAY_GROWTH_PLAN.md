@@ -10,17 +10,23 @@ the founder. Contact details stay in the private store.
 
 ## Baseline (record on day 1, then weekly)
 
-| Metric | Where | Day 1 | Day 7 | Day 14 | Day 21 | Day 30 |
+Day 1 is the audit of 2026-11-20 (`SEO_AUDIT_2026-11-20.md`). Source: public HTTP checks and the repository only. The Search
+Console, Bing and Cloudflare dashboards were not signed in, so their numbers say NOT VERIFIED instead of a guess. Verified public
+facts that day: 63 URLs in `sitemap.xml`, all 200 (0 launch URLs: the launch database was not yet seeded); 4 category pages and 47
+tool pages live; 0 broken internal links; `www` not yet redirected to the apex.
+
+| Metric | Where | Day 1 (2026-11-20) | Day 7 | Day 14 | Day 21 | Day 30 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Impressions, last 28 days | Search Console, Performance | | | | | |
-| Clicks, last 28 days | Search Console, Performance | | | | | |
-| Indexed pages | Search Console, Pages | | | | | |
-| Pages not indexed, by reason | Search Console, Pages | | | | | |
-| Top 20 queries | Search Console, Performance, Queries (export) | | | | | |
-| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | | | | | |
-| Ahrefs Domain Rating | Ahrefs Site Explorer | 0 | | | | |
-| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | | | | | |
-| Bing indexed pages | Bing Webmaster Tools | | | | | |
+| Impressions, last 28 days | Search Console, Performance | NOT VERIFIED | | | | |
+| Clicks, last 28 days | Search Console, Performance | NOT VERIFIED | | | | |
+| Indexed pages | Search Console, Pages | NOT VERIFIED | | | | |
+| Pages not indexed, by reason | Search Console, Pages | NOT VERIFIED | | | | |
+| Top 20 queries | Search Console, Performance, Queries (export) | NOT VERIFIED | | | | |
+| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | NOT VERIFIED | | | | |
+| Ahrefs Domain Rating | Ahrefs Site Explorer | 0 (from the earlier audit; not re-checked) | | | | |
+| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | NOT VERIFIED | | | | |
+| Bing indexed pages | Bing Webmaster Tools | NOT VERIFIED | | | | |
+| URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | | | | |
 
 How to read them:
 

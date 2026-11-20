@@ -57,3 +57,23 @@ test('the Launch List HTML carries the default tool cards, with a link to every 
   const linked = new Set([...html.matchAll(/href="\/tool\/([a-z0-9-]+)\/"/g)].map(m => m[1]));
   assert.equal(linked.size, defaultRows().length, 'one crawlable link per tool in the default view');
 });
+
+test('the Launch List carries CollectionPage + ItemList structured data for every default tool, as build:home writes it', async () => {
+  const { listJsonLd } = await import('../scripts/build-home.mjs');
+  const { defaultRows } = await import('../public/assets/launch-list.js');
+  const html = readFileSync(new URL('../public/launch-list/index.html', import.meta.url), 'utf8');
+  const start = '<!-- list-jsonld:start -->\n<script type="application/ld+json">', end = '</script>\n<!-- list-jsonld:end -->';
+  const from = html.indexOf(start), to = html.indexOf(end);
+  const m = from >= 0 && to > from && [null, html.slice(from + start.length, to)];
+  assert.ok(m, 'run npm run build:home');
+  const ld = JSON.parse(m[1]);
+  assert.deepEqual(ld, listJsonLd());
+  assert.equal(ld.mainEntity.numberOfItems, defaultRows().length);
+  assert.ok(ld.mainEntity.itemListElement.every(i => /^https:\/\/openorbia\.com\/tool\/[a-z0-9-]+\/$/.test(i.url)));
+});
+
+test('the Launch List meta description stays within the length search results show', () => {
+  const html = readFileSync(new URL('../public/launch-list/index.html', import.meta.url), 'utf8');
+  const d = html.match(/<meta name="description" content="([^"]*)">/)[1];
+  assert.ok(d.length <= 160, `${d.length} characters`);
+});
