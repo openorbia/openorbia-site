@@ -114,8 +114,8 @@ export async function handleWaitlist({ request, env, waitUntil, fetchImpl, turns
       console.log(`Waitlist signup: outcome=new role=${result.welcome.role} turnstile=${check}${check === "passed" ? "" : " welcome_email=not_sent"}`);
       if (check !== "passed") return;
       const { to, role, id } = result.welcome;
-      // this signup's own unsubscribe link (lib/unsubscribe.js); without the server secret the email asks for a reply instead
-      const unsub = typeof env.VOTE_SECRET === "string" && env.VOTE_SECRET && id ? await unsubscribeUrl(env.VOTE_SECRET, id) : "";
+      // this signup's own unsubscribe link (lib/unsubscribe.js, signed with UNSUBSCRIBE_SECRET); without that secret the email asks for a reply instead
+      const unsub = typeof env.UNSUBSCRIBE_SECRET === "string" && env.UNSUBSCRIBE_SECRET && id ? await unsubscribeUrl(env.UNSUBSCRIBE_SECRET, id) : "";
       await sendWelcome({ apiKey: env.BREVO_API_KEY, to, role, unsubscribeUrl: unsub, fetchImpl });
     })();
     if (typeof waitUntil === "function") waitUntil(task); else await task;

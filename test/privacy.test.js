@@ -151,7 +151,7 @@ test('Waitlist says every email has an unsubscribe link that deletes the signup,
   const url = 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef';
   const e = welcomeEmail('reader', { unsubscribeUrl: url });
   assert.ok(e.html.includes('>Unsubscribe</a>') && e.text.includes(`Unsubscribe: ${url}`));
-  assert.ok(file('functions/api/waitlist.js').includes('await unsubscribeUrl(env.VOTE_SECRET, id)'), 'every welcome email gets its own link');
+  assert.ok(file('functions/api/waitlist.js').includes('await unsubscribeUrl(env.UNSUBSCRIBE_SECRET, id)'), 'every welcome email gets its own link');
   // and the link deletes that signup
   assert.ok(file('lib/unsubscribe.js').includes("DELETE FROM waitlist WHERE id = ?"));
 });

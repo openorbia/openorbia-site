@@ -83,7 +83,7 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
 });
 
 test('with the server secret, each welcome email carries its own unsubscribe link and the one-click List-Unsubscribe headers', async () => {
-  env.VOTE_SECRET = 'test-secret';
+  env.UNSUBSCRIBE_SECRET = 'test-secret';
   await handleWaitlist({ request: asJson({ email: 'a@example.com', role: 'reader' }), env, fetchImpl: brevo() });
   await handleWaitlist({ request: asJson({ email: 'b@example.com', role: 'reader' }), env, fetchImpl: brevo() });
   assert.equal(calls.length, 2);
@@ -257,4 +257,13 @@ test('the no-JavaScript form post (no token) logs no_token, and other outcomes l
   assert.deepEqual(signupLine(await logsFor({ email: 'bot@example.com', company: 'Acme' })), ['Waitlist signup: outcome=bot turnstile=not_checked']);
   const foreign = new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://evil.example' }, body: '{}' });
   assert.deepEqual(signupLine(await logsFor(null, { request: foreign })), ['Waitlist signup: outcome=forbidden turnstile=not_checked']);
+});
+
+test('the welcome email signs its unsubscribe link with UNSUBSCRIBE_SECRET; with only VOTE_SECRET it asks for a reply instead', async () => {
+  env.VOTE_SECRET = 'the-voting-secret-0123456789';
+  await handleWaitlist({ request: asJson({ email: 'v@example.com', role: 'reader' }), env, fetchImpl: brevo() });
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].body.headers, undefined, 'no List-Unsubscribe without UNSUBSCRIBE_SECRET');
+  assert.ok(calls[0].body.textContent.includes('To unsubscribe, reply to this email.'));
+  assert.ok(!calls[0].body.textContent.includes('/unsubscribe/?id='));
 });
