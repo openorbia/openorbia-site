@@ -10,21 +10,22 @@ the founder. Contact details stay in the private store.
 
 ## Baseline (record on day 1, then weekly)
 
-Day 1 is the audit of 2026-11-20 (`SEO_AUDIT_2026-11-20.md`). Source: public HTTP checks and the repository only. The Search
-Console, Bing and Cloudflare dashboards were not signed in, so their numbers say NOT VERIFIED instead of a guess. Verified public
-facts that day: 63 URLs in `sitemap.xml`, all 200 (0 launch URLs: the launch database was not yet seeded); 4 category pages and 47
-tool pages live; 0 broken internal links; `www` not yet redirected to the apex.
+Day 1 is the audit of 2026-11-20 (`SEO_AUDIT_2026-11-20.md`). Sources: public HTTP checks, the repository, and Google Search
+Console (domain property `openorbia.com`, read on 2026-11-20 in the owner's signed-in browser; Performance data runs to Nov 18).
+Bing Webmaster Tools and Cloudflare were not signed in, so their numbers say NOT VERIFIED instead of a guess. Other verified facts
+that day: 63 URLs in `sitemap.xml`, all 200 (0 launch URLs: the launch database was not yet seeded); 4 category pages and 47 tool
+pages live; 0 broken internal links; `www` not yet redirected to the apex.
 
 | Metric | Where | Day 1 (2026-11-20) | Day 7 | Day 14 | Day 21 | Day 30 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Impressions, last 28 days | Search Console, Performance | NOT VERIFIED | | | | |
-| Clicks, last 28 days | Search Console, Performance | NOT VERIFIED | | | | |
-| Indexed pages | Search Console, Pages | NOT VERIFIED | | | | |
-| Pages not indexed, by reason | Search Console, Pages | NOT VERIFIED | | | | |
-| Top 20 queries | Search Console, Performance, Queries (export) | NOT VERIFIED | | | | |
-| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | NOT VERIFIED | | | | |
+| Impressions, last 28 days | Search Console, Performance | 969 | | | | |
+| Clicks, last 28 days | Search Console, Performance | 21 (CTR 2.2%, average position 32.8) | | | | |
+| Indexed pages | Search Console, Pages | 61 | | | | |
+| Pages not indexed, by reason | Search Console, Pages | 90: alternate with proper canonical 76, crawled not indexed 8, 404 2, redirect 2, other 4xx 1, discovered not indexed 1 | | | | |
+| Top 20 queries | Search Console, Performance, Queries (export) | See `SEO_AUDIT_2026-11-20.md` (130 queries; top by impressions: "self hosted ai platform" 33) | | | | |
+| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | 1 (github.com, 4 links) | | | | |
 | Ahrefs Domain Rating | Ahrefs Site Explorer | 0 (from the earlier audit; not re-checked) | | | | |
-| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | NOT VERIFIED | | | | |
+| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | Not enough usage data (both) | | | | |
 | Bing indexed pages | Bing Webmaster Tools | NOT VERIFIED | | | | |
 | URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | | | | |
 
