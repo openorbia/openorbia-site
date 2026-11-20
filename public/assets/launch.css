@@ -172,6 +172,7 @@ img.logo{background:#fff}
 .ask-maker{margin:12px 0 0}
 /* separate from the tags and from the upvote button */
 .tested{display:inline-flex;align-items:center;gap:7px;margin:12px 0 0;padding:5px 12px;border:1px solid rgba(127,231,255,.4);border-radius:999px;background:rgba(127,231,255,.07);font:500 12px var(--mono);letter-spacing:.06em;color:var(--cyan)}
+.rank-badge{display:inline-flex;align-items:center;gap:7px;margin:12px 8px 0 0;padding:5px 12px;border:1px solid rgba(255,196,84,.45);border-radius:999px;background:rgba(255,196,84,.08);font:500 12px var(--mono);letter-spacing:.06em;color:#ffd27a}
 .frame{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000}
 .frame iframe,.frame video{position:absolute;inset:0;width:100%;height:100%;border:0}
 .shots ul{display:flex;gap:12px;margin:0;padding:0 0 8px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
@@ -481,3 +482,4 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .cat-free span{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:4px}
 .cat-tags{margin-top:8px}
 .cat-more p a{color:var(--blue-l)}
+.api-row{cursor:default}.api-row>span{display:flex;flex-direction:column;gap:4px}.api-row .alt-d{display:block}.api-k{color:var(--ink,#fff);font-weight:500}.api-src{margin-top:4px;font-size:13px;color:var(--cyan)}
