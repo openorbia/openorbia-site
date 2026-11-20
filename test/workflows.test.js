@@ -28,7 +28,8 @@ test('Seed launches runs only by hand, on main, after the production approval, w
   assert.match(y, /environment:\n\s+name: production/, 'waits for the founder approval like a production deploy');
   assert.match(y, /^permissions:\n  contents: read$/m);
   for (const [, ref] of y.matchAll(/uses: [^@\s]+@(\S+)/g)) assert.match(ref, /^[0-9a-f]{40}$/, 'actions pinned to a full commit SHA');
-  assert.match(y, /prune:\n(?:\s+.*\n)*?\s+default: false/);
+  const prune = y.slice(y.indexOf('      prune:'), y.indexOf('      prune:') + 200);
+  assert.ok(prune.includes('type: boolean') && prune.includes('default: false'), 'prune is off unless chosen');
   assert.match(y, /PRUNE: \$\{\{ inputs\.prune \}\}/, 'the input reaches the shell through env, never pasted into the command');
   assert.ok(y.includes('node scripts/seed-launches.mjs --remote --yes'));
   assert.ok(y.indexOf('npm run launch:check') < y.indexOf('seed-launches.mjs --remote'), 'the data is checked before it is loaded');
