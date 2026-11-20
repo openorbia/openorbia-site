@@ -109,6 +109,22 @@
     const heading = document.getElementById('week-h');
     const setHeading = text => { if (heading) heading.textContent = text; };
 
+    // One launch for the homepage lists: its logo (an address the server checked) or first letter, and a link with the name,
+    // tagline, category chip and "Runs free · <setup>" / "Needs paid service" when its facts have been checked
+    const launchBits = l => {
+      const link = el('a', 'mini-text');
+      link.href = `/launch/${encodeURIComponent(l.slug)}/`;
+      link.append(el('b', '', l.name), el('span', '', l.tagline));
+      const parts = [];
+      if (l.category_name) parts.push(el('span', 'mini-cat', l.category_name));
+      if (l.signal) parts.push(el('span', `mini-signal${l.signal === 'Needs paid service' ? ' paid' : ''}`, l.signal));
+      if (parts.length) { const meta = el('span', 'mini-meta'); meta.append(...parts); link.append(meta); }
+      let mark;
+      if (l.logo_url) { mark = el('img', 'mini-logo'); mark.src = l.logo_url; mark.alt = ''; mark.width = 40; mark.height = 40; mark.decoding = 'async'; }
+      else { mark = el('span', 'mini-logo mini-initial', (l.name || '?').trim().charAt(0).toUpperCase()); mark.setAttribute('aria-hidden', 'true'); }
+      return { mark, link };
+    };
+
     const show = data => {
       if (!data || !data.ok) return;
       if (!data.week) {
@@ -131,13 +147,29 @@
         const coming = root.querySelector('[data-week-coming]');
         if (coming && data.label) coming.textContent = `Coming ${data.label}`;
         const intro = root.querySelector('[data-week-intro]');
-        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? '' : 's'} launch on ${data.label}. Voting opens at 12:01 AM Pacific.`;
+        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}. Voting opens at 12:00 AM Central.`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
-        // the lineup exists: show it instead of offering it by email
+        // the lineup is announced (the server sends launches only from the Wednesday before launch day): list next Monday's
+        // launches, up to 6, instead of offering the lineup by email
         if (data.total > 0) {
+          const shown = data.launches.slice(0, 6);
+          const lineup = el('ol', 'mini mini-lineup');
+          lineup.setAttribute('aria-label', `Launching ${data.label || 'next Monday'}`);
+          for (const l of shown) {
+            const { mark, link } = launchBits(l);
+            const li = el('li');
+            const row = el('div', 'mini-row');
+            row.append(mark, link);
+            li.append(row);
+            lineup.append(li);
+          }
           const cta = root.querySelector('[data-lineup-cta]');
-          if (cta) { cta.href = '/launches/'; cta.textContent = 'See the lineup →'; }
+          if (cta) {
+            cta.href = '/launches/';
+            cta.textContent = data.total > shown.length ? `See all ${data.total} launches →` : 'See the lineup →';
+            if (cta.parentElement && cta.parentElement.before) cta.parentElement.before(lineup);
+          }
           const when = root.querySelector('[data-lineup-date]');
           if (when) when.remove();
         }
@@ -148,12 +180,10 @@
       const voted = new Set(Array.isArray(data.voted) ? data.voted : []);
       const num = n => new Intl.NumberFormat('en-US').format(n || 0);
       const list = el('ol', 'mini');
-      data.launches.forEach((l, i) => {
+      data.launches.slice(0, 3).forEach((l, i) => {   // the top 3 (the lineup above asks for up to 6)
         const li = el('li');
         const row = el('div', 'mini-row');
-        const link = el('a', 'mini-text');
-        link.href = `/launch/${encodeURIComponent(l.slug)}/`;
-        link.append(el('b', '', l.name), el('span', '', l.tagline));
+        const { mark, link } = launchBits(l);
         const state = ended ? 'ended' : voted.has(l.slug) ? 'voted' : 'ready';
         const btn = el('button', 'vote');
         btn.type = 'button';
@@ -166,11 +196,15 @@
         const n = el('span', 'n', num(l.votes));
         n.dataset.count = '';
         btn.append(el('span', 'arrow', '▲'), n, sr);
-        row.append(el('span', 'mini-rank', String(i + 1)), link, btn);
+        // ties share a rank (1, 1, 3), worked out by the server over the whole week
+        const rank = Number.isInteger(l.rank) ? l.rank : i + 1;
+        const rankEl = el('span', 'mini-rank', String(rank));
+        rankEl.setAttribute('aria-label', `Rank ${rank}`);
+        row.append(rankEl, mark, link, btn);
         li.append(row);
         list.append(li);
       });
-      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : 'Voting closes Sunday 11:59 PM PT');
+      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : 'Voting closes Sunday 11:59 PM CT');
       const more = el('a', 'btn ghost', ended ? 'See the final results →' : `See all ${data.total} launch${data.total === 1 ? '' : 'es'} →`);
       more.href = ended ? `/launches/week-${data.week}/results/` : '/launches/';
       const status = el('p', 'vote-note', '');
@@ -184,7 +218,7 @@
       root.replaceChildren(note, list, status, how, more);
     };
 
-    const load = () => fetch('/api/launches?limit=3', { headers: { accept: 'application/json' } })
+    const load = () => fetch('/api/launches?limit=6', { headers: { accept: 'application/json' } })
       .then(r => (r.ok ? r.json() : null)).then(show).catch(() => {});
     load();
     document.addEventListener('launch:opened', load);

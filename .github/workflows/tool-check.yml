@@ -1,0 +1,76 @@
+# Weekly tool check: GitHub metadata and source links for every Launch List tool (ops/scripts/tool-facts.mjs --all), compared with
+# last week's run kept in the Actions cache (never committed). Opens an issue when a tool is archived, moved or transferred to
+# another owner, deleted, changed its license, has had no push for over 6 months, or a source link broke. It only reports: it
+# never edits a listing, commits or publishes. Scheduled runs only happen from the default branch (main).
+name: Weekly tool check
+
+on:
+  schedule:
+    - cron: '0 16 * * 1' # Mondays 16:00 UTC, an hour after the source check
+    # Thursdays too: a second run keeps the cache entry in use (GitHub removes entries not used for 7 days)
+    - cron: '0 16 * * 4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: tool-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Restore last week's metadata
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/tool-facts.json
+          key: tool-facts-${{ github.run_id }}
+          restore-keys: tool-facts-
+
+      - name: Check every listed tool
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node ops/scripts/tool-facts.mjs --all > "$RUNNER_TEMP/tool-facts.json"
+
+      - name: Save this week's metadata
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .ops-cache/tool-facts.json
+          key: tool-facts-${{ github.run_id }}
+
+      - name: Write the report
+        id: report
+        run: |
+          node -e '
+            const fs = require("fs");
+            const tools = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/tool-facts.json", "utf8"));
+            const flagged = tools.filter(t => t.flags.length);
+            const lines = [`# Tool check, ${new Date().toISOString().slice(0, 10)}`, "",
+              `${tools.length} tools checked, ${flagged.length} need a look.`, ""];
+            for (const t of flagged) lines.push(`- **${t.name}** (${t.repo}): ${t.flags.join("; ")}`);
+            fs.writeFileSync(process.env.RUNNER_TEMP + "/tool-check.md", lines.join("\n") + "\n");
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `flagged=${flagged.length}\n`);
+          '
+          cat "$RUNNER_TEMP/tool-check.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open an issue when a tool needs a look
+        if: ${{ steps.report.outputs.flagged != '0' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          FLAGGED: ${{ steps.report.outputs.flagged }}
+        run: |
+          gh issue create --title "Tool check $(date -u +%F): $FLAGGED tool(s) need a look" --body-file "$RUNNER_TEMP/tool-check.md"

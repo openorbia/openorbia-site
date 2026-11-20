@@ -34,20 +34,25 @@ test('full facts: every row, in order, above the description, with the checked d
   const box = html.slice(html.indexOf('class="ffacts"'), html.indexOf('</section>', html.indexOf('class="ffacts"')));
   for (const t of ['Free forever', 'Your server', 'Desktop app', 'Team features are paid.', 'Free facts checked Oct 20, 2026']) assert.ok(box.includes(t), t);
   assert.match(box, /Card required<\/dt><dd>No</);
-  const order = ['Free tier', 'Card required', 'Your data', 'Setup', 'The catch'].map(l => box.indexOf(l));
+  // changed 2026-11-06: a launch page shows all six rows, in this order (Paid service is "Not confirmed yet" here)
+  const order = ['Free tier', 'Card required', 'Setup', 'Your data', 'Paid service', 'The catch'].map(l => box.indexOf(`<dt>${l}</dt>`));
+  assert.ok(order.every(i => i > 0), String(order));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.ok(html.indexOf('class="ffacts"') < html.indexOf('About T'));
 });
 
-test('partial facts: only the known rows show', async () => {
+test('partial facts: the known rows show their value, the others "Not confirmed yet" (nothing is filled in)', async () => {
   const html = await render({ freeTier: 'Free', lastChecked: '2026-10-20' });
-  assert.ok(html.includes('Free tier'));
-  for (const l of ['Card required', 'Your data', 'Setup', 'The catch']) assert.ok(!html.includes(`<dt>${l}</dt>`), l);
+  assert.ok(html.includes('<dt>Free tier</dt><dd>Free</dd>'));
+  for (const l of ['Card required', 'Setup', 'Your data', 'Paid service', 'The catch']) assert.ok(html.includes(`<dt>${l}</dt><dd>Not confirmed yet</dd>`), l);
 });
 
-test('no facts, or only a date: no box at all', async () => {
-  assert.ok(!(await render(undefined)).includes('ffacts'));
-  assert.ok(!(await render({ lastChecked: '2026-10-20' })).includes('ffacts'));
+test('no facts, or only a date: "Free facts are being checked" instead of an empty box', async () => {
+  for (const facts of [undefined, { lastChecked: '2026-10-20' }]) {
+    const html = await render(facts);
+    assert.ok(html.includes('<p class="ff-pending">Free facts are being checked.</p>'));
+    assert.ok(!html.includes('Not confirmed yet') && !html.includes('<dt>Free tier</dt>'));
+  }
 });
 
 test('facts are escaped', async () => {
@@ -56,12 +61,14 @@ test('facts are escaped', async () => {
   assert.ok(html.includes('&lt;img'));
 });
 
-test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia, apart from the vote button', async () => {
-  const yes = await render({ ...FULL, testedBy: 'OpenOrbia' });
+test('"Tested by OpenOrbia" shows only for testedBy exactly OpenOrbia with a hand-set testedOn date, apart from the vote button', async () => {
+  const yes = await render({ ...FULL, testedBy: 'OpenOrbia', testedOn: '2026-11-01' });
   assert.ok(yes.includes('Tested by OpenOrbia'));
   assert.ok(!(await render(FULL)).includes('Tested by'));
-  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia' })).includes('Tested by'));
-  assert.ok(isTested({ testedBy: 'OpenOrbia' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone' }));
+  assert.ok(!(await render({ ...FULL, testedBy: 'OpenOrbia' })).includes('Tested by'), 'no testedOn, no badge');
+  assert.ok(!(await render({ ...FULL, testedBy: 'openorbia', testedOn: '2026-11-01' })).includes('Tested by'));
+  assert.ok(isTested({ testedBy: 'OpenOrbia', testedOn: '2026-11-01' }));
+  assert.ok(!isTested({ testedBy: 'OpenOrbia' }) && !isTested({ testedBy: 'OpenOrbia', testedOn: '2026-02-30' }) && !isTested({}) && !isTested(null) && !isTested({ testedBy: 'Someone', testedOn: '2026-11-01' }));
 });
 
 test('factRows and formatChecked', () => {
@@ -109,7 +116,7 @@ const factsFile = JSON.parse(readFileSync(new URL('data/free-facts.json', root),
 
 test('Launch List: every row has valid Free facts (allowed values only, no testedBy)', () => {
   const { rows } = listRows();
-  assert.equal(rows.length, 45);
+  assert.equal(rows.length, 47);   // Twenty removed 2026-11-11; Open Notebook, Langflow, Agentic Security added 2026-11-19
   const allowed = ['freeTier', 'cardRequired', 'dataLocation', 'setup', 'catch', 'lastChecked', 'paidDeps', 'sources', 'task', 'level', 'featureOnHomepage', 'firstResult'];
   for (const r of rows) {
     const f = r[8];
@@ -175,7 +182,7 @@ test('Launch List: the counts in the title, meta, headline and og:title are the 
 
 test('Launch List: the cards show the facts, with Card required and the catch where known', () => {
   const { html } = listRows();
-  assert.match(html, /function ff\(facts\)/);
+  assert.match(html, /\$\{cardFactsHtml\(facts\)\}/);
   const rows = factRows({ freeTier: 'x', cardRequired: 'yes', catch: 'Needs a paid plan' });
   assert.deepEqual(rows.map(r => r.label), ['Free tier', 'Card required', 'The catch']);
   assert.equal(rows[1].value, 'Yes');
@@ -188,13 +195,14 @@ test('Launch List: the local-AI tag and filter chip say "Works with local AI", n
   assert.match(html, /<span class="tg[^"]*">Works with local AI<\/span>/);
 });
 
-test('cardRequired "unknown" is valid and shows as "Not confirmed" on launch pages and the Launch List', async () => {
+test('cardRequired "unknown" is valid: "Not confirmed yet" on launch pages, "Not confirmed" on the Launch List', async () => {
   assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'unknown' }), []);
   assert.deepEqual(errs({ freeTier: 'x', cardRequired: 'Unknown' }), [], 'case is normalized like yes/no');
   const html = await render({ freeTier: 'Free', cardRequired: 'unknown' });
-  assert.ok(html.includes('Card required</dt><dd>Not confirmed</dd>'));
+  assert.ok(html.includes('Card required</dt><dd>Not confirmed yet</dd>'));
   const { rows } = listRows();
   const unknown = rows.filter(r => r[8].cardRequired === 'unknown').map(r => r[0]).sort();
+  // Reactive Resume: its README and docs say "no paid tier" but neither states whether a card is needed (re-checked 2026-11-14)
   assert.deepEqual([...unknown], ['Reactive Resume']);
 });
 
@@ -207,7 +215,7 @@ test('Launch List: AI Job Hunter is a Job Seekers row with the exact facts, also
   const { freeTier, cardRequired, dataLocation, setup, lastChecked } = r[8];
   assert.deepEqual({ freeTier, cardRequired, dataLocation, setup, catch: r[8].catch, lastChecked }, {
     freeTier: 'Free and open source; runs offline with Ollama or uses your own API key', cardRequired: 'no', dataLocation: 'Runs on your computer', setup: 'Desktop app',
-    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-10-30',
+    catch: 'Large, fast-changing app; crash reports go to Sentry by default (can turn off)', lastChecked: '2026-11-14',
   });
   const x = factsFile.find(e => e.repo === 'saeedkolivand/ai-job-hunter-app');
   assert.ok(x && x.confidence === 'high' && x.category === 'job');

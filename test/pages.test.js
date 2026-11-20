@@ -6,8 +6,8 @@ import { launchResponse, leaderboardResponse, launchesApiResponse, renderLaunch,
 import { currentWeek } from '../lib/launches.js';
 import { videoEmbed, esc, paragraphs, isOpenLicense } from '../lib/html.js';
 import { handleVote } from '../lib/vote.js';
-import { launchOpensAt } from '../lib/time.js';
-import { FIRST_LAUNCH_WEEK, makersLine } from '../lib/site.js';
+import { launchOpensAt, launchClosesAt } from '../lib/time.js';
+import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { createDb, addLaunch } from './helpers/d1.js';
 
 const SECRET = 'test-secret-0123456789abcdef';
@@ -48,7 +48,7 @@ test('a launch page shows everything: logo, tagline, screenshots, description, l
   });
   const { status, html } = await page(await launchResponse({ request: req('/launch/full-tool/'), env, params: { slug: 'full-tool' }, now: AFTER }));
   assert.equal(status, 200);
-  for (const text of ['<h1>Full Tool</h1>', 'Does everything', 'First paragraph.', 'Second paragraph.', 'Apache-2.0', 'Job Seekers', 'Mia Maker',
+  for (const text of ['<h1>Full Tool</h1>', 'Does everything', 'First paragraph.', 'Second paragraph.', 'Apache-2.0', 'Job seekers', 'Mia Maker',
     'I built this for my sister.', 'It is free.', 'The editor', 'The report', 'Visit website', 'View on GitHub']) {
     assert.ok(html.includes(text), `missing: ${text}`);
   }
@@ -71,7 +71,9 @@ test('external links open safely, and only https links are rendered', async () =
   assert.ok(!html.includes('insecure.example'));
   assert.ok(!html.includes('Visit website'));
   for (const m of html.matchAll(/<a [^>]*target="_blank"[^>]*>/g)) assert.match(m[0], /rel="(?:me )?noopener"/, m[0]);
-  assert.ok(!html.includes('Discussion'), 'no maker story, no discussion section');
+  // changed 2026-11-06: Discussion is always there with the Community link; with no maker story there is no maker comment
+  assert.ok(!html.includes('class="comment"'), 'no maker story, no maker comment');
+  assert.ok(html.includes('Questions for the maker? <a href="https://github.com/openorbia/openorbia-site/discussions/categories/q-a">Ask in Community</a>'));
 });
 
 test('everything from the database is escaped (no script injection)', async () => {
@@ -88,7 +90,7 @@ test('everything from the database is escaped (no script injection)', async () =
   assert.ok(!html.includes('"><script>'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
   const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map(m => m[0]);
-  assert.deepEqual(scripts, [`<script src="${asset('nav.js')}" defer>`, `<script src="${asset('launch.js')}" defer>`, `<script src="${asset('click-beacon.js')}" defer>`], 'only the three site script tags');
+  assert.deepEqual(scripts, [`<script src="${asset('launch-lock.js')}">`, `<script src="${asset('nav.js')}" defer>`, `<script src="${asset('launch.js')}" defer>`, `<script src="${asset('click-beacon.js')}" defer>`], 'only the site script tags');
 });
 
 test('the upvote button: closed before launch day, ready after, voted once this visitor has voted', async () => {
@@ -98,7 +100,7 @@ test('the upvote button: closed before launch day, ready after, voted once this 
   const closed = await render(BEFORE);
   assert.match(closed, /<button class="vote vote-lg" type="button" data-slug="vote-tool" data-state="closed" aria-pressed="false" disabled>/);
   assert.match(closed, />Soon</);
-  assert.match(closed, /Voting opens Monday, Nov 23, 2026 at 12:01 AM Pacific\./);
+  assert.match(closed, /Voting opens Monday, Nov 23, 2026 at 12:00 AM Central\./);
 
   const who = { 'cf-connecting-ip': '198.51.100.20', 'user-agent': 'Reader/1.0' };
   const ready = await render(AFTER, who);
@@ -177,10 +179,10 @@ test('before launch day the leaderboard shows the countdown and the lineup, with
   const { status, html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE }));
   assert.equal(status, 200);
   assert.match(html, /Coming Monday, Nov 23, 2026/);
-  assert.match(html, /data-countdown="2026-11-23T08:01:00\.000Z"/);
+  assert.match(html, /data-countdown="2026-11-23T06:00:00\.000Z"/);
   assert.match(html, /data-on-zero="reload"/);
   assert.match(html, new RegExp(`data-now="${BEFORE}"`));
-  assert.match(html, /3 free AI tools launch on Monday, Nov 23, 2026\. Voting opens at 12:01 AM Pacific\./);
+  assert.match(html, /3 free AI tools launch on Monday, Nov 23, 2026\. Voting opens at 12:00 AM Central\./);
   assert.match(html, /<b data-unit="d">3<\/b>/); // three days to go
   assert.equal([...html.matchAll(/class="rank"/g)].length, 0);
   assert.equal([...html.matchAll(/data-state="closed"/g)].length, 3);
@@ -196,12 +198,16 @@ test('once launch day has opened the leaderboard is ranked by votes, ties by nam
   await castVote('late-tool', '1.1.1.1');
 
   const { html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: AFTER }));
-  assert.ok(!html.includes('data-countdown'));
+  // while voting runs the only clock is the one to closing time (Sunday 11:59 PM Central), not the opening countdown
+  assert.equal([...html.matchAll(/data-countdown="([^"]+)"/g)].map(m => m[1]).join(), new Date(launchClosesAt('2026-11-23')).toISOString());
+  assert.ok(html.includes('Voting closes in') && html.includes('aria-label="Time until voting closes"'));
   assert.deepEqual([...html.matchAll(/<span class="lrow-text"><b>([^<]+)<\/b>/g)].map(m => m[1]), ['Zeta Tool', 'Mid Tool', 'Alpha Tool', 'Late Tool']);
   assert.deepEqual([...html.matchAll(/data-count>(\d+)</g)].map(m => m[1]), ['3', '2', '1', '1']);
-  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)"/g)].map(m => m[1]), ['1', '2', '3', '4']);
-  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 3);
+  // changed 2026-11-06: equal upvotes share a rank, as on the results page (Alpha and Late both have 1: both are 3rd)
+  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)"/g)].map(m => m[1]), ['1', '2', '3', '3']);
+  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 4);
   assert.match(html, /class="lrow top top-1"/);
+  assert.equal([...html.matchAll(/class="lrow top top-3"/g)].length, 2);
   assert.ok(!/lrow top top-4/.test(html));
   assert.match(html, /Ranked by upvotes\. You get one upvote for each launch for the whole week\./);
 });
@@ -214,18 +220,18 @@ test('nothing scheduled yet, before launch day: the Launch Week 1 intro', async 
   assert.equal(status, 200);
   const text = plain(html);
   assert.match(html, /<h1 id="lw-h">Launch Week <em>1<\/em><\/h1>/);
-  assert.ok(text.includes('Coming Monday, Nov 23, 2026. Voting opens 12:01 AM Pacific.'));
+  assert.ok(text.includes('Coming Monday, Nov 23, 2026. Voting opens 12:00 AM Central.'));
   assert.ok(text.includes('How it works'));
   const steps = [...html.matchAll(/<li><span class="n">0(\d)<\/span><b>([^<]+)<\/b><\/li>/g)].map(m => `${m[1]} ${m[2].replace('&#39;', "'")}`);
   assert.deepEqual(steps, ['1 Makers launch free AI tools', '2 The community upvotes', "3 The week's top tools get featured"]);
-  assert.ok(text.includes('3 makers confirmed · 26 invited'));
+  assert.ok(!text.includes('makers confirmed'), 'no makers line (removed 2026-11-19)');
   assert.match(html, /<a class="btn ghost" href="\/launch-list\/">Browse the Launch List<\/a>/);
   assert.match(html, /<a class="btn pri" href="\/#join">Launch your tool<\/a>/);
   assert.match(html, /<title>Launch Week 1 \| OpenOrbia<\/title>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/openorbia\.com\/launches\/">/);
   assert.ok(!text.includes('Nothing has been scheduled'));
   assert.ok(!html.includes('lrow'), 'no launch cards, and no maker names, are shown');
-  assert.equal(html.match(/makers confirmed/gi).length, 1);
+  assert.equal(html.match(/makers confirmed/gi), null, 'no makers line (removed 2026-11-19)');
 });
 
 test('the intro uses the same countdown as the homepage', async () => {
@@ -247,7 +253,7 @@ test('past the opening time with nothing scheduled: no countdown, an honest mess
   assert.ok(text.includes('Launch Week 1 is open. The first launches are being added, so check back soon.'));
   assert.ok(!text.includes('Coming Monday'));
   assert.ok(!html.includes('data-countdown'));
-  assert.ok(text.includes('How it works') && text.includes(makersLine()));
+  assert.ok(text.includes('How it works') && !text.includes('makers confirmed'), 'no makers line (removed 2026-11-19)');
   assert.ok(html.includes('href="/launch-list/"') && html.includes('href="/#join"'));
 });
 
@@ -293,7 +299,7 @@ test('the API hides vote counts before launch day and lists the top launches aft
   seedThree();
   const before = await (await launchesApiResponse({ request: req('/api/launches'), env, now: BEFORE })).json();
   assert.equal(before.open, false);
-  assert.equal(before.opens_at, '2026-11-23T08:01:00.000Z');
+  assert.equal(before.opens_at, '2026-11-23T06:00:00.000Z');
   assert.equal(before.label, 'Monday, Nov 23, 2026');
   assert.equal(before.total, 3);
   assert.equal(before.now, BEFORE);
@@ -303,7 +309,8 @@ test('the API hides vote counts before launch day and lists the top launches aft
   const after = await (await launchesApiResponse({ request: req('/api/launches?limit=2'), env, now: AFTER })).json();
   assert.equal(after.open, true);
   assert.deepEqual(after.launches.map(l => [l.slug, l.votes]), [['zeta-tool', 2], ['mid-tool', 1]]);
-  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'logo_url', 'name', 'slug', 'tagline', 'votes']);
+  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'category_name', 'logo_url', 'name', 'rank', 'signal', 'slug', 'tagline', 'votes']);
+  assert.deepEqual(after.launches.map(l => l.rank), [1, 2]);
 });
 
 test('the API limit is clamped, and an empty database and a missing database are handled', async () => {
@@ -360,4 +367,16 @@ test('renderLaunch and renderLeaderboard are pure: same input, same output', () 
   const week = { week: 1, launchDate: '2026-11-23', opensAt: OPENS, open: true };
   assert.equal(renderLeaderboard({ week, launches: [launch], now: AFTER }), renderLeaderboard({ week, launches: [launch], now: AFTER }));
   assert.match(renderLaunch({ launch, now: AFTER }), /logo-initial/); // no logo: the initial on a gradient, like the Launch List
+});
+
+test('a launch page shows its rank in the week once voting is open and it has an upvote (ties shared), and none before', async () => {
+  seedThree();
+  for (const who of ['1.1.1.1', '1.1.1.2']) await castVote('zeta-tool', who);
+  await castVote('mid-tool', '1.1.1.1');
+  const at = async (slug, now) => (await page(await launchResponse({ request: req('/x'), env, params: { slug }, now }))).html;
+  assert.ok((await at('zeta-tool', AFTER)).includes('#1 of 3 in Launch Week 1'));
+  assert.ok((await at('mid-tool', AFTER)).includes('#2 of 3 in Launch Week 1'));
+  assert.ok(!(await at('alpha-tool', AFTER)).includes('class="rank-badge"'), 'no upvotes yet: no rank');
+  assert.ok(!(await at('zeta-tool', BEFORE)).includes('class="rank-badge"'), 'before launch day: no rank');
+  assert.ok((await at('zeta-tool', launchClosesAt('2026-11-23') + 1000)).includes('Finished #1 of 3 in Launch Week 1'));
 });

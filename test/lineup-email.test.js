@@ -9,6 +9,7 @@ import { unsubscribeUrl } from '../lib/unsubscribe.js';
 import { welcomeEmail, BREVO_URL, SENDER } from '../lib/email.js';
 import { launchOpensAt, launchClosesAt, dayLabelLong } from '../lib/time.js';
 import { esc } from '../lib/html.js';
+import { CATEGORIES } from '../lib/launch-data.js';
 
 const file = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 const SECRET = 'test-secret-0123456789abcdef';
@@ -24,13 +25,14 @@ const SAMPLE = SAMPLE_UNSUBSCRIBE;
 test('the lineup is built from the launches: name, tagline and link, grouped by category in the site order', () => {
   const e = lineupEmail(LAUNCHES, { unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
   assert.deepEqual(groupByCategory(LAUNCHES).map(g => [g.name, g.items.map(l => l.name)]),
-    [['Small Business', ['Alpha Books']], ['Job Seekers', ['Beta CV']], ['Cybersecurity & SOC', ['Aardvark Guard', 'Zeta Scan']]]);
+    // category names come from the site's own list, so a rename on the site cannot leave this test behind
+    [[CATEGORIES.biz, ['Alpha Books']], [CATEGORIES.job, ['Beta CV']], [CATEGORIES.sec, ['Aardvark Guard', 'Zeta Scan']]]);
   for (const l of LAUNCHES) {
     assert.ok(e.html.includes(`href="https://openorbia.com/launch/${l.slug}/"`) && e.html.includes(`>${l.name}</a>`), l.slug);
     assert.ok(e.text.includes(`* ${l.name}: ${l.tagline}\n  https://openorbia.com/launch/${l.slug}/`), l.slug);
   }
   const t = e.text;
-  assert.ok(t.indexOf('Small Business') < t.indexOf('Job Seekers') && t.indexOf('Job Seekers') < t.indexOf('Cybersecurity & SOC'));
+  assert.ok(t.indexOf(CATEGORIES.biz) >= 0 && t.indexOf(CATEGORIES.biz) < t.indexOf(CATEGORIES.job) && t.indexOf(CATEGORIES.job) < t.indexOf(CATEGORIES.sec));
   assert.equal(e.subject, 'Launch Week 1 lineup: 4 free AI tools on Nov 23');
 });
 

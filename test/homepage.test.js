@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { TOOLS, ROWS, canFeature, toolBySlug } from '../public/assets/tools.js';
 import { matchesRow, parseFilters } from '../public/assets/launch-filters.js';
 import { pickFeatured, renderFeatured, PINNED_SEC } from '../lib/featured.js';
-import { MAKERS_CONFIRMED, MAKERS_INVITED, makersLine } from '../lib/site.js';
+import { MAKERS_CONFIRMED, MAKERS_INVITED } from '../lib/site.js';
 import { confidenceByRepo, featuredHtml } from '../scripts/build-home.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -47,12 +47,15 @@ test('picks prefer confidence high with no paid dependency, then no paid depende
   assert.ok(!pickFeatured(ruled, conf).some(p => p.tool.slug === 'd'));
 });
 
-test('each featured card has the task line, free line, setup, catch and a link to the tool page, taken from the data file', () => {
+test('each featured card has the task line, the Free, Card and Catch rows, the docs-checked date and a link to the tool page, from the data file', () => {
   for (const { tool } of pickFeatured(TOOLS, confidenceByRepo)) {
     const e = data.find(x => x.repo === tool.repo);
     const card = home.slice(home.indexOf(`data-tool-slug="${tool.slug}"`));
     const one = card.slice(0, card.indexOf('</article>'));
-    for (const text of [e.task, e.freeTier, e.setup, e.catch]) assert.ok(one.includes(text.replace(/&/g, '&amp;')), `${tool.name}: ${text}`);
+    const amp = s => s.replace(/&/g, '&amp;').replace(/'/g, '&#39;');
+    const card3 = { yes: 'Yes', no: 'No', unknown: 'Not confirmed' }[e.cardRequired];
+    for (const text of [amp(e.task), `<dt>Free</dt><dd>${amp(e.freeTier)}</dd>`, `<dt>Card</dt><dd>${card3}</dd>`, `<dt>Catch</dt><dd>${amp(e.catch)}</dd>`]) assert.ok(one.includes(text), `${tool.name}: ${text}`);
+    assert.ok(one.includes('<a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked '), `${tool.name}: docs checked`);
     assert.equal((one.match(new RegExp(`href="/tool/${tool.slug}/"`, 'g')) || []).length, 2, 'name and "See the facts" both link to the tool page');
   }
   assert.equal((home.match(/class="ft" data-tool-slug/g) || []).length, 5);
@@ -64,7 +67,9 @@ test('the three audience cards link to the filtered Launch List', () => {
 
 test('the six task links are filtered or search URLs that each return results', () => {
   // the task links in the page itself (the footer's site map has filter links of its own)
-  const links = [...home.slice(0, home.indexOf('<footer>')).matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
+  // (the category cards have topic links of their own, checked in test/categories.test.js)
+  const tasks = home.slice(home.indexOf('<ul class="tasks"'), home.indexOf('</ul>', home.indexOf('<ul class="tasks"')));
+  const links = [...tasks.matchAll(/<li><a href="(\/launch-list\/\?[^"]+)">([^<]+)<\/a><\/li>/g)].map(m => [m[1].replace(/&amp;/g, '&'), m[2]]);
   assert.deepEqual(links.map(l => l[1]), ['Transcribe meetings', 'Tailor a resume', 'Chat with documents', 'Automate small-business tasks', 'Triage security alerts', 'Test AI for vulnerabilities']);
   for (const [href, label] of links) {
     const state = parseFilters(new URL(href, 'https://openorbia.com').search);
@@ -80,8 +85,10 @@ test('the search also matches the plain-language task line', () => {
 });
 
 test('the hero: the same headline, the new lede, "Explore free tools" and "Find my free setup"; the signup stays further down', () => {
+  // the founder's headline stays; changed 2026-11-19 (platform positioning): the lede names every kind of task, not three
+  // audiences, and says what is free and what is not
   assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
-  assert.ok(home.includes('<p class="lede">Find AI that fits your task, your computer and your budget, with the catch shown upfront.</p>'));
+  assert.ok(home.includes('<p class="lede">Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and more. See what is actually free, what needs a paid API and how each tool works.</p>'));
   const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
   assert.deepEqual([...hero.matchAll(/<a class="btn (pri|ghost)" href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2], m[3]]),
     [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);
@@ -92,20 +99,20 @@ test('the hero: the same headline, the new lede, "Explore free tools" and "Find 
   assert.match(home, /\.hero\{padding-block:clamp\(16px,3vh,24px\) 12px/);
 });
 
-test('the sections come in order: hero, this week, featured tools, audiences and tasks, how launching works, signup last; none is empty', () => {
+test('the sections come in order: hero, signup, this week, search, featured tools, first results, audiences and tasks, how launching works; none is empty', () => {
   const at = s => { const i = home.indexOf(s); assert.ok(i > 0, s); return i; };
-  const order = [at('<section class="hero">'), at('<section class="week" id="week"'), at('<section class="featured"'), at('<section class="cats"'), at('<section class="how"'), at('<section class="join" id="join"')];
+  const order = [at('<section class="hero">'), at('<section class="join" id="join"'), at('<section class="week" id="week"'), at('<section class="hsearch"'), at('<section class="featured"'), at('<section class="frs-sec"'), at('<section class="cats"'), at('<section class="how"')];
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
-  assert.ok(home.indexOf('</section>', order[5]) > order[5] && home.indexOf('<section', order[5] + 10) < 0, 'the signup is the last section');
+  assert.equal(home.indexOf('<section', order[0] + 10), order[1], 'the signup comes right after the hero');
   for (const m of home.matchAll(/<section[^>]*>([\s\S]*?)<\/section>/g)) assert.ok(m[1].replace(/<[^>]+>/g, '').trim().length > 20, 'a section has text');
 });
 
-test('before launch the week block shows the countdown and the makers confirmed; after launch launch.js shows cards with vote buttons and the closing time', () => {
+test('before launch the week block shows the countdown; after launch launch.js shows cards with vote buttons and the closing time', () => {
   assert.match(home, /Coming Monday, Nov 23, 2026/);
-  assert.match(home, /data-countdown="2026-11-23T08:01:00\.000Z"/);
-  assert.ok(home.includes(`<p class="week-makers" data-makers>${makersLine()}</p>`));
+  assert.match(home, /data-countdown="2026-11-23T06:00:00\.000Z"/);
+  assert.ok(!/makers confirmed|data-makers/.test(home), 'no makers line (removed 2026-11-19)');
   const js = file('public/assets/launch.js');
-  assert.ok(js.includes("'Voting closes Sunday 11:59 PM PT'"));
+  assert.ok(js.includes("'Voting closes Sunday 11:59 PM CT'"));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
   assert.ok(js.includes('data.voted') && js.includes("'ended'"), 'the visitor\'s votes and the closed state are handled');
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');
@@ -148,9 +155,8 @@ test('garak is the first security pick; promptfoo takes its place only when gara
   assert.ok(!secs.includes('garak') && !secs.includes('promptfoo'));
 });
 
-test('MAKERS_CONFIRMED is 3, MAKERS_INVITED is 26, and the homepage shows both', () => {
-  assert.equal(MAKERS_CONFIRMED, 3);
+test('MAKERS_CONFIRMED and MAKERS_INVITED stay for the launch check, but the site no longer shows them (2026-11-19)', () => {
+  assert.equal(MAKERS_CONFIRMED, 46);   // all 46 makers confirmed (2026-11-19)
   assert.equal(MAKERS_INVITED, 26);
-  assert.equal(makersLine(), '3 makers confirmed · 26 invited');
-  assert.ok(home.includes('<p class="week-makers" data-makers>3 makers confirmed · 26 invited</p>'));
+  assert.ok(!home.includes('makers confirmed') && !home.includes('invited</p>'));
 });

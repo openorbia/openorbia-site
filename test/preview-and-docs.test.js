@@ -13,7 +13,8 @@ const data = JSON.parse(file('data/free-facts.json'));
 const entry = name => data.find(e => e.name === name);
 const row = name => ROWS.find(r => r[0] === name)[8];
 const rowOf = e => ROWS.find(r => r[1].toLowerCase() === e.repo.toLowerCase())[8];   // by repo: the list says "Vane" where the data says "Vane (ex-Perplexica)"
-const TODAY = '2026-10-30';
+// the day of the PR 9 re-check of every row (data freshness sprint)
+const TODAY = '2026-11-14';
 
 // ---- the three tools the founder checked ----
 
@@ -23,7 +24,7 @@ test('Interview Coach: facts kept, confidence high, and a data location with a n
   assert.equal(e.dataLocation, 'Runs on your computer (cloud AI only if you pick one)');
   assert.equal(e.freeTier, 'Free command-line tool with a local web dashboard');
   assert.equal(e.catch, 'Use Ollama for offline use, or a cloud AI provider');
-  assert.deepEqual(e.sources, ['https://github.com/J3rry320/interview-coach#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/J3rry320/interview-coach#readme', 'https://www.codemedialabs.in/labs/interview-coach', 'https://github.com/J3rry320/interview-coach/blob/main/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(row('Interview Coach').dataLocation, e.dataLocation, 'and the card shows it');
 });
@@ -34,7 +35,7 @@ test('JobSync-Service: the new catch, an optional MCP AI app, no card, confidenc
   assert.deepEqual(e.paidDeps, { level: 'optional', what: 'An MCP AI app; Airtable optional (local markdown file works)' });
   assert.equal(e.cardRequired, 'no');
   assert.equal(e.confidence, 'medium');
-  assert.deepEqual(e.sources, ['https://github.com/mayank-glitch-cpu/JobSync-Service#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/mayank-glitch-cpu/JobSync-Service#readme', 'https://github.com/Mayank-glitch-cpu/JobSync-Service/blob/main/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(row('JobSync-Service').cardRequired, 'no');
   assert.equal(row('JobSync-Service').paidDeps.level, 'optional');
@@ -46,7 +47,7 @@ test('HexStrike AI: the new catch and paid dependencies, confidence medium, and 
   assert.ok(e.catch.length > 140 && e.catch.length <= CATCH_MAX, 'longer than the old 140-character limit, so the limit is now 160');
   assert.deepEqual(e.paidDeps, { level: 'optional', what: 'An MCP AI app; optional commercial tools such as Binary Ninja, Shodan, Censys' });
   assert.equal(e.confidence, 'medium');
-  assert.deepEqual(e.sources, ['https://github.com/0x4m4/hexstrike-ai#readme']);
+  assert.deepEqual(e.sources, ['https://github.com/0x4m4/hexstrike-ai#readme', 'https://github.com/0x4m4/hexstrike-ai/blob/master/LICENSE']);
   assert.equal(e.lastChecked, TODAY);
   assert.equal(e.featureOnHomepage, false);
   assert.equal(row('HexStrike AI').featureOnHomepage, false);
@@ -82,7 +83,7 @@ test('docs-only pass: claims no official page states are gone from the catches a
 });
 
 test('docs-only pass: every row still has valid, sourced facts that match the data file', () => {
-  assert.equal(data.length, 45);
+  assert.equal(data.length, 47);   // 3 tools added 2026-11-19
   for (const e of data) {
     assert.ok(e.sources.length >= 1 && e.sources.length <= 3 && e.sources.every(u => u.startsWith('https://')), `${e.name}: sources`);
     assert.ok(e.freeTier.length <= 80 && e.catch.length <= CATCH_MAX, `${e.name}: lengths`);
@@ -117,7 +118,13 @@ test('package scripts for the preview database never name the live one, and the 
     assert.ok(scripts[name].includes('openorbia-db-preview'), `${name} targets the preview database`);
     assert.ok(!/openorbia-db(?!-preview)/.test(scripts[name]), `${name} never names openorbia-db`);
   }
-  assert.ok(scripts['seed:preview'].includes('--include-samples') && scripts['seed:preview'].includes('--no-images') && scripts['seed:preview'].includes('--sample-date this-week'));
+  // changed 2026-11-06: previews now carry the samples' images (the Preview job copies test/fixtures/launches into the preview
+  // build only), so seed:preview keeps them; production never gets them
+  assert.ok(scripts['seed:preview'].includes('--include-samples') && !scripts['seed:preview'].includes('--no-images') && scripts['seed:preview'].includes('--sample-date this-week'));
+  const wf = readFileSync(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+  const preview = wf.slice(wf.indexOf('  preview:'), wf.indexOf('  production:'));
+  assert.ok(preview.includes('cp -R test/fixtures/launches/. public/launches/'), 'the preview build gets the sample images');
+  assert.ok(!wf.slice(wf.indexOf('  production:')).includes('test/fixtures'), 'the production build never does');
   for (const name of ['db:schema:remote', 'db:migrate:remote', 'seed:remote']) assert.ok(!scripts[name].includes('preview'), name);
 });
 
@@ -142,7 +149,7 @@ test('seed --sample-date moves only the samples to a Pacific Monday that is open
   assert.ok(!now.out.includes('/launches/sample-'), 'no sample image is referenced');
   const last = seedDryRun(['--include-samples', '--sample-date', 'last-week']);
   assert.deepEqual([...last.out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill(pacificMonday(1)));
-  assert.deepEqual([...seedDryRun(['--include-samples', '--sample-date', '2026-11-23']).out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})/g)].map(m => m[1]), Array(3).fill('2026-11-23'));
+  assert.deepEqual([...seedDryRun(['--include-samples', '--sample-date', '2026-11-23']).out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill('2026-11-23'));   // only the samples (real Week 1 launches are listed too)
   const bad = seedDryRun(['--include-samples', '--sample-date', 'someday']);
   assert.equal(bad.status, 2);
   assert.match(bad.out, /this-week, last-week or a date/);

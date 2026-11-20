@@ -19,7 +19,7 @@ test('the page has the eight rule sections in the founder\'s order, then the con
 
 test('the key promises are on the page in the founder\'s words', () => {
   for (const s of [
-    'Voting opens Monday at 12:01 AM Pacific and closes Sunday at 11:59 PM Pacific.',
+    'Voting opens Monday at 12:00 AM Central and closes Sunday at 11:59 PM Central.',
     'You can upvote each launch once per week. No sign-in needed.',
     'We never store your IP address.',
     'This is an estimate, not proof of one person',
@@ -31,7 +31,7 @@ test('the key promises are on the page in the founder\'s words', () => {
 });
 
 test('what the page says about timing, ties and the founder\'s tools matches how voting is built', () => {
-  assert.equal(new Date(launchClosesAt('2026-11-23')).toISOString(), '2026-11-30T07:59:00.000Z', 'closes Sunday 11:59 PM Pacific (the Monday 07:59 UTC)');
+  assert.equal(new Date(launchClosesAt('2026-11-23')).toISOString(), '2026-11-30T05:59:00.000Z', 'closes Sunday 11:59 PM Central (the Monday 07:59 UTC)');
   const results = file('lib/results.js');
   assert.match(results, /alphabet|localeCompare|name/i);
 });
@@ -71,9 +71,9 @@ test('a "How voting works" link sits by the vote buttons on the launch page, the
   const launch = { slug: 'a-tool', name: 'A Tool', tagline: 't', description: 'd', category: 'sec', repo_url: 'https://example.com/r', website_url: null, logo_url: null, screenshots: [], video_url: null,
     maker_name: 'M', maker_links: [], maker_story: 's', license: 'MIT', launch_week: 1, launch_date: '2026-11-23', votes: 0, facts: {} };
   const LINK = '<a href="/how-voting-works/">How voting works</a>';
-  const OPEN = Date.parse('2026-11-24T20:00:00Z'), BEFORE = Date.parse('2026-11-20T20:00:00Z');
+  const OPEN = Date.parse('2026-11-24T18:00:00Z'), BEFORE = Date.parse('2026-11-20T18:00:00Z');
   for (const now of [BEFORE, OPEN]) assert.ok(renderLaunch({ launch, now }).includes(LINK), `launch page at ${now}`);
-  const board = renderLeaderboard({ week: { week: 1, open: true, closed: false, opensAt: Date.parse('2026-11-23T08:01:00Z'), closesAt: Date.parse('2026-11-30T07:59:00Z') }, launches: [launch], now: OPEN });
+  const board = renderLeaderboard({ week: { week: 1, open: true, closed: false, opensAt: Date.parse('2026-11-23T06:00:00Z'), closesAt: Date.parse('2026-11-30T05:59:00Z') }, launches: [launch], now: OPEN });
   assert.ok(board.includes(LINK), 'leaderboard');
   const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
   assert.ok(js.includes("howLink.href = '/how-voting-works/'") && js.includes("'How voting works'"), 'homepage launch section');

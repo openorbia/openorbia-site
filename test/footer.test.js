@@ -23,11 +23,13 @@ test('the static pages carry exactly the shared footer, and the server-rendered 
   for (const [name, html] of Object.entries(server)) assert.equal(footerOf(html), footerHtml(new Date().getFullYear()), name);
 });
 
-test('the bottom bar has three parts: copyright and founder as plain text, Privacy / Security / Contact, and three icons', () => {
+test('the bottom bar has three parts: copyright and the founder credit (linked to his LinkedIn), Privacy / Security / Contact, and three icons', () => {
   const html = footerHtml(2026);
   const left = html.match(/<div class="sf-l">(.*?)<\/div>/s)[1];
-  assert.equal(left, '<span>© 2026 OpenOrbia. All rights reserved.</span><span>Founded by Khaja Syed</span>');
-  assert.ok(!left.includes('<a') && !html.includes('Built by Khaja Syed') && !html.includes('linkedin.com/in/'), 'plain text, no personal link');
+  // changed 2026-11-19: the founder asked for his name to link to his LinkedIn profile; it is the only personal profile linked
+  assert.equal(left, '<span>© 2026 OpenOrbia. All rights reserved.</span><a class="sf-founder" href="https://www.linkedin.com/in/khaja-syed-185a03234" rel="me noopener" target="_blank">Founded by Khaja Syed</a>');
+  assert.ok(!html.includes('Built by Khaja Syed'));
+  assert.deepEqual([...html.matchAll(/linkedin\.com\/in\/[^"]+/g)].map(m => m[0]), ['linkedin.com/in/khaja-syed-185a03234'], 'only the founder profile');
   const middle = html.match(/<nav class="sf-m" aria-label="Footer">(.*?)<\/nav>/s)[1];
   const links = [...middle.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map(m => [m[1], m[2]]);
   assert.deepEqual(links, [['/privacy/', 'Privacy'], ['/security/', 'Security'], ['/contact/', 'Contact']]);
@@ -35,7 +37,7 @@ test('the bottom bar has three parts: copyright and founder as plain text, Priva
   for (const dup of ['/how-we-check/', '/how-voting-works/', '/makers/', '/request/']) assert.ok(!middle.includes(dup), dup);
   const right = html.match(/<div class="sf-r">(.*?)<\/div>/s)[1];
   const icons = [...right.matchAll(/<a href="([^"]+)" aria-label="([^"]+)" rel="me noopener" target="_blank"><svg/g)].map(m => [m[1], m[2]]);
-  assert.deepEqual(icons, [['https://x.com/OpenOrbia', 'OpenOrbia on X'], ['https://www.linkedin.com/company/openorbia', 'OpenOrbia on LinkedIn'], ['https://github.com/openorbia/openorbia-site', 'OpenOrbia on GitHub']]);
+  assert.deepEqual(icons, [['https://x.com/OpenOrbia', 'OpenOrbia on X'], ['https://www.linkedin.com/company/openorbia', 'OpenOrbia on LinkedIn'], ['https://github.com/openorbia', 'OpenOrbia on GitHub']]);   // the organization page since 2026-11-19
   assert.match(FOOTER_CSS, /\.sf-r a\{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px\}/, '44px tap targets');
   assert.match(FOOTER_CSS, /@media \(max-width:820px\)\{\.sf\{grid-template-columns:minmax\(0,1fr\);justify-items:center;text-align:center\}/, 'stacked and centred on phones');
 });
@@ -54,8 +56,12 @@ test('the social icons are inline 22px SVGs with an aria-label, rel="me noopener
 
 test('the footer styles are the same block everywhere: muted links, brighter on hover, stacked and centred on phones', () => {
   for (const f of ['public/assets/launch.css', 'public/index.html', 'public/launch-list/index.html']) assert.ok(file(f).includes(FOOTER_CSS), `${f}: footer css`);
-  assert.match(FOOTER_CSS, /\.sf a\{color:var\(--muted\);text-decoration:none\}/);
-  assert.match(FOOTER_CSS, /\.sf a:hover\{color:var\(--ink\)\}/);
+  assert.match(FOOTER_CSS, /\.sf a\{color:var\(--muted\);text-decoration:none;transition:color \.15s\}/);
+  // changed 2026-11-19: brighter hover and keyboard focus, underlined text links, brand-blue icons, a visible focus ring
+  assert.match(FOOTER_CSS, /\.sf a:hover,\.sf a:focus-visible\{color:var\(--ink\)\}/);
+  assert.match(FOOTER_CSS, /\.sf-m a:hover,\.sf-l a:hover,\.sf-m a:focus-visible,\.sf-l a:focus-visible\{text-decoration:underline/);
+  assert.match(FOOTER_CSS, /\.sf-r a:hover,\.sf-r a:focus-visible\{color:var\(--blue-l\)\}/);
+  assert.match(FOOTER_CSS, /\.sf a:focus-visible\{outline:2px solid var\(--blue-l\)/);
   assert.match(FOOTER_CSS, /\.sf svg\{width:22px;height:22px;fill:currentColor/);
   assert.match(FOOTER_CSS, /@media \(max-width:820px\)\{\.sf\{grid-template-columns:minmax\(0,1fr\);justify-items:center;text-align:center\}/);
   // the old two-span footer rule is gone
@@ -96,7 +102,8 @@ test('every other link in the footer site map goes to a real page, and the conta
   const { existsSync } = await import('node:fs');
   const { CONTACT_EMAIL } = await import('../lib/footer.js');
   const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js', '/faq/': 'functions/faq/index.js',
-    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js', '/contact/': 'functions/contact/index.js' };
+    '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js', '/contact/': 'functions/contact/index.js',
+    '/collection/self-hosted/': 'functions/collection/[slug].js', '/free-ai-apis/': 'functions/free-ai-apis/index.js' };
   const html = footerHtml(2026);
   const map = mapOf(html);
   for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {

@@ -120,10 +120,10 @@ test('the README snippet is one line, with the badge in front once it is allowed
   assert.ok(readmeLine(SAMPLE, AFTER).startsWith('[![Featured on OpenOrbia](https://openorbia.com/badge/featured-dark.svg)]'));
 });
 
-test('key dates come from lib/time.js: launch day, voting closes Sunday 11:59 PM Pacific, and the results page', () => {
+test('key dates come from lib/time.js: launch day, voting closes Sunday 11:59 PM Central, and the results page', () => {
   const html = kit(AFTER, { launch_date: '2027-03-08', launch_week: 16 });   // a week with a daylight saving change
-  assert.ok(html.includes(`<b>Launch day:</b> ${dayLabelLong(launchOpensAt('2027-03-08'))}, 12:01 AM Pacific.`));
-  assert.ok(html.includes(`<b>Voting closes:</b> ${dayLabelLong(launchClosesAt('2027-03-08'))}, 11:59 PM Pacific.`));
+  assert.ok(html.includes(`<b>Launch day:</b> ${dayLabelLong(launchOpensAt('2027-03-08'))}, 12:00 AM Central.`));
+  assert.ok(html.includes(`<b>Voting closes:</b> ${dayLabelLong(launchClosesAt('2027-03-08'))}, 11:59 PM Central.`));
   assert.ok(dayLabelLong(launchClosesAt('2027-03-08')).startsWith('Sunday, Mar 14'));
   assert.ok(html.includes('<a href="https://openorbia.com/launches/week-16/results/">Launch Week 16 results</a> (the final ranks appear when voting closes).'));
   assert.ok(kit(ENDED).includes('Launch Week 1 results</a>.</li>'));

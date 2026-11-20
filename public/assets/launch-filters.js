@@ -6,8 +6,8 @@
 //                                                  os = 1 (open source only), local = 1 (works with local AI), q = search text
 // The older links ending in #biz / #job / #sec (they are in public posts) still work: a hash is read when there is no ?for=.
 
-import { CATEGORIES } from './tools.js?v=64294e2992';
-import { needsPaidService } from './facts.js?v=bf871439b3';
+import { CATEGORIES } from './tools.js?v=966388f499';
+import { needsPaidService } from './facts.js?v=ac132e9281';
 
 // The three ways to get started, in the words people use; the keys are what goes in the URL
 export const SETUP_FILTERS = { browser: 'No install', desktop: 'Desktop app', selfhost: 'Self-host' };

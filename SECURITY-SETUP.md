@@ -14,7 +14,8 @@ Use only the OpenOrbia accounts (the openorbia GitHub account and the personal C
   - Permissions: **Account → Cloudflare Pages → Edit**
   - Account resources: **Include → the OpenOrbia account only**
   - TTL: an end date about 6 months out (put a reminder in your calendar to replace it)
-  If the first deploy fails with a D1 permission error, edit the token and add **Account → D1 → Edit**. Add nothing else.
+  - **Account → D1 → Edit**, for the Seed launches workflow (`.github/workflows/seed.yml`), which loads launches into the live
+    database. Add nothing else.
 - [ ] GitHub → repo → Settings → Secrets and variables → Actions → New repository secret:
   - `CLOUDFLARE_API_TOKEN`: the token above
   - `CLOUDFLARE_ACCOUNT_ID`: from the Cloudflare dashboard (Workers & Pages → Account details)

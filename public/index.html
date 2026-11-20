@@ -3,8 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- launch-lock:start -->
+<meta name="openorbia-launch" content="2026-11-23T06:00:00.000Z">
+<script src="/assets/launch-lock.js?v=370e8e7e3e"></script>
+<!-- launch-lock:end -->
 <title>OpenOrbia: where free AI tools take off</title>
-<meta name="description" content="A weekly launch platform for free and open-source AI tools, with the catch shown up front, for small businesses, job seekers and security teams.">
+<meta name="description" content="A weekly launch platform for free and open-source AI tools for productivity, automation, careers and security, with the catch shown up front.">
 <link rel="canonical" href="https://openorbia.com/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
@@ -13,7 +17,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://openorbia.com/">
 <meta property="og:title" content="OpenOrbia: where free AI tools take off">
-<meta property="og:description" content="A weekly launch platform for free and open-source AI tools, with the catch shown up front, for small businesses, job seekers and security teams.">
+<meta property="og:description" content="A weekly launch platform for free and open-source AI tools for productivity, automation, careers and security, with the catch shown up front.">
 <meta property="og:image" content="https://openorbia.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
@@ -26,7 +30,7 @@
       "name": "OpenOrbia",
       "url": "https://openorbia.com",
       "logo": "https://openorbia.com/icon-512.png",
-      "description": "A weekly launch platform for free and open-source AI tools, with the catch shown up front, for small businesses, job seekers and security teams.",
+      "description": "A weekly launch platform for free and open-source AI tools for productivity, automation, careers and security, with the catch shown up front.",
       "founder": {
         "@type": "Person",
         "name": "Khaja Syed"
@@ -96,8 +100,8 @@ header{padding-block:22px}
 .brand svg{width:38px;height:38px}
 .grad{background:linear-gradient(90deg,var(--blue-l),var(--blue) 45%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 html h1,html h2,html h3,html .brand,html [class] h1,html [class] h2,html [class] h3{font-variant-ligatures:none}
-.hero{padding-block:clamp(16px,3vh,24px) 12px;display:grid;grid-template-columns:minmax(0,1fr) 190px;grid-template-areas:"badge orb" "h1 orb" "lede orb" "acts orb";column-gap:40px;align-items:center;justify-items:start}
-@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr) 68px;grid-template-areas:"badge orb" "h1 h1" "lede lede" "acts acts";column-gap:12px;padding-block:12px 8px}.hero .orb{max-width:68px}.hero .acts{width:100%}.hero .acts .btn{flex:1 1 0;justify-content:center;padding:11px 12px;font-size:14px}.hero .badge{font-size:11px;letter-spacing:.08em}}
+.hero{padding-block:clamp(16px,3vh,24px) 12px;display:grid;grid-template-columns:minmax(0,1fr) 190px;grid-template-areas:"badge orb" "h1 orb" "lede orb" "acts orb" "proof orb";column-gap:40px;align-items:center;justify-items:start}
+@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr) 68px;grid-template-areas:"badge orb" "h1 h1" "lede lede" "acts acts" "proof proof";column-gap:12px;padding-block:12px 8px}.hero .orb{max-width:68px}.hero .acts{width:100%}.hero .acts .btn{flex:1 1 0;justify-content:center;padding:11px 12px;font-size:14px}.hero .badge{font-size:11px;letter-spacing:.08em}}
 .badge{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.3);background:rgba(127,231,255,.06);padding:6px 12px;border-radius:999px}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
@@ -111,7 +115,10 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.ghost{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.02)}
 .btn.ghost:hover{border-color:rgba(143,166,255,.45)}
-.hero .badge{grid-area:badge}.hero h1{grid-area:h1}.hero .lede{grid-area:lede}.hero .acts{grid-area:acts}
+.hero .badge{grid-area:badge}.hero h1{grid-area:h1}.hero .lede{grid-area:lede}.hero .acts{grid-area:acts}.hero .proof{grid-area:proof}
+.proof{margin:16px 0 0;display:grid;gap:4px;font-size:14.5px;line-height:1.45}
+.proof-main{color:var(--ink);font-weight:600}
+.proof-main a{color:var(--blue-l)}
 .orb{grid-area:orb;justify-self:center;width:100%;max-width:190px;aspect-ratio:1;position:relative}
 .orb svg{width:100%;height:100%;filter:drop-shadow(0 0 40px rgba(91,124,255,.35))}
 @media (prefers-reduced-motion:no-preference){.orb svg{animation:float 7s ease-in-out infinite}}
@@ -121,6 +128,16 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-l),var(--blu
 .sec-sub{color:var(--muted);margin:0 0 16px;font-size:15px}
 .cat-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
 @media (max-width:820px){.cat-row{grid-template-columns:1fr}}
+.cat-row-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1100px){.cat-row-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cat-row-4{grid-template-columns:1fr}}
+.cat-main{display:flex;flex-direction:column;gap:10px}
+.cat-main .cat-link{display:block;color:var(--ink);text-decoration:none}
+.cat-main:hover{border-color:rgba(143,166,255,.5)}
+.cat-subs{list-style:none;margin:auto 0 0;padding:10px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13.5px}
+.cat-subs a{display:inline-block;padding:3px 0;color:var(--blue-l);text-decoration:none}
+.cat-subs a:hover{text-decoration:underline}
+.sec-sub{font:700 18px/1.25 var(--display);margin:24px 0 0;color:var(--muted)}
 .cat{display:block;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;color:var(--ink);text-decoration:none;backdrop-filter:blur(6px)}
 .cat:hover{border-color:rgba(143,166,255,.5)}
 .k{font:500 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l)}
@@ -140,9 +157,17 @@ img.logo{background:#fff}
 .ft h3 a{color:var(--ink);text-decoration:none}
 .ft h3 a:hover{text-decoration:underline}
 .ft-task{margin:0;color:#c9d2ee;font-size:15px}
-.ft-facts{margin:0;display:grid;gap:6px;font-size:14px}
-.ft-facts div{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px}
-.ft-facts dt{color:var(--muted)}.ft-facts dd{margin:0;min-width:0}
+.cf{margin:0;display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;line-height:1.45}
+.cf div{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;align-items:baseline}
+.cf dt{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cf dd{margin:0;min-width:0;color:#c9d2ee}
+.cf-free dd{color:var(--ink)}
+.cf-catch dd{color:#ffe7a3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.marks{margin:0;display:flex;flex-wrap:wrap;gap:0 14px;font-size:12.5px}
+.mark{color:var(--muted);text-decoration:none;padding-block:6px}
+.mark span{color:#62e3a8}
+.mark:hover{text-decoration:underline}
+.mark-tested,.mark-tested span{color:var(--cyan)}
 .ft-more{color:var(--blue-l);font-weight:600;font-size:14.5px;text-decoration:none;padding-block:6px}
 a.ft-more:hover{text-decoration:underline}
 .frs-sec{padding-block:4px 28px}
@@ -166,6 +191,18 @@ a.ft-more:hover{text-decoration:underline}
 @media (max-width:820px){.join{grid-template-columns:1fr;padding:22px}}
 .join h2{font:800 clamp(28px,4vw,40px)/1.05 var(--display);margin:16px 0 10px;text-wrap:balance}
 .join p{color:#c9d2ee;margin:0}
+.join p+p{margin-top:8px}
+.join-line{font-size:17px;color:var(--ink)!important}
+.hsearch{padding-block:4px 24px}
+.hs{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.hs-row{display:flex;gap:10px}
+.hs-row input{flex:1;min-width:0;min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);color:var(--ink);font:inherit}
+.hs-row input:focus{border-color:rgba(143,166,255,.55);background:rgba(255,255,255,.07)}
+.hs-filters{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:14px;color:#c9d2ee}
+.hs-filters select{margin-left:6px;min-height:40px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:#0b1024;color:var(--ink);font:inherit;font-size:14px;max-width:100%}
+.hs-check{display:inline-flex;gap:8px;align-items:center;min-height:40px}
+.hs-check input{width:18px;height:18px;accent-color:#5b7cff}
+.pledge{margin:12px 0 0;font:500 12.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .wl{display:grid;gap:14px}
 .roles{border:0;padding:0;margin:0;display:grid;gap:8px}
 .roles legend{font-weight:600;margin-bottom:8px}
@@ -206,8 +243,12 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;padd
 @media (max-width:980px){.sf-map{grid-template-columns:repeat(3,minmax(0,1fr))}.sf-contact{margin-left:0!important}}
 @media (max-width:600px){.sf-map{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-col a{padding-block:8px}}
 .sf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 28px;align-items:center}
-.sf a{color:var(--muted);text-decoration:none}
-.sf a:hover{color:var(--ink)}
+.sf a{color:var(--muted);text-decoration:none;transition:color .15s}
+.sf a:hover,.sf a:focus-visible{color:var(--ink)}
+.sf-m a:hover,.sf-l a:hover,.sf-m a:focus-visible,.sf-l a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.sf-r a:hover,.sf-r a:focus-visible{color:var(--blue-l)}
+.sf a:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){.sf a{transition:none}}
 .sf-l{display:grid;gap:2px;justify-items:start;white-space:nowrap;line-height:1.5}
 .sf-m{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px 0}
 .sf-m a+a::before{content:"·";margin-inline:12px;color:var(--muted);opacity:.7}
@@ -239,12 +280,16 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .mm-col{min-width:0}
 .mm-h{margin:8px 10px 4px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .nav .links .mm-panel a.mm-foot{margin-top:6px;padding-top:10px;border-top:1px solid var(--line);border-radius:0 0 9px 9px;color:var(--blue-l)}
+#mm-tools{width:min(620px,calc(100vw - 40px))}
+@media (821px<=width<=960px){.mm[data-menu=tools]{position:static}#mm-tools{left:auto;right:0}}
+.mm-foot-row{display:flex;flex-wrap:wrap}.mm-foot-row a.mm-foot{flex:1 1 auto}
+.mm-cols .mm-col a{white-space:nowrap}
 .nsearch{position:relative;display:flex;align-items:center}
 .nsearch input{width:220px;min-height:40px;padding:8px 58px 8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:var(--ink);font:inherit;font-size:14px}
 .nsearch input:focus{border-color:rgba(143,166,255,.55);background:rgba(255,255,255,.07)}
 .nsearch kbd{position:absolute;right:10px;padding:2px 6px;border:1px solid var(--line);border-radius:6px;font:500 11px/1.4 var(--mono);color:var(--muted);pointer-events:none}
 @media (max-width:960px){.nsearch{display:none}}
-@media (max-width:820px){.mm{position:static}.mm-panel{left:0;right:0;width:auto;top:100%}}
+@media (max-width:820px){.mm{position:static}.mm-panel,#mm-tools{left:0;right:0;width:auto;top:100%}}
 @media (max-width:560px){.nav .links{flex-basis:100%;gap:2px 14px}.nav .links>.btn{position:absolute;top:-3px;right:0;padding:9px 13px}}
 @media (prefers-reduced-motion:reduce){.mm-btn svg{transition:none}}
 .week{border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:28px;text-align:center;background:linear-gradient(135deg,rgba(91,124,255,.14),rgba(160,123,255,.08) 60%,rgba(127,231,255,.05))}
@@ -263,10 +308,13 @@ a.mini-text{text-decoration:none;color:var(--ink)}a.mini-text:hover b{text-decor
 .mini-text{flex:1;min-width:0;display:grid}
 .mini-text b{font:700 17px/1.2 var(--display)}
 .mini-text span{color:var(--muted);font-size:14.5px}
+.mini-logo{flex:none;width:40px;height:40px;border-radius:10px;object-fit:cover}
+.mini-initial{display:grid;place-items:center;font:800 17px var(--display);color:#fff;background:linear-gradient(135deg,#5b7cff,#a07bff)}
+.mini-text .mini-meta{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:3px;font:500 11.5px var(--mono);letter-spacing:.03em;color:var(--muted)}
+.mini-text .mini-cat{color:var(--blue-l);font-size:inherit}.mini-text .mini-signal{color:var(--green);font-size:inherit}.mini-text .mini-signal.paid{color:var(--red)}
 html .countdown b{font-variant-numeric:tabular-nums}
 
 .week-lineup{margin:0 0 10px;color:var(--muted);font-size:14px}
-.week-makers{margin:0 0 12px;font:500 13px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--yellow)}
 .week-note{margin:0 0 12px;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 @media (max-width:820px){.mini-text span{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}.mini-row{gap:10px}}
 .vote-note{margin:8px 0 0;min-height:1.4em;font-size:14px;color:var(--muted);text-align:center}
@@ -278,7 +326,7 @@ html .countdown b{font-variant-numeric:tabular-nums}
 .vote[data-state="voted"] .arrow{color:#fff}
 .vote:disabled{cursor:not-allowed;opacity:.65}
 .vote[data-state="voted"]:disabled{opacity:1}
-html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
+html .vote,html .cf{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -287,11 +335,11 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
 <header class="wrap"><div class="nav">
   <a class="brand" href="/" aria-label="OpenOrbia home"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg><span>Open<span class="grad">Orbia</span></span></a>
   <nav class="links" aria-label="Main">
-  <div class="mm"><a class="mm-top" href="/launch-list/">Tools</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-tools" aria-label="Tools menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="mm-panel" id="mm-tools"><a class="mm-feat" href="/request/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M10.5 4a6.5 6.5 0 1 0 4 11.6l4.2 4.2 1.4-1.4-4.2-4.2A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"/></svg></span><span><b>Find my free setup</b><small>Tell us the task. We reply with a free setup from tools we've checked against their docs.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">For</p><a href="/launch-list/?for=biz">Small Business</a><a href="/launch-list/?for=job">Job Seekers</a><a href="/launch-list/?for=sec">Cybersecurity &amp; SOC</a><a href="/launch-list/">All tools</a></div><div class="mm-col"><p class="mm-h">Setup</p><a href="/launch-list/?setup=browser">No install</a><a href="/launch-list/?setup=desktop">Desktop app</a><a href="/launch-list/?setup=selfhost">Self-host</a><a href="/launch-list/?local=1">Works with local AI</a><a href="/launch-list/?os=1">Open source only</a></div></div><a class="mm-foot" href="/how-we-check/">How we check tools →</a></div></div>
-  <div class="mm"><a class="mm-top" href="/launches/">Launches</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-launches" aria-label="Launches menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="mm" data-menu="tools"><a class="mm-top" href="/launch-list/">Tools</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-tools" aria-label="Tools menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="mm-panel" id="mm-tools"><a class="mm-feat" href="/request/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M10.5 4a6.5 6.5 0 1 0 4 11.6l4.2 4.2 1.4-1.4-4.2-4.2A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z"/></svg></span><span><b>Find my free setup</b><small>Tell us the task. We reply with a free setup from tools we've checked against their docs.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">By category</p><a href="/category/productivity/">Productivity</a><a href="/category/automation-and-ai/">Automation &amp; AI</a><a href="/category/careers/">Careers</a><a href="/category/security/">Security</a></div><div class="mm-col"><p class="mm-h">By audience</p><a href="/launch-list/?for=biz">Small businesses</a><a href="/launch-list/?for=job">Job seekers</a><a href="/launch-list/?for=sec">Security teams</a></div><div class="mm-col"><p class="mm-h">By setup</p><a href="/launch-list/?setup=browser">No install</a><a href="/launch-list/?setup=desktop">Desktop app</a><a href="/collection/self-hosted/">Self-hosted</a><a href="/launch-list/?local=1">Works with local AI</a><a href="/launch-list/?os=1">Open source only</a></div></div><div class="mm-foot-row"><a class="mm-foot" href="/launch-list/">All tools →</a><a class="mm-foot" href="/how-we-check/">How we check tools →</a></div></div></div>
+  <div class="mm" data-menu="launches"><a class="mm-top" href="/launches/">Launches</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-launches" aria-label="Launches menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="mm-panel" id="mm-launches"><a class="mm-feat" href="/launches/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2c3.3 2 5 5.2 5 9.2 0 1.4-.2 2.8-.7 4.1l2.2 2.2-1.4 1.4-1.8-1.8H8.7l-1.8 1.8-1.4-1.4 2.2-2.2A12.2 12.2 0 0 1 7 11.2C7 7.2 8.7 4 12 2Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM10 19h4l-2 3-2-3Z"/></svg></span><span><b>Launch Week</b><small>New free tools every Monday. You upvote, the best rise.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">Launches</p><a href="/launches/">This week’s launches</a><a href="/how-voting-works/">How voting works</a></div></div></div></div>
-  <div class="mm"><a class="mm-top" href="/makers/">Makers</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-makers" aria-label="Makers menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="mm" data-menu="makers"><a class="mm-top" href="/makers/">Makers</a><button class="mm-btn" type="button" aria-expanded="false" aria-controls="mm-makers" aria-label="Makers menu"><svg aria-hidden="true" focusable="false" viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="mm-panel" id="mm-makers"><a class="mm-feat" href="/submit/"><span class="mm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 14.6 8.6 21.6 9l-5.4 4.5 1.8 6.8L12 16.6 6 20.3l1.8-6.8L2.4 9l7-.4L12 2Z"/></svg></span><span><b>Launch your tool free</b><small>Free launches, no paid placement. Ever.</small></span></a><div class="mm-cols"><div class="mm-col"><p class="mm-h">Makers</p><a href="/makers/">For makers</a><a href="/submit/">Submit a tool</a><a href="/how-we-check/">How we check tools</a></div></div></div></div>
   <form class="nsearch" action="/launch-list/" method="get" role="search"><input id="nav-q" name="q" type="search" placeholder="Search free tools" aria-label="Search free tools" maxlength="80" autocomplete="off"><kbd>Ctrl K</kbd></form>
   <a class="btn ghost" href="/submit/">Submit a tool</a>
@@ -302,89 +350,23 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
   <section class="hero">
     <span class="badge"><i></i>Launch Week 1 · Nov 23</span>
     <h1>Where free AI tools <em>take off</em>.</h1>
-    <p class="lede">Find AI that fits your task, your computer and your budget, with the catch shown upfront.</p>
+    <p class="lede">Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and more. See what is actually free, what needs a paid API and how each tool works.</p>
     <div class="acts">
       <a class="btn pri" href="/launch-list/">Explore free tools</a>
       <a class="btn ghost" href="/request/">Find my free setup</a>
     </div>
+    <!-- stars:start -->
+    <p class="proof" title="Stars counted on GitHub, Nov 19, 2026"><span class="proof-main">47 tools · 1.8M+ GitHub stars between them · every one <a href="/how-we-check/">checked</a></span></p>
+    <!-- stars:end -->
     <div class="orb"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="96" height="96"><defs><linearGradient id="m0P" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fa6ff"/><stop offset=".55" stop-color="#5b7cff"/><stop offset="1" stop-color="#7a4dff"/></linearGradient><linearGradient id="m0R" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9f0ff"/><stop offset="1" stop-color="#7fe7ff"/></linearGradient><radialGradient id="m0S"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd84d"/><stop offset="1" stop-color="#ffb21f"/></radialGradient><filter id="m0G" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs><circle cx="58" cy="64" r="27" fill="#5b7cff" opacity=".55" filter="url(#m0G)"/><circle cx="98" cy="25" r="11" fill="#ffd84d" opacity=".7" filter="url(#m0G)"/><g transform="translate(58 64) rotate(-24)"><path d="M-52 0 A52 17 0 0 1 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round" stroke-dasharray="86 200"/><circle r="25" fill="url(#m0P)"/><path d="M-17 -15 A25 25 0 0 1 12 -22" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><path d="M-52 0 A52 17 0 0 0 52 0" fill="none" stroke="url(#m0R)" stroke-width="6" stroke-linecap="round"/></g><path d="M85 39 L91 33" stroke="#ffd84d" stroke-opacity=".75" stroke-width="2.5" stroke-linecap="round"/><circle cx="98" cy="25" r="8" fill="url(#m0S)"/></svg></div>
-  </section>
-
-  <section class="week" id="week" aria-labelledby="week-h">
-    <div class="week-head">
-      <h2 id="week-h">Launch Week 1 is coming</h2>
-    </div>
-    <div id="week-live">
-      <p class="week-intro" data-week-intro>The first launch week goes live soon. Voting opens at 12:01 AM Pacific.</p>
-      <p class="week-coming" data-week-coming>Coming Monday, Nov 23, 2026</p>
-      <div class="countdown" data-countdown="2026-11-23T08:01:00.000Z" role="timer" aria-label="Time until Launch Week 1 opens">
-        <div><b data-unit="d">0</b><span>days</span></div><div><b data-unit="h">00</b><span>hours</span></div><div><b data-unit="m">00</b><span>min</span></div><div><b data-unit="s">00</b><span>sec</span></div>
-      </div>
-      <p class="week-makers" data-makers>3 makers confirmed · 26 invited</p>
-      <p class="week-lineup" data-lineup-date>Lineup announced Wednesday, Nov 18</p>
-      <div><a class="btn ghost" href="#join" data-lineup-cta>Get the lineup by email</a></div>
-    </div>
-  </section>
-
-  <section class="featured" id="featured" aria-labelledby="featured-h">
-    <h2 class="sec-h" id="featured-h">Free tools to try first</h2>
-    <p class="sec-sub">Each one has a free part that works without a trial. The catch is stated up front.</p>
-    <div class="feat">
-    <!-- featured:start -->
-    <article class="ft" data-tool-slug="twenty"><div class="ft-top"><img class="logo" src="/logos/twenty.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Small Business</span><h3><a href="/tool/twenty/">Twenty</a></h3></div></div><p class="ft-task">Run a customizable open-source CRM to track contacts, companies and deals</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free when self-hosted (AGPL); paid cloud optional</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>SSO, row-level permissions and audit logs need a paid Organization key, even when self-hosted</dd></div></dl><a class="ft-more" href="/tool/twenty/">See the facts <span aria-hidden="true">→</span></a></article>
-    <article class="ft" data-tool-slug="reactive-resume"><div class="ft-top"><img class="logo" src="/logos/reactive-resume.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Job Seekers</span><h3><a href="/tool/reactive-resume/">Reactive Resume</a></h3></div></div><p class="ft-task">Build, edit and download resumes and cover letters, and track job applications</p><dl class="ft-facts"><div><dt>Free</dt><dd>All features free at rxresu.me; MIT self-host too</dd></div><div><dt>Setup</dt><dd>Browser, ready to use</dd></div><div><dt>The catch</dt><dd>AI writing help needs your own key or Ollama</dd></div></dl><a class="ft-more" href="/tool/reactive-resume/">See the facts <span aria-hidden="true">→</span></a></article>
-    <article class="ft" data-tool-slug="garak"><div class="ft-top"><img class="logo" src="/logos/garak.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Cybersecurity &amp; SOC</span><h3><a href="/tool/garak/">garak</a></h3></div></div><p class="ft-task">Scan AI chatbots and language models for jailbreaks, leaks and other weaknesses</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free command-line scanner (Apache-2.0)</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>Needs a target model to test: a local Hugging Face model, or an API (OpenAI, Cohere, Groq and others) with your own key</dd></div></dl><a class="ft-more" href="/tool/garak/">See the facts <span aria-hidden="true">→</span></a></article>
-    <article class="ft" data-tool-slug="purplellama"><div class="ft-top"><img class="logo" src="/logos/purplellama.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Cybersecurity &amp; SOC</span><h3><a href="/tool/purplellama/">PurpleLlama</a></h3></div></div><p class="ft-task">Check AI models and their code for safety and cybersecurity risks</p><dl class="ft-facts"><div><dt>Free</dt><dd>Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses</dd></div><div><dt>Setup</dt><dd>Install &amp; self-host</dd></div><div><dt>The catch</dt><dd>Benchmarks test an LLM you supply, through a provider API key or a self-hosted model</dd></div></dl><a class="ft-more" href="/tool/purplellama/">See the facts <span aria-hidden="true">→</span></a></article>
-    <article class="ft" data-tool-slug="anythingllm"><div class="ft-top"><img class="logo" src="/logos/anythingllm.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Works with local AI</span><h3><a href="/tool/anythingllm/">AnythingLLM</a></h3></div></div><p class="ft-task">Chat with your own documents and run AI agents on a private, local AI app</p><dl class="ft-facts"><div><dt>Free</dt><dd>Free desktop app or self-hosted Docker (MIT); paid hosted option</dd></div><div><dt>Setup</dt><dd>Desktop app</dd></div><div><dt>The catch</dt><dd>Multi-user and embed widget need the Docker version; local AI needs decent hardware</dd></div></dl><a class="ft-more" href="/tool/anythingllm/">See the facts <span aria-hidden="true">→</span></a></article>
-    <!-- featured:end -->
-    <a class="ft ft-ask" href="/request/"><span class="k">Cannot see your task?</span><h3>Find my free setup</h3><p class="ft-task">Tell us what you need to get done. We look for a free tool that fits.</p><span class="ft-more">Ask us <span aria-hidden="true">→</span></span></a>
-    </div>
-  </section>
-
-  <section class="frs-sec" id="first-results" aria-labelledby="frs-h">
-    <h2 class="sec-h" id="frs-h">Get a first result</h2>
-    <p class="sec-sub">One specific task you can finish for free with each tool, with the steps from its official docs.</p>
-    <ul class="frs-list">
-    <!-- first-results:start -->
-    <li><a class="frs" href="/tool/anythingllm/#fr-h"><b>AnythingLLM</b><span>Ask questions about one of your own documents and get answers from its text, using a model that runs on your computer.</span></a></li>
-    <li><a class="frs" href="/tool/meetily/#fr-h"><b>Meetily</b><span>Record a meeting on your own computer and get a transcript and an AI summary, with the audio never leaving your device.</span></a></li>
-    <li><a class="frs" href="/tool/jan/#fr-h"><b>Jan</b><span>Chat with an AI model that runs entirely on your computer, offline, with no account or API key.</span></a></li>
-    <li><a class="frs" href="/tool/resume-matcher/#fr-h"><b>Resume Matcher</b><span>Tailor your resume to one job description and export it as a PDF, using a local Ollama model so your resume stays on your computer.</span></a></li>
-    <li><a class="frs" href="/tool/garak/#fr-h"><b>garak</b><span>Scan a free model that runs on your computer (GPT-2 from Hugging Face) for the DAN 11.0 jailbreak and see its failure rate.</span></a></li>
-    <!-- first-results:end -->
-    </ul>
-  </section>
-
-  <section class="cats" aria-labelledby="cats-h">
-    <h2 class="sec-h" id="cats-h">Find tools for your work</h2>
-    <div class="cat-row">
-      <a class="cat" href="/launch-list/?for=biz"><span class="k">For</span><h3>Small businesses</h3><p>Free AI for private chat, automation, transcription and images.</p></a>
-      <a class="cat" href="/launch-list/?for=job"><span class="k">For</span><h3>Job seekers</h3><p>Free resume builders, ATS checks, writing help and offline interview practice.</p></a>
-      <a class="cat" href="/launch-list/?for=sec"><span class="k">For</span><h3>Security teams</h3><p>Open-source monitoring, detection and AI red-teaming tools for defenders.</p></a>
-    </div>
-    <ul class="tasks" aria-label="Popular tasks">
-      <li><a href="/launch-list/?for=biz&amp;q=transcribe">Transcribe meetings</a></li>
-      <li><a href="/launch-list/?for=job&amp;q=tailor">Tailor a resume</a></li>
-      <li><a href="/launch-list/?for=biz&amp;q=documents">Chat with documents</a></li>
-      <li><a href="/launch-list/?for=biz&amp;q=automate">Automate small-business tasks</a></li>
-      <li><a href="/launch-list/?for=sec&amp;q=triage">Triage security alerts</a></li>
-      <li><a href="/launch-list/?for=sec&amp;q=vulnerabilities">Test AI for vulnerabilities</a></li>
-    </ul>
-  </section>
-
-  <section class="how" id="makers" aria-label="How launching works">
-    <div><span class="n">01</span><b>Launch for free</b><span>Submit your tool and get a permanent page and a backlink.</span></div>
-    <div><span class="n">02</span><b>Get upvoted</b><span>The community ranks each week's launches. Every launch gets a badge. The week's top three lead the results.</span></div>
-    <div><span class="n">03</span><b>Get found</b><span>Reach small businesses, job seekers and security teams looking for free tools.</span></div>
-    <div class="contact" style="grid-column:1/-1"><a href="/submit/">Submit a tool</a> or <a href="/makers/">see how launching works</a>. Prefer email? Makers can write to
-      <code id="mail">launch@openorbia.com</code><button class="copy" id="copyBtn" type="button" data-copy="launch@openorbia.com" data-copied="Copied">Copy</button></div>
   </section>
 
   <section class="join" id="join" aria-labelledby="join-h">
     <div class="join-copy">
       <span class="badge"><i></i>Launch Week 1</span>
       <h2 id="join-h">Get in before the first launch.</h2>
-      <p>Makers: reserve a free spot in our first launch week. Everyone else: get Orbia Weekly, this week's free AI launches in one Monday email.</p>
+      <p class="join-line">Free AI tools with the catch shown, every Monday.</p>
+      <p>Makers: reserve a free spot in our first launch week with the same form.</p>
     </div>
     <form id="wl" class="wl" method="post" action="/api/waitlist" novalidate>
       <fieldset class="roles"><legend>I am</legend>
@@ -406,30 +388,128 @@ html .vote,html .ft-facts{font-variant-numeric:tabular-nums}
       <p class="fine">No spam. One email a week at most, and you can leave any time.</p>
     </form>
   </section>
+
+  <section class="week" id="week" aria-labelledby="week-h">
+    <div class="week-head">
+      <h2 id="week-h">Launch Week 1 is coming</h2>
+    </div>
+    <div id="week-live">
+      <p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:00 AM Central.</p>
+      <p class="week-coming" data-week-coming>Coming Monday, Nov 23, 2026</p>
+      <div class="countdown" data-countdown="2026-11-23T06:00:00.000Z" role="timer" aria-label="Time until Launch Week 1 opens">
+        <div><b data-unit="d">0</b><span>days</span></div><div><b data-unit="h">00</b><span>hours</span></div><div><b data-unit="m">00</b><span>min</span></div><div><b data-unit="s">00</b><span>sec</span></div>
+      </div>
+      <p class="week-lineup" data-lineup-date>Lineup announced Wednesday, Nov 18</p>
+      <div><a class="btn ghost" href="#join" data-lineup-cta>Get the lineup by email</a></div>
+    </div>
+  </section>
+
+  <section class="hsearch" aria-labelledby="hs-h">
+    <h2 class="sec-h" id="hs-h">Search the Launch List</h2>
+    <form class="hs" action="/launch-list/" method="get" role="search">
+      <div class="hs-row"><input id="hs-q" name="q" type="search" placeholder="Try transcribe, resume or alerts" aria-label="Search free AI tools" maxlength="80" autocomplete="off"><button class="btn pri" type="submit">Search</button></div>
+      <div class="hs-filters">
+        <label>For <select name="for"><option value="">Everyone</option><option value="biz">Small businesses</option><option value="job">Job seekers</option><option value="sec">Security teams</option></select></label>
+        <label>Setup <select name="setup"><option value="">Any setup</option><option value="browser">No install</option><option value="desktop">Desktop app</option><option value="selfhost">Self-host</option></select></label>
+        <label class="hs-check"><input type="checkbox" name="os" value="1"> Open source</label>
+        <label class="hs-check"><input type="checkbox" name="local" value="1"> Works with local AI</label>
+        <label class="hs-check"><input type="checkbox" name="free" value="1" checked> Runs free</label><input type="hidden" name="free" value="0">
+      </div>
+    </form>
+    <p class="pledge">No ads. No paid placement. No affiliate links.</p>
+  </section>
+
+  <section class="featured" id="featured" aria-labelledby="featured-h">
+    <h2 class="sec-h" id="featured-h">Free tools to try first</h2>
+    <p class="sec-sub">Each one has a free part that works without a trial. The catch is stated up front.</p>
+    <div class="feat">
+    <!-- featured:start -->
+    <article class="ft" data-tool-slug="activepieces"><div class="ft-top"><img class="logo" src="/logos/activepieces.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Small businesses</span><h3><a href="/tool/activepieces/">Activepieces</a></h3></div></div><p class="ft-task">Automate tasks between apps with a no-code workflow builder, like Zapier</p><dl class="cf"><div class="cf-free"><dt>Free</dt><dd>Free self-hosted (MIT core); free cloud plan with 1,000 credits/mo</dd></div><div class="cf-card"><dt>Card</dt><dd>No</dd></div><div class="cf-catch"><dt>Catch</dt><dd>SSO is on the paid Team plan; audit logs, Git sync and custom roles are on the enterprise plan</dd></div></dl><p class="marks"><a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked Nov 14, 2026</a></p><a class="ft-more" href="/tool/activepieces/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="reactive-resume"><div class="ft-top"><img class="logo" src="/logos/reactive-resume.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Job seekers</span><h3><a href="/tool/reactive-resume/">Reactive Resume</a></h3></div></div><p class="ft-task">Build, edit and download resumes and cover letters, and track job applications</p><dl class="cf"><div class="cf-free"><dt>Free</dt><dd>All resume features free at rxresu.me; MIT self-host too</dd></div><div class="cf-card"><dt>Card</dt><dd>Not confirmed</dd></div><div class="cf-catch"><dt>Catch</dt><dd>AI writing help needs your own key or Ollama</dd></div></dl><p class="marks"><a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked Nov 14, 2026</a></p><a class="ft-more" href="/tool/reactive-resume/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="garak"><div class="ft-top"><img class="logo" src="/logos/garak.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Security teams</span><h3><a href="/tool/garak/">garak</a></h3></div></div><p class="ft-task">Scan AI chatbots and language models for jailbreaks, leaks and other weaknesses</p><dl class="cf"><div class="cf-free"><dt>Free</dt><dd>Free command-line scanner (Apache-2.0)</dd></div><div class="cf-card"><dt>Card</dt><dd>No</dd></div><div class="cf-catch"><dt>Catch</dt><dd>Needs a target model to test: a local Hugging Face model, or an API (OpenAI, Cohere, Groq and others) with your own key</dd></div></dl><p class="marks"><a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked Nov 14, 2026</a></p><a class="ft-more" href="/tool/garak/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="purplellama"><div class="ft-top"><img class="logo" src="/logos/purplellama.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Security teams</span><h3><a href="/tool/purplellama/">PurpleLlama</a></h3></div></div><p class="ft-task">Check AI models and their code for safety and cybersecurity risks</p><dl class="cf"><div class="cf-free"><dt>Free</dt><dd>Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses</dd></div><div class="cf-card"><dt>Card</dt><dd>No</dd></div><div class="cf-catch"><dt>Catch</dt><dd>Benchmarks test an LLM you supply, through a provider API key or a self-hosted model</dd></div></dl><p class="marks"><a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked Nov 14, 2026</a></p><a class="ft-more" href="/tool/purplellama/">See the facts <span aria-hidden="true">→</span></a></article>
+    <article class="ft" data-tool-slug="anythingllm"><div class="ft-top"><img class="logo" src="/logos/anythingllm.png" alt="" width="40" height="40" style="--s:40px" decoding="async"><div><span class="k">Works with local AI</span><h3><a href="/tool/anythingllm/">AnythingLLM</a></h3></div></div><p class="ft-task">Chat with your own documents and run AI agents on a private, local AI app</p><dl class="cf"><div class="cf-free"><dt>Free</dt><dd>Free desktop app or self-hosted Docker (MIT); paid hosted option</dd></div><div class="cf-card"><dt>Card</dt><dd>No</dd></div><div class="cf-catch"><dt>Catch</dt><dd>Multi-user and embed widget need the Docker version; local AI needs decent hardware</dd></div></dl><p class="marks"><a class="mark mark-docs" href="/how-we-check/"><span aria-hidden="true">✓</span> Docs checked Nov 14, 2026</a></p><a class="ft-more" href="/tool/anythingllm/">See the facts <span aria-hidden="true">→</span></a></article>
+    <!-- featured:end -->
+    <a class="ft ft-ask" href="/request/"><span class="k">Cannot see your task?</span><h3>Find my free setup</h3><p class="ft-task">Tell us what you need to get done. We look for a free tool that fits.</p><span class="ft-more">Ask us <span aria-hidden="true">→</span></span></a>
+    </div>
+  </section>
+
+  <section class="frs-sec" id="first-results" aria-labelledby="frs-h">
+    <h2 class="sec-h" id="frs-h">Get a first result</h2>
+    <p class="sec-sub">One specific task you can finish for free with each tool, with the steps from its official docs.</p>
+    <ul class="frs-list">
+    <!-- first-results:start -->
+    <li><a class="frs" href="/tool/anythingllm/#fr-h"><b>AnythingLLM</b><span>Ask questions about one of your own documents and get answers from its text, using a model that runs on your computer.</span></a></li>
+    <li><a class="frs" href="/tool/meetily/#fr-h"><b>Meetily</b><span>Record a meeting on your own computer and get a transcript and an AI summary, with transcription on your own computer (summaries stay local with Ollama).</span></a></li>
+    <li><a class="frs" href="/tool/jan/#fr-h"><b>Jan</b><span>Chat with an AI model that runs entirely on your computer, offline, with no account or API key.</span></a></li>
+    <li><a class="frs" href="/tool/resume-matcher/#fr-h"><b>Resume Matcher</b><span>Tailor your resume to one job description and export it as a PDF, using a local Ollama model so your resume stays on your computer.</span></a></li>
+    <li><a class="frs" href="/tool/garak/#fr-h"><b>garak</b><span>Scan a free model that runs on your computer (GPT-2 from Hugging Face) for the DAN 11.0 jailbreak and see its failure rate.</span></a></li>
+    <!-- first-results:end -->
+    </ul>
+  </section>
+
+  <section class="cats" aria-labelledby="cats-h">
+    <h2 class="sec-h" id="cats-h">Explore AI tools by category</h2>
+    <!-- categories:start -->
+    <div class="cat-row cat-row-4">
+      <div class="cat cat-main"><a class="cat-link" href="/category/productivity/"><span class="k">13 tools</span><h3>Productivity</h3><p>Private AI chat, answers from your documents, meeting notes, email, web search and social media.</p></a>
+        <ul class="cat-subs" aria-label="Productivity topics"><li><a href="/launch-list/?q=chat">AI chat assistants</a></li><li><a href="/launch-list/?q=documents">Knowledge bases</a></li><li><a href="/launch-list/?q=meeting">Meeting notes</a></li><li><a href="/launch-list/?q=inbox">Email &amp; inbox</a></li><li><a href="/launch-list/?q=search+the+web">AI search</a></li><li><a href="/launch-list/?q=social+media">Social media</a></li></ul></div>
+      <div class="cat cat-main"><a class="cat-link" href="/category/automation-and-ai/"><span class="k">12 tools</span><h3>Automation &amp; AI</h3><p>Workflow automation, AI agents that carry out multi-step work, and chatbot builders.</p></a>
+        <ul class="cat-subs" aria-label="Automation &amp; AI topics"><li><a href="/launch-list/?q=automat">Workflow automation</a></li><li><a href="/launch-list/?q=agents">AI agents</a></li><li><a href="/launch-list/?q=chatbot">Chatbots &amp; AI apps</a></li></ul></div>
+      <div class="cat cat-main"><a class="cat-link" href="/category/careers/"><span class="k">15 tools</span><h3>Careers</h3><p>Resumes and CVs, cover letters, job tracking, interview practice and LinkedIn profiles.</p></a>
+        <ul class="cat-subs" aria-label="Careers topics"><li><a href="/launch-list/?q=resume">Resumes &amp; CVs</a></li><li><a href="/launch-list/?q=cover+letter">Cover letters</a></li><li><a href="/launch-list/?q=applications">Job search &amp; tracking</a></li><li><a href="/launch-list/?q=interview">Interview practice</a></li><li><a href="/launch-list/?q=LinkedIn">LinkedIn profile</a></li></ul></div>
+      <div class="cat cat-main"><a class="cat-link" href="/category/security/"><span class="k">16 tools</span><h3>Security</h3><p>AI red teaming, jailbreak tests, guardrails, pentesting and SOC alert triage.</p></a>
+        <ul class="cat-subs" aria-label="Security topics"><li><a href="/launch-list/?q=red-team">AI red teaming</a></li><li><a href="/launch-list/?q=jailbreak">Jailbreak testing</a></li><li><a href="/launch-list/?q=guardrails">AI guardrails</a></li><li><a href="/launch-list/?q=pentest">Penetration testing</a></li><li><a href="/launch-list/?q=triage">SOC &amp; alert triage</a></li><li><a href="/launch-list/?q=SOAR">Security automation</a></li><li><a href="/launch-list/?q=threats">Threat detection</a></li><li><a href="/launch-list/?q=capture-the-flag">CTF practice</a></li></ul></div>
+    </div>
+    <!-- categories:end -->
+    <h3 class="sec-sub" id="aud-h">Or browse by who you are</h3>
+    <div class="cat-row cat-aud" aria-labelledby="aud-h">
+      <a class="cat" href="/launch-list/?for=biz"><span class="k">For</span><h3>Small businesses</h3><p>Free AI for private chat, automation, transcription and images.</p></a>
+      <a class="cat" href="/launch-list/?for=job"><span class="k">For</span><h3>Job seekers</h3><p>Free resume builders, ATS checks, writing help and offline interview practice.</p></a>
+      <a class="cat" href="/launch-list/?for=sec"><span class="k">For</span><h3>Security teams</h3><p>Open-source monitoring, detection and AI red-teaming tools for defenders.</p></a>
+    </div>
+    <ul class="tasks" aria-label="Popular tasks">
+      <li><a href="/launch-list/?for=biz&amp;q=transcribe">Transcribe meetings</a></li>
+      <li><a href="/launch-list/?for=job&amp;q=tailor">Tailor a resume</a></li>
+      <li><a href="/launch-list/?for=biz&amp;q=documents">Chat with documents</a></li>
+      <li><a href="/launch-list/?for=biz&amp;q=automate">Automate small-business tasks</a></li>
+      <li><a href="/launch-list/?for=sec&amp;q=triage">Triage security alerts</a></li>
+      <li><a href="/launch-list/?for=sec&amp;q=vulnerabilities">Test AI for vulnerabilities</a></li>
+    </ul>
+  </section>
+
+  <section class="how" id="makers" aria-label="How launching works">
+    <div><span class="n">01</span><b>Launch for free</b><span>Submit your tool and get a permanent page and a backlink.</span></div>
+    <div><span class="n">02</span><b>Get upvoted</b><span>The community ranks each week's launches. Every launch gets a badge. The week's top three lead the results.</span></div>
+    <div><span class="n">03</span><b>Get found</b><span>Reach people looking for free AI tools for productivity, automation, careers and security.</span></div>
+    <div class="contact" style="grid-column:1/-1"><a href="/submit/">Submit a tool</a> or <a href="/makers/">see how launching works</a>. Prefer email? Makers can write to
+      <code id="mail">launch@openorbia.com</code><button class="copy" id="copyBtn" type="button" data-copy="launch@openorbia.com" data-copied="Copied">Copy</button></div>
+  </section>
+
 </main>
 
 <footer><div class="wrap">
 <div class="sf-top">
   <div class="sf-about"><a class="brand sf-word" href="/" aria-label="OpenOrbia home">Open<span class="grad">Orbia</span></a><p>Free and open-source AI tools, checked against their official docs. New launches every Monday, free to enter, no paid placement.</p><p class="sf-contact">Questions? <a href="mailto:hello@openorbia.com">hello@openorbia.com</a></p></div>
   <nav class="sf-map" aria-label="Site map">
-    <div class="sf-col"><p class="sf-h">Productivity</p><ul><li><a href="/launch-list/?q=chat">AI chat assistants</a></li><li><a href="/launch-list/?q=documents">Knowledge bases</a></li><li><a href="/launch-list/?q=meeting">Meeting notes</a></li><li><a href="/launch-list/?q=inbox">Email &amp; inbox</a></li><li><a href="/launch-list/?q=search+the+web">AI search</a></li><li><a href="/launch-list/?q=CRM">CRM &amp; sales</a></li><li><a href="/launch-list/?q=social+media">Social media</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Productivity</p><ul><li><a href="/launch-list/?q=chat">AI chat assistants</a></li><li><a href="/launch-list/?q=documents">Knowledge bases</a></li><li><a href="/launch-list/?q=meeting">Meeting notes</a></li><li><a href="/launch-list/?q=inbox">Email &amp; inbox</a></li><li><a href="/launch-list/?q=search+the+web">AI search</a></li><li><a href="/launch-list/?q=social+media">Social media</a></li></ul></div>
     <div class="sf-col"><p class="sf-h">Automation &amp; AI</p><ul><li><a href="/launch-list/?q=automat">Workflow automation</a></li><li><a href="/launch-list/?q=agents">AI agents</a></li><li><a href="/launch-list/?q=chatbot">Chatbots &amp; AI apps</a></li></ul></div>
     <div class="sf-col"><p class="sf-h">Careers</p><ul><li><a href="/launch-list/?q=resume">Resumes &amp; CVs</a></li><li><a href="/launch-list/?q=cover+letter">Cover letters</a></li><li><a href="/launch-list/?q=applications">Job search &amp; tracking</a></li><li><a href="/launch-list/?q=interview">Interview practice</a></li><li><a href="/launch-list/?q=LinkedIn">LinkedIn profile</a></li></ul></div>
     <div class="sf-col"><p class="sf-h">Security</p><ul><li><a href="/launch-list/?q=red-team">AI red teaming</a></li><li><a href="/launch-list/?q=jailbreak">Jailbreak testing</a></li><li><a href="/launch-list/?q=guardrails">AI guardrails</a></li><li><a href="/launch-list/?q=pentest">Penetration testing</a></li><li><a href="/launch-list/?q=triage">SOC &amp; alert triage</a></li><li><a href="/launch-list/?q=SOAR">Security automation</a></li><li><a href="/launch-list/?q=threats">Threat detection</a></li><li><a href="/launch-list/?q=capture-the-flag">CTF practice</a></li></ul></div>
-    <div class="sf-col"><p class="sf-h">Browse</p><ul><li><a href="/launch-list/?for=biz">Small Business</a></li><li><a href="/launch-list/?for=job">Job Seekers</a></li><li><a href="/launch-list/?for=sec">Cybersecurity &amp; SOC</a></li><li><a href="/launch-list/?setup=browser">No install</a></li><li><a href="/launch-list/?local=1">Works with local AI</a></li><li><a href="/launch-list/?os=1">Open source only</a></li><li><a class="sf-all" href="/launch-list/">All tools →</a></li></ul></div>
+    <div class="sf-col"><p class="sf-h">Browse</p><ul><li><a href="/launch-list/?for=biz">Small businesses</a></li><li><a href="/launch-list/?for=job">Job seekers</a></li><li><a href="/launch-list/?for=sec">Security teams</a></li><li><a href="/collection/self-hosted/">Self-hosted</a></li><li><a href="/launch-list/?setup=browser">No install</a></li><li><a href="/launch-list/?local=1">Works with local AI</a></li><li><a href="/launch-list/?os=1">Open source only</a></li><li><a href="/free-ai-apis/">Free AI APIs</a></li><li><a class="sf-all" href="/launch-list/">All tools →</a></li></ul></div>
     <div class="sf-col"><p class="sf-h">OpenOrbia</p><ul><li><a href="/launches/">This week’s launches</a></li><li><a href="/submit/">Submit a tool</a></li><li><a href="/makers/">For makers</a></li><li><a href="/how-we-check/">How we check tools</a></li><li><a href="/how-voting-works/">How voting works</a></li><li><a href="/faq/">FAQ</a></li><li><a href="https://github.com/openorbia/openorbia-site/discussions">Community</a></li><li><a href="/request/">Find my free setup</a></li><li><a href="/contact/">Contact us</a></li></ul></div>
   </nav>
 </div>
 <div class="sf">
-  <div class="sf-l"><span>© <span id="yr">2026</span> OpenOrbia. All rights reserved.</span><span>Founded by Khaja Syed</span></div>
+  <div class="sf-l"><span>© <span id="yr">2026</span> OpenOrbia. All rights reserved.</span><a class="sf-founder" href="https://www.linkedin.com/in/khaja-syed-185a03234" rel="me noopener" target="_blank">Founded by Khaja Syed</a></div>
   <nav class="sf-m" aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/security/">Security</a><a href="/contact/">Contact</a></nav>
-  <div class="sf-r"><a href="https://x.com/OpenOrbia" aria-label="OpenOrbia on X" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.linkedin.com/company/openorbia" aria-label="OpenOrbia on LinkedIn" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg></a><a href="https://github.com/openorbia/openorbia-site" aria-label="OpenOrbia on GitHub" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a></div>
+  <div class="sf-r"><a href="https://x.com/OpenOrbia" aria-label="OpenOrbia on X" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.linkedin.com/company/openorbia" aria-label="OpenOrbia on LinkedIn" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg></a><a href="https://github.com/openorbia" aria-label="OpenOrbia on GitHub" rel="me noopener" target="_blank"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a></div>
 </div>
 </div></footer>
 
 <script src="/assets/home.js?v=1c00aba5ab" defer></script>
 <script src="/assets/turnstile.js?v=0d9f5761a8" defer></script>
-<script src="/assets/launch.js?v=2898c696fe" defer></script>
+<script src="/assets/launch.js?v=3800aace96" defer></script>
 <script src="/assets/nav.js?v=e11b817f2c" defer></script>
 <!--/email_off-->
 </body>

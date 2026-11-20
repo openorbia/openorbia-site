@@ -170,7 +170,9 @@ test('ligatures are off on headings and the wordmark, and the "ff" workaround is
     assert.ok(!/\.lig\b|class="lig"|common-ligatures/.test(file(f)), `${name}: no .lig workaround`);
   }
   const h1 = file('public/index.html').match(/<h1>([\s\S]*?)<\/h1>/)[1];
-  assert.equal(h1.replace(/<[^>]+>/g, ''), 'Where free AI tools take off.', 'the headline still reads "take off" (a screen reader sees one word)');
+  // The founder's headline (kept 2026-11-19; the lede under it names the four categories). Compared as exact markup, no tag
+  // stripping: plain words and one <em>, so a screen reader reads "take off" as one phrase.
+  assert.equal(h1, 'Where free AI tools <em>take off</em>.', 'the headline is plain text with one <em>');
 });
 
 test('the homepage headline is plain "take off" in Sora: the Bricolage-only spacing workaround is gone', () => {
@@ -270,7 +272,7 @@ test('numbers that change use tabular figures, and the rule out-ranks the font s
   const tnum = 'font-variant-numeric:tabular-nums';
   const rule = css.find(r => r.startsWith('html .countdown b,'));
   assert.equal(rule, `html .countdown b,html .vote,html .rank{${tnum}}`, 'countdown digits, upvote counts and ranks');
-  assert.ok(home.includes(`html .countdown b{${tnum}}`) && home.includes(`html .vote,html .ft-facts{${tnum}}`), 'the homepage countdown, vote counts and fact lines');
+  assert.ok(home.includes(`html .countdown b{${tnum}}`) && home.includes(`html .vote,html .cf{${tnum}}`), 'the homepage countdown, vote counts and fact lines');
   // .vote and .countdown b set the font shorthand, which resets font-variant-numeric, so the new rule must be more specific
   for (const [selector, base] of [['html .countdown b', '.countdown b'], ['html .vote', '.vote'], ['html .rank', '.rank']]) {
     assert.ok(outranks(spec(selector), spec(base)), `${selector} out-ranks ${base}`);
