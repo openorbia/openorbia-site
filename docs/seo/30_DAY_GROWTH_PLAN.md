@@ -12,7 +12,7 @@ the founder. Contact details stay in the private store.
 
 Day 1 is the audit of 2026-11-20 (`SEO_AUDIT_2026-11-20.md`). Sources: public HTTP checks, the repository, and Google Search
 Console (domain property `openorbia.com`, read on 2026-11-20 in the owner's signed-in browser; Performance data runs to Nov 18).
-Bing Webmaster Tools and Cloudflare were not signed in, so their numbers say NOT VERIFIED instead of a guess. Other verified facts
+Bing Webmaster Tools was read the same day; Cloudflare was not signed in, so its numbers say NOT VERIFIED instead of a guess. Other verified facts
 that day: 63 URLs in `sitemap.xml`, all 200 (0 launch URLs: the launch database was not yet seeded); 4 category pages and 47 tool
 pages live; 0 broken internal links; `www` not yet redirected to the apex.
 
@@ -26,7 +26,7 @@ pages live; 0 broken internal links; `www` not yet redirected to the apex.
 | Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | 1 (github.com, 4 links) | | | | |
 | Ahrefs Domain Rating | Ahrefs Site Explorer | 0 (from the earlier audit; not re-checked) | | | | |
 | Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | Not enough usage data (both) | | | | |
-| Bing indexed pages | Bing Webmaster Tools | NOT VERIFIED | | | | |
+| Bing indexed pages | Bing Webmaster Tools, Site Explorer | 5 (no sitemap submitted; Nov 1–18: 0 clicks, 2 impressions) | | | | |
 | URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | | | | |
 
 How to read them:
