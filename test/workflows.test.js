@@ -19,3 +19,17 @@ test('the source check opens its issue from a run: | block', () => {
   const yml = readFileSync(new URL('source-check.yml', dir), 'utf8');
   assert.match(yml, /run: \|\n\s+gh issue create --title "Source check \$\(date -u \+%F\): \$SUMMARY"/);
 });
+
+test('Seed launches runs only by hand, on main, after the production approval, with pinned actions and prune off by default', () => {
+  const y = readFileSync(new URL('seed.yml', dir), 'utf8');
+  assert.match(y, /^on:\n  workflow_dispatch:/m, 'manual only: no push, schedule or pull request trigger');
+  assert.doesNotMatch(y, /^\s+(push|pull_request|schedule):/m);
+  assert.match(y, /if: github\.ref == 'refs\/heads\/main'/);
+  assert.match(y, /environment:\n\s+name: production/, 'waits for the founder approval like a production deploy');
+  assert.match(y, /^permissions:\n  contents: read$/m);
+  for (const [, ref] of y.matchAll(/uses: [^@\s]+@(\S+)/g)) assert.match(ref, /^[0-9a-f]{40}$/, 'actions pinned to a full commit SHA');
+  assert.match(y, /prune:\n(?:\s+.*\n)*?\s+default: false/);
+  assert.match(y, /PRUNE: \$\{\{ inputs\.prune \}\}/, 'the input reaches the shell through env, never pasted into the command');
+  assert.ok(y.includes('node scripts/seed-launches.mjs --remote --yes'));
+  assert.ok(y.indexOf('npm run launch:check') < y.indexOf('seed-launches.mjs --remote'), 'the data is checked before it is loaded');
+});

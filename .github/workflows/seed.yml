@@ -1,0 +1,66 @@
+# Loads data/launches.json into the live database (openorbia-db): the same command as README step 6 (npm run seed:remote), run from
+# GitHub so nobody has to sign wrangler in on a computer. Real launches only; samples never reach the live database.
+#
+#   Actions -> Seed launches -> Run workflow (on main)
+#
+# It waits for the founder's approval in the "production" environment, like a production deploy, and checks the data first (tests,
+# seed:check, the launch preflight). Re-seeding updates entries in place and never touches votes. "prune" also deletes launches (and
+# their votes) that are no longer in the file, so it is off unless chosen.
+# Needs CLOUDFLARE_API_TOKEN to have Account -> D1 -> Edit as well as Cloudflare Pages -> Edit (SECURITY-SETUP.md, section 2).
+name: Seed launches
+
+on:
+  workflow_dispatch:
+    inputs:
+      prune:
+        description: Also delete launches (and their votes) that are no longer in data/launches.json
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  WRANGLER_VERSION: 4.156.2
+
+jobs:
+  seed:
+    name: Seed the live database
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: https://openorbia.com/launches/
+    concurrency:
+      group: seed-production
+      cancel-in-progress: false # never cut a database load off halfway
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Check the launch data first
+        run: |
+          npm test
+          npm run seed:check
+          npm run launch:check -- --ci
+      # the seed script runs `npx wrangler`; installing the pinned version here means npx uses it instead of downloading the latest
+      - name: Install wrangler (pinned, not a dependency of the site)
+        run: npm install --no-save --no-package-lock --no-audit --no-fund "wrangler@${WRANGLER_VERSION}"
+      - name: Seed the live database
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PRUNE: ${{ inputs.prune }}
+        run: |
+          if [ "$PRUNE" = "true" ]; then
+            node scripts/seed-launches.mjs --remote --yes --prune
+          else
+            node scripts/seed-launches.mjs --remote --yes
+          fi
+      - name: Show what the live site now lists
+        run: |
+          curl -fsS "https://openorbia.com/api/launches?limit=50" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);console.log(`Live API: ${j.total} launches`)})'
