@@ -31,3 +31,13 @@ test('home.js tilts the planet and cards only for a mouse pointer without reduce
   assert.ok(js.includes("o3.style.setProperty('--ry'") && js.includes("c.style.setProperty('--tx'"));
   assert.ok(js.indexOf("getElementById('o3')") < js.indexOf("getElementById('wl')"), 'runs before the form code');
 });
+
+test('the hero has stars at three depths behind it, decorative, shifted by the pointer and still for reduced motion', () => {
+  assert.ok(home.includes('<section class="hero">\n    <div class="hero-sky" aria-hidden="true"><b></b><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>'));
+  assert.ok(css.includes('.hero-sky{position:absolute;inset:-24px -16px;z-index:-1;pointer-events:none;overflow:hidden;'));
+  for (const [n, px] of [[1, 8], [2, 20], [3, 40]]) assert.ok(css.includes(`.hero-sky .s${n}{`) && css.includes(`transform:translate3d(calc(var(--px,0)*-${px}px)`), `layer ${n}`);
+  assert.ok(css.includes('@media (prefers-reduced-motion:reduce){.o3-scene,.cat,.hero-sky i{transition:none}}'));
+  assert.equal(css.split('animation:twinkle').length, 3, 'twinkle only in the no-preference block');
+  const js = file('public/assets/home.js');
+  assert.ok(js.includes("hero.style.setProperty('--px',x.toFixed(3))") && js.includes("hero.style.removeProperty('--px')"));
+});
