@@ -40,7 +40,9 @@ test('the leaderboard carries the podium only while voting runs', () => {
 
 test('the podium CSS: 1st stands in the middle, motion only without a reduced-motion preference, no lingering animation layers', () => {
   const css = file('public/assets/launch.css');
-  assert.ok(css.includes('.pstep.place-1{order:2;--h:104px}.pstep.place-2{order:1;--h:76px}.pstep.place-3{order:3;--h:56px}'));
+  // a column per place, not `order`: a lone 1st (many tied for 2nd) must still stand in the middle
+  assert.ok(css.includes('.pstep.place-1{grid-area:1/2;--h:104px}.pstep.place-2{grid-area:1/1;--h:76px}.pstep.place-3{grid-area:1/3;--h:56px}'));
+  assert.ok(!/.pstep.place-d{order:/.test(css));
   const motion = css.slice(css.indexOf('@media (prefers-reduced-motion:no-preference){\n  .pblock'));
   assert.ok(motion.includes('.pblock{animation:prise .7s cubic-bezier(.2,.8,.2,1) backwards}') && motion.includes('.pwho{animation:pfade .6s ease-out backwards}'));
   assert.equal(css.split('animation:prise').length, 2);
