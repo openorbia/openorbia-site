@@ -46,3 +46,12 @@ test('Meetily\'s first result and Reactive Resume\'s free tier follow their docs
 test('the homepage week intro gives the day and time', () => {
   assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:00 AM Central.</p>'));
 });
+
+test('the homepage signup box speaks of Launch Week 1 as live and sends visitors to vote', () => {
+  const home = file('public/index.html');
+  const join = home.slice(home.indexOf('<section class="join"'), home.indexOf('<form id="wl"'));
+  assert.ok(join.includes('Launch Week 1 is live'));
+  assert.ok(join.includes('<a href="/launches/">vote for this week\'s free AI tools</a>'));
+  assert.ok(join.includes('a coming launch week'));
+  for (const stale of ['Get in before the first launch', 'our first launch week']) assert.ok(!join.includes(stale), stale);
+});
