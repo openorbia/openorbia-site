@@ -234,15 +234,12 @@ test('nothing scheduled yet, before launch day: the Launch Week 1 intro', async 
   assert.equal(html.match(/makers confirmed/gi), null, 'no makers line (removed 2026-11-19)');
 });
 
-test('the intro uses the same countdown as the homepage', async () => {
+test('the intro counts down to the launch time (the homepage dropped its static countdown on launch day)', async () => {
   const { html } = await page(await leaderboardResponse({ request: req('/launches/'), env, now: BEFORE }));
-  const home = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
-  assert.equal(attr(html, 'data-countdown'), attr(home, 'data-countdown'));
   assert.equal(attr(html, 'data-countdown'), new Date(launchOpensAt(FIRST_LAUNCH_WEEK.date)).toISOString());
   assert.equal(attr(html, 'data-on-zero'), 'reload');
   const units = h => [...h.matchAll(/<b data-unit="(\w)">[^<]*<\/b><span>(\w+)<\/span>/g)].map(m => `${m[1]}:${m[2]}`);
   assert.deepEqual(units(html), ['d:days', 'h:hours', 'm:min', 's:sec']);
-  assert.deepEqual(units(html), units(home));
   assert.match(html, /<b data-unit="d">3<\/b>/); // three days to go from BEFORE
 });
 
@@ -333,17 +330,16 @@ test('the homepage section is wired up and its fallback date matches the launch 
   const home = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
   assert.match(home, /<section class="week" id="week"/);
   assert.match(home, /id="week-live"/);
-  // before launch day the heading says the week is coming; launch.js switches it to "This week's launches" when it opens
-  assert.match(home, /<h2 id="week-h">Launch Week 1 is coming<\/h2>/);
-  assert.ok(!home.includes(`<h2 id="week-h">This week's launches</h2>`));
+  // since launch day the static heading is "This week's launches" (true every week); launch.js still sets it from the live data
+  assert.match(home, /<h2 id="week-h">This week's launches<\/h2>/);
+  assert.ok(!home.includes('<h2 id="week-h">Launch Week 1 is coming</h2>'));
   const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
   assert.ok(js.includes("setHeading(\"This week's launches\")"));
   assert.ok(js.includes('setHeading(`Launch Week ${data.week} is coming`)'));
   // changed 2026-11-06: no pill inside the box (the heading says it); the hero badge carries the date on one line
   assert.ok(!home.includes('id="week-badge"'));
   assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
-  assert.match(home, /Coming Monday, Nov 23, 2026/);
-  assert.match(home, new RegExp(`data-countdown="${new Date(OPENS).toISOString()}"`));
+  assert.ok(!/Coming Monday, Nov 23, 2026/.test(home), 'no stale "coming" line in the static box');
   assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
   assert.match(home, /href="\/launches\/"/);
 });

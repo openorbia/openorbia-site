@@ -107,9 +107,11 @@ test('the sections come in order: hero, signup, this week, search, featured tool
   for (const m of home.matchAll(/<section[^>]*>([\s\S]*?)<\/section>/g)) assert.ok(m[1].replace(/<[^>]+>/g, '').trim().length > 20, 'a section has text');
 });
 
-test('before launch the week block shows the countdown; after launch launch.js shows cards with vote buttons and the closing time', () => {
-  assert.match(home, /Coming Monday, Nov 23, 2026/);
-  assert.match(home, /data-countdown="2026-11-23T06:00:00\.000Z"/);
+test('the static week block describes the weekly launches (no stale countdown); launch.js shows cards with vote buttons and the closing time', () => {
+  // since launch day (2026-11-23) the static box is what crawlers and visitors without JavaScript see, so it stays true every week
+  assert.ok(home.includes('New free AI tools launch every Monday. Upvote the ones you\'d use until Sunday at 11:59 PM Central.'));
+  const box = home.slice(home.indexOf('<section class="week"'), home.indexOf('</section>', home.indexOf('<section class="week"')));
+  assert.ok(!/Coming Monday|data-countdown=|is coming<\/h2>/.test(box), 'no pre-launch countdown or "coming" text in the static box');
   assert.ok(!/makers confirmed|data-makers/.test(home), 'no makers line (removed 2026-11-19)');
   const js = file('public/assets/launch.js');
   assert.ok(js.includes("'Voting closes Sunday 11:59 PM CT'"));

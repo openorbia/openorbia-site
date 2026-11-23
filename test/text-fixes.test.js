@@ -43,8 +43,8 @@ test('Meetily\'s first result and Reactive Resume\'s free tier follow their docs
   assert.ok(!file('public/index.html').includes('audio never leaving your device'));
 });
 
-test('the homepage week intro gives the day and time', () => {
-  assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:00 AM Central.</p>'));
+test('the homepage week intro says when launches happen and when voting closes, in Central time', () => {
+  assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>New free AI tools launch every Monday. Upvote the ones you\'d use until Sunday at 11:59 PM Central.</p>'));
 });
 
 test('the homepage signup box speaks of Launch Week 1 as live and sends visitors to vote', () => {
