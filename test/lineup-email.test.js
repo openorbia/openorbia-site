@@ -16,6 +16,8 @@ const SECRET = 'test-secret-0123456789abcdef';
 const POSTAL = '123 Example Street, Suite 4, Springfield, IL 62701, USA';
 const KEY = 'xkeysib-test-0000000000000000';
 const DATE = '2026-11-23';
+// Fixed clocks, so the wording (preview, live, closed) does not depend on the day the tests run
+const BEFORE = Date.parse('2026-11-20T18:00:00Z'), DURING = Date.parse('2026-11-25T18:00:00Z'), AFTER = Date.parse('2026-11-30T18:00:00Z');
 const L = (slug, name, category, tagline = `${name} does one useful thing`) => ({ slug, name, tagline, category, launch_week: 1, launch_date: DATE });
 const LAUNCHES = [L('zeta-sec', 'Zeta Scan', 'sec'), L('alpha-biz', 'Alpha Books', 'biz'), L('beta-job', 'Beta CV', 'job'), L('aardvark-sec', 'Aardvark Guard', 'sec')];
 const SAMPLE = SAMPLE_UNSUBSCRIBE;
@@ -23,7 +25,7 @@ const SAMPLE = SAMPLE_UNSUBSCRIBE;
 // ---- rendering ----
 
 test('the lineup is built from the launches: name, tagline and link, grouped by category in the site order', () => {
-  const e = lineupEmail(LAUNCHES, { unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
+  const e = lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
   assert.deepEqual(groupByCategory(LAUNCHES).map(g => [g.name, g.items.map(l => l.name)]),
     // category names come from the site's own list, so a rename on the site cannot leave this test behind
     [[CATEGORIES.biz, ['Alpha Books']], [CATEGORIES.job, ['Beta CV']], [CATEGORIES.sec, ['Aardvark Guard', 'Zeta Scan']]]);
@@ -37,17 +39,48 @@ test('the lineup is built from the launches: name, tagline and link, grouped by 
 });
 
 test('launch day and the voting close come from lib/time.js, with no hard-coded dates in the email code', () => {
-  const e = lineupEmail(LAUNCHES, { unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
+  const e = lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
   const day = dayLabelLong(launchOpensAt(DATE)), closes = dayLabelLong(launchClosesAt(DATE));
   assert.equal(day, 'Monday, Nov 23, 2026'); assert.equal(closes, 'Sunday, Nov 29, 2026');
-  assert.ok(e.text.includes(`Launch Week 1 starts ${day}, at 12:01 AM Pacific.`) && e.text.includes(`Voting closes ${closes}, at 11:59 PM Pacific`));
-  const moved = lineupEmail(LAUNCHES.map(l => ({ ...l, launch_date: '2027-03-08', launch_week: 16 })), { unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
+  assert.ok(e.text.includes(`Launch Week 1 starts ${day}, at 12:00 AM Central.`) && e.text.includes(`Voting closes ${closes}, at 11:59 PM Central`));
+  const moved = lineupEmail(LAUNCHES.map(l => ({ ...l, launch_date: '2027-03-08', launch_week: 16 })), { now: BEFORE, unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
   assert.ok(moved.text.includes('Launch Week 16 starts Monday, Mar 8, 2027') && moved.text.includes('Voting closes Sunday, Mar 14, 2027'));
   for (const f of ['lib/lineup-email.js', 'lib/lineup-send.js', 'scripts/send-lineup.mjs']) assert.ok(!/20\d\d-\d\d-\d\d|Nov 2\d/.test(file(f)), f);
 });
 
+test('the wording follows the clock: a preview before launch day, "is live" during the week, and no email after voting closes', () => {
+  const opts = now => ({ now, unsubscribeUrl: SAMPLE, postalAddress: POSTAL });
+  const before = lineupEmail(LAUNCHES, opts(BEFORE));
+  assert.equal(before.subject, 'Launch Week 1 lineup: 4 free AI tools on Nov 23');
+  assert.ok(before.html.includes('Here’s the lineup.'));
+
+  const live = lineupEmail(LAUNCHES, opts(DURING));
+  assert.equal(live.subject, 'Launch Week 1 is live: 4 free AI tools, vote by Nov 29');
+  assert.ok(live.text.startsWith('Launch Week 1 is live\n'));
+  assert.ok(live.text.includes('Launch Week 1 is live. Here are this week’s 4 free AI tools, by category.'));
+  assert.ok(live.text.includes('Voting closes Sunday, Nov 29, 2026, at 11:59 PM Central'));
+  assert.ok(live.html.includes('This week’s launches.') && !live.text.includes(' starts '));
+  assert.equal(live.preview, '4 free AI tools, live now, by category. Voting closes Sunday, Nov 29, 2026 at 11:59 PM Central.');
+
+  // launch day itself (12:00 AM Central, Nov 23) is already live; one minute before is still the preview
+  const opens = launchOpensAt(DATE);
+  assert.ok(lineupEmail(LAUNCHES, opts(opens)).subject.includes('is live'));
+  assert.ok(lineupEmail(LAUNCHES, opts(opens - 60_000)).subject.includes('lineup'));
+
+  assert.throws(() => lineupEmail(LAUNCHES, opts(AFTER)), /closed Sunday, Nov 29, 2026/);
+  assert.throws(() => lineupEmail(LAUNCHES, opts(launchClosesAt(DATE))), /can no longer be sent/);
+  for (const e of [before, live]) assert.ok(!/Pacific/.test(e.text + e.html + e.preview + e.subject));
+});
+
+test('the send script passes its clock through: during the week the dry-run sample says the week is live', async () => {
+  const h = harness();
+  const code = await runLineup({ argv: ['--dry-run'], env: h.env, db: h.db, fetchImpl: h.fetchImpl, ledger: h.ledger, out: h.out, log: h.log, err: h.err, sleep: h.sleep, now: DURING });
+  assert.equal(code, 0);
+  assert.ok(h.files['lineup-week-1-sample.txt'].includes('\nSubject: Launch Week 1 is live'), 'sample uses the live wording');
+});
+
 test('the same design as the welcome email: the shared shell, header art, email-safe markup, no scripts', () => {
-  const lineup = lineupEmail(LAUNCHES, { unsubscribeUrl: SAMPLE, postalAddress: POSTAL }).html;
+  const lineup = lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: SAMPLE, postalAddress: POSTAL }).html;
   const welcome = welcomeEmail('reader').html;
   const headOf = h => h.slice(h.indexOf('<style>'), h.indexOf('</style>'));
   assert.equal(headOf(lineup), headOf(welcome));
@@ -58,19 +91,19 @@ test('the same design as the welcome email: the shared shell, header art, email-
 
 test('everything from the database is escaped', () => {
   const bad = [L('x', '<img src=x onerror=alert(1)>', 'biz', '"><script>alert(1)</script>')];
-  const { html } = lineupEmail(bad, { unsubscribeUrl: SAMPLE, postalAddress: '<b>1 Main St</b>, Town' });
+  const { html } = lineupEmail(bad, { now: BEFORE, unsubscribeUrl: SAMPLE, postalAddress: '<b>1 Main St</b>, Town' });
   assert.ok(!html.includes('<img src=x') && !html.includes('<script>') && !html.includes('<b>1 Main St</b>'));
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
 });
 
 test('the footer carries the unsubscribe link and the postal address; the email cannot be built without either', () => {
   const url = 'https://openorbia.com/unsubscribe/?id=42&t=0123456789abcdef0123456789abcdef';
-  const e = lineupEmail(LAUNCHES, { unsubscribeUrl: url, postalAddress: '123 Example Street\nSpringfield, IL 62701' });
+  const e = lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: url, postalAddress: '123 Example Street\nSpringfield, IL 62701' });
   assert.ok(e.html.includes(`<a href="${esc(url)}" style="color:#22d3ee;text-decoration:underline">Unsubscribe</a><br>`));
   assert.ok(e.html.includes('OpenOrbia, 123 Example Street, Springfield, IL 62701') && e.text.includes('OpenOrbia, 123 Example Street, Springfield, IL 62701'));
   assert.ok(e.text.includes(`Unsubscribe: ${url}`));
-  assert.throws(() => lineupEmail(LAUNCHES, { unsubscribeUrl: url, postalAddress: '' }), /POSTAL_ADDRESS/);
-  assert.throws(() => lineupEmail(LAUNCHES, { unsubscribeUrl: '', postalAddress: POSTAL }), /unsubscribe/);
+  assert.throws(() => lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: url, postalAddress: '' }), /POSTAL_ADDRESS/);
+  assert.throws(() => lineupEmail(LAUNCHES, { now: BEFORE, unsubscribeUrl: '', postalAddress: POSTAL }), /unsubscribe/);
   assert.throws(() => lineupEmail([], { unsubscribeUrl: url, postalAddress: POSTAL }), /No launches/);
   assert.equal(cleanPostal('  '), ''); assert.equal(cleanPostal('x'.repeat(201)), '');
   assert.equal(launchLink('a-b'), 'https://openorbia.com/launch/a-b/');
@@ -100,7 +133,7 @@ function harness({ env = {}, people = PEOPLE, launches = LAUNCHES, gone = [], br
     log: m => lines.push(m), err: m => lines.push(m), sleep: async () => {},
     env: { ...env },
   };
-  h.run = argv => runLineup({ argv, env: h.env, db: h.db, fetchImpl: h.fetchImpl, ledger: h.ledger, out: h.out, log: h.log, err: h.err, sleep: h.sleep });
+  h.run = argv => runLineup({ argv, env: h.env, db: h.db, fetchImpl: h.fetchImpl, ledger: h.ledger, out: h.out, log: h.log, err: h.err, sleep: h.sleep, now: BEFORE });
   h.brevo = () => calls.filter(c => c.url === BREVO_URL);
   return h;
 }
