@@ -204,11 +204,12 @@ test('once launch day has opened the leaderboard is ranked by votes, ties by nam
   assert.deepEqual([...html.matchAll(/<span class="lrow-text"><b>([^<]+)<\/b>/g)].map(m => m[1]), ['Zeta Tool', 'Mid Tool', 'Alpha Tool', 'Late Tool']);
   assert.deepEqual([...html.matchAll(/data-count>(\d+)</g)].map(m => m[1]), ['3', '2', '1', '1']);
   // changed 2026-11-06: equal upvotes share a rank, as on the results page (Alpha and Late both have 1: both are 3rd)
-  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)"/g)].map(m => m[1]), ['1', '2', '3', '3']);
-  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 4);
+  // changed 2026-11-23: the shared rank reads "=3", and a tie that spills past 3rd place (two launches for one place) gets no medal
+  assert.deepEqual([...html.matchAll(/class="rank" aria-label="([^"]+)">([^<]+)</g)].map(m => `${m[1]}|${m[2]}`), ['Rank 1|1', 'Rank 2|2', 'Tied for rank 3|=3', 'Tied for rank 3|=3']);
+  assert.equal([...html.matchAll(/class="lrow top top-\d"/g)].length, 2);
   assert.match(html, /class="lrow top top-1"/);
-  assert.equal([...html.matchAll(/class="lrow top top-3"/g)].length, 2);
-  assert.ok(!/lrow top top-4/.test(html));
+  assert.match(html, /class="lrow top top-2"/);
+  assert.ok(!/lrow top top-3/.test(html) && !/lrow top top-4/.test(html));
   assert.match(html, /Ranked by upvotes\. You get one upvote for each launch for the whole week\./);
 });
 
@@ -306,7 +307,7 @@ test('the API hides vote counts before launch day and lists the top launches aft
   const after = await (await launchesApiResponse({ request: req('/api/launches?limit=2'), env, now: AFTER })).json();
   assert.equal(after.open, true);
   assert.deepEqual(after.launches.map(l => [l.slug, l.votes]), [['zeta-tool', 2], ['mid-tool', 1]]);
-  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'category_name', 'logo_url', 'name', 'rank', 'signal', 'slug', 'tagline', 'votes']);
+  assert.deepEqual(Object.keys(after.launches[0]).sort(), ['category', 'category_name', 'logo_url', 'name', 'rank', 'signal', 'slug', 'tagline', 'tied', 'votes']);
   assert.deepEqual(after.launches.map(l => l.rank), [1, 2]);
 });
 
@@ -375,4 +376,29 @@ test('a launch page shows its rank in the week once voting is open and it has an
   assert.ok(!(await at('alpha-tool', AFTER)).includes('class="rank-badge"'), 'no upvotes yet: no rank');
   assert.ok(!(await at('zeta-tool', BEFORE)).includes('class="rank-badge"'), 'before launch day: no rank');
   assert.ok((await at('zeta-tool', launchClosesAt('2026-11-23') + 1000)).includes('Finished #1 of 3 in Launch Week 1'));
+});
+
+test('the podium: a lone leader keeps gold, a tie for 2nd that spills past 3rd gets no medal, and the order never changes', async () => {
+  const { rankInfo } = await import('../lib/results.js');
+  // the live board on launch day (2026-11-23): one launch on 4 upvotes, nineteen on 3, six on 2
+  const votes = [4, ...Array(19).fill(3), ...Array(6).fill(2)];
+  const info = rankInfo(votes.map(v => ({ votes: v })));
+  assert.deepEqual(info.slice(0, 2), [{ rank: 1, tied: false, podium: true }, { rank: 2, tied: true, podium: false }]);
+  assert.ok(info.slice(1).every(r => !r.podium));
+  assert.deepEqual([...new Set(info.map(r => r.rank))], [1, 2, 21], 'ranks are unchanged: 1, then 2 for the tie, then 21');
+  // a two-way tie for 2nd fits (places 2 and 3), so both get silver; a three-way tie for 2nd does not
+  assert.deepEqual(rankInfo([{ votes: 5 }, { votes: 3 }, { votes: 3 }, { votes: 1 }]).map(r => r.podium), [true, true, true, false]);
+  assert.deepEqual(rankInfo([{ votes: 5 }, { votes: 3 }, { votes: 3 }, { votes: 3 }]).map(r => r.podium), [true, false, false, false]);
+});
+
+test('a tied launch page says so: "Tied #2 of 3", and "Finished tied #2" after the week', async () => {
+  seedThree();
+  for (const who of ['1.1.1.1', '1.1.1.2']) await castVote('zeta-tool', who);
+  await castVote('mid-tool', '1.1.1.1');
+  await castVote('alpha-tool', '1.1.1.2');
+  const at = async (slug, now) => (await page(await launchResponse({ request: req('/x'), env, params: { slug }, now }))).html;
+  const zeta = await at('zeta-tool', AFTER);
+  assert.ok(zeta.includes('#1 of 3 in Launch Week 1') && !zeta.includes('Tied'));
+  assert.ok((await at('mid-tool', AFTER)).includes('Tied #2 of 3 in Launch Week 1'));
+  assert.ok((await at('alpha-tool', launchClosesAt('2026-11-23') + 1000)).includes('Finished tied #2 of 3 in Launch Week 1'));
 });
