@@ -483,3 +483,33 @@ html .res-votes,html .res-rank{font-variant-numeric:tabular-nums}
 .cat-tags{margin-top:8px}
 .cat-more p a{color:var(--blue-l)}
 .api-row{cursor:default}.api-row>span{display:flex;flex-direction:column;gap:4px}.api-row .alt-d{display:block}.api-k{color:var(--ink,#fff);font-weight:500}.api-src{margin-top:4px;font-size:13px;color:var(--cyan)}
+
+/* ---- the podium over the leaderboard: 1st in the middle on the tallest step, lit from above; each step a 3D block ---- */
+.podium{position:relative;margin:4px auto 26px;max-width:600px;padding-top:12px;isolation:isolate}
+/* the light over 1st place: a box-shadow glow, not a large gradient, which darkened the fixed page background behind it */
+.place-1 .pwho{position:relative}
+.place-1 .pwho::before{content:"";position:absolute;z-index:-1;left:50%;top:30%;width:2px;height:2px;border-radius:50%;box-shadow:0 0 90px 60px rgba(255,236,160,.13);pointer-events:none}
+.podium-h{margin:0 0 10px;text-align:center;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.podium-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:10px}
+.pstep{display:flex;flex-direction:column;align-items:center;min-width:0;--c:255 216 77}
+.pstep.place-1{order:2;--h:104px}.pstep.place-2{order:1;--h:76px}.pstep.place-3{order:3;--h:56px}
+.pstep.p-2{--c:219 227 247}.pstep.p-3{--c:224 165 111}
+.pwho{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:100%;padding:0 4px 12px;text-align:center;text-decoration:none;color:var(--ink)}
+.pwho .logo{border-radius:16px;box-shadow:0 0 0 2px rgb(var(--c) / .7),0 10px 28px rgb(var(--c) / .25)}
+.pwho b{font:700 15px/1.2 var(--display);overflow-wrap:anywhere;margin-top:6px}
+.pwho:hover b{color:var(--blue-l)}
+.pvotes{font:500 12px var(--mono);color:rgb(var(--c))}
+.pblock{position:relative;display:grid;place-items:center;width:100%;height:var(--h);border:1px solid rgb(var(--c) / .45);border-top:0;border-radius:0 0 12px 12px;background:linear-gradient(180deg,rgb(var(--c) / .30),rgb(var(--c) / .06) 80%);box-shadow:inset 0 1px 0 rgb(var(--c) / .6),0 18px 30px -18px rgb(var(--c) / .5);transform-origin:50% 100%}
+.pblock::before{content:"";position:absolute;left:-1px;right:-1px;bottom:100%;height:22px;background:linear-gradient(180deg,rgb(var(--c) / .25),rgb(var(--c) / .55));border:1px solid rgb(var(--c) / .55);border-bottom:0;transform:perspective(260px) rotateX(58deg);transform-origin:50% 100%;border-radius:8px 8px 0 0}
+.pnum{font:800 clamp(26px,5vw,40px)/1 var(--display);color:rgb(var(--c));text-shadow:0 0 18px rgb(var(--c) / .55)}
+.place-1 .pblock{box-shadow:inset 0 1px 0 rgb(var(--c) / .7),0 0 40px rgb(var(--c) / .25),0 18px 30px -18px rgb(var(--c) / .6)}
+@media (max-width:600px){.pstep.place-1{--h:78px}.pstep.place-2{--h:56px}.pstep.place-3{--h:42px}.podium-steps{gap:6px}.pwho .logo{--s:44px!important}.pwho b{font-size:13.5px}.pvotes{font-size:11px}}
+@media (prefers-reduced-motion:no-preference){
+  .pblock{animation:prise .7s cubic-bezier(.2,.8,.2,1) backwards}
+  .pwho{animation:pfade .6s ease-out backwards}
+  .place-1 .pblock{animation-delay:.25s}.place-1 .pwho{animation-delay:.6s}
+  .place-2 .pblock{animation-delay:.1s}.place-2 .pwho{animation-delay:.45s}
+  .place-3 .pwho{animation-delay:.35s}
+}
+@keyframes prise{from{transform:scaleY(0)}}
+@keyframes pfade{from{opacity:0;transform:translateY(10px)}}

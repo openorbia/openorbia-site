@@ -76,6 +76,57 @@
     });
   }
 
+  // ---- the leaderboard after an upvote: rows move to their new place (sliding there unless reduced motion is on), ranks and
+  // medal colors follow (equal upvotes share a rank, as on the server), and the podium is rebuilt from the new top three ----
+  const board = document.querySelector('ol.lboard');
+  const rowVotes = r => { const n = r.querySelector('[data-count]'); return n ? Number(n.textContent.replace(/D/g, '')) || 0 : 0; };
+  function rebuildPodium(rows, ranks) {
+    const list = document.querySelector('.podium-steps');
+    if (!list) return;
+    const top = rows.map((r, i) => ({ r, rank: ranks[i], v: rowVotes(r) })).filter(t => t.v > 0 && t.rank <= 3).slice(0, 3);
+    list.replaceChildren(...top.map(({ r, rank, v }, i) => {
+      const li = document.createElement('li');
+      li.className = `pstep place-${i + 1} p-${rank}`;
+      const link = r.querySelector('.lrow-main'), who = document.createElement('a');
+      who.className = 'pwho'; who.href = link.getAttribute('href');
+      const mark = r.querySelector('.logo').cloneNode(true);
+      mark.style.setProperty('--s', '64px'); if (mark.tagName === 'IMG') { mark.width = 64; mark.height = 64; }
+      const name = document.createElement('b'); name.textContent = r.querySelector('.lrow-text b').textContent;
+      const count = document.createElement('span'); count.className = 'pvotes'; count.textContent = `${new Intl.NumberFormat('en-US').format(v)} upvote${v === 1 ? '' : 's'}`;
+      who.append(mark, name, count);
+      const block = document.createElement('span'); block.className = 'pblock'; block.setAttribute('aria-hidden', 'true');
+      const num = document.createElement('span'); num.className = 'pnum'; num.textContent = String(rank);
+      block.append(num); li.append(who, block);
+      return li;
+    }));
+  }
+  function reorderBoard() {
+    if (!board) return;
+    const rows = [...board.children].filter(r => r.classList.contains('lrow') && r.querySelector('.rank'));
+    if (rows.length < 2) return rebuildPodium(rows, rows.map(() => 1));
+    const before = new Map(rows.map(r => [r, r.getBoundingClientRect().top]));
+    // most upvotes first; equal upvotes by name, case-insensitive, as the server orders them (ORDER BY votes DESC, name COLLATE NOCASE)
+    const rowName = r => r.querySelector('.lrow-text b').textContent.toLowerCase();
+    const sorted = [...rows].sort((a, b) => rowVotes(b) - rowVotes(a) || (rowName(a) < rowName(b) ? -1 : rowName(a) > rowName(b) ? 1 : 0));
+    board.append(...sorted);
+    let rank = 0, prev = null;
+    const ranks = sorted.map((r, i) => {
+      const v = rowVotes(r);
+      if (v !== prev) { rank = i + 1; prev = v; }
+      const n = r.querySelector('.rank'); n.textContent = String(rank); n.setAttribute('aria-label', `Rank ${rank}`);
+      r.classList.remove('top', 'top-1', 'top-2', 'top-3');
+      if (v > 0 && rank <= 3) r.classList.add('top', `top-${rank}`);
+      return rank;
+    });
+    rebuildPodium(sorted, ranks);
+    const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still) return;
+    for (const r of sorted) {
+      const dy = before.get(r) - r.getBoundingClientRect().top;
+      if (dy && r.animate) r.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    }
+  }
+
   document.addEventListener('click', async e => {
     const btn = e.target.closest && e.target.closest('button.vote');
     if (!btn || btn.disabled || btn.dataset.state !== 'ready') return;
@@ -89,6 +140,7 @@
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
         markVoted(btn.dataset.slug, data.count);
+        if (!data.already) reorderBoard();
         say(data.already ? 'You had already upvoted this launch.' : 'Thanks, your upvote is counted.');
       } else {
         btn.disabled = false;
