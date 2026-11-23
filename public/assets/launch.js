@@ -210,8 +210,9 @@
         btn.append(el('span', 'arrow', '▲'), n, sr);
         // ties share a rank (1, 1, 3), worked out by the server over the whole week
         const rank = Number.isInteger(l.rank) ? l.rank : i + 1;
-        const rankEl = el('span', 'mini-rank', String(rank));
-        rankEl.setAttribute('aria-label', `Rank ${rank}`);
+        // "=2" when another launch shares the rank (the server says so over the whole week)
+        const rankEl = el('span', 'mini-rank', `${l.tied ? '=' : ''}${rank}`);
+        rankEl.setAttribute('aria-label', `${l.tied ? 'Tied for rank' : 'Rank'} ${rank}`);
         row.append(rankEl, mark, link, btn);
         li.append(row);
         list.append(li);
