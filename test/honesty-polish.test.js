@@ -20,12 +20,12 @@ test('no lineup yet: the box offers it by email, with the date it is announced (
   assert.equal(weekdayLabel(at), 'Wednesday, Nov 18');
   assert.ok(at > launchOpensAt(FIRST_LAUNCH_WEEK.date) - 7 * 864e5, 'after the Monday deadline');
   assert.ok(home.includes(lineupHtml()), 'the page carries the computed line (npm run build:home writes it)');
-  assert.ok(home.includes('<p class="week-lineup" data-lineup-date>Lineup announced Wednesday, Nov 18</p>'));
+  assert.ok(home.includes('<p class="week-lineup" data-lineup-date>Launch Week 1: Monday, Nov 23 – Sunday, Nov 29, 2026</p>'));
   // calendar arithmetic: a launch the Monday after a daylight saving change still gets the Wednesday before it
   assert.equal(weekdayLabel(lineupAnnouncedAt('2027-03-15')), 'Wednesday, Mar 10');
   assert.ok(Number.isNaN(lineupAnnouncedAt('not-a-date')));
-  assert.ok(home.includes('<a class="btn ghost" href="#join" data-lineup-cta>Get the lineup by email</a>'));
-  assert.ok(home.includes('<section class="join" id="join"'), 'the link goes to the waitlist');
+  assert.ok(home.includes('<a class="btn ghost" href="/launches/" data-lineup-cta>See this week\'s launches →</a>'));
+  assert.ok(home.includes('<section class="join" id="join"'), 'the signup box is still on the page');
   assert.ok(!home.includes('>See the lineup →<'), 'no lineup link before there is a lineup');
 });
 
@@ -74,7 +74,7 @@ test('the waitlist is for readers by default; "Your tool\'s website" shows only 
 
 test('hero: one badge with the date, short enough for one line; the week box keeps its heading but no second pill', () => {
   assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
-  assert.ok(home.includes('<h2 id="week-h">Launch Week 1 is coming</h2>'));
+  assert.ok(home.includes('<h2 id="week-h">This week\'s launches</h2>'));
   assert.ok(!home.includes('id="week-badge"'));
 });
 

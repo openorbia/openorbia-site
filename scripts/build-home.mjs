@@ -17,7 +17,7 @@ import { homeCategoriesHtml } from '../lib/categories.js';
 import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
-import { lineupAnnouncedAt, weekdayLabel } from '../lib/time.js';
+import { launchOpensAt, launchClosesAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
 
@@ -30,9 +30,14 @@ export function featuredHtml() { return renderFeatured(pickFeatured(TOOLS, confi
 // the "Get a first result" strip: every tool with a first result (lib/first-result.js)
 export const firstResultsHtml = () => renderFirstResultStrip(TOOLS);
 
-// The homepage week box: "Lineup announced Wednesday, Nov 18", worked out from the first launch week (lib/time.js)
+// The homepage week box's dates: "Launch Week 1: Monday, Nov 23 – Sunday, Nov 29, 2026", worked out from the first launch week
+// (lib/time.js). It stays true after the week, so the static box (what crawlers and visitors without JavaScript see) never goes stale;
+// launch.js replaces the whole box with the live launches as soon as it loads.
 export const LINEUP_RE = /<p class="week-lineup" data-lineup-date>[^<]*<\/p>/;
-export const lineupHtml = () => `<p class="week-lineup" data-lineup-date>Lineup announced ${weekdayLabel(lineupAnnouncedAt(FIRST_LAUNCH_WEEK.date))}</p>`;
+export const lineupHtml = () => {
+  const d = FIRST_LAUNCH_WEEK.date, year = d.slice(0, 4);
+  return `<p class="week-lineup" data-lineup-date>Launch Week ${FIRST_LAUNCH_WEEK.week}: ${weekdayLabel(launchOpensAt(d))} – ${weekdayLabel(launchClosesAt(d))}, ${year}</p>`;
+};
 
 
 // The Launch List's counts, from the Launch List itself: the tools that run free (no required paid service) in the title,
