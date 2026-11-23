@@ -94,8 +94,9 @@ test('the hero: the same headline, the new lede, "Explore free tools" and "Find 
     [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);
   assert.ok(!hero.includes('Get launch updates') && !hero.includes('href="#join"'), 'the launch-updates link is out of the hero');
   assert.match(home, /<section class="join" id="join"/, 'the waitlist section stays');
-  // the planet is small on phones
-  assert.match(home, /@media \(max-width:820px\)\{\.hero\{[^}]*grid-template-columns:minmax\(0,1fr\) 68px/);
+  // changed 2026-11-23 (founder: bigger 3D hero): on phones the planet sits above the headline, kept to 136px so the buttons
+  // stay on the first screen
+  assert.match(home, /@media \(max-width:820px\)\{\.hero\{grid-template-columns:minmax\(0,1fr\);grid-template-areas:"orb" "badge" "h1"[^}]*\}\.hero \.orb\{max-width:136px/);
   assert.match(home, /\.hero\{padding-block:clamp\(16px,3vh,24px\) 12px/);
 });
 

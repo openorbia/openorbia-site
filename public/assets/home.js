@@ -4,6 +4,14 @@ document.getElementById('yr').textContent=new Date().getFullYear();
 // A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day in Central time, so it goes away on its own
 const oneDay=document.getElementById('bday');
 if(oneDay&&new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;
+// Depth: the hero planet (#o3) and the category cards lean, and the hero stars (--px, --py) shift by depth, toward a mouse pointer. Touch screens and reduced motion keep them still.
+if(window.matchMedia&&matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)').matches){
+  const o3=document.getElementById('o3'),hero=o3&&o3.closest('.hero');
+  if(hero){hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;o3.style.setProperty('--ry',(x*28).toFixed(1)+'deg');o3.style.setProperty('--rx',(-y*20).toFixed(1)+'deg');hero.style.setProperty('--px',x.toFixed(3));hero.style.setProperty('--py',y.toFixed(3));});
+    hero.addEventListener('pointerleave',()=>{o3.style.removeProperty('--rx');o3.style.removeProperty('--ry');hero.style.removeProperty('--px');hero.style.removeProperty('--py');});}
+  document.querySelectorAll('.cat').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--tx',(((e.clientX-r.left)/r.width-.5)*6).toFixed(1)+'deg');c.style.setProperty('--ty',((.5-(e.clientY-r.top)/r.height)*6).toFixed(1)+'deg');});
+    c.addEventListener('pointerleave',()=>{c.style.removeProperty('--tx');c.style.removeProperty('--ty');});});
+}
 // The copy-the-email button is a shared [data-copy] button, handled (and announced) by launch.js
 // The Turnstile token (empty if the check has not run): only a visitor who passes it gets the welcome email
 const check=()=>{const t=document.querySelector('#wl [name="cf-turnstile-response"]');return t?t.value:'';};
