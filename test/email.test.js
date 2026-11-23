@@ -22,8 +22,11 @@ const brevo = (status = 201, { throws = false } = {}) => async (url, init) => {
 // Requests as the homepage sends them: from our own origin, with a Turnstile token in the JSON (none on the no-JS form)
 const asJson = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://openorbia.com' }, body: JSON.stringify({ turnstile: 'token-ok', ...body }) });
 const asForm = body => new Request('https://openorbia.com/api/waitlist', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://openorbia.com' }, body: new URLSearchParams(body).toString() });
+// Fixed clocks for the three stages of the first launch week (Nov 23 to Nov 29, 2026, Central)
+const BEFORE = Date.parse('2026-11-20T18:00:00Z'), DURING = Date.parse('2026-11-25T18:00:00Z'), AFTER = Date.parse('2026-11-30T18:00:00Z');
+
 test('the welcome email: subject, preview text, and every section in both the HTML and the plain text', () => {
-  const e = welcomeEmail('reader', { unsubscribeUrl: 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef' });
+  const e = welcomeEmail('reader', { now: BEFORE, unsubscribeUrl: 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef' });
   assert.equal(e.subject, 'You’re in. OpenOrbia launches Nov 23');
   assert.equal(e.preview, 'Free AI tools, with the catch spelled out.');
   assert.match(e.html, /<div style="display:none;[^"]*">Free AI tools, with the catch spelled out\./, 'the preview text is the first thing in the body');
@@ -66,6 +69,22 @@ test('without an unsubscribe link (no server secret) the email asks for a reply 
   assert.ok(!e.html.includes('/unsubscribe/'));
 });
 
+test('the welcome email follows the launch week: lineup before it, "is live" with the vote link during it, results after it', () => {
+  const live = welcomeEmail('reader', { now: DURING });
+  assert.equal(live.subject, 'You’re in. Launch Week 1 is live');
+  for (const s of ['Launch Week 1 · live now', 'Launch Week 1 is live now: vote for the tools you like at https://openorbia.com/launches/ until Sunday, Nov 29, 2026 at 11:59 PM Central.',
+    'After that: at most one email a week with new free tools.']) assert.ok(live.text.includes(s) && live.html.includes(s), s);
+  assert.ok(!/The week before|launch day\. Vote|launches Nov 23/.test(live.text + live.html), 'no pre-launch wording once the week is live');
+
+  const after = welcomeEmail('reader', { now: AFTER });
+  assert.equal(after.subject, 'You’re in. New free AI tools every week');
+  assert.ok(after.text.includes('Launch Week 1 results: https://openorbia.com/launches/week-1/results/'));
+  assert.ok(!/is live now|vote for the tools/.test(after.text), 'no vote request after voting closed');
+
+  assert.equal(welcomeEmail('reader', { now: BEFORE }).subject, 'You’re in. OpenOrbia launches Nov 23');
+  for (const e of [live, after]) assert.ok(e.html.includes(`<title>${e.subject}</title>`), 'the HTML title matches the subject');
+});
+
 test('a new signup sends one Brevo request: sender, reply-to, recipient, key in the header only', async () => {
   const res = await handleWaitlist({ request: asJson({ email: 'New@Example.com', role: 'maker' }), env, fetchImpl: brevo() });
   assert.equal(res.status, 200);
@@ -77,7 +96,7 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
   assert.deepEqual(body.sender, { name: 'OpenOrbia', email: 'launch@openorbia.com' });
   assert.deepEqual(body.replyTo, { email: 'launch@openorbia.com' });
   assert.deepEqual(body.to, [{ email: 'new@example.com' }]);
-  assert.equal(body.subject, 'You’re in. OpenOrbia launches Nov 23');
+  assert.equal(body.subject, welcomeEmail('reader').subject, 'the subject for the current stage of the launch week');
   assert.ok(body.textContent.includes('You’re on the list.') && body.htmlContent.includes('You’re on the list.'));
   assert.ok(!init.body.includes(KEY), 'the key is never in the body');
 });
