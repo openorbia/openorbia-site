@@ -3,6 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 const home = file('public/index.html');
@@ -40,4 +41,43 @@ test('the hero has stars at three depths behind it, decorative, shifted by the p
   assert.equal(css.split('animation:twinkle').length, 3, 'twinkle only in the no-preference block');
   const js = file('public/assets/home.js');
   assert.ok(js.includes("hero.style.setProperty('--px',x.toFixed(3))") && js.includes("hero.style.removeProperty('--px')"));
+});
+
+test('the launch pad: a decorative grid floor in its own clipped layer, moving only without a reduced-motion preference', () => {
+  assert.ok(home.includes('<div class="hero-pad" aria-hidden="true"><span class="floor"></span></div>'));
+  assert.ok(css.includes('.hero-pad{position:absolute;inset:0 -16px;z-index:-1;pointer-events:none;overflow:hidden}'));
+  assert.ok(css.includes('@keyframes o3floor{to{background-position:50% var(--g)}}'), 'moves exactly one grid cell, so the loop is seamless');
+  assert.equal(css.split('animation:o3floor').length, 2);
+  assert.ok(css.indexOf('animation:o3floor') > css.indexOf('@media (prefers-reduced-motion:no-preference){'));
+});
+
+// Run launch.js's homepage part against a fake page with three moons and a fake /api/launches answer
+function runMoons(launches) {
+  const moons = [0, 1, 2].map(() => ({ kids: [], classes: new Set(), classList: { add(c) { this.owner.classes.add(c); } }, replaceChildren(...k) { this.kids = k; } }));
+  for (const m of moons) m.classList.owner = m;
+  const el = () => { const n = { listeners: {}, append() {}, setAttribute() {}, dataset: {}, addEventListener(t, f) { n.listeners[t] = f; } }; return n; };
+  const root = { querySelector: () => null, replaceChildren() {} };
+  const ctx = {
+    document: { getElementById: id => (id === 'week-live' ? root : null), addEventListener() {}, querySelectorAll: s => (s === '#o3 .o3-moon' ? moons : []), querySelector: () => null, createElement: el },
+    fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, week: 1, open: true, total: launches.length, label: 'Monday, Nov 23, 2026', now: 0, launches }) }),
+    setTimeout, clearTimeout, setInterval: () => 0, clearInterval() {}, navigator: {}, getSelection: () => ({}), WeakMap, Date, Number, String, Math, JSON, URL, Intl, Set, console, location: { pathname: '/' },
+  };
+  ctx.window = ctx;
+  vm.runInNewContext(file('public/assets/launch.js'), ctx);
+  return new Promise(r => setTimeout(() => r(moons), 20));
+}
+
+test('the moons carry the logos of the top launches in leaderboard order, skipping launches without a logo, shown once loaded', async () => {
+  const moons = await runMoons([
+    { slug: 'a', name: 'A', logo_url: '/launches/a/logo.png' }, { slug: 'b', name: 'B' },
+    { slug: 'c', name: 'C', logo_url: '/launches/c/logo.png' }, { slug: 'd', name: 'D', logo_url: '/launches/d/logo.png' }, { slug: 'e', name: 'E', logo_url: '/launches/e/logo.png' },
+  ]);
+  assert.deepEqual(moons.map(m => m.kids[0] && m.kids[0].src), ['/launches/a/logo.png', '/launches/c/logo.png', '/launches/d/logo.png']);
+  assert.ok(moons.every(m => m.kids[0].alt === ''), 'decorative');
+  assert.ok(moons.every(m => !m.classes.has('has-logo')), 'not shown before the image loads');
+  moons[0].kids[0].listeners.load();
+  assert.ok(moons[0].classes.has('has-logo'));
+  const none = await runMoons([{ slug: 'b', name: 'B' }]);
+  assert.ok(none.every(m => m.kids.length === 0), 'no logo: the moon keeps its color');
+  assert.ok(css.includes('.o3-moon.has-logo img{opacity:1}') && css.includes('.o3-moon img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;opacity:0;'));
 });
