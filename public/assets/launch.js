@@ -125,6 +125,17 @@
       return { mark, link };
     };
 
+    // The hero planet's moons (#o3, in public/index.html) carry the logos of this week's top launches, in leaderboard order. A
+    // logo shows only once it has loaded; without one (or without JavaScript) a moon keeps its plain color.
+    const orbitLogos = launches => {
+      const moons = document.querySelectorAll('#o3 .o3-moon');
+      launches.filter(l => l.logo_url).slice(0, moons.length).forEach((l, i) => {
+        const img = el('img'); img.src = l.logo_url; img.alt = ''; img.width = 40; img.height = 40; img.decoding = 'async';
+        img.addEventListener('load', () => moons[i].classList.add('has-logo'), { once: true });
+        moons[i].replaceChildren(img);
+      });
+    };
+
     const show = data => {
       if (!data || !data.ok) return;
       if (!data.week) {
@@ -140,6 +151,7 @@
         }
         return;
       }
+      if (Array.isArray(data.launches)) orbitLogos(data.launches);
       const head = document.getElementById('week-badge');
       if (head) head.lastChild.textContent = `Launch Week ${data.week}`;
       if (!data.open) {
