@@ -1,6 +1,9 @@
 // Homepage script: footer year, copy-the-email button and the waitlist form. A file of its own so the Content Security Policy can
 // forbid inline scripts.
 document.getElementById('yr').textContent=new Date().getFullYear();
+// A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day in Central time, so it goes away on its own
+const oneDay=document.getElementById('bday');
+if(oneDay&&new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;
 // The copy-the-email button is a shared [data-copy] button, handled (and announced) by launch.js
 // The Turnstile token (empty if the check has not run): only a visitor who passes it gets the welcome email
 const check=()=>{const t=document.querySelector('#wl [name="cf-turnstile-response"]');return t?t.value:'';};
