@@ -21,7 +21,7 @@ const { chromium } = need('playwright');
 const FONTS = fileURLToPath(new URL('../public/assets/fonts/', import.meta.url));
 
 const HEADINGS = [
-  'Where free AI tools take off.', 'Small businesses', 'Job seekers', 'Security teams', 'Launch Week 1 is coming', 'Get in before the first launch.',
+  'Where free AI tools take off.', 'Small businesses', 'Job seekers', 'Security teams', 'Launch Week 1 is coming', "Get each week's launches first.",
   '44 free AI tools, checked before they launch.', 'Launch your free AI tool, for free.', 'What makers get', 'A launch page', 'Community upvotes',
   'Launch Week 1', 'Makers launch free AI tools', 'The community upvotes', "The week's top tools get featured", 'Page not found.',
   'Ready to launch?', 'Dark badge', 'Light badge', 'Launching weekly.',
