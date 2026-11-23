@@ -4,22 +4,30 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { podiumHtml, renderLeaderboard } from '../lib/pages.js';
-import { tieRanks } from '../lib/results.js';
+import { podiumHtml, podiumHeading, renderLeaderboard } from '../lib/pages.js';
+import { rankInfo } from '../lib/results.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
 const L = (slug, votes) => ({ slug, name: slug.toUpperCase(), tagline: 't', category: 'biz', votes });
 
 test('the podium shows the upvoted top three in rank order; equal upvotes share a rank and its color', () => {
   const launches = [L('a', 5), L('b', 3), L('c', 3), L('d', 1)];
-  const html = podiumHtml(launches, tieRanks(launches));
+  const html = podiumHtml(launches, rankInfo(launches));
   assert.deepEqual([...html.matchAll(/<li class="pstep (place-\d) (p-\d)"><a class="pwho" href="\/launch\/(\w)\/">/g)].map(m => m.slice(1)),
     [['place-1', 'p-1', 'a'], ['place-2', 'p-2', 'b'], ['place-3', 'p-2', 'c']]);
+  assert.deepEqual([1, 2, 3].map(podiumHeading), ['In the lead', 'Top two so far', 'Top three so far']);
   assert.ok(html.startsWith('<section class="podium" aria-labelledby="podium-h"><h2 id="podium-h" class="podium-h">Top three so far</h2><ol class="podium-steps">'));
   assert.ok(html.includes('<span class="pvotes">5 upvotes</span>') && html.includes('<span class="pblock" aria-hidden="true"><span class="pnum">1</span></span>'));
-  assert.ok(podiumHtml([L('a', 1)], [1]).includes('<span class="pvotes">1 upvote</span>'), 'singular');
-  assert.equal(podiumHtml([L('a', 0), L('b', 0)], [1, 1]), '', 'no upvotes yet: no podium');
-  assert.equal((podiumHtml([L('a', 2), L('b', 1), L('c', 1), L('d', 1)], [1, 2, 2, 2]).match(/class="pstep/g) || []).length, 3, 'at most three');
+  assert.ok(html.includes('<span class="pnum">=2</span>'), 'a shared rank reads =2');
+  assert.ok(podiumHtml([L('a', 1)], rankInfo([L('a', 1)])).includes('<span class="pvotes">1 upvote</span>'), 'singular');
+  assert.equal(podiumHtml([L('a', 0), L('b', 0)], rankInfo([L('a', 0), L('b', 0)])), '', 'no upvotes yet: no podium');
+  const three = [L('a', 2), L('b', 1), L('c', 1), L('d', 1)];
+  assert.equal((podiumHtml(three, rankInfo(three)).match(/class="pstep/g) || []).length, 1, 'three tied for 2nd do not all fit in places 2 and 3: only 1st stands');
+  assert.ok(podiumHtml(three, rankInfo(three)).includes('<h2 id="podium-h" class="podium-h">In the lead</h2>'), 'the heading counts who stands on it');
+  const two = [L('a', 3), L('b', 3), L('c', 1), L('d', 1)];
+  assert.ok(podiumHtml(two, rankInfo(two)).includes('>Top two so far</h2>'));
+  const allFirst = [L('a', 4), L('b', 4), L('c', 4)];
+  assert.deepEqual([...podiumHtml(allFirst, rankInfo(allFirst)).matchAll(/class="pstep (place-\d p-\d)"/g)].map(m => m[1]), ['place-1 p-1', 'place-2 p-1', 'place-3 p-1']);
 });
 
 test('the leaderboard carries the podium only while voting runs', () => {
@@ -84,10 +92,12 @@ test('after an upvote, rows move to their new place, ranks and medal colors foll
   await vote('jan', 3);
   // equal upvotes ordered by name, case-insensitive (the server's ORDER BY votes DESC, name COLLATE NOCASE)
   assert.deepEqual(board.children.map(r => `${r.parts['.rank'].textContent} ${r.slug} ${r.parts['[data-count]'].textContent}`),
-    ['1 jan 3', '1 pentagi 3', '3 activepieces 2', '3 agentic 2', '5 n8n 0']);
-  assert.deepEqual(board.children.map(r => [...r.cls].filter(c => c.startsWith('top-')).join()), ['top-1', 'top-1', 'top-3', 'top-3', '']);
-  assert.equal(board.children[0].parts['.rank'].attrs['aria-label'], 'Rank 1');
-  assert.deepEqual(podium.children.map(li => li.className), ['pstep place-1 p-1', 'pstep place-2 p-1', 'pstep place-3 p-3']);
-  assert.deepEqual(podium.children.map(li => li.children[0].href), ['/launch/jan/', '/launch/pentagi/', '/launch/activepieces/']);
+    ['=1 jan 3', '=1 pentagi 3', '=3 activepieces 2', '=3 agentic 2', '5 n8n 0']);
+  assert.deepEqual(board.children.map(r => [...r.cls].filter(c => c.startsWith('top-')).join()), ['top-1', 'top-1', '', '', ''], 'two tied for 3rd do not fit inside places 1 to 3: no bronze (rankInfo)');
+  assert.equal(board.children[0].parts['.rank'].attrs['aria-label'], 'Tied for rank 1');
+  assert.equal(board.children[4].parts['.rank'].attrs['aria-label'], 'Rank 5');
+  assert.deepEqual(podium.children.map(li => li.className), ['pstep place-1 p-1', 'pstep place-2 p-1']);
+  assert.deepEqual(podium.children.map(li => li.children[0].href), ['/launch/jan/', '/launch/pentagi/']);
+  assert.equal(podium.children[0].children[1].children[0].textContent, '=1');
   assert.equal(podium.children[0].children[0].children[2].textContent, '3 upvotes');
 });

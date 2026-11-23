@@ -109,8 +109,9 @@ test('ties share a rank, the next rank skips (1, 1, 3), the same on the results 
   assert.deepEqual(rankByCategory(launches)[0].entries.map(e => e.rank), [1, 1, 3]);
   const week = { week: 1, opensAt: Date.UTC(2026, 10, 23, 8, 1), open: true, closed: false };
   const html = renderLeaderboard({ week, launches, now: NOW });
-  assert.deepEqual([...html.matchAll(/class="rank" aria-label="Rank (\d)">(\d)</g)].map(m => [m[1], m[2]]), [['1', '1'], ['1', '1'], ['3', '3']]);
-  assert.equal([...html.matchAll(/class="lrow top top-1"/g)].length, 2, 'both first places are marked first');
+  // changed 2026-11-23: a shared rank reads "=1" ("Tied for rank 1" for screen readers); a lone rank stays a plain number
+  assert.deepEqual([...html.matchAll(/class="rank" aria-label="([^"]+)">([^<]+)</g)].map(m => [m[1], m[2]]), [['Tied for rank 1', '=1'], ['Tied for rank 1', '=1'], ['Rank 3', '3']]);
+  assert.equal([...html.matchAll(/class="lrow top top-1"/g)].length, 2, 'a two-way tie for first fits on the podium: both are marked first');
 });
 
 // ---- 5. rows ----

@@ -692,7 +692,7 @@
     "freeTier": "Free (MIT); runs in your browser, data stays on your device",
     "cardRequired": "no",
     "dataLocation": "Runs on your computer",
-    "setup": "Install & self-host",
+    "setup": "Browser, ready to use",
     "catch": "Voice needs your own Gemini/OpenAI key; local models are text-only",
     "paidDeps": {
       "level": "optional",
@@ -700,13 +700,14 @@
     },
     "sources": [
       "https://github.com/Samyak9109/Abhyas#readme",
-      "https://github.com/Samyak9109/Abhyas/blob/main/LICENSE"
+      "https://github.com/Samyak9109/Abhyas/blob/main/LICENSE",
+      "https://abhyas.runs-on.dev/"
     ],
     "task": "Run voice mock interviews and get scored feedback on your answers",
     "level": "basic",
     "confidence": "medium",
     "category": "job",
-    "lastChecked": "2026-11-14"
+    "lastChecked": "2026-11-23"
   },
   {
     "repo": "ai-job-search-dev/ai-job-search",

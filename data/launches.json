@@ -1277,6 +1277,65 @@
       },
       "lastChecked": "2026-11-14",
       "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19)."
+    },
+    {
+      "slug": "abhyas",
+      "name": "Abhyas",
+      "tagline": "Practice interviews out loud. Know what to improve.",
+      "description": "Abhyas is a free, open-source web app for practicing job interviews out loud. An AI interviewer reads your resume and the job description, asks questions matched to your experience level, and shows which skills to improve.\n\nIt is built for students and job seekers, with no account needed. Bring your own AI key, or run a local model for text interviews.",
+      "category": "job",
+      "repo_url": "https://github.com/Samyak9109/Abhyas",
+      "website_url": "https://abhyas.runs-on.dev/",
+      "logo_url": "/launches/abhyas/logo.png",
+      "screenshots": [
+        {
+          "src": "/launches/abhyas/shot-1.webp",
+          "alt": "Abhyas home page: practice interviews with private AI"
+        },
+        {
+          "src": "/launches/abhyas/shot-2.webp",
+          "alt": "Abhyas live interview question with an answer box"
+        },
+        {
+          "src": "/launches/abhyas/shot-3.webp",
+          "alt": "Abhyas choosing an AI source: your own key or a local model"
+        },
+        {
+          "src": "/launches/abhyas/shot-4.webp",
+          "alt": "Abhyas profile setup: target role, experience level and resume"
+        },
+        {
+          "src": "/launches/abhyas/shot-5.webp",
+          "alt": "Abhyas session setup: interview type, style and length"
+        }
+      ],
+      "video_url": null,
+      "maker_name": "Samyak Jain",
+      "maker_links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Samyak9109"
+        },
+        {
+          "label": "LinkedIn",
+          "url": "https://www.linkedin.com/in/samyak-jain-122aaa273/"
+        }
+      ],
+      "maker_story": "I'm Samyak, a 2026 CS grad, and I built Abhyas because good interview practice is hard to find: coaching costs money, and reading question lists doesn't teach you to answer out loud. It's an AI interviewer that reads your resume and the job description, adapts to your experience level, and shows which skills to work on.\n\nI made it free and open source (MIT), with no accounts, and you bring your own AI key or run a local model, so I never see your resume or answers. I'd love your feedback on the questions and scoring: tell me what felt useful and what didn't.",
+      "license": "MIT",
+      "launch_week": 1,
+      "launch_date": "2026-11-23",
+      "freeTier": "Free (MIT); runs in your browser, data stays on your device",
+      "cardRequired": "no",
+      "dataLocation": "Runs on your computer",
+      "setup": "Browser, ready to use",
+      "catch": "Voice needs your own Gemini/OpenAI key; local models are text-only",
+      "paidDeps": {
+        "level": "optional",
+        "what": "Free local model (text only) or your own Gemini/OpenAI key for voice"
+      },
+      "lastChecked": "2026-11-23",
+      "duplicateNote": "On the Launch List already; the maker confirmed launching it in Launch Week 1 (2026-11-19) and sent the details and images on 2026-11-23."
     }
   ]
 }

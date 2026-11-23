@@ -77,14 +77,19 @@
   }
 
   // ---- the leaderboard after an upvote: rows move to their new place (sliding there unless reduced motion is on), ranks and
-  // medal colors follow (equal upvotes share a rank, as on the server), and the podium is rebuilt from the new top three ----
+  // medal colors follow the server's rules (lib/results.js rankInfo: equal upvotes share a rank, shown "=2"; medal colours and the
+  // podium only for a tie group that fits inside places 1 to 3), and the podium is rebuilt ----
   const board = document.querySelector('ol.lboard');
   const rowVotes = r => { const n = r.querySelector('[data-count]'); return n ? Number(n.textContent.replace(/D/g, '')) || 0 : 0; };
-  function rebuildPodium(rows, ranks) {
+  const rankText = ({ rank, tied }) => `${tied ? '=' : ''}${rank}`;
+  function rebuildPodium(rows, info) {
     const list = document.querySelector('.podium-steps');
     if (!list) return;
-    const top = rows.map((r, i) => ({ r, rank: ranks[i], v: rowVotes(r) })).filter(t => t.v > 0 && t.rank <= 3).slice(0, 3);
-    list.replaceChildren(...top.map(({ r, rank, v }, i) => {
+    const top = rows.map((r, i) => ({ r, ...info[i], v: rowVotes(r) })).filter(t => t.v > 0 && t.podium).slice(0, 3);
+    const head = document.getElementById('podium-h');
+    if (head) head.textContent = top.length === 1 ? 'In the lead' : top.length === 2 ? 'Top two so far' : 'Top three so far';
+    if (list.parentElement) list.parentElement.hidden = !top.length;
+    list.replaceChildren(...top.map(({ r, rank, tied, v }, i) => {
       const li = document.createElement('li');
       li.className = `pstep place-${i + 1} p-${rank}`;
       const link = r.querySelector('.lrow-main'), who = document.createElement('a');
@@ -95,7 +100,7 @@
       const count = document.createElement('span'); count.className = 'pvotes'; count.textContent = `${new Intl.NumberFormat('en-US').format(v)} upvote${v === 1 ? '' : 's'}`;
       who.append(mark, name, count);
       const block = document.createElement('span'); block.className = 'pblock'; block.setAttribute('aria-hidden', 'true');
-      const num = document.createElement('span'); num.className = 'pnum'; num.textContent = String(rank);
+      const num = document.createElement('span'); num.className = 'pnum'; num.textContent = rankText({ rank, tied });
       block.append(num); li.append(who, block);
       return li;
     }));
@@ -103,22 +108,24 @@
   function reorderBoard() {
     if (!board) return;
     const rows = [...board.children].filter(r => r.classList.contains('lrow') && r.querySelector('.rank'));
-    if (rows.length < 2) return rebuildPodium(rows, rows.map(() => 1));
+    if (rows.length < 2) return rebuildPodium(rows, rows.map(() => ({ rank: 1, tied: false, podium: true })));
     const before = new Map(rows.map(r => [r, r.getBoundingClientRect().top]));
     // most upvotes first; equal upvotes by name, case-insensitive, as the server orders them (ORDER BY votes DESC, name COLLATE NOCASE)
     const rowName = r => r.querySelector('.lrow-text b').textContent.toLowerCase();
     const sorted = [...rows].sort((a, b) => rowVotes(b) - rowVotes(a) || (rowName(a) < rowName(b) ? -1 : rowName(a) > rowName(b) ? 1 : 0));
     board.append(...sorted);
     let rank = 0, prev = null;
-    const ranks = sorted.map((r, i) => {
-      const v = rowVotes(r);
-      if (v !== prev) { rank = i + 1; prev = v; }
-      const n = r.querySelector('.rank'); n.textContent = String(rank); n.setAttribute('aria-label', `Rank ${rank}`);
+    const ranks = sorted.map((r, i) => { const v = rowVotes(r); if (v !== prev) { rank = i + 1; prev = v; } return rank; });
+    const size = new Map();
+    for (const k of ranks) size.set(k, (size.get(k) || 0) + 1);
+    const info = ranks.map(k => ({ rank: k, tied: size.get(k) > 1, podium: k + size.get(k) - 1 <= 3 }));
+    sorted.forEach((r, i) => {
+      const { rank: k, tied, podium } = info[i];
+      const n = r.querySelector('.rank'); n.textContent = rankText(info[i]); n.setAttribute('aria-label', `${tied ? 'Tied for rank' : 'Rank'} ${k}`);
       r.classList.remove('top', 'top-1', 'top-2', 'top-3');
-      if (v > 0 && rank <= 3) r.classList.add('top', `top-${rank}`);
-      return rank;
+      if (rowVotes(r) > 0 && podium) r.classList.add('top', `top-${k}`);
     });
-    rebuildPodium(sorted, ranks);
+    rebuildPodium(sorted, info);
     const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (still) return;
     for (const r of sorted) {
@@ -262,8 +269,9 @@
         btn.append(el('span', 'arrow', '▲'), n, sr);
         // ties share a rank (1, 1, 3), worked out by the server over the whole week
         const rank = Number.isInteger(l.rank) ? l.rank : i + 1;
-        const rankEl = el('span', 'mini-rank', String(rank));
-        rankEl.setAttribute('aria-label', `Rank ${rank}`);
+        // "=2" when another launch shares the rank (the server says so over the whole week)
+        const rankEl = el('span', 'mini-rank', `${l.tied ? '=' : ''}${rank}`);
+        rankEl.setAttribute('aria-label', `${l.tied ? 'Tied for rank' : 'Rank'} ${rank}`);
         row.append(rankEl, mark, link, btn);
         li.append(row);
         list.append(li);
