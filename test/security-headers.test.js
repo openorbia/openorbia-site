@@ -4,6 +4,10 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { SECURITY_HEADERS, CSP, onRequest } from '../lib/security-headers.js';
+import { loadLaunches } from '../lib/self-seed.js';
+
+// These folders first load the Launch Week data (lib/self-seed.js), then add the same security headers
+const LOADS_LAUNCHES = new Set(['launches', 'launch', 'api']);
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const file = f => readFileSync(join(root, f), 'utf8');
@@ -31,7 +35,9 @@ test('every folder in functions/ adds the headers, and there is no root middlewa
   for (const d of dirs) {
     const mw = join(root, 'functions', d, '_middleware.js');
     assert.ok(existsSync(mw), `functions/${d}/_middleware.js`);
-    assert.equal((await import(pathToFileURL(mw).href)).onRequest, onRequest, d);
+    const handler = (await import(pathToFileURL(mw).href)).onRequest;
+    if (LOADS_LAUNCHES.has(d)) assert.deepEqual(handler, [loadLaunches, onRequest], d);
+    else assert.equal(handler, onRequest, d);
   }
   const loose = readdirSync(join(root, 'functions')).filter(n => n.endsWith('.js'));
   assert.deepEqual(loose, ['sitemap.xml.js'], 'a new top-level function needs its own headers');
