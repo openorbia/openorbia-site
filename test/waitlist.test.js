@@ -16,7 +16,7 @@ const rows = () => db.rows('SELECT email, role, tool_url FROM waitlist').map(r =
 test('JSON signup still answers with JSON', async () => {
   const res = await handleWaitlist({ request: asJson({ email: 'A@Example.com', role: 'reader' }), env });
   assert.equal(res.status, 200);
-  assert.match((await res.json()).message, /first launch goes live/);
+  assert.equal((await res.json()).message, "You're on the list. We'll email you each week's new launches.");
   assert.deepEqual(rows().map(r => r.email), ['a@example.com']);
   const bad = await handleWaitlist({ request: asJson({ email: 'nope' }), env });
   assert.equal(bad.status, 400);
