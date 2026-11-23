@@ -46,3 +46,22 @@ test('Meetily\'s first result and Reactive Resume\'s free tier follow their docs
 test('the homepage week intro gives the day and time', () => {
   assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>The first launch week goes live Monday, Nov 23, 2026 at 12:00 AM Central.</p>'));
 });
+
+test('the homepage signup box speaks of Launch Week 1 as live and sends visitors to vote', () => {
+  const home = file('public/index.html');
+  const join = home.slice(home.indexOf('<section class="join"'), home.indexOf('<form id="wl"'));
+  assert.ok(join.includes('Launch Week 1 is live'));
+  assert.ok(join.includes('<a href="/launches/">vote for this week\'s free AI tools</a>'));
+  assert.ok(join.includes('a coming launch week'));
+  for (const stale of ['Get in before the first launch', 'our first launch week']) assert.ok(!join.includes(stale), stale);
+});
+
+test('the one-day birthday line is hidden in the HTML and shown by home.js only on its date (Central time)', () => {
+  assert.ok(file('public/index.html').includes('<p class="bday" id="bday" data-only-on="2026-11-23" hidden>Happy birthday, Zara! 🎂 Love, Dad</p>'));
+  const js = file('public/assets/home.js');
+  assert.ok(js.includes("timeZone:'America/Chicago'") && js.includes('===oneDay.dataset.onlyOn)oneDay.hidden=false'));
+  const dayInCentral = iso => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date(iso));
+  assert.equal(dayInCentral('2026-11-23T06:00:00Z'), '2026-11-23'); // 12:00 AM Central: shown
+  assert.equal(dayInCentral('2026-11-24T05:59:00Z'), '2026-11-23'); // 11:59 PM Central: still shown
+  assert.equal(dayInCentral('2026-11-24T06:00:00Z'), '2026-11-24'); // the next day: hidden
+});
