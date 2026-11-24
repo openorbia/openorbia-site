@@ -51,7 +51,17 @@ const gh = path => { try { return JSON.parse(execFileSync('gh', ['api', path], {
 // Only the listing's own https source links are checked, and only through a URL rebuilt from its parts.
 const safeUrl = raw => { try { const u = new URL(raw); return u.protocol === 'https:' && !u.username && !u.password ? `https://${u.host}${u.pathname}${u.search}` : null; } catch { return null; } };
 
+// A server error (5xx) or a network failure is often momentary (GitHub answers 503 under load), so try once more
+// after a pause before reporting it. A 404 or 410 is a real answer and is reported straight away.
+const transient = s => typeof s === 'string' || s >= 500;
 async function status(raw) {
+  const first = await statusOnce(raw);
+  if (!transient(first) || first === 'not an https link') return first;
+  await new Promise(r => setTimeout(r, Number(process.env.TOOL_FACTS_RETRY_MS ?? 5000)));
+  return statusOnce(raw);
+}
+
+async function statusOnce(raw) {
   const url = safeUrl(raw);
   if (!url) return 'not an https link';
   for (const method of ['HEAD', 'GET']) {
