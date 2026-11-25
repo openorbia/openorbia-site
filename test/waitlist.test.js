@@ -16,7 +16,7 @@ const rows = () => db.rows('SELECT email, role, tool_url FROM waitlist').map(r =
 test('JSON signup still answers with JSON', async () => {
   const res = await handleWaitlist({ request: asJson({ email: 'A@Example.com', role: 'reader' }), env });
   assert.equal(res.status, 200);
-  assert.equal((await res.json()).message, "You're on the list. We'll email you each week's new launches.");
+  assert.equal((await res.json()).message, "You're subscribed. We'll email you each week's new launches.");
   assert.deepEqual(rows().map(r => r.email), ['a@example.com']);
   const bad = await handleWaitlist({ request: asJson({ email: 'nope' }), env });
   assert.equal(bad.status, 400);
@@ -95,7 +95,7 @@ test('the homepage form posts without JavaScript and every message it can be sen
 // engines connect them as one organization. The launch date is on the page itself (badge, countdown), not in the description.
 // changed 2026-11-19 (platform positioning): four categories instead of three audiences. The LinkedIn, X and GitHub profiles need the
 // same words (docs/seo/SEO_FIXES.md, owner tasks).
-const ORG_DESCRIPTION = 'A weekly launch platform for free and open-source AI tools for productivity, automation, careers and security, with the catch shown up front.';
+const ORG_DESCRIPTION = 'Free AI tools: open source, or a real free plan with no trial and no card. New launches every Monday for productivity, automation, careers and security.';
 
 test('homepage meta description, og:description and the Organization data all use the one OpenOrbia description', () => {
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
@@ -133,7 +133,7 @@ test('every page has a skip link to a main that can take focus', async () => {
   assert.match(readFileSync(new URL('public/assets/launch.css', root), 'utf8'), /\.skip:focus\{top:12px\}/);
 });
 
-test('the "Submit a tool" issue form has every field and the homepage links to it next to the waitlist button', () => {
+test('the "Submit a tool" issue form has every field and the homepage links to it next to the signup button', () => {
   const yml = readFileSync(new URL('.github/ISSUE_TEMPLATE/submit-a-tool.yml', root), 'utf8');
   assert.match(yml, /^name: Submit a tool$/m);
   for (const label of ['Tool name', 'Repo URL', 'Website', 'Category', 'License', "What's free", 'Card required', 'Where your data goes', 'Setup', 'Maker contact']) {
@@ -144,7 +144,7 @@ test('the "Submit a tool" issue form has every field and the homepage links to i
   }
   assert.ok(yml.includes('This issue is public'), 'tells makers the contact details are public');
   const html = readFileSync(new URL('public/index.html', root), 'utf8');
-  assert.match(html, /id="wl-btn">Join the waitlist<\/button>\s*<a class="btn ghost" href="https:\/\/github\.com\/openorbia\/openorbia-site\/issues\/new\?template=submit-a-tool\.yml"/);
+  assert.match(html, /id="wl-btn">Get Monday's launches<\/button>\s*<a class="btn ghost" href="https:\/\/github\.com\/openorbia\/openorbia-site\/issues\/new\?template=submit-a-tool\.yml"/);
 });
 
 test('the Submit a tool form applies the tool-submission label', () => {

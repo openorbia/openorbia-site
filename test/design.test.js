@@ -68,7 +68,7 @@ test('tool pages: the facts beside an "At a glance" panel that keeps "checked ag
     const html = renderTool(t);
     assert.ok(html.includes('<div class="tool-grid">') && html.includes('<aside class="tool-side" aria-labelledby="side-h"><h2 id="side-h">At a glance</h2>'), t.name);
     assert.ok(html.indexOf('class="ffacts"') < html.indexOf('class="tool-side"'), `${t.name}: facts first`);
-    assert.ok(html.includes('Facts checked by hand against the official docs'), `${t.name}: docs check`);
+    assert.ok(html.includes('Facts checked against the official docs'), `${t.name}: docs check`);
     assert.equal(html.includes('Not hands-on tested yet'), !t.facts.testedBy, `${t.name}: hands-on line`);
     assert.ok(html.includes(`<dt>License</dt><dd>${t.license.replace(/&/g, '&amp;')}</dd>`), `${t.name}: license`);
     assert.ok(!html.includes('<h2 id="a-h">'), `${t.name}: no "About" section repeating the tagline`);

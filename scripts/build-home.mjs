@@ -48,7 +48,7 @@ export const listCounts = () => { const paid = TOOLS.filter(t => needsPaidServic
 export function withListCounts(html, { free, paid } = listCounts()) {
   const swaps = [
     [/(<title>Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
-    [/(<meta name="description" content=")\d+( free and open-source AI tools that run without a paid service)/, `$1${free}$2`],
+    [/(<meta name="description" content=")\d+( free AI tools that run without a paid service)/, `$1${free}$2`],
     [/(<meta property="og:title" content="The OpenOrbia Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
     [/(<h1>)\d+( AI tools that run free,)/, `$1${free}$2`],
     [/(<p class="note">)\d+ more tools? needs? a paid service/, `$1${paid} more tool${paid === 1 ? ' needs' : 's need'} a paid service`],

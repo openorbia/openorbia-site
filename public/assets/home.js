@@ -34,12 +34,12 @@ form.addEventListener('submit',async e=>{
   btn.disabled=true;
   let token=check();
   if(!token){if(window.openorbiaCheck)window.openorbiaCheck();btn.textContent='Checking...';token=await waitForCheck();}
-  btn.textContent='Joining...';
+  btn.textContent='Subscribing...';
   try{
     const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,role:form.role.value,tool:form.role.value==='maker'?tool:'',company:form.company.value,turnstile:token})});
     const d=await r.json().catch(()=>({}));
-    if(r.ok){form.reset();syncTool();msg.className='msg ok';msg.textContent=(d.message||"You're on the list. We'll email you each week's new launches.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
+    if(r.ok){form.reset();syncTool();msg.className='msg ok';msg.textContent=(d.message||"You're subscribed. We'll email you each week's new launches.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
     else{msg.className='msg err';msg.textContent=d.error||'Something went wrong. Please try again, or email launch@openorbia.com.';}
   }catch(err){msg.className='msg err';msg.textContent='Could not reach the server. Check your connection and try again.';}
-  resetCheck();btn.disabled=false;btn.textContent='Join the waitlist';
+  resetCheck();btn.disabled=false;btn.textContent="Get Monday's launches";
 });

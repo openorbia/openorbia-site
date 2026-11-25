@@ -104,8 +104,8 @@ test('"How long we keep it" matches the code: no automatic deletion of signups, 
   // nothing in the code deletes these rows on a timer
   const code = ['lib/forms.js', 'lib/click.js', 'lib/vote.js', 'lib/ratelimit.js', 'functions/api/waitlist.js'].map(file).join('\n');
   assert.ok(!/DELETE FROM (waitlist|submissions|requests)\b/.test(code));
-  assert.ok(text.includes('Waitlist signups, tool submissions and "Find my free setup" requests stay until you ask us to delete them.') ||
-    text.includes('Waitlist signups, tool submissions and “Find my free setup” requests stay until you ask us to delete them.'));
+  assert.ok(text.includes('Email signups, tool submissions and "Find my free setup" requests stay until you ask us to delete them.') ||
+    text.includes('Email signups, tool submissions and “Find my free setup” requests stay until you ask us to delete them.'));
   // clicks: one count per tool per day, no visitor column
   const clicks = file('schema.sql').match(/CREATE TABLE IF NOT EXISTS clicks \(([\s\S]*?)\);/)[1];
   assert.ok(!/\b(email|ip|visitor|voter|user_agent)\b/i.test(clicks), 'the clicks table has no personal data');
@@ -142,10 +142,10 @@ test('the cookie line is the one constant shared with /security/, and no first-p
 
 // ---- added 2026-11-04 (#7): the unsubscribe link ----
 
-test('Waitlist says every email has an unsubscribe link that deletes the signup, and the code does exactly that', async () => {
+test('The Monday launches email item says every email has an unsubscribe link that deletes the signup, and the code does exactly that', async () => {
   assert.ok(text.includes('Every email we send has an unsubscribe link; using it deletes your signup.'));
-  const waitlist = html.slice(html.indexOf('<b>Waitlist.</b>'), html.indexOf('</li>', html.indexOf('<b>Waitlist.</b>')));
-  assert.ok(waitlist.includes('Every email we send has an unsubscribe link'), 'it is in the Waitlist item');
+  const waitlist = html.slice(html.indexOf('<b>Monday’s launches email.</b>'), html.indexOf('</li>', html.indexOf('<b>Monday’s launches email.</b>')));
+  assert.ok(waitlist.includes('Every email we send has an unsubscribe link'), 'it is in the Monday launches email item');
   // the welcome email (the only waitlist email today) carries the link and the one-click headers
   const { welcomeEmail } = await import('../lib/email.js');
   const url = 'https://openorbia.com/unsubscribe/?id=7&t=0123456789abcdef0123456789abcdef';

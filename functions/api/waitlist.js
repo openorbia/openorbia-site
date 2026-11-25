@@ -28,10 +28,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Result of a signup: { status, message } on success, { status, error } on failure; `page` is the id of the message shown after a form post
 const MESSAGES = {
-  ok_maker: { page: "wl-ok", message: "You're on the list. We'll email you about featuring your tool in a coming launch week." },
-  ok_reader: { page: "wl-ok", message: "You're on the list. We'll email you each week's new launches." },
-  already: { page: "wl-already", message: "You're already on the list. We'll be in touch." },
-  bot: { page: "wl-ok", message: "You're on the list. Welcome to orbit." },
+  ok_maker: { page: "wl-ok", message: "You're subscribed. We'll email you about featuring your tool in a coming launch week." },
+  ok_reader: { page: "wl-ok", message: "You're subscribed. We'll email you each week's new launches." },
+  already: { page: "wl-already", message: "You're already subscribed." },
+  bot: { page: "wl-ok", message: "You're subscribed. We'll email you each week's new launches." },
   bad_email: { page: "wl-bad-email", status: 400, error: "Please enter a valid email." },
   bad_link: { page: "wl-bad-link", status: 400, error: "Tool link must start with https://" },
   bad_request: { page: "wl-error", status: 400, error: "Invalid request." },

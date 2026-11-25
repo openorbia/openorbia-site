@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for submitting! OpenOrbia lists free and open-source AI tools. Every tool needs a real free option, so no trial-only tools.
+        Thanks for submitting! OpenOrbia lists free AI tools: open source, or a real free plan with no trial and no card. So no trial-only tools.
 
         **This issue is public.** Only put contact details here that you are happy to share publicly. If you prefer, email launch@openorbia.com instead.
   - type: input
