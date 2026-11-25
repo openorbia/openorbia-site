@@ -63,11 +63,13 @@ test('free signal: "Runs free · <setup>" without a required paid service, "Need
 
 // ---- 2. screenshots ----
 
-test('the gallery: images from the launch folder, lazy-loaded, with width and height, at most 5, named for screen readers', () => {
+test('the gallery: images from the launch folder, first one high priority and the rest lazy, with width and height, at most 5, named for screen readers', () => {
   const shots = Array.from({ length: 6 }, (_, i) => ({ src: `/launches/t/shot-${i + 1}.png`, alt: `Screen ${i + 1}` }));
   const html = renderLaunch({ launch: launch({ screenshots: [...shots, { src: 'https://evil.example/x.png', alt: 'x' }] }), now: NOW });
-  const imgs = [...html.matchAll(/<img src="(\/launches\/t\/shot-\d\.png)" alt="([^"]+)" width="1280" height="800" loading="lazy" decoding="async">/g)];
+  const imgs = [...html.matchAll(/<img src="(\/launches\/t\/shot-\d\.png)" alt="([^"]+)" width="1280" height="800" (fetchpriority="high"|loading="lazy") decoding="async">/g)];
   assert.equal(imgs.length, 5, 'at most 5');
+  // the first is usually the LCP element: never lazy (that delayed real visits' LCP to 4-16 s); the rest stay lazy
+  assert.deepEqual(imgs.map(m => m[3]), ['fetchpriority="high"', 'loading="lazy"', 'loading="lazy"', 'loading="lazy"', 'loading="lazy"']);
   assert.ok(!html.includes('evil.example'));
   assert.ok(html.includes('<section class="shots" aria-labelledby="shots-h"><h2 id="shots-h" class="sr">Screenshots</h2>'));
   assert.ok(html.includes('<span class="sr"> (screenshot 1 of 5, opens full size in a new tab)</span>'));
