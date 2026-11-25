@@ -103,7 +103,7 @@ test('every other link in the footer site map goes to a real page, and the conta
   const { CONTACT_EMAIL } = await import('../lib/footer.js');
   const pages = { '/launch-list/': 'public/launch-list/index.html', '/launches/': 'functions/launches/index.js', '/makers/': 'functions/makers/index.js', '/faq/': 'functions/faq/index.js',
     '/submit/': 'functions/submit/index.js', '/request/': 'functions/request/index.js', '/how-we-check/': 'functions/how-we-check/index.js', '/how-voting-works/': 'functions/how-voting-works/index.js', '/contact/': 'functions/contact/index.js',
-    '/collection/self-hosted/': 'functions/collection/[slug].js', '/free-ai-apis/': 'functions/free-ai-apis/index.js' };
+    '/collection/self-hosted/': 'functions/collection/[slug].js', '/free-ai-apis/': 'functions/free-ai-apis/index.js', '/feeds/': 'functions/feeds/index.js' };
   const html = footerHtml(2026);
   const map = mapOf(html);
   for (const [, href] of map.matchAll(/href="([^"]+)"/g)) {
