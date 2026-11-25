@@ -2,7 +2,8 @@
    (tool pages, /makers/, /submit/, /privacy/, /contact/, /security/, /how-we-check/, /unsubscribe/ and maker kits), which get a
    slim countdown bar. At launch time it takes itself away and reloads the page, so the site opens with no deploy.
 
-   The launch instant comes from <meta name="openorbia-launch" content="ISO time">, written from lib/time.js and lib/site.js
+   The launch instant comes from <meta name="openorbia-launch" content="ISO time"> and its wording from
+   <meta name="openorbia-launch-time"> (the opening time in words), both written from lib/voting-window.js and lib/site.js
    (layout.js for the server pages, build:home for the static ones). This file loads in <head> without defer, so the page is
    never shown unlocked first. The page content is still in the HTML (search engines and visitors without JavaScript see it);
    this is a launch curtain, not access control. No inline script: the Content Security Policy forbids it; inline styles are
@@ -20,6 +21,11 @@
   window.openorbiaLaunchLock = { shouldLock, shouldBar, isOpen, left, OPEN_PATHS };
 
   const meta = document.querySelector('meta[name="openorbia-launch"]');
+  // the opening time's wording ("12:00 AM Central"), written next to the instant from lib/voting-window.js
+  const timeMeta = document.querySelector('meta[name="openorbia-launch-time"]');
+  const atText = timeMeta && timeMeta.content ? timeMeta.content : '';
+  const zoneMeta = document.querySelector('meta[name="openorbia-launch-zone"]');
+  const zone = zoneMeta && zoneMeta.content ? zoneMeta.content : undefined;
   const at = meta ? Date.parse(meta.content) : NaN;
   const path = location.pathname;
   if (!before(Date.now(), at)) return;
@@ -45,7 +51,7 @@
   ].join('\n');
   document.head.append(style);
 
-  const when = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'long', month: 'short', day: 'numeric' }).format(at);
+  const when = new Intl.DateTimeFormat('en-US', { timeZone: zone, weekday: 'long', month: 'short', day: 'numeric' }).format(at);
   const pad = n => String(n).padStart(2, '0');
   let ticks = [];
 
@@ -58,7 +64,7 @@
       panel.setAttribute('aria-labelledby', 'oo-lock-h');
       panel.innerHTML = `<p class="oo-lock-k">Launch Week 1</p>
 <p class="oo-lock-h" id="oo-lock-h" role="heading" aria-level="1">Where free AI tools <em>take off</em>.</p>
-<p class="oo-lock-when">OpenOrbia launches ${when} at 12:00 AM Central. Free and open-source AI tools, with the catch shown up front.</p>
+<p class="oo-lock-when">OpenOrbia launches ${when}${atText ? ` at ${atText}` : ''}. Free and open-source AI tools, with the catch shown up front.</p>
 <div class="oo-count" role="timer" aria-label="Time until OpenOrbia launches"><div><b data-u="d">0</b><span>days</span></div><div><b data-u="h">00</b><span>hours</span></div><div><b data-u="m">00</b><span>min</span></div><div><b data-u="s">00</b><span>sec</span></div></div>
 <p class="oo-lock-acts">${home ? '<a class="btn pri" href="#join">Get the launch email</a>' : '<a class="btn pri" href="/#join">Get the launch email</a>'}<a class="btn ghost" href="/makers/">Launch your tool free</a></p>`;
       main.prepend(panel);
@@ -67,7 +73,7 @@
       const bar = document.createElement('div');
       bar.className = 'oo-bar';
       bar.setAttribute('role', 'status');
-      bar.innerHTML = `OpenOrbia launches in <b data-u="all"></b> · ${when}, 12:00 AM Central`;
+      bar.innerHTML = `OpenOrbia launches in <b data-u="all"></b> · ${when}${atText ? `, ${atText}` : ''}`;
       document.body.prepend(bar);
       ticks = [...bar.querySelectorAll('[data-u]')];
     }

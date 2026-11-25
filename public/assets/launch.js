@@ -218,7 +218,7 @@
         const coming = root.querySelector('[data-week-coming]');
         if (coming && data.label) coming.textContent = `Coming ${data.label}`;
         const intro = root.querySelector('[data-week-intro]');
-        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}. Voting opens at 12:00 AM Central.`;
+        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}.${data.opens_text ? ` Voting opens at ${data.opens_text}.` : ''}`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
         // the lineup is announced (the server sends launches only from the Wednesday before launch day): list next Monday's
@@ -276,7 +276,7 @@
         li.append(row);
         list.append(li);
       });
-      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : 'Voting closes Sunday 11:59 PM CT');
+      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : (data.closes_text ? `Voting closes ${data.closes_text}` : ''));
       const more = el('a', 'btn ghost', ended ? 'See the final results →' : `See all ${data.total} launch${data.total === 1 ? '' : 'es'} →`);
       more.href = ended ? `/launches/week-${data.week}/results/` : '/launches/';
       const status = el('p', 'vote-note', '');
