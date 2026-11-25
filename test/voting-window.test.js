@@ -119,7 +119,7 @@ test('the static pages say a time zone only where build:home writes it from lib/
     const generated = [launchLockHead(), weekIntroText()];
     let html = file(p);
     for (const g of generated) html = html.split(g).join('');
-    const hits = html.split('\n').filter(l => ZONE_WORDS.test(l.replace(/<!--.*?-->/g, '')));
+    const hits = html.split('\n').filter(l => ZONE_WORDS.test(l));
     assert.deepEqual(hits, [], p);
   }
 });
