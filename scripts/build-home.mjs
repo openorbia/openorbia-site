@@ -21,6 +21,7 @@ import { launchOpensAt, launchClosesAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
 import { llmsTxt, llmsFullTxt } from '../lib/llms.js';
+import { closesPhrase } from '../lib/voting-window.js';
 
 const root = new URL('../', import.meta.url);
 const data = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -110,6 +111,14 @@ export function withLaunchLock(html, page = 'page') {
   return html.replace(LOCK_RE, () => `<!-- launch-lock:start -->\n${launchLockHead()}<!-- launch-lock:end -->`);
 }
 
+// The homepage week intro's closing time (lib/voting-window.js), between <p class="week-intro" data-week-intro> and </p>
+export const WEEK_INTRO_RE = /(<p class="week-intro" data-week-intro>)[^<]*(<\/p>)/;
+export const weekIntroText = () => `New free AI tools launch every Monday. Upvote the ones you'd use until ${closesPhrase()}.`;
+export function withWeekIntro(html) {
+  if ((html.match(new RegExp(WEEK_INTRO_RE.source, 'g')) || []).length !== 1) throw new Error('public/index.html: expected one week-intro paragraph');
+  return html.replace(WEEK_INTRO_RE, (_, open, close) => `${open}${weekIntroText()}${close}`);
+}
+
 // The GitHub star lines (lib/stars.js), from data/stars.json (npm run fetch:stars)
 export const stats = () => starStats(TOOLS, JSON.parse(readFileSync(new URL('data/stars.json', root), 'utf8')));
 
@@ -125,7 +134,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
   const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
-  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()));
+  writeFileSync(home, withWeekIntro(filled.replace(LINEUP_RE, lineupHtml())));
   const list = new URL('public/launch-list/index.html', root);
   writeFileSync(list, fill(withListJsonLd(withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8'))))), 'stars', listStarsHtml(stats()), 'public/launch-list/index.html'));
   for (const page of STATIC_PAGES) {

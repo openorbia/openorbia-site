@@ -1,9 +1,11 @@
 // Homepage script: footer year, copy-the-email button and the waitlist form. A file of its own so the Content Security Policy can
 // forbid inline scripts.
 document.getElementById('yr').textContent=new Date().getFullYear();
-// A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day in Central time, so it goes away on its own
+// A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day on the launch clock (the zone in
+// <meta name="openorbia-launch-zone">, from lib/voting-window.js), so it goes away on its own
 const oneDay=document.getElementById('bday');
-if(oneDay&&new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;
+if(oneDay){const launchZone=(document.querySelector('meta[name="openorbia-launch-zone"]')||{}).content||undefined;
+if(new Intl.DateTimeFormat('en-CA',{timeZone:launchZone}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;}
 // Depth: the hero planet (#o3) and the category cards lean, and the hero stars (--px, --py) shift by depth, toward a mouse pointer. Touch screens and reduced motion keep them still.
 if(window.matchMedia&&matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)').matches){
   const o3=document.getElementById('o3'),hero=o3&&o3.closest('.hero');

@@ -115,7 +115,8 @@ test('the static week block describes the weekly launches (no stale countdown); 
   assert.ok(!/Coming Monday|data-countdown=|is coming<\/h2>/.test(box), 'no pre-launch countdown or "coming" text in the static box');
   assert.ok(!/makers confirmed|data-makers/.test(home), 'no makers line (removed 2026-11-19)');
   const js = file('public/assets/launch.js');
-  assert.ok(js.includes("'Voting closes Sunday 11:59 PM CT'"));
+  // the closing time's wording comes from the API (lib/voting-window.js), never written in the script
+  assert.ok(js.includes('`Voting closes ${data.closes_text}`') && !/(?:CT|Central|Pacific)/.test(js));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
   assert.ok(js.includes('data.voted') && js.includes("'ended'"), 'the visitor\'s votes and the closed state are handled');
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');

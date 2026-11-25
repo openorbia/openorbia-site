@@ -59,7 +59,9 @@ test('the homepage signup box speaks of Launch Week 1 as live and sends visitors
 test('the one-day birthday line is hidden in the HTML and shown by home.js only on its date (Central time)', () => {
   assert.ok(file('public/index.html').includes('<p class="bday" id="bday" data-only-on="2026-11-23" hidden>Happy birthday, Zara! 🎂 Love, Dad</p>'));
   const js = file('public/assets/home.js');
-  assert.ok(js.includes("timeZone:'America/Chicago'") && js.includes('===oneDay.dataset.onlyOn)oneDay.hidden=false'));
+  // the zone comes from <meta name="openorbia-launch-zone"> (lib/voting-window.js), which every page carries
+  assert.ok(js.includes('meta[name="openorbia-launch-zone"]') && js.includes('timeZone:launchZone') && js.includes('===oneDay.dataset.onlyOn)oneDay.hidden=false'));
+  assert.ok(file('public/index.html').includes('<meta name="openorbia-launch-zone" content="America/Chicago">'));
   const dayInCentral = iso => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date(iso));
   assert.equal(dayInCentral('2026-11-23T06:00:00Z'), '2026-11-23'); // 12:00 AM Central: shown
   assert.equal(dayInCentral('2026-11-24T05:59:00Z'), '2026-11-23'); // 11:59 PM Central: still shown
