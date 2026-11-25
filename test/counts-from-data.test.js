@@ -25,8 +25,8 @@ test('the category cards add up to more than the tools only because some tools a
 
 test('the homepage hero says exactly the counts in the data, with the stars date on the page', () => {
   const st = starStats(TOOLS, stars), c = categoryStats();
-  const line = home.match(/<span class="proof-main">([\s\S]*?)<\/span><\/p>/)[1].replace(/<[^>]+>/g, '');
-  assert.equal(line, `${TOOLS.length} tools across ${c.categories} categories (${c.shared} in more than one) · ${st.label} GitHub stars between them, as of ${st.checked} · every one checked`);
+  const line = home.match(/<span class="proof-main">([\s\S]*?)<\/span><\/p>/)[1];
+  assert.equal(line, `${TOOLS.length} tools across ${c.categories} categories (${c.shared} in more than one) · ${st.label} GitHub stars between them, as of ${st.checked} · every one <a href="/how-we-check/">checked</a>`);
   assert.ok(!home.includes('title="Stars counted on GitHub'), 'the date is no longer only in a tooltip');
 });
 
