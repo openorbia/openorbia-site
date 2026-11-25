@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { starLabel, starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
+import { categoryStats } from '../lib/categories.js';
 import { TOOLS } from '../public/assets/tools.js';
 
 const file = f => readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
@@ -39,15 +40,17 @@ test('the stats add up the saved counts and name the two most-starred tools', ()
 
 test('the homepage and the Launch List carry the star lines exactly as build:home writes them', () => {
   const s = starStats(TOOLS, data);
-  assert.ok(file('public/index.html').includes(`<!-- stars:start -->\n    ${homeStarsHtml(s)}\n    <!-- stars:end -->`), 'run npm run build:home');
+  assert.ok(file('public/index.html').includes(`<!-- stars:start -->\n    ${homeStarsHtml(s, categoryStats())}\n    <!-- stars:end -->`), 'run npm run build:home');
   assert.ok(file('public/launch-list/index.html').includes(`<!-- stars:start -->\n    ${listStarsHtml(s)}\n    <!-- stars:end -->`), 'run npm run build:home');
 });
 
 test('the wording credits the stars to the tools on GitHub, with the date, and never as OpenOrbia users or a ranking', () => {
   const s = starStats(TOOLS, data);
-  for (const html of [homeStarsHtml(s), listStarsHtml(s)]) {
+  for (const html of [homeStarsHtml(s, categoryStats()), listStarsHtml(s)]) {
     assert.match(html, /GitHub stars/);
-    assert.match(html, /counted on GitHub, [A-Z][a-z]{2} \d{1,2}, \d{4}/i, 'the count date, shown or in the tooltip');
+    // the count date is on the page itself (the homepage used to keep it in a tooltip)
+    assert.match(html, /(?:counted on GitHub|GitHub stars between them, as of) [A-Z][a-z]{2} \d{1,2}, \d{4}|counted on GitHub, [A-Z][a-z]{2} \d{1,2}, \d{4}/i);
+    assert.doesNotMatch(html, /title="/, 'not hidden in a tooltip');
     assert.doesNotMatch(html, /users|#1|number one|trusted by/i);
   }
   assert.match(homeStarsHtml(s), /between them/);
