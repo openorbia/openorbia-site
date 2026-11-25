@@ -51,7 +51,9 @@ test('the homepage signup box speaks of Launch Week 1 as live and sends visitors
   const home = file('public/index.html');
   const join = home.slice(home.indexOf('<section class="join"'), home.indexOf('<form id="wl"'));
   assert.ok(join.includes('Launch Week 1 is live'));
-  assert.ok(join.includes('<a href="/launches/">vote for this week\'s free AI tools</a>'));
+  // "Launch Week 1 is live" once (the badge); the next line sends visitors to vote without saying it again
+  assert.ok(join.includes('<p><a href="/launches/">Vote for this week\'s free AI tools</a> now.</p>'));
+  assert.equal(join.split('Launch Week 1 is').length - 1, 1, 'once');
   assert.ok(join.includes('a coming launch week'));
   for (const stale of ['Get in before the first launch', 'our first launch week']) assert.ok(!join.includes(stale), stale);
 });

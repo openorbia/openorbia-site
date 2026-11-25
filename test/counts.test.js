@@ -22,7 +22,7 @@ test('the Launch List counts on the page are the ones build:home writes from the
 test('withListCounts rewrites every count, with the right singular or plural', () => {
   const list = file('public/launch-list/index.html');
   const out = withListCounts(list, { free: 7, paid: 1 });
-  for (const s of ['<title>Launch List: 7 AI tools that run free', 'content="7 free and open-source AI tools that run without a paid service',
+  for (const s of ['<title>Launch List: 7 AI tools that run free', 'content="7 free AI tools that run without a paid service',
     'The OpenOrbia Launch List: 7 AI tools that run free', '<h1>7 AI tools that run free,', '<p class="note">1 more tool needs a paid service']) assert.ok(out.includes(s), s);
   assert.throws(() => withListCounts('<html></html>'), /expected one/, 'a page without the counts stops the build');
 });

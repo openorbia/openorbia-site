@@ -64,7 +64,7 @@
       panel.setAttribute('aria-labelledby', 'oo-lock-h');
       panel.innerHTML = `<p class="oo-lock-k">Launch Week 1</p>
 <p class="oo-lock-h" id="oo-lock-h" role="heading" aria-level="1">Where free AI tools <em>take off</em>.</p>
-<p class="oo-lock-when">OpenOrbia launches ${when}${atText ? ` at ${atText}` : ''}. Free and open-source AI tools, with the catch shown up front.</p>
+<p class="oo-lock-when">OpenOrbia launches ${when}${atText ? ` at ${atText}` : ''}. Free AI tools: open source, or a real free plan with no trial and no card. The catch shown up front.</p>
 <div class="oo-count" role="timer" aria-label="Time until OpenOrbia launches"><div><b data-u="d">0</b><span>days</span></div><div><b data-u="h">00</b><span>hours</span></div><div><b data-u="m">00</b><span>min</span></div><div><b data-u="s">00</b><span>sec</span></div></div>
 <p class="oo-lock-acts">${home ? '<a class="btn pri" href="#join">Get the launch email</a>' : '<a class="btn pri" href="/#join">Get the launch email</a>'}<a class="btn ghost" href="/makers/">Launch your tool free</a></p>`;
       main.prepend(panel);

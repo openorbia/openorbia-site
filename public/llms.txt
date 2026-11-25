@@ -1,6 +1,6 @@
 # OpenOrbia
 
-> OpenOrbia lists free and open-source AI tools for small businesses, job seekers and security teams. Each tool's free tier, card requirement, data location, setup, paid parts and biggest catch are checked by hand against its official docs, with the date shown.
+> OpenOrbia lists free AI tools for small businesses, job seekers and security teams: open source, or a real free plan with no trial and no card. Each tool's free tier, card requirement, data location, setup, paid parts and biggest catch are checked against its official docs, with the date shown.
 
 - No ads. No paid placement. No affiliate links. A tool never pays to be listed.
 - We check every tool's activity and license every month, and recheck the full Free facts at least every 3 months. Each card shows its last-checked date.

@@ -17,7 +17,7 @@ test('the homepage head, hero and Launch List describe all four categories, not 
     for (const word of ['productivity', 'automation', 'careers', 'security']) assert.match(head.toLowerCase(), new RegExp(word), `${name} head: ${word}`);
   }
   const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
-  assert.match(hero, /productivity, automation, careers, cybersecurity/);
+  assert.match(hero, /productivity, automation, careers and security/);
   assert.match(hero, /what needs a paid API/, 'the hero does not claim every tool is free to run');
 });
 
