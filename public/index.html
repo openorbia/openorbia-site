@@ -351,11 +351,14 @@ html:not(.nav-js) .mm:focus-within>.mm-panel{display:block}
 .countdown b{display:block;font:500 clamp(20px,5.5vw,28px)/1.1 var(--mono);color:var(--ink)}
 .countdown span{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .mini{list-style:none;margin:0 auto 16px;padding:0;display:grid;gap:10px;max-width:640px;text-align:left}
+.mini>li{min-width:0}
 .mini-row{display:flex;align-items:center;gap:14px;color:var(--ink);background:rgba(5,7,15,.5);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
 a.mini-text{text-decoration:none;color:var(--ink)}a.mini-text:hover b{text-decoration:underline}
 .mini-rank{flex:none;width:22px;text-align:center;font:500 16px var(--mono);color:var(--yellow)}
 .mini-text{flex:1;min-width:0;display:grid}
 .mini-text b{font:700 17px/1.2 var(--display)}
+.mini-text b{overflow-wrap:anywhere}
+@media (max-width:360px){.mini-text b{font-size:15px}}
 .mini-text span{color:var(--muted);font-size:14.5px}
 .mini-logo{flex:none;width:40px;height:40px;border-radius:10px;object-fit:cover}
 .mini-initial{display:grid;place-items:center;font:800 17px var(--display);color:#fff;background:linear-gradient(135deg,#5b7cff,#a07bff)}
@@ -559,7 +562,7 @@ html .vote,html .cf{font-variant-numeric:tabular-nums}
 
 <script src="/assets/home.js?v=ea83c773c9" defer></script>
 <script src="/assets/turnstile.js?v=0d9f5761a8" defer></script>
-<script src="/assets/launch.js?v=b294faac6f" defer></script>
+<script src="/assets/launch.js?v=a23a66ea7c" defer></script>
 <script src="/assets/nav.js?v=e11b817f2c" defer></script>
 <!--/email_off-->
 </body>
