@@ -1,7 +1,9 @@
 # Weekly tool check: GitHub metadata and source links for every Launch List tool (ops/scripts/tool-facts.mjs --all), compared with
 # last week's run kept in the Actions cache (never committed). Opens an issue when a tool is archived, moved or transferred to
-# another owner, deleted, changed its license, has had no push for over 6 months, or a source link broke. It only reports: it
-# never edits a listing, commits or publishes. Scheduled runs only happen from the default branch (main).
+# another owner, deleted, changed its license, has had no push for over 6 months, or a source link broke. It never edits a listing
+# or publishes, and never commits to main. It does keep a small dated snapshot of each run on the separate `tool-history` branch
+# (ops/scripts/save-history.mjs), the history behind license-change and free-tier tracking; that step is the only reason this
+# workflow can write repository contents. Scheduled runs only happen from the default branch (main).
 name: Weekly tool check
 
 on:
@@ -12,7 +14,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write # only for the history snapshot on the tool-history branch (see above); nothing writes to main
   issues: write
 
 concurrency:
@@ -50,6 +52,13 @@ jobs:
         with:
           path: .ops-cache/tool-facts.json
           key: tool-facts-${{ github.run_id }}
+
+      - name: Keep a dated snapshot on the tool-history branch
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: node ops/scripts/save-history.mjs "$RUNNER_TEMP/tool-facts.json"
 
       - name: Write the report
         id: report
