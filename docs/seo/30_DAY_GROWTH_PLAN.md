@@ -29,6 +29,21 @@ pages live; 0 broken internal links; `www` not yet redirected to the apex.
 | Bing indexed pages | Bing Webmaster Tools, Site Explorer | 5 (no sitemap submitted; Nov 1–18: 0 clicks, 2 impressions) | | | | |
 | URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | | | | |
 
+Mid-week check, 2026-11-25 (day 6; recorded here rather than in the Day 7 column, which stays for 2026-11-27):
+
+| Metric | 2026-11-25 |
+| --- | --- |
+| Impressions, last 28 days | 1.15K (Oct 29 – Nov 23) |
+| Clicks, last 28 days | 22 (CTR 1.9%, average position 31.3) |
+| Indexed pages | 61 (Pages report last updated 11/15/26) |
+| Pages not indexed, by reason | 90, same reasons and counts as Day 1; Validate fix started for the 76 alternate-canonical pages |
+| Queries / pages with impressions | 144 / 62 |
+| External links (Search Console) | 7, from github.com, scamadviser.com, peerlist.io |
+| Core Web Vitals | Not enough usage data (both) |
+| Bing indexed pages | 13 (excluded 5); sitemap 65 URLs, Success; Nov 1–23: 0 clicks, 2 impressions |
+| URLs in `sitemap.xml` | 98 after the Nov 25 deploy (adds 6 `/compare/` pages and `/feeds/`) |
+| `www` | 301 to the apex since 2026-11-25 (Cloudflare Redirect Rule) |
+
 How to read them:
 
 - **Impressions** move first, usually weeks before clicks. Category pages are new URLs; expect them to take a few weeks.
