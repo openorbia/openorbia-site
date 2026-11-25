@@ -20,6 +20,7 @@ import { renderFirstResultStrip } from '../lib/first-result.js';
 import { launchOpensAt, launchClosesAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
+import { llmsTxt, llmsFullTxt } from '../lib/llms.js';
 
 const root = new URL('../', import.meta.url);
 const data = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -145,5 +146,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     if (start < 0 || end < start) { console.error(`${page} has no <header class="wrap">`); process.exit(1); }
     writeFileSync(file, html.slice(0, start) + staticHeader() + html.slice(end));
   }
-  console.log('Featured tools written to public/index.html, and the footer to the static pages');
+  // /llms.txt and /llms-full.txt for AI assistants (lib/llms.js), from the same Launch List
+  writeFileSync(new URL('public/llms.txt', root), llmsTxt());
+  writeFileSync(new URL('public/llms-full.txt', root), llmsFullTxt());
+  console.log('Featured tools written to public/index.html, the footer to the static pages, and public/llms.txt and llms-full.txt');
 }
