@@ -43,6 +43,7 @@ Mid-week check, 2026-11-25 (day 6; recorded here rather than in the Day 7 column
 | Bing indexed pages | 13 (excluded 5); sitemap 65 URLs, Success; Nov 1–23: 0 clicks, 2 impressions |
 | URLs in `sitemap.xml` | 98 after the Nov 25 deploy (adds 6 `/compare/` pages and `/feeds/`) |
 | `www` | 301 to the apex since 2026-11-25 (Cloudflare Redirect Rule) |
+| IndexNow | On since 2026-11-25 (Cloudflare Crawler Hints) |
 
 How to read them:
 
