@@ -1,0 +1,923 @@
+# OpenOrbia
+
+> OpenOrbia lists free and open-source AI tools for small businesses, job seekers and security teams. Each tool's free tier, card requirement, data location, setup, paid parts and biggest catch are checked by hand against its official docs, with the date shown.
+
+- No ads. No paid placement. No affiliate links. A tool never pays to be listed.
+- We check every tool's activity and license every month, and recheck the full Free facts at least every 3 months. Each card shows its last-checked date.
+- "Not confirmed" means the official docs did not say; it is not a yes or a no.
+- Our checks cover the license, pricing, setup and where your data goes, read from each tool's official docs. They are not a security audit: we don't review a tool's code or dependencies for vulnerabilities or malware. Before you run a tool, especially one that installs with a script, downloads programs or model files, or scans and attacks systems, review it yourself and try it somewhere isolated first.
+- Tools are "Docs checked" unless marked "Hands-on tested", which OpenOrbia gives only to tools it has actually run.
+- Each tool page is the source of truth for its facts: https://openorbia.com/tool/<slug>/. The short index is https://openorbia.com/llms.txt.
+
+## Small businesses
+
+### AnythingLLM
+
+Chat with your business documents in an AI app. Desktop or server; works with local models.
+
+- Page: https://openorbia.com/tool/anythingllm/
+- Source code: https://github.com/Mintplex-Labs/anything-llm
+- License: MIT
+- Free tier: Free desktop app or self-hosted Docker (MIT); paid hosted option
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: None
+- The catch: Multi-user and embed widget need the Docker version; local AI needs decent hardware
+- Helps you: Chat with your own documents and run AI agents on a private, local AI app
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Mintplex-Labs/anything-llm#readme, https://anythingllm.com, https://docs.anythingllm.com/installation-desktop/system-requirements
+
+### Ollama
+
+Run open AI models on your own computer or server.
+
+- Page: https://openorbia.com/tool/ollama/
+- Source code: https://github.com/ollama/ollama
+- License: MIT
+- Free tier: Free & unlimited for local models (MIT); paid cloud optional
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: None
+- The catch: Local models run on your own hardware; cloud models are billed per token on pay as you go
+- Helps you: Run open AI models on your own computer and chat with them or use them in apps
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/ollama/ollama#readme, https://ollama.com/pricing, https://docs.ollama.com/faq
+
+### n8n
+
+Automate business tasks with AI agents across 400+ apps.
+
+- Page: https://openorbia.com/tool/n8n/
+- Source code: https://github.com/n8n-io/n8n
+- License: Sustainable Use
+- Free tier: Free self-hosted Community Edition (fair-code license)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: None needed; AI steps can use paid OpenAI/Anthropic keys or open-source models
+- The catch: SSO, Git version control and Projects are not in the free Community Edition; they need a paid Business or Enterprise plan
+- Helps you: Build automated workflows and AI agents that connect your apps
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/n8n-io/n8n#readme, https://docs.n8n.io/deploy/host-n8n/community-edition-features, https://github.com/n8n-io/n8n/blob/master/LICENSE.md
+
+### Activepieces
+
+No-code automation with AI steps and agents.
+
+- Page: https://openorbia.com/tool/activepieces/
+- Source code: https://github.com/activepieces/activepieces
+- License: MIT core
+- Free tier: Free self-hosted (MIT core); free cloud plan with 1,000 credits/mo
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: None
+- The catch: SSO is on the paid Team plan; audit logs, Git sync and custom roles are on the enterprise plan
+- Helps you: Automate tasks between apps with a no-code workflow builder, like Zapier
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/activepieces/activepieces#readme, https://www.activepieces.com/pricing, https://github.com/activepieces/activepieces/blob/main/LICENSE
+
+### Open WebUI
+
+Self-hosted chat interface for local or cloud AI models. Works with Ollama.
+
+- Page: https://openorbia.com/tool/open-webui/
+- Source code: https://github.com/open-webui/open-webui
+- License: Open WebUI License
+- Free tier: Self-hosted; Open WebUI License with a branding clause
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free, local) or your own OpenAI/Anthropic key
+- The catch: Has no models of its own: connect Ollama or an API. Removing branding needs permission or a license once users pass 50.
+- Helps you: Chat with local or cloud AI models through a self-hosted web interface
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/open-webui/open-webui#readme, https://github.com/open-webui/open-webui/blob/main/LICENSE, https://docs.openwebui.com/getting-started/quick-start/
+
+### Dify
+
+Build an AI support chatbot on your own docs and embed it on your site.
+
+- Page: https://openorbia.com/tool/dify/
+- Source code: https://github.com/langgenius/dify
+- License: Dify License
+- Free tier: Free self-hosted Community Edition; free cloud Sandbox (200 credits)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Your own AI model keys, or local models; paid cloud plans not needed
+- The catch: License: no multi-workspace service without written permission from Dify, and the logo and copyright must stay
+- Helps you: Build and run AI apps, chatbots and agent workflows without much code
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/langgenius/dify#readme, https://github.com/langgenius/dify/blob/main/LICENSE, https://dify.ai/pricing
+
+### Meetily
+
+Records, transcribes and summarizes meetings on your own laptop.
+
+- Page: https://openorbia.com/tool/meetily/
+- Source code: https://github.com/Zackriya-Solutions/meetily
+- License: MIT
+- Free tier: Free desktop app (MIT Community Edition); paid PRO separate
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: None
+- The catch: Speaker identification, integrations and advanced exports are in paid PRO; Ollama is the recommended local option for summaries
+- Helps you: Record, transcribe and summarize meetings privately on your own computer
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Zackriya-Solutions/meetily#readme, https://meetily.ai/pricing, https://github.com/Zackriya-Solutions/meetily/releases/tag/v0.5.0
+
+### Postiz
+
+Schedule social media posts and write them with AI.
+
+- Page: https://openorbia.com/tool/postiz/
+- Source code: https://github.com/gitroomhq/postiz-app
+- License: AGPL-3.0
+- Free tier: Free when self-hosted (AGPL); paid cloud with 7-day trial
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Optional OpenAI key for AI features; paid Postiz Cloud not needed
+- The catch: Self-hosting means registering your own developer app on each social network; some, like Meta and TikTok, need app review
+- Helps you: Schedule and analyze posts across your social media accounts from one place
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/gitroomhq/postiz-app#readme, https://docs.postiz.com/self-host/providers/overview.md, https://postiz.com/pricing
+
+### Inbox Zero
+
+AI email assistant that sorts your inbox and drafts replies.
+
+- Page: https://openorbia.com/tool/inbox-zero/
+- Source code: https://github.com/elie222/inbox-zero
+- License: AGPL-3.0
+- Free tier: Free when self-hosted (AGPL)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free, local) or your own paid AI key; your own Google OAuth app
+- The catch: Self-hosting needs your own Google OAuth app (Microsoft is optional); AI can run on Ollama (free) or your own key
+- Helps you: Sort your Gmail or Outlook inbox and pre-draft replies with AI
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/elie222/inbox-zero#readme, https://docs.getinboxzero.com/hosting/environment-variables
+
+### paperless-gpt
+
+AI reads, tags and files your scanned receipts and invoices.
+
+- Page: https://openorbia.com/tool/paperless-gpt/
+- Source code: https://github.com/icereed/paperless-gpt
+- License: MIT
+- Free tier: Free and open source when self-hosted (MIT)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free, local) or an OpenAI key; needs paperless-ngx (free)
+- The catch: Needs an existing paperless-ngx install plus an OpenAI key or Ollama
+- Helps you: Auto-title, tag and OCR scanned documents in paperless-ngx using AI
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/icereed/paperless-gpt#readme, https://github.com/icereed/paperless-gpt/blob/main/docs/openai_compatible_providers.md, https://github.com/icereed/paperless-gpt/blob/main/LICENSE
+
+### Vane
+
+Self-hosted AI search with cited sources. Formerly Perplexica.
+
+- Page: https://openorbia.com/tool/vane/
+- Source code: https://github.com/ItzCrazyKns/Vane
+- License: MIT
+- Free tier: Free and open source when self-hosted (MIT)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free local models) or your own OpenAI/Claude/Groq key
+- The catch: Needs your own AI API key or a local model via Ollama
+- Helps you: Search the web and get cited answers from AI models you run yourself
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/ItzCrazyKns/Vane#readme, https://github.com/ItzCrazyKns/Vane/blob/master/LICENSE
+
+### LibreChat
+
+Self-hosted chat app for many AI models, with user accounts.
+
+- Page: https://openorbia.com/tool/librechat/
+- Source code: https://github.com/LibreChat-AI/LibreChat
+- License: MIT
+- Free tier: Open source (MIT license); you host it yourself
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free) or your own OpenAI/Anthropic key
+- The catch: Needs your own AI API keys, or a local model via Ollama
+- Helps you: Chat with many AI models in one self-hosted ChatGPT-style app
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/LibreChat-AI/LibreChat#readme, https://github.com/LibreChat-AI/LibreChat/blob/main/LICENSE, https://www.librechat.ai/docs
+
+### RAGFlow
+
+Ask questions across large piles of PDFs, contracts and manuals.
+
+- Page: https://openorbia.com/tool/ragflow/
+- Source code: https://github.com/infiniflow/ragflow
+- License: Apache-2.0
+- Free tier: Free when self-hosted (Apache-2.0)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama or vLLM (free, local) or your own paid AI model key
+- The catch: Recommends 4 CPU cores, 16 GB RAM and 50 GB disk; models can run locally with Ollama or vLLM, or use your own key
+- Helps you: Build a searchable knowledge base from your documents and chat with it
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/infiniflow/ragflow#readme, https://github.com/infiniflow/ragflow/blob/main/docs/guides/models/deploy_local_llm.mdx
+
+### Jan
+
+Offline desktop app for chatting with local AI models
+
+- Page: https://openorbia.com/tool/jan/
+- Source code: https://github.com/janhq/jan
+- License: Apache-2.0
+- Free tier: Free desktop app with offline local models
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: None
+- The catch: Needs 8 GB RAM minimum (16 GB recommended); cloud models need your own API key from that provider
+- Helps you: Chat with AI models that run privately on your own computer
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://docs.jan.ai/desktop, https://docs.jan.ai/desktop/install/windows, https://docs.jan.ai/desktop/remote-models/openai
+
+### Open Notebook
+
+Private, self-hosted NotebookLM alternative: chat with your documents, PDFs and web pages.
+
+- Page: https://openorbia.com/tool/open-notebook/
+- Source code: https://github.com/lfnovo/open-notebook
+- License: MIT
+- Free tier: Free & open source (MIT); you pay only for a cloud AI if you use one
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: None with free local models through Ollama; cloud providers such as OpenAI bill per use
+- The catch: Needs Docker. No password by default: bind it to 127.0.0.1 or set one. Podcasts need a text-to-speech provider; Ollama has none
+- Helps you: Chat with your own documents, PDFs and web pages and turn them into notes
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 19, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/lfnovo/open-notebook#readme, https://github.com/lfnovo/open-notebook/blob/main/docs/0-START-HERE/quick-start-local.md, https://github.com/lfnovo/open-notebook/blob/main/docs/1-INSTALLATION/docker-compose.md
+
+### Langflow
+
+Build AI agents and automated workflows visually, then run them as an API or MCP server.
+
+- Page: https://openorbia.com/tool/langflow/
+- Source code: https://github.com/langflow-ai/langflow
+- License: MIT
+- Free tier: Free & open source (MIT); you pay only for a cloud AI model you connect
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: None with local models through Ollama; cloud models such as OpenAI need your own paid key
+- The catch: Needs Python 3.10-3.14 and uv, or Docker. Local models need Ollama and enough memory. The Desktop app download asks for your email
+- Helps you: Build AI agents and automated workflows visually and run them as an API
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 19, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/langflow-ai/langflow#readme, https://docs.langflow.org/bundles-ollama, https://www.langflow.org/desktop
+
+## Job seekers
+
+### career-ops
+
+AI agent that scans job boards, scores your fit, tailors your CV and letters, and tracks your pipeline.
+
+- Page: https://openorbia.com/tool/career-ops/
+- Source code: https://github.com/career-ops-hq/career-ops
+- License: MIT
+- Free tier: Free (MIT); runs inside an AI coding CLI on your machine
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Free Gemini key, OpenRouter free models or local Ollama; paid AI CLI is optional
+- The catch: Free AI tiers (Gemini, OpenRouter) are rate limited; local Ollama needs suitable hardware and larger models for reliable results
+- Helps you: Score job listings against your CV and draft tailored applications
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/career-ops-hq/career-ops#readme, https://github.com/career-ops-hq/career-ops/blob/main/docs/RUNNING_ON_A_BUDGET.md
+
+### Resume Matcher
+
+Scores your resume against a job post, then tailors it and drafts a cover letter.
+
+- Page: https://openorbia.com/tool/resume-matcher/
+- Source code: https://github.com/srbhr/Resume-Matcher
+- License: Apache-2.0
+- Free tier: Free when self-hosted (Apache-2.0)
+- Card required: No
+- Your data: Runs on your computer (cloud AI only if you pick one)
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free) or your own OpenAI/Anthropic/Gemini key
+- The catch: You pick the model: local Ollama, your coding agent, or your own cloud API key
+- Helps you: Tailor your resume to each job description using AI
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/srbhr/Resume-Matcher#readme, https://resumematcher.fyi/
+
+### Reactive Resume
+
+Open-source resume builder with optional AI writing help.
+
+- Page: https://openorbia.com/tool/reactive-resume/
+- Source code: https://github.com/reactive-resume/reactive-resume
+- License: MIT
+- Free tier: All resume features free at rxresu.me; MIT self-host too
+- Card required: Not confirmed
+- Your data: Vendor cloud (or your server if you self-host)
+- Setup: Browser, ready to use
+- Paid service: None
+- The catch: AI writing help needs your own key or Ollama
+- Helps you: Build, edit and download resumes and cover letters, and track job applications
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/reactive-resume/reactive-resume#readme, https://docs.rxresu.me/getting-started, https://docs.rxresu.me/guides/using-the-assistant
+
+### JobSync
+
+Self-hosted job application tracker with AI resume review and fit scoring.
+
+- Page: https://openorbia.com/tool/jobsync/
+- Source code: https://github.com/Gsync/jobsync
+- License: MIT
+- Free tier: Free when self-hosted (MIT)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free, default) or your own cloud AI key
+- The catch: Docker setup; AI uses Ollama by default, or your own cloud key
+- Helps you: Track job applications and get AI resume reviews and job matches
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Gsync/jobsync#readme, https://jobsync.ca
+
+### JobOps
+
+Self-hosted job search pipeline: find jobs, AI-score them 0–100, tailor your resume.
+
+- Page: https://openorbia.com/tool/jobops/
+- Source code: https://github.com/DaKheera47/job-ops
+- License: AGPL + Commons Clause
+- Free tier: Free when self-hosted; hosted cloud is paid
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama/LM Studio (free) or your own OpenAI/Claude key; hosted Cloud is paid
+- The catch: Includes anonymous usage analytics (opt out by blocking umami.dakheera47.com); Commons Clause: no selling or paid hosting
+- Helps you: Find jobs, tailor your CV to each one and track applications
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/DaKheera47/job-ops#readme, https://github.com/DaKheera47/job-ops/blob/main/LICENSE, https://jobops.dakheera47.com/docs/
+
+### DeepInterview
+
+Voice AI mock interviewer built from your CV and the job description.
+
+- Page: https://openorbia.com/tool/deepinterview/
+- Source code: https://github.com/ngoanpv/DeepInterview
+- License: Apache-2.0
+- Free tier: Free when self-hosted (Apache-2.0)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Free local models (Ollama, Whisper, Kokoro) or paid cloud voice/AI keys
+- The catch: Live voice needs LiveKit plus speech and AI keys, or a fully local setup
+- Helps you: Practice job interviews out loud with an AI interviewer and get a scored report
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/ngoanpv/DeepInterview#readme, https://github.com/ngoanpv/DeepInterview/blob/main/docs/LOCAL_MODELS.md
+
+### ResuLLMe
+
+Rewrites and enhances your resume with AI.
+
+- Page: https://openorbia.com/tool/resullme/
+- Source code: https://github.com/IvanIsCoding/ResuLLMe
+- License: MIT
+- Free tier: Free when self-hosted (MIT); public demo available
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Self-hosted/Ollama model (free) or your own OpenAI/Gemini key
+- The catch: Needs an OpenAI or Gemini key, or a self-hosted model such as Ollama (any OpenAI-compatible endpoint)
+- Helps you: Rewrite and tailor your resume with AI and export it in nice templates
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/IvanIsCoding/ResuLLMe#readme, https://github.com/IvanIsCoding/ResuLLMe/blob/main/src/pages/03_FAQ.py
+
+### MyResumo
+
+Tailors your resume and skills to a specific job description.
+
+- Page: https://openorbia.com/tool/myresumo/
+- Source code: https://github.com/AnalyticAce/myresumo
+- License: MIT
+- Free tier: Free when self-hosted (MIT)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Required: Paid AI API key (DeepSeek default; OpenAI also supported)
+- The catch: Needs an AI API key (DeepSeek by default, or OpenAI) and a MongoDB database
+- Helps you: Tailor your resume to a job posting using AI
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/AnalyticAce/myresumo#readme, https://api-docs.deepseek.com/quick_start/pricing/, https://developers.openai.com/api/docs/pricing
+
+### GrillKit
+
+Self-hosted voice trainer for technical interviews with real-time scoring.
+
+- Page: https://openorbia.com/tool/grillkit/
+- Source code: https://github.com/Forkfield/grillkit
+- License: Apache-2.0
+- Free tier: Free when self-hosted (Apache-2.0)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama or vLLM (free, local) or your own cloud model key
+- The catch: Bring your own model: Ollama/vLLM locally or a cloud API key
+- Helps you: Practice technical interviews with AI follow-ups and scoring
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Forkfield/grillkit#readme, https://github.com/Forkfield/grillkit/blob/main/LICENSE
+
+### Interview Coach
+
+Voice interview simulator with command-line and web modes.
+
+- Page: https://openorbia.com/tool/interview-coach/
+- Source code: https://github.com/J3rry320/interview-coach
+- License: MIT
+- Free tier: Free command-line tool with a local web dashboard
+- Card required: No
+- Your data: Runs on your computer (cloud AI only if you pick one)
+- Setup: Install & self-host
+- Paid service: Optional: Ollama (free) or your own Groq/OpenAI/Anthropic key
+- The catch: Use Ollama for offline use, or a cloud AI provider
+- Helps you: Practice mock interviews in your terminal or a local web dashboard
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/J3rry320/interview-coach#readme, https://www.codemedialabs.in/labs/interview-coach, https://github.com/J3rry320/interview-coach/blob/main/LICENSE
+
+### ElevateLI
+
+Chrome extension that scores your LinkedIn profile and suggests AI improvements.
+
+- Page: https://openorbia.com/tool/elevateli/
+- Source code: https://github.com/prPMDev/elevateli
+- License: MIT
+- Free tier: MIT-licensed Chrome extension, no account; AI use billed by your provider
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: Optional: Local model (free) or your own Gemini/OpenAI/Anthropic key
+- The catch: Not on the Chrome Web Store (load unpacked); AI needs your own key or Ollama
+- Helps you: Score your LinkedIn profile and get AI suggestions to improve it
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/prPMDev/elevateli#readme, https://github.com/prPMDev/elevateli/blob/main/LICENSE
+
+### JobSync-Service
+
+Finds jobs straight from company hiring systems (Greenhouse, Lever, Ashby) for your AI assistant.
+
+- Page: https://openorbia.com/tool/jobsync-service/
+- Source code: https://github.com/mayank-glitch-cpu/JobSync-Service
+- License: MIT
+- Free tier: Free code (MIT); you deploy it yourself
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: An MCP AI app; Airtable optional (local markdown file works)
+- The catch: Needs an AI app that supports MCP (Claude Desktop, Claude Code, Cursor); that app's plan limits apply
+- Helps you: Find fresh job postings and save them to Airtable or a markdown file
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/mayank-glitch-cpu/JobSync-Service#readme, https://github.com/Mayank-glitch-cpu/JobSync-Service/blob/main/LICENSE
+
+### Abhyas
+
+Voice mock interview based on your resume and the job description.
+
+- Page: https://openorbia.com/tool/abhyas/
+- Source code: https://github.com/Samyak9109/Abhyas
+- License: MIT
+- Free tier: Free (MIT); runs in your browser, data stays on your device
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Browser, ready to use
+- Paid service: Optional: Free local model (text only) or your own Gemini/OpenAI key for voice
+- The catch: Voice needs your own Gemini/OpenAI key; local models are text-only
+- Helps you: Run voice mock interviews and get scored feedback on your answers
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 23, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Samyak9109/Abhyas#readme, https://github.com/Samyak9109/Abhyas/blob/main/LICENSE, https://abhyas.runs-on.dev/
+
+### ai-job-search
+
+Turns Claude Code into a job search assistant: search, scoring, CV and interview prep.
+
+- Page: https://openorbia.com/tool/ai-job-search/
+- Source code: https://github.com/ai-job-search-dev/ai-job-search
+- License: MIT
+- Free tier: Free framework (MIT) you fork and run locally
+- Card required: Yes
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Required: Paid Claude Pro/Max/Team plan or Anthropic API credits
+- The catch: Needs a paid Claude plan or API credits
+- Helps you: Evaluate job postings, tailor your CV and write cover letters with Claude Code
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/ai-job-search-dev/ai-job-search#readme, https://claude.com/pricing
+
+### AI Job Hunter
+
+Desktop app that finds jobs, scores them against your résumé and writes tailored cover letters and résumés
+
+- Page: https://openorbia.com/tool/ai-job-hunter/
+- Source code: https://github.com/saeedkolivand/ai-job-hunter-app
+- License: Apache-2.0
+- Free tier: Free and open source; runs offline with Ollama or uses your own API key
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: Optional: Ollama (free, offline) or your own OpenAI/Anthropic/Gemini key
+- The catch: Large, fast-changing app; crash reports go to Sentry by default (can turn off)
+- Helps you: Find jobs and write tailored resumes and cover letters with AI
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/saeedkolivand/ai-job-hunter-app#readme, https://aijobhunter.app, https://github.com/saeedkolivand/ai-job-hunter-app/blob/main/docs/knowledge/decision-records/0020-crash-reporting.md
+
+## Security teams
+
+### garak
+
+Scans AI chatbots and LLM apps for jailbreaks, prompt injection and data leaks.
+
+- Page: https://openorbia.com/tool/garak/
+- Source code: https://github.com/NVIDIA/garak
+- License: Apache-2.0
+- Free tier: Free command-line scanner (Apache-2.0)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Local Hugging Face model (free) or a paid API like OpenAI
+- The catch: Needs a target model to test: a local Hugging Face model, or an API (OpenAI, Cohere, Groq and others) with your own key
+- Helps you: Scan AI chatbots and language models for jailbreaks, leaks and other weaknesses
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/NVIDIA/garak#readme, https://github.com/NVIDIA/garak/blob/main/LICENSE
+
+### promptfoo
+
+Tests and red-teams AI apps, agents and RAG for vulnerabilities.
+
+- Page: https://openorbia.com/tool/promptfoo/
+- Source code: https://github.com/promptfoo/promptfoo
+- License: MIT
+- Free tier: Free CLI (MIT); red teaming capped at 10k probes/month
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Your own LLM key or local Ollama; promptfoo Community plan is free
+- The catch: Red-team generation uses promptfoo's servers unless you set your own key or model
+- Helps you: Test and red-team your AI prompts, models and apps for failures
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/promptfoo/promptfoo#readme, https://www.promptfoo.dev/docs/red-team/configuration/, https://www.promptfoo.dev/pricing/
+
+### PyRIT
+
+Microsoft's open framework for red-teaming generative AI systems.
+
+- Page: https://openorbia.com/tool/pyrit/
+- Source code: https://github.com/microsoft/PyRIT
+- License: MIT
+- Free tier: Free Python library (MIT)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Ollama or HuggingFace (free), or your own OpenAI/Azure key
+- The catch: You configure your own AI endpoints and keys
+- Helps you: Test generative AI systems for safety and security risks with a Python toolkit
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/microsoft/PyRIT#readme, https://microsoft.github.io/PyRIT/1.1.0/, https://github.com/microsoft/PyRIT/blob/main/LICENSE
+
+### Tracecat
+
+Security automation (SOAR) platform built around AI agents for SOC teams.
+
+- Page: https://openorbia.com/tool/tracecat/
+- Source code: https://github.com/TracecatHQ/tracecat
+- License: AGPL-3.0
+- Free tier: Free self-hosted (AGPL): 1 workspace, unlimited workflows
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: None for core; Ollama (free) or your own AI key for agents
+- The catch: Free plan includes SSO and audit logs; REST API, Git sync, forms and metrics need the paid Team plan
+- Helps you: Automate security and IT workflows with AI agents and case management
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/TracecatHQ/tracecat#readme, https://www.tracecat.com/pricing, https://github.com/TracecatHQ/tracecat/blob/main/docs/agents/llm-providers.mdx
+
+### Strix
+
+AI agents that find and confirm vulnerabilities in your apps.
+
+- Page: https://openorbia.com/tool/strix/
+- Source code: https://github.com/usestrix/strix
+- License: Apache-2.0
+- Free tier: Free command-line tool (Apache-2.0)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Local model via Ollama (free) or your own AI API key
+- The catch: Needs Docker plus an AI key or local model; authorized testing only
+- Helps you: Run AI agents that pentest your apps and code and report vulnerabilities
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/usestrix/strix#readme, https://github.com/usestrix/strix/blob/main/LICENSE
+
+### PentestGPT
+
+AI penetration testing assistant from published security research.
+
+- Page: https://openorbia.com/tool/pentestgpt/
+- Source code: https://github.com/GreyDGL/PentestGPT
+- License: MIT
+- Free tier: Free (MIT); run locally or in Docker
+- Card required: No
+- Your data: Runs on your computer (anonymous usage stats are sent unless you opt out)
+- Setup: Install & self-host
+- Paid service: Optional: Main mode: a Claude Code or Codex CLI login; free option: legacy mode with local Ollama
+- The catch: Main mode needs a Claude Code/Codex login; Ollama only in legacy mode
+- Helps you: Get AI help running penetration tests and capture-the-flag challenges
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/GreyDGL/PentestGPT#readme, https://github.com/GreyDGL/PentestGPT/blob/main/LICENSE.md
+
+### PentAGI
+
+Self-hosted multi-agent system for automated pentests on systems you are authorized to test.
+
+- Page: https://openorbia.com/tool/pentagi/
+- Source code: https://github.com/vxcontrol/pentagi
+- License: MIT
+- Free tier: Free when self-hosted with Docker (MIT)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Ollama or vLLM local model (free), or your own cloud AI key
+- The catch: Needs an LLM (cloud key or local Ollama/vLLM); a EULA applies; only test systems you own or are authorized to assess
+- Helps you: Run automated, AI-driven penetration tests on systems you are authorized to test
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/vxcontrol/pentagi#readme, https://github.com/vxcontrol/pentagi/blob/main/EULA.md
+
+### NeMo Guardrails
+
+Add programmable safety rules to AI chatbots.
+
+- Page: https://openorbia.com/tool/nemo-guardrails/
+- Source code: https://github.com/NVIDIA-NeMo/Guardrails
+- License: Apache-2.0
+- Free tier: Free Python library (Apache-2.0)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Ollama/vLLM (free, local) or a paid OpenAI/NVIDIA/Anthropic key
+- The catch: Collects anonymous usage telemetry (opt out with DO_NOT_TRACK=1); you choose and configure the LLM it guards
+- Helps you: Add safety rules and guardrails to chatbots built on AI language models
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/NVIDIA-NeMo/Guardrails#readme, https://github.com/NVIDIA-NeMo/Guardrails/blob/develop/docs/telemetry.mdx, https://docs.nvidia.com/nemo/guardrails/about-nemo-guardrails-library/supported-llms
+
+### Vigil
+
+AI SOC platform for alert triage and investigation with your own LLM.
+
+- Page: https://openorbia.com/tool/vigil/
+- Source code: https://github.com/Vigil-SOC/vigil
+- License: Apache-2.0
+- Free tier: Free when self-hosted with Docker (Apache-2.0)
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: Optional: Local Ollama (free) or your own Anthropic/OpenAI key
+- The catch: Runs several Docker services (PostgreSQL, Redis, Bifrost); AI needs your own provider key or local Ollama
+- Helps you: Triage security alerts and cases with AI agents in your own SOC
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/Vigil-SOC/vigil#readme, https://vigilsoc.org/docs/bifrost/, https://github.com/Vigil-SOC/vigil/releases/tag/v1.0.0
+
+### Shannon
+
+AI agent that pentests web apps and APIs.
+
+- Page: https://openorbia.com/tool/shannon/
+- Source code: https://github.com/KeygraphHQ/shannon
+- License: AGPL-3.0
+- Free tier: Free CLI (AGPL); you pay only your own AI costs
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: Your own AI key (Anthropic/OpenAI/xAI) or local Ollama/vLLM via custom config
+- The catch: Needs your source code and an AI key; black-box testing is paid Pro
+- Helps you: Run an AI pentester that finds and proves web app security flaws
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/KeygraphHQ/shannon#readme, https://github.com/KeygraphHQ/shannon/blob/main/docs/ai-providers.md
+
+### PurpleLlama
+
+Meta's AI safety models, prompt-injection detection and security benchmarks.
+
+- Page: https://openorbia.com/tool/purplellama/
+- Source code: https://github.com/meta-llama/PurpleLlama
+- License: Llama Community License
+- Free tier: Evals and CodeShield: MIT. Llama Guard, Prompt Guard: Llama Community licenses
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: None
+- The catch: Benchmarks test an LLM you supply, through a provider API key or a self-hosted model
+- Helps you: Check AI models and their code for safety and cybersecurity risks
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/meta-llama/PurpleLlama#readme, https://github.com/meta-llama/PurpleLlama/blob/main/CybersecurityBenchmarks/README.md
+
+### AiSOC
+
+Self-hosted AI SOC: alert merging, AI triage and MITRE ATT&CK investigations.
+
+- Page: https://openorbia.com/tool/aisoc/
+- Source code: https://github.com/beenuar/AiSOC
+- License: MIT
+- Free tier: Open source and self-hostable (MIT); runs without an API key
+- Card required: No
+- Your data: Your server
+- Setup: Install & self-host
+- Paid service: None
+- The catch: Needs Docker Compose with 8 GB memory; the bundled local AI model is small, not a frontier model
+- Helps you: Detect and investigate security threats with AI agents a human approves
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/beenuar/AiSOC#readme, https://github.com/beenuar/AiSOC/blob/main/LICENSE
+
+### HexStrike AI
+
+Connects AI agents to 150+ existing security tools through MCP.
+
+- Page: https://openorbia.com/tool/hexstrike-ai/
+- Source code: https://github.com/0x4m4/hexstrike-ai
+- License: MIT
+- Free tier: Free MCP server (MIT)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: An MCP AI app; optional commercial tools such as Binary Ninja, Shodan, Censys
+- The catch: Needs an MCP AI app and the security tools installed; some optional tools are paid; run in an isolated VM on systems you're authorized to test
+- Helps you: Let an AI assistant run 150+ security tools for penetration testing
+- Local AI: Not listed
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/0x4m4/hexstrike-ai#readme, https://github.com/0x4m4/hexstrike-ai/blob/master/LICENSE
+
+### SOC Range
+
+SOC analyst training simulator with an optional local AI Triage Copilot: alert summaries, MITRE ATT&CK mapping and next steps.
+
+- Page: https://openorbia.com/tool/soc-range/
+- Source code: https://github.com/Khaja-syed-786/soc-range
+- License: MIT
+- Free tier: Free (MIT); runs locally with Node.js or Docker
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: None
+- The catch: Simulated data only; the optional AI Copilot needs local Ollama
+- Helps you: Practice triaging simulated security alerts like a SOC analyst
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Note: Built by Khaja Syed, OpenOrbia's founder; kept off the Launch Week leaderboard
+- Official sources: https://github.com/Khaja-syed-786/soc-range#readme, https://github.com/Khaja-syed-786/soc-range/blob/main/docs/ai-copilot.md
+
+### Nebula
+
+AI assistant for pentest operators. Works with local models.
+
+- Page: https://openorbia.com/tool/nebula/
+- Source code: https://github.com/berylliumsec/nebula
+- License: BSD-2-Clause
+- Free tier: Free desktop app (BSD-2)
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Desktop app
+- Paid service: Optional: Ollama or vLLM (free), or Claude/OpenRouter/Codex; voice needs paid OpenAI key
+- The catch: Linux x86_64 preview installers only (DEB or AppImage); needs your own model (Ollama, vLLM, Claude, OpenRouter); voice incurs OpenAI charges
+- Helps you: Run and document security tests on authorized systems from one desktop app
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 14, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/berylliumsec/nebula#readme, https://github.com/berylliumsec/nebula/blob/main/docs/NEBULA3.md, https://github.com/berylliumsec/nebula/blob/main/LICENSE.md
+
+### Agentic Security
+
+Scan your AI app or LLM endpoint with jailbreak and prompt-injection test datasets.
+
+- Page: https://openorbia.com/tool/agentic-security/
+- Source code: https://github.com/msoedov/agentic_security
+- License: Apache-2.0
+- Free tier: Free & open source (Apache 2.0); no SaaS, no account
+- Card required: No
+- Your data: Runs on your computer
+- Setup: Install & self-host
+- Paid service: Optional: None for the built-in mock or a local model; scanning a paid API bills per prompt
+- The catch: Needs Python 3.15+. Scanning a paid API costs one call per prompt; test datasets download from Hugging Face
+- Helps you: Scan your own AI app or model endpoint for jailbreaks and prompt injection
+- Local AI: Works with local AI
+- Facts checked against the docs: Nov 19, 2026
+- Hands-on tested by OpenOrbia: No
+- Official sources: https://github.com/msoedov/agentic_security#readme, https://github.com/msoedov/agentic_security/blob/main/docs/cli.md
+
+## Pages
+
+- [How we check tools](https://openorbia.com/how-we-check/): listing rules, what each fact means, how often tools are rechecked, and what the checks don't cover
+- [Launch List](https://openorbia.com/launch-list/): every listed tool, filterable by audience, setup, open source and local AI
+- [Self-hosted AI tools](https://openorbia.com/collection/self-hosted/): tools you run on your own server or computer
+- [Free AI APIs](https://openorbia.com/free-ai-apis/): free tiers of AI model APIs, checked against each provider's own pages
+- [This week's launches](https://openorbia.com/launches/): Launch Week, new tools every Monday
+
+## Optional
+
+- [For makers](https://openorbia.com/makers/): how to submit and launch a tool
+- [FAQ](https://openorbia.com/faq/)
