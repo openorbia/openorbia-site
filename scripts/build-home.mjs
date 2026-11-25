@@ -13,7 +13,7 @@ import { pickFeatured, renderFeatured } from '../lib/featured.js';
 import { footerHtml } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
 import { MARK, launchLockHead, jsonLdTag } from '../lib/layout.js';
-import { homeCategoriesHtml } from '../lib/categories.js';
+import { homeCategoriesHtml, categoryStats } from '../lib/categories.js';
 import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
@@ -132,7 +132,7 @@ function fill(html, name, inner, page = 'public/index.html') {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
-  const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
+  const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats(), categoryStats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
   writeFileSync(home, withWeekIntro(filled.replace(LINEUP_RE, lineupHtml())));
   const list = new URL('public/launch-list/index.html', root);
