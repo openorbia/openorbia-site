@@ -2,8 +2,8 @@
 // card() and defaultCardsHtml() also run in Node: scripts/build-home.mjs writes the default list into the page, so the tools are
 // in the HTML for crawlers and for visitors without JavaScript, and the first render here puts back the same markup.
 import{cardFactsHtml,needsPaidService,NEEDS_PAID_LABEL}from"./facts.js?v=ac132e9281";
-import{parseFilters,filterQuery,matchesRow}from"./launch-filters.js?v=e12c69fa4f";
-import{ROWS as T,CATEGORIES as CAT,slugOf}from"./tools.js?v=c8ce996f83";
+import{parseFilters,filterQuery,matchesRow}from"./launch-filters.js?v=b4bcf1ce51";
+import{ROWS as T,CATEGORIES as CAT,slugOf}from"./tools.js?v=85641b5b3a";
 import{LOGOS}from"./logos.js?v=6922797546";
 
 const COL={biz:["#5b7cff","#7a4dff"],job:["#2fb8a0","#5b7cff"],sec:["#ff6b8a","#7a4dff"]};
