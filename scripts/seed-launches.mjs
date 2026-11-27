@@ -13,8 +13,9 @@
 // For the preview database (npm run seed:preview): --sample-date moves the SAMPLE entries (only) to a launch week that is open today
 // (this-week: the Monday of the current launch-clock (Central) week, so voting works until Sunday 11:59 PM) or already closed (last-week: so the
 // final results page can be tried); --no-images drops the samples' images, which are not deployed (they live in test/fixtures).
-// Re-running updates entries in place and never touches votes; --prune also deletes launches (and their
-// votes) that are no longer in the file.
+// Re-running updates entries in place and never touches votes; --prune also deletes launches that are no longer in the file, but
+// only those nobody has voted for whose launch week has not started yet. A launch with votes, or from a live or past week, always stays.
+// Prune never deletes a vote.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -142,7 +143,7 @@ const out = join(root, '.wrangler', 'tmp', 'seed-launches.sql');
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, sql, 'utf8');
 const target = opts.mode === 'remote' ? '--remote' : '--local';
-console.log(`\nLoading into ${opts.db} (${opts.mode})${opts.prune ? ' with --prune' : ''}...`);
+console.log(`\nLoading into ${opts.db} (${opts.mode})${opts.prune ? ' with --prune (removes only launches missing from the file that have no votes and whose week has not started)' : ''}...`);
 const args = ['d1', 'execute', opts.db, target, `--file=${join('.wrangler', 'tmp', 'seed-launches.sql')}`];
 if (opts.yes) args.push('--yes');
 if (!wrangler(args)) {
