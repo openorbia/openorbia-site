@@ -141,14 +141,38 @@ test('re-seeding updates in place and never touches votes', () => {
   assert.equal(db.rows('SELECT COUNT(*) AS n FROM votes')[0].n, 1);
 });
 
-test('--prune removes launches that left the file, with their votes, and keeps the rest', () => {
+test('--prune removes a launch that left the file only if its week has not started and nobody voted for it', () => {
   const db = createDb();
-  const both = check(good({ slug: 'keep-me' }), good({ slug: 'drop-me' })).launches;
+  const both = check(good({ slug: 'keep-me' }), good({ slug: 'drop-me', launch_week: 2, launch_date: '2026-11-30' })).launches;
   db.sql(toSql(both));
-  db.sql("INSERT INTO votes (launch_slug, voter_hash) VALUES ('keep-me', 'a'), ('drop-me', 'b'), ('drop-me', 'c')");
-  db.sql(toSql(both.slice(0, 1))); // without prune nothing is deleted
+  db.sql(toSql(both.slice(0, 1), { today: '2026-11-27' })); // without prune nothing is deleted
   assert.equal(db.rows('SELECT COUNT(*) AS n FROM launches')[0].n, 2);
-  db.sql(toSql(both.slice(0, 1), { prune: true }));
+  db.sql(toSql(both.slice(0, 1), { prune: true, today: '2026-11-27' }));
   assert.deepEqual(db.rows('SELECT slug FROM launches').map(r => r.slug), ['keep-me']);
-  assert.deepEqual(db.rows('SELECT launch_slug FROM votes').map(r => r.launch_slug), ['keep-me']);
+});
+
+test('--prune never deletes a launch with votes, a launch from a live or past week, or any vote', () => {
+  const db = createDb();
+  const launches = check(
+    good({ slug: 'week1-a' }), good({ slug: 'week1-b' }),                                             // week 1, Nov 23: over by Nov 30
+    good({ slug: 'live-c', launch_week: 2, launch_date: '2026-11-30' }),                              // week 2, live on Dec 1
+    good({ slug: 'voted-d', launch_week: 3, launch_date: '2026-12-07' }),                             // not started, but has a vote
+    good({ slug: 'empty-e', launch_week: 3, launch_date: '2026-12-07' }),                             // not started, no votes: may go
+  ).launches;
+  db.sql(toSql(launches));
+  db.sql("INSERT INTO votes (launch_slug, voter_hash) VALUES ('week1-a', 'a'), ('week1-a', 'b'), ('voted-d', 'c')");
+  // the mistake this guards against: a file that lost Week 1 (and everything else), pruned while Week 2 is live
+  db.sql(toSql([], { prune: true, today: '2026-12-01' }));
+  assert.deepEqual(db.rows('SELECT slug FROM launches ORDER BY slug').map(r => r.slug), ['live-c', 'voted-d', 'week1-a', 'week1-b']);
+  assert.equal(db.rows('SELECT COUNT(*) AS n FROM votes')[0].n, 3, 'every vote stays');
+  // a week's Monday counts as started
+  db.sql(toSql([], { prune: true, today: '2026-12-07' }));
+  assert.equal(db.rows('SELECT COUNT(*) AS n FROM launches')[0].n, 4);
+});
+
+test('--prune SQL deletes no votes, and refuses a malformed date', () => {
+  const sql = toSql(check(good()).launches, { prune: true, today: '2026-11-27' });
+  assert.ok(!/DELETE FROM votes/i.test(sql));
+  assert.match(sql, /DELETE FROM launches WHERE slug NOT IN \('my-tool'\) AND launch_date > '2026-11-27' AND NOT EXISTS \(SELECT 1 FROM votes WHERE votes\.launch_slug = launches\.slug\);/);
+  for (const today of ['', 'now', "2026-11-27' OR 1=1 --", null]) assert.throws(() => toSql([], { prune: true, today }), /YYYY-MM-DD/, String(today));
 });
