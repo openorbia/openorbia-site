@@ -87,7 +87,8 @@ export const toolHref = tool => tool.website || tool.github;
 
 // Never featured on the homepage: the founder's own tools (the founder flag in ROWS), and any tool the founder has ruled out
 // (featureOnHomepage: false in data/free-facts.json, e.g. HexStrike AI). Anything that chooses featured tools must go through this.
-export const canFeature = tool => !tool.founder && tool.facts.featureOnHomepage !== false;
+// ...and never a tool whose card fact is missing or "Not confirmed", so a featured card never shows a gap (Free / Card / Catch)
+export const canFeature = tool => !tool.founder && tool.facts.featureOnHomepage !== false && ['yes', 'no'].includes(tool.facts.cardRequired);
 export const featuredCandidates = () => TOOLS.filter(canFeature);
 
 // Three other tools from the same category: the ones listed right after this one (wrapping round), so every tool in a
