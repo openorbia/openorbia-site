@@ -402,7 +402,7 @@ html .vote,html .cf{font-variant-numeric:tabular-nums}
   <section class="hero">
     <div class="hero-sky" aria-hidden="true"><b></b><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>
     <div class="hero-pad" aria-hidden="true"><span class="floor"></span></div>
-    <span class="badge"><i></i>Launch Week 1 · Nov 23</span>
+    <span class="badge" id="hero-week"><i></i><span data-week-text>New launches every Monday</span></span>
     <h1>Where free AI tools <em>take off</em>.</h1>
     <p class="lede">Free AI tools: open source, or a real free plan with no trial and no card. For productivity, automation, careers and security: see what is actually free, what needs a paid API and how each tool works.</p>
     <div class="acts">
@@ -419,10 +419,10 @@ html .vote,html .cf{font-variant-numeric:tabular-nums}
 
   <section class="join" id="join" aria-labelledby="join-h">
     <div class="join-copy">
-      <span class="badge"><i></i>Launch Week 1 is live</span>
+      <span class="badge" id="join-week"><i></i><span data-week-text>Weekly launches</span></span>
       <h2 id="join-h">Get each week's launches first.</h2>
       <p class="join-line">Free AI tools with the catch shown, every Monday.</p>
-      <p><a href="/launches/">Vote for this week's free AI tools</a> now.</p>
+      <p id="join-week-line"><a href="/launches/">See this week's free AI tools</a>.</p>
       <p>Makers: reserve a free spot in a coming launch week with the same form.</p>
     </div>
     <form id="wl" class="wl" method="post" action="/api/waitlist" novalidate>
@@ -562,7 +562,7 @@ html .vote,html .cf{font-variant-numeric:tabular-nums}
 
 <script src="/assets/home.js?v=3e3a78b43e" defer></script>
 <script src="/assets/turnstile.js?v=0d9f5761a8" defer></script>
-<script src="/assets/launch.js?v=a23a66ea7c" defer></script>
+<script src="/assets/launch.js?v=094323cd12" defer></script>
 <script src="/assets/nav.js?v=e11b817f2c" defer></script>
 <!--/email_off-->
 </body>

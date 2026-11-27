@@ -47,13 +47,13 @@ test('the homepage week intro says when launches happen and when voting closes, 
   assert.ok(file('public/index.html').includes('<p class="week-intro" data-week-intro>New free AI tools launch every Monday. Upvote the ones you\'d use until Sunday at 11:59 PM Central.</p>'));
 });
 
-test('the homepage signup box speaks of Launch Week 1 as live and sends visitors to vote', () => {
+test('the homepage signup box: static text that is true every week (launch.js puts in the live, results or coming state)', () => {
   const home = file('public/index.html');
   const join = home.slice(home.indexOf('<section class="join"'), home.indexOf('<form id="wl"'));
-  assert.ok(join.includes('Launch Week 1 is live'));
-  // "Launch Week 1 is live" once (the badge); the next line sends visitors to vote without saying it again
-  assert.ok(join.includes('<p><a href="/launches/">Vote for this week\'s free AI tools</a> now.</p>'));
-  assert.equal(join.split('Launch Week 1 is').length - 1, 1, 'once');
+  // changed 2026-11-27: "Launch Week 1 is live" was static and would have outlasted the week (test/homepage-week.test.js)
+  assert.ok(join.includes('<span class="badge" id="join-week"><i></i><span data-week-text>Weekly launches</span></span>'));
+  assert.ok(join.includes('<p id="join-week-line"><a href="/launches/">See this week\'s free AI tools</a>.</p>'));
+  assert.ok(!join.includes('Launch Week 1 is'), 'no week state in the static HTML');
   assert.ok(join.includes('a coming launch week'));
   for (const stale of ['Get in before the first launch', 'our first launch week']) assert.ok(!join.includes(stale), stale);
 });
