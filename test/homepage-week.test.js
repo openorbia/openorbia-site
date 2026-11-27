@@ -64,11 +64,18 @@ async function runWeek(answer) {
   const cta = new El('a'); cta.dataset.lineupCta = ''; cta.textContent = 'See this week\'s launches →';
   const ctaBox = new El('div'); ctaBox.append(cta);
   root.append(intro, ctaBox); week.append(h, root); body.append(week);
+  // the hero badge, and the signup box's badge and line, with their static text (public/index.html)
+  const badge = (id, text) => { const b = new El('span'); b.className = 'badge'; b.id = id; const t = new El('span'); t.dataset.weekText = ''; t.textContent = text; b.append(new El('i'), t); return b; };
+  const hero = badge('hero-week', 'New launches every Monday'), join = badge('join-week', 'Weekly launches');
+  const line = new El('p'); line.id = 'join-week-line';
+  const lineLink = new El('a'); lineLink.setAttribute('href', '/launches/'); lineLink.textContent = "See this week's free AI tools";
+  const dot = new El('#text'); dot.textContent = '.';
+  line.append(lineLink, dot); body.append(hero, join, line);
   const intervals = [];
   const fetched = [];
   const document = {
     body, getElementById: id => (body.querySelectorAll(`#${id}`)[0] || null), querySelector: s => body.querySelector(s), querySelectorAll: s => body.querySelectorAll(s),
-    createElement: t => new El(t), addEventListener() {}, dispatchEvent() {},
+    createElement: t => new El(t), createTextNode: t => { const n = new El('#text'); n.textContent = t; return n; }, addEventListener() {}, dispatchEvent() {},
   };
   const ctx = {
     document, fetch: url => { fetched.push(url); return Promise.resolve({ ok: true, json: () => Promise.resolve(answer) }); },
@@ -78,7 +85,7 @@ async function runWeek(answer) {
   ctx.window = ctx;
   vm.runInNewContext(file('public/assets/launch.js'), ctx);
   await new Promise(r => setTimeout(r, 20));
-  return { root, heading: h, fetched, intervals };
+  return { root, heading: h, fetched, intervals, hero, join, line };
 }
 
 const NOW = Date.parse('2026-11-25T18:00:00Z');
@@ -176,4 +183,32 @@ test('320px: cards and long names shrink and wrap instead of widening the page',
   assert.ok(/\.countdown\{[^}]*width:min\(100%,360px\)/.test(home), 'the countdown never exceeds the column');
   assert.ok(home.includes('.mini>li{min-width:0}'), 'a card can be narrower than its longest tagline (it overflowed by 5px at 320 before)');
   assert.ok(home.includes('.mini-text b{overflow-wrap:anywhere}'), 'a long launch name wraps instead of running under the vote button');
+});
+
+// ---- the week badges: the hero badge, the signup box's badge and the line under it follow the real week ----
+
+const badges = r => ({ hero: r.hero.textContent, join: r.join.textContent, line: r.line.textContent, href: (r.line.querySelector('a').href || r.line.querySelector('a').getAttribute('href')) });
+
+test('week badges while voting runs: "live now", "is live", and the line sends visitors to vote', async () => {
+  assert.deepEqual(badges(await runWeek(openWeek([launch(0)]))), {
+    hero: 'Launch Week 1 · live now', join: 'Launch Week 1 is live', line: "Vote for this week's free AI tools now.", href: '/launches/' });
+});
+
+test('week badges after voting closes: never "is live" again; the results, with a link to the results page', async () => {
+  const r = badges(await runWeek(openWeek([launch(0)], { open: false, closed: true })));
+  assert.deepEqual(r, { hero: 'Launch Week 1 · results', join: 'Launch Week 1 results', line: 'See the Launch Week 1 results.', href: '/launches/week-1/results/' });
+  assert.ok(!Object.values(r).join(' ').includes('live'));
+});
+
+test('week badges before a week starts: its date, short so both badges stay one line at 320px; the lineup link only when the week has launches', async () => {
+  const coming = over => runWeek(openWeek([], { week: 2, open: false, closed: false, label: 'Monday, Nov 30, 2026', total: 0, ...over }));
+  assert.deepEqual(badges(await coming({})), { hero: 'Launch Week 2 · Nov 30', join: 'Launch Week 2 · Nov 30', line: "See this week's free AI tools.", href: '/launches/' });
+  assert.equal((await coming({ total: 3, launches: [launch(0), launch(1), launch(2)] })).line.textContent, 'See the Launch Week 2 lineup.');
+});
+
+test('week badges keep their static text when the API has no week, fails, or answers without a week number', async () => {
+  const still = { hero: 'New launches every Monday', join: 'Weekly launches', line: "See this week's free AI tools.", href: '/launches/' };
+  for (const answer of [{ ok: true, week: null, launches: [] }, { ok: false }, null, { ok: true, open: true, launches: [] }]) {
+    assert.deepEqual(badges(await runWeek(answer)), still, JSON.stringify(answer));
+  }
 });

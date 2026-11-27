@@ -86,8 +86,8 @@ test('the honeypot: a filled field is rejected (nothing stored) with the same an
   assert.ok(!/\.hp\{[^}]*display:\s*none/.test(home));
 });
 
-test('"Launch Week 1 is live" appears once on the homepage', () => {
+test('the static homepage never says a week is live (launch.js says it only while it is true)', () => {
   const home = file('public/index.html');
-  assert.equal(home.split('Launch Week 1 is live').length - 1, 1);
+  assert.equal(home.split('Launch Week 1 is live').length - 1, 0);
   assert.ok(!home.includes('Launch Week 1 is open now'));
 });

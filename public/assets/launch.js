@@ -215,8 +215,35 @@
       return box;
     };
 
+    // The two week badges (hero and signup box) and the line under the signup badge: the static HTML says something that is always
+    // true, and this puts in where the current launch week really is, so "is live" never outlasts the week.
+    // -> { hero, join, link: [href, text], tail } or null (keep the static text)
+    const weekState = data => {
+      if (!data || !data.ok || !Number.isInteger(data.week)) return null;
+      const n = data.week;
+      if (data.closed) return { hero: `Launch Week ${n} · results`, join: `Launch Week ${n} results`, link: [`/launches/week-${n}/results/`, `See the Launch Week ${n} results`], tail: '.' };
+      if (data.open) return { hero: `Launch Week ${n} · live now`, join: `Launch Week ${n} is live`, link: ['/launches/', "Vote for this week's free AI tools"], tail: ' now.' };
+      const when = data.label ? String(data.label).replace(/, \d{4}$/, '').replace(/^[A-Za-z]+, /, '') : '';   // "Nov 30" (short: both badges stay one line at 320px)
+      if (!when) return null;
+      return { hero: `Launch Week ${n} · ${when}`, join: `Launch Week ${n} · ${when}`, link: data.total > 0 ? ['/launches/', `See the Launch Week ${n} lineup`] : null, tail: '.' };
+    };
+    const showWeekState = data => {
+      const s = weekState(data);
+      if (!s) return;
+      const set = (sel, text) => { const n = document.querySelector(sel); if (n) n.textContent = text; };
+      set('#hero-week [data-week-text]', s.hero);
+      set('#join-week [data-week-text]', s.join);
+      const line = document.getElementById('join-week-line');
+      if (line && s.link) {
+        const a = el('a', '', s.link[1]);
+        a.href = s.link[0];
+        line.replaceChildren(a, document.createTextNode(s.tail));
+      }
+    };
+
     const show = data => {
       if (!data || !data.ok) return;
+      showWeekState(data);
       if (!data.week) {
         // Nothing scheduled yet: keep the static "Coming Monday, Nov 23, 2026" and countdown, unless that time has already passed
         const cd = root.querySelector('[data-countdown]');

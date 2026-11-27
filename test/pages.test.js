@@ -337,9 +337,10 @@ test('the homepage section is wired up and its fallback date matches the launch 
   const js = readFileSync(new URL('../public/assets/launch.js', import.meta.url), 'utf8');
   assert.ok(js.includes("setHeading(\"This week's launches\")"));
   assert.ok(js.includes('setHeading(`Launch Week ${data.week} is coming`)'));
-  // changed 2026-11-06: no pill inside the box (the heading says it); the hero badge carries the date on one line
+  // changed 2026-11-06: no pill inside the box (the heading says it); changed 2026-11-27: the hero badge's static text is true every
+  // week, and launch.js puts in the current week and its state (test/homepage-week.test.js)
   assert.ok(!home.includes('id="week-badge"'));
-  assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
+  assert.ok(home.includes('<span class="badge" id="hero-week"><i></i><span data-week-text>New launches every Monday</span></span>'));
   assert.ok(!/Coming Monday, Nov 23, 2026/.test(home), 'no stale "coming" line in the static box');
   assert.ok(home.includes(`<script src="${asset('launch.js')}" defer></script>`));
   assert.match(home, /href="\/launches\/"/);
