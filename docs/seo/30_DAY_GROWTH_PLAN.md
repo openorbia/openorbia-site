@@ -18,16 +18,16 @@ pages live; 0 broken internal links; `www` not yet redirected to the apex.
 
 | Metric | Where | Day 1 (2026-11-20) | Day 7 | Day 14 | Day 21 | Day 30 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Impressions, last 28 days | Search Console, Performance | 969 | | | | |
-| Clicks, last 28 days | Search Console, Performance | 21 (CTR 2.2%, average position 32.8) | | | | |
-| Indexed pages | Search Console, Pages | 61 | | | | |
-| Pages not indexed, by reason | Search Console, Pages | 90: alternate with proper canonical 76, crawled not indexed 8, 404 2, redirect 2, other 4xx 1, discovered not indexed 1 | | | | |
-| Top 20 queries | Search Console, Performance, Queries (export) | See `SEO_AUDIT_2026-11-20.md` (130 queries; top by impressions: "self hosted ai platform" 33) | | | | |
-| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | 1 (github.com, 4 links) | | | | |
-| Ahrefs Domain Rating | Ahrefs Site Explorer | 0 (from the earlier audit; not re-checked) | | | | |
-| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | Not enough usage data (both) | | | | |
-| Bing indexed pages | Bing Webmaster Tools, Site Explorer | 5 (no sitemap submitted; Nov 1–18: 0 clicks, 2 impressions) | | | | |
-| URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | | | | |
+| Impressions, last 28 days | Search Console, Performance | 969 | 1.21K (Oct 29 – Nov 25) | | | |
+| Clicks, last 28 days | Search Console, Performance | 21 (CTR 2.2%, average position 32.8) | 24 (CTR 2%, average position 30.7) | | | |
+| Indexed pages | Search Console, Pages | 61 | 64 | | | |
+| Pages not indexed, by reason | Search Console, Pages | 90: alternate with proper canonical 76, crawled not indexed 8, 404 2, redirect 2, other 4xx 1, discovered not indexed 1 | 123: alternate with proper canonical 79 (Validate fix started), crawled not indexed 36 (mostly new Launch Week 1 pages, crawled Nov 24), noindex 2 (maker kits, on purpose), 404 2, redirect 2, other 4xx 1, discovered not indexed 1 | | | |
+| Top 20 queries | Search Console, Performance, Queries (export) | See `SEO_AUDIT_2026-11-20.md` (130 queries; top by impressions: "self hosted ai platform" 33) | 152 queries; top by impressions: "self hosted ai platform" 36 | | | |
+| Genuine referring domains | Search Console Links plus Ahrefs, spam removed by hand (`BACKLINK_REVIEW.md`) | 1 (github.com, 4 links) | NOT VERIFIED (Search Console lists github.com 4, scamadviser.com 2, peerlist.io 1; not reviewed by hand for spam) | | | |
+| Ahrefs Domain Rating | Ahrefs Site Explorer | 0 (from the earlier audit; not re-checked) | NOT VERIFIED | | | |
+| Core Web Vitals (mobile, desktop) | Search Console, Core Web Vitals | Not enough usage data (both) | Not enough usage data (both) | | | |
+| Bing indexed pages | Bing Webmaster Tools, Site Explorer | 5 (no sitemap submitted; Nov 1–18: 0 clicks, 2 impressions) | NOT VERIFIED (Bing Webmaster Tools not signed in on the browser used) | | | |
+| URLs in `sitemap.xml` (launch URLs) | `https://openorbia.com/sitemap.xml` | 63 (0), verified | 98 (26), verified; Search Console read it Nov 27: Success, 98 discovered | | | |
 
 Mid-week check, 2026-11-25 (day 6; recorded here rather than in the Day 7 column, which stays for 2026-11-27):
 
@@ -44,6 +44,12 @@ Mid-week check, 2026-11-25 (day 6; recorded here rather than in the Day 7 column
 | URLs in `sitemap.xml` | 98 after the Nov 25 deploy (adds 6 `/compare/` pages and `/feeds/`) |
 | `www` | 301 to the apex since 2026-11-25 (Cloudflare Redirect Rule) |
 | IndexNow | On since 2026-11-25 (Cloudflare Crawler Hints) |
+
+Day 7, read 2026-11-27 (Search Console, read-only; Performance data runs to Nov 25). Since Day 1: clicks 21 to 24, impressions
+969 to 1.21K, indexed 61 to 64, and 35 more URLs in the sitemap (26 Launch Week 1 pages, 6 `/compare/` pages, `/feeds/`, and others).
+The jump in "crawled - currently not indexed" (8 to 36) is mostly the new launch pages, crawled on Nov 24; Google often takes days
+to weeks to index new pages. The Validate fix for the 79 alternate-canonical pages (started Nov 25, after the www redirect) is
+still running. Bing was not checked this time.
 
 How to read them:
 
