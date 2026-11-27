@@ -11,7 +11,7 @@ let db, env;
 beforeEach(() => { db = createDb(); env = { DB: db, VOTE_SECRET: SECRET }; });
 
 const iso = ms => new Date(ms).toISOString();
-const pacific = ms => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).format(ms);
+const central = ms => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' }).format(ms);
 let who = 0;
 const vote = (slug, now) => handleVote({ env, now, request: new Request('https://openorbia.com/api/vote', {
   method: 'POST', headers: { 'content-type': 'application/json', 'cf-connecting-ip': `198.51.100.${(who++ % 250) + 1}`, 'user-agent': `T${who}` }, body: JSON.stringify({ slug }),
@@ -22,18 +22,18 @@ const page = async res => ({ status: res.status, html: await res.text(), headers
 // ---- when a launch week closes ----
 
 test('a launch week closes on the Sunday at 11:59 PM Central: the launch date plus 6 days', () => {
-  assert.equal(iso(launchClosesAt('2026-11-23')), '2026-11-30T05:59:00.000Z');   // Sunday Nov 29, PST (UTC-8)
-  assert.equal(pacific(launchClosesAt('2026-11-23')), 'Sunday 11:59 PM');
-  assert.equal(iso(launchClosesAt('2026-07-06')), '2026-07-13T04:59:00.000Z');   // Sunday Jul 12, PDT (UTC-7)
-  assert.equal(pacific(launchClosesAt('2026-07-06')), 'Sunday 11:59 PM');
+  assert.equal(iso(launchClosesAt('2026-11-23')), '2026-11-30T05:59:00.000Z');   // Sunday Nov 29, CST (UTC-6)
+  assert.equal(central(launchClosesAt('2026-11-23')), 'Sunday 11:59 PM');
+  assert.equal(iso(launchClosesAt('2026-07-06')), '2026-07-13T04:59:00.000Z');   // Sunday Jul 12, CDT (UTC-5)
+  assert.equal(central(launchClosesAt('2026-07-06')), 'Sunday 11:59 PM');
 });
 
-test('every Monday launch of a whole year closes at Sunday 11:59 PM on the Pacific clock, through both daylight saving changes', () => {
+test('every Monday launch of a whole year closes at Sunday 11:59 PM on the Central clock, through both daylight saving changes', () => {
   let day = Date.UTC(2027, 0, 4);                                                // Monday Jan 4, 2027
   for (let i = 0; i < 52; i++, day += 7 * 24 * 3600 * 1000) {
     const date = new Date(day).toISOString().slice(0, 10);
-    assert.equal(pacific(launchOpensAt(date)), 'Monday 12:00 AM', `${date} opens`);
-    assert.equal(pacific(launchClosesAt(date)), 'Sunday 11:59 PM', `${date} closes`);
+    assert.equal(central(launchOpensAt(date)), 'Monday 12:00 AM', `${date} opens`);
+    assert.equal(central(launchClosesAt(date)), 'Sunday 11:59 PM', `${date} closes`);
   }
 });
 
@@ -72,14 +72,14 @@ test('voting is open from 12:00 AM Monday until 11:59 PM Sunday Central, and clo
   assert.equal(db.rows('SELECT COUNT(*) AS n FROM votes')[0].n, 2, 'nothing was counted after the close');
 });
 
-test('the close follows the Pacific clock across DST: a fixed UTC-8 would keep the spring week open an hour too long', async () => {
+test('the close follows the Central clock across DST: a fixed UTC-6 would keep the spring week open an hour too long', async () => {
   addLaunch(db, { slug: 'spring', name: 'Spring', launch_week: 1, launch_date: '2027-03-08' });
   addLaunch(db, { slug: 'fall', name: 'Fall', launch_week: 2, launch_date: '2026-10-26' });
-  // spring week: closes 06:59 UTC. 07:30 UTC is 12:30 AM Monday PDT, so voting must already be closed
+  // spring week: closes 04:59 UTC (11:59 PM CDT). 05:30 UTC is 12:30 AM Monday CDT, so voting must already be closed
   assert.equal((await vote('spring', Date.parse('2027-03-15T04:58:59Z'))).status, 200);
   assert.equal((await vote('spring', Date.parse('2027-03-15T04:59:00Z'))).status, 403);
   assert.equal((await vote('spring', Date.parse('2027-03-15T05:30:00Z'))).status, 403);
-  // fall week: closes 07:59 UTC (PST), and an hour earlier (06:59 UTC, which is 11:59 PM PDT of the same night) it is still open
+  // fall week: closes 05:59 UTC (11:59 PM CST, after the clocks went back), and a second before it is still open
   assert.equal((await vote('fall', Date.parse('2026-11-02T05:58:59Z'))).status, 200);
   assert.equal((await vote('fall', Date.parse('2026-11-02T05:59:00Z'))).status, 403);
 });
@@ -90,7 +90,7 @@ test('a launch page says when voting closes while it is open, and "Final results
   addLaunch(db, { slug: 'a-tool', name: 'A Tool', launch_week: 1, launch_date: '2026-11-23' });
   const req = new Request('https://openorbia.com/launch/a-tool/');
   const open = await page(await launchResponse({ request: req, env, params: { slug: 'a-tool' }, now: launchOpensAt('2026-11-23') + 3600 * 1000 }));
-  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM CT'));
+  assert.ok(open.html.includes('Voting closes Sunday at 11:59 PM Central'));
   assert.ok(!open.html.includes('Final results'));
   assert.match(open.html, /data-state="ready"/);
 
@@ -108,7 +108,7 @@ test('the leaderboard and the homepage JSON know when a week is over', async () 
   addLaunch(db, { slug: 'a-tool', name: 'A Tool', launch_week: 1, launch_date: '2026-11-23' });
   const req = new Request('https://openorbia.com/launches/');
   const open = await page(await leaderboardResponse({ request: req, env, now: launchOpensAt('2026-11-23') + 24 * 3600 * 1000 }));
-  assert.ok(open.html.includes('Voting closes Sunday 11:59 PM CT'));
+  assert.ok(open.html.includes('Voting closes Sunday at 11:59 PM Central'));
   assert.ok(!open.html.includes('Final results'));
   const done = await page(await leaderboardResponse({ request: req, env, now: launchClosesAt('2026-11-23') + 1000 }));
   assert.ok(done.html.includes('Final results') && done.html.includes('Voting is closed.'));
@@ -167,7 +167,7 @@ test('before the week is final the results page shows no ranks and is not indexe
   }
 });
 
-test('in the fall week 06:59 UTC (11:59 PM PDT) is still an hour before the close', async () => {
+test('in the fall week 04:59 UTC (10:59 PM CST) is still an hour before the close', async () => {
   addLaunch(db, { slug: 'fall', name: 'Fall', launch_week: 2, launch_date: '2026-10-26' });
   assert.equal((await vote('fall', Date.parse('2026-11-02T04:59:00Z'))).status, 200);
 });

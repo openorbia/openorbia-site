@@ -195,6 +195,26 @@
       });
     };
 
+    // How many launches the homepage shows as cards (the API is asked for this many)
+    const WEEK_CARDS = 6;
+
+    // A countdown like the server-rendered one (lib/pages.js countdown()): <div data-countdown> with days, hours, min and sec
+    const countdownEl = (at, now, label) => {
+      const box = el('div', 'countdown');
+      box.dataset.countdown = at;
+      if (Number.isFinite(now)) box.dataset.now = String(now);
+      box.setAttribute('role', 'timer');
+      box.setAttribute('aria-label', label);
+      for (const [u, text, start] of [['d', 'days', '0'], ['h', 'hours', '00'], ['m', 'min', '00'], ['s', 'sec', '00']]) {
+        const cell = el('div');
+        const b = el('b', '', start);
+        b.dataset.unit = u;
+        cell.append(b, el('span', '', text));
+        box.append(cell);
+      }
+      return box;
+    };
+
     const show = data => {
       if (!data || !data.ok) return;
       if (!data.week) {
@@ -218,7 +238,7 @@
         const coming = root.querySelector('[data-week-coming]');
         if (coming && data.label) coming.textContent = `Coming ${data.label}`;
         const intro = root.querySelector('[data-week-intro]');
-        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}. Voting opens at 12:00 AM Central.`;
+        if (intro && data.total > 0) intro.textContent = `${data.total} free AI tool${data.total === 1 ? ' launches' : 's launch'} on ${data.label}.${data.opens_text ? ` Voting opens at ${data.opens_text}.` : ''}`;
         const cd = root.querySelector('[data-countdown]');
         if (cd && data.opens_at) { cd.dataset.countdown = data.opens_at; cd.dataset.now = String(data.now); startCountdown(cd); }
         // the lineup is announced (the server sends launches only from the Wednesday before launch day): list next Monday's
@@ -247,11 +267,14 @@
         return;
       }
       const ended = !!data.closed;
+      // only real launches, never padded: with none yet, the static "next lineup" text stays as it is
+      const items = Array.isArray(data.launches) ? data.launches.slice(0, WEEK_CARDS) : [];
+      if (!items.length) return;
       setHeading(ended ? `Launch Week ${data.week} results` : "This week's launches");
       const voted = new Set(Array.isArray(data.voted) ? data.voted : []);
       const num = n => new Intl.NumberFormat('en-US').format(n || 0);
       const list = el('ol', 'mini');
-      data.launches.slice(0, 3).forEach((l, i) => {   // the top 3 (the lineup above asks for up to 6)
+      items.forEach((l, i) => {   // up to WEEK_CARDS, in leaderboard order
         const li = el('li');
         const row = el('div', 'mini-row');
         const { mark, link } = launchBits(l);
@@ -276,7 +299,7 @@
         li.append(row);
         list.append(li);
       });
-      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : 'Voting closes Sunday 11:59 PM CT');
+      const note = el('p', 'week-note', ended ? 'Voting closed. Final results.' : (data.closes_text ? `Voting closes ${data.closes_text}` : ''));
       const more = el('a', 'btn ghost', ended ? 'See the final results →' : `See all ${data.total} launch${data.total === 1 ? '' : 'es'} →`);
       more.href = ended ? `/launches/week-${data.week}/results/` : '/launches/';
       const status = el('p', 'vote-note', '');
@@ -287,10 +310,14 @@
       const howLink = el('a', '', 'How voting works');
       howLink.href = '/how-voting-works/';
       how.append(howLink);
-      root.replaceChildren(note, list, status, how, more);
+      // while voting runs: "Voting closes in" as a countdown to the closing instant (lib/voting-window.js, through the API). At zero
+      // it fires launch:opened, which reloads this section, and the API then says the week is closed.
+      const clock = !ended && data.closes_at ? countdownEl(data.closes_at, data.now, 'Time until voting closes') : null;
+      root.replaceChildren(note, ...(clock ? [clock] : []), list, status, how, more);
+      if (clock) startCountdown(clock);
     };
 
-    const load = () => fetch('/api/launches?limit=6', { headers: { accept: 'application/json' } })
+    const load = () => fetch(`/api/launches?limit=${WEEK_CARDS}`, { headers: { accept: 'application/json' } })
       .then(r => (r.ok ? r.json() : null)).then(show).catch(() => {});
     load();
     document.addEventListener('launch:opened', load);

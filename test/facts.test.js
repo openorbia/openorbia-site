@@ -172,7 +172,7 @@ test('Launch List: the counts in the title, meta, headline and og:title are the 
   const n = rows.length - paid;
   assert.ok(paid >= 1 && n >= 1);
   assert.match(html, new RegExp(`<title>Launch List: ${n} AI tools that run free \\| OpenOrbia</title>`));
-  assert.match(html, new RegExp(`<meta name="description" content="${n} free and open-source AI tools that run without a paid service`));
+  assert.match(html, new RegExp(`<meta name="description" content="${n} free AI tools that run without a paid service`));
   assert.match(html, new RegExp(`<meta property="og:title" content="The OpenOrbia Launch List: ${n} AI tools that run free"`));
   assert.match(html, new RegExp(`<h1>${n} AI tools that run free,`));
   assert.match(html, new RegExp(`${paid} more tools? needs? a paid service to run, so (?:they are|it is) hidden until you turn off Runs free`));

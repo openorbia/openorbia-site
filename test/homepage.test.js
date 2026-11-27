@@ -36,7 +36,7 @@ test('five existing tools are featured: 2 security, 1 job seekers, 1 small busin
 });
 
 test('picks prefer confidence high with no paid dependency, then no paid dependency, then high confidence', () => {
-  const mk = (slug, category, level, localAI = false) => ({ slug, name: slug, repo: `o/${slug}`, category, localAI, facts: { paidDeps: { level }, task: 't', freeTier: 'f', setup: 's', catch: 'c' } });
+  const mk = (slug, category, level, localAI = false) => ({ slug, name: slug, repo: `o/${slug}`, category, localAI, facts: { paidDeps: { level }, task: 't', freeTier: 'f', cardRequired: 'no', setup: 's', catch: 'c' } });
   const tools = [mk('a', 'sec', 'optional'), mk('b', 'sec', 'none'), mk('c', 'sec', 'optional'), mk('d', 'sec', 'none'), mk('e', 'job', 'optional'), mk('f', 'biz', 'none'), mk('g', 'biz', 'none', true)];
   const conf = { 'o/a': 'high', 'o/b': 'medium', 'o/c': 'medium', 'o/d': 'high', 'o/e': 'medium', 'o/f': 'medium', 'o/g': 'medium' };
   const picks = pickFeatured(tools, conf);
@@ -88,7 +88,7 @@ test('the hero: the same headline, the new lede, "Explore free tools" and "Find 
   // the founder's headline stays; changed 2026-11-19 (platform positioning): the lede names every kind of task, not three
   // audiences, and says what is free and what is not
   assert.ok(home.includes('<h1>Where free AI tools <em>take off</em>.</h1>'));
-  assert.ok(home.includes('<p class="lede">Discover free and open-source AI tools for productivity, automation, careers, cybersecurity and more. See what is actually free, what needs a paid API and how each tool works.</p>'));
+  assert.ok(home.includes('<p class="lede">Free AI tools: open source, or a real free plan with no trial and no card. For productivity, automation, careers and security: see what is actually free, what needs a paid API and how each tool works.</p>'));
   const hero = home.slice(home.indexOf('<section class="hero">'), home.indexOf('</section>', home.indexOf('<section class="hero">')));
   assert.deepEqual([...hero.matchAll(/<a class="btn (pri|ghost)" href="([^"]+)">([^<]+)<\/a>/g)].map(m => [m[1], m[2], m[3]]),
     [['pri', '/launch-list/', 'Explore free tools'], ['ghost', '/request/', 'Find my free setup']]);
@@ -115,7 +115,8 @@ test('the static week block describes the weekly launches (no stale countdown); 
   assert.ok(!/Coming Monday|data-countdown=|is coming<\/h2>/.test(box), 'no pre-launch countdown or "coming" text in the static box');
   assert.ok(!/makers confirmed|data-makers/.test(home), 'no makers line (removed 2026-11-19)');
   const js = file('public/assets/launch.js');
-  assert.ok(js.includes("'Voting closes Sunday 11:59 PM CT'"));
+  // the closing time's wording comes from the API (lib/voting-window.js), never written in the script
+  assert.ok(js.includes('`Voting closes ${data.closes_text}`') && !/(?:CT|Central|Pacific)/.test(js));
   assert.ok(js.includes("el('button', 'vote')") && js.includes("btn.dataset.state = state"));
   assert.ok(js.includes('data.voted') && js.includes("'ended'"), 'the visitor\'s votes and the closed state are handled');
   assert.ok(js.includes("id = 'vote-status'"), 'a live region for the vote result');
@@ -130,18 +131,22 @@ test('the homepage links to Find me a free tool, Submit a tool and the Launch Li
   assert.match(home, /\.feat\{display:grid;grid-template-columns:repeat\(auto-fill,minmax\(min\(100%,290px\),1fr\)\)/);
 });
 
-test('canFeature: the founder\'s own tools are never featured, nor a tool with featureOnHomepage: false', () => {
-  const mk = (over = {}) => ({ slug: 'x', founder: false, facts: {}, ...over });
+test('canFeature: the founder\'s own tools are never featured, nor a tool with featureOnHomepage: false, nor one whose card fact is Not confirmed', () => {
+  const mk = (over = {}) => ({ slug: 'x', founder: false, facts: { cardRequired: 'no' }, ...over });
   assert.equal(canFeature(mk()), true);
   assert.equal(canFeature(mk({ founder: true })), false);
-  assert.equal(canFeature(mk({ facts: { featureOnHomepage: false } })), false);
-  assert.equal(canFeature(mk({ founder: true, facts: { featureOnHomepage: true } })), false, 'the founder rule cannot be switched off by the data');
-  // every founder tool on the Launch List, and HexStrike AI, fail canFeature; nothing else does
+  assert.equal(canFeature(mk({ facts: { cardRequired: 'no', featureOnHomepage: false } })), false);
+  // a featured card shows Free, Card and Catch: a card fact that is missing or "Not confirmed" would be a gap (PR E, 2026-11-25)
+  assert.equal(canFeature(mk({ facts: { cardRequired: 'yes' } })), true);
+  assert.equal(canFeature(mk({ facts: { cardRequired: 'unknown' } })), false);
+  assert.equal(canFeature(mk({ facts: {} })), false);
+  assert.equal(canFeature(mk({ founder: true, facts: { cardRequired: 'no', featureOnHomepage: true } })), false, 'the founder rule cannot be switched off by the data');
+  // every founder tool on the Launch List, HexStrike AI, and Reactive Resume (card Not confirmed) fail canFeature; nothing else does
   const founders = TOOLS.filter(t => t.founder);
   assert.deepEqual(founders.map(t => t.name), ['SOC Range']);
-  assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'SOC Range']);
+  assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'Reactive Resume', 'SOC Range']);
   // so none of them is on the homepage
-  for (const t of [...founders, toolBySlug('hexstrike-ai')]) assert.ok(!home.includes(`data-tool-slug="${t.slug}"`), t.name);
+  for (const t of [...founders, toolBySlug('hexstrike-ai'), toolBySlug('reactive-resume')]) assert.ok(!home.includes(`data-tool-slug="${t.slug}"`), t.name);
 });
 
 test('garak is the first security pick; promptfoo takes its place only when garak cannot be featured; SOC Range is gone', () => {

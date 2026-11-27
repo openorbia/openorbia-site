@@ -1,9 +1,11 @@
 // Homepage script: footer year, copy-the-email button and the waitlist form. A file of its own so the Content Security Policy can
 // forbid inline scripts.
 document.getElementById('yr').textContent=new Date().getFullYear();
-// A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day in Central time, so it goes away on its own
+// A one-day line under the hero (#bday, data-only-on="YYYY-MM-DD"): shown only on that day on the launch clock (the zone in
+// <meta name="openorbia-launch-zone">, from lib/voting-window.js), so it goes away on its own
 const oneDay=document.getElementById('bday');
-if(oneDay&&new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;
+if(oneDay){const launchZone=(document.querySelector('meta[name="openorbia-launch-zone"]')||{}).content||undefined;
+if(new Intl.DateTimeFormat('en-CA',{timeZone:launchZone}).format(new Date())===oneDay.dataset.onlyOn)oneDay.hidden=false;}
 // Depth: the hero planet (#o3) and the category cards lean, and the hero stars (--px, --py) shift by depth, toward a mouse pointer. Touch screens and reduced motion keep them still.
 if(window.matchMedia&&matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)').matches){
   const o3=document.getElementById('o3'),hero=o3&&o3.closest('.hero');
@@ -32,12 +34,12 @@ form.addEventListener('submit',async e=>{
   btn.disabled=true;
   let token=check();
   if(!token){if(window.openorbiaCheck)window.openorbiaCheck();btn.textContent='Checking...';token=await waitForCheck();}
-  btn.textContent='Joining...';
+  btn.textContent='Subscribing...';
   try{
     const r=await fetch('/api/waitlist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,role:form.role.value,tool:form.role.value==='maker'?tool:'',company:form.company.value,turnstile:token})});
     const d=await r.json().catch(()=>({}));
-    if(r.ok){form.reset();syncTool();msg.className='msg ok';msg.textContent=(d.message||"You're on the list. We'll email you each week's new launches.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
+    if(r.ok){form.reset();syncTool();msg.className='msg ok';msg.textContent=(d.message||"You're subscribed. We'll email you each week's new launches.")+(token?'':" Our spam check didn't run in this browser, so no welcome email this time.");}
     else{msg.className='msg err';msg.textContent=d.error||'Something went wrong. Please try again, or email launch@openorbia.com.';}
   }catch(err){msg.className='msg err';msg.textContent='Could not reach the server. Check your connection and try again.';}
-  resetCheck();btn.disabled=false;btn.textContent='Join the waitlist';
+  resetCheck();btn.disabled=false;btn.textContent="Get Monday's launches";
 });

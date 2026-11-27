@@ -30,7 +30,7 @@ test('the welcome email: subject, preview text, and every section in both the HT
   assert.equal(e.subject, 'You’re in. OpenOrbia launches Nov 23');
   assert.equal(e.preview, 'Free AI tools, with the catch spelled out.');
   assert.match(e.html, /<div style="display:none;[^"]*">Free AI tools, with the catch spelled out\./, 'the preview text is the first thing in the body');
-  for (const s of ['You’re on the list.', 'Launch Week 1 · Monday, Nov 23, 2026', 'What’s free', 'What it needs', 'The catch', 'What happens next',
+  for (const s of ['You’re subscribed.', 'Launch Week 1 · Monday, Nov 23, 2026', 'What’s free', 'What it needs', 'The catch', 'What happens next',
     'The week before Nov 23: the Launch Week 1 lineup.', 'After that: at most one email a week with new free tools.',
     'Building a free AI tool?', 'Khaja, founder of OpenOrbia', 'P.S.']) {
     assert.ok(e.html.includes(s), `html: ${s}`);
@@ -97,7 +97,7 @@ test('a new signup sends one Brevo request: sender, reply-to, recipient, key in 
   assert.deepEqual(body.replyTo, { email: 'launch@openorbia.com' });
   assert.deepEqual(body.to, [{ email: 'new@example.com' }]);
   assert.equal(body.subject, welcomeEmail('reader').subject, 'the subject for the current stage of the launch week');
-  assert.ok(body.textContent.includes('You’re on the list.') && body.htmlContent.includes('You’re on the list.'));
+  assert.ok(body.textContent.includes('You’re subscribed.') && body.htmlContent.includes('You’re subscribed.'));
   assert.ok(!init.body.includes(KEY), 'the key is never in the body');
 });
 
@@ -159,7 +159,7 @@ test('if Brevo fails (error status or network error) the signup still succeeds a
   for (const [i, f] of [brevo(401), brevo(500), brevo(201, { throws: true })].entries()) {
     const res = await handleWaitlist({ request: asJson({ email: `ok${i}@example.com`, role: 'maker' }), env, fetchImpl: f });
     assert.equal(res.status, 200, 'signup succeeded');
-    assert.match((await res.json()).message, /on the list/);
+    assert.match((await res.json()).message, /^You're subscribed\./);
   }
   assert.deepEqual(db.rows('SELECT email FROM waitlist ORDER BY email').map(r => r.email), ['ok0@example.com', 'ok1@example.com', 'ok2@example.com']);
   assert.equal(logged.length, 3, 'each failure is logged');

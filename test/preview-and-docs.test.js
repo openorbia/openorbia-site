@@ -1,3 +1,4 @@
+import { VOTING_ZONE } from '../lib/voting-window.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
@@ -53,10 +54,10 @@ test('HexStrike AI: the new catch and paid dependencies, confidence medium, and 
   assert.equal(row('HexStrike AI').featureOnHomepage, false);
 });
 
-test('only HexStrike AI (by the data) and the founder own tool are kept off the homepage, and anything that picks featured tools must use canFeature', () => {
+test('only HexStrike AI (by the data), the founder own tool and a tool whose card is Not confirmed (Reactive Resume) are kept off the homepage, and anything that picks featured tools must use canFeature', () => {
   assert.deepEqual(data.filter(e => e.featureOnHomepage === false).map(e => e.name), ['HexStrike AI']);
-  assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'SOC Range']);
-  assert.equal(featuredCandidates().length, TOOLS.length - 2);
+  assert.deepEqual(TOOLS.filter(t => !canFeature(t)).map(t => t.name).sort(), ['HexStrike AI', 'Reactive Resume', 'SOC Range']);
+  assert.equal(featuredCandidates().length, TOOLS.length - 3);
   assert.ok(!featuredCandidates().some(t => t.slug === 'hexstrike-ai'));
   assert.ok(file('public/assets/tools.js').includes('export const canFeature'));
 });
@@ -134,21 +135,22 @@ function seedDryRun(args, jsonFile) {
   const r = spawnSync(process.execPath, ['scripts/seed-launches.mjs', '--dry-run', ...(jsonFile ? ['--file', jsonFile] : []), ...args], { cwd: new URL('.', root).pathname.replace(/^\/([A-Za-z]:)/, '$1'), encoding: 'utf8' });
   return { status: r.status, out: r.stdout + r.stderr };
 }
-const pacificMonday = (backWeeks = 0) => {
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(Date.now());
+// the Monday of the current launch-clock week (lib/voting-window.js), the same clock seed-launches.mjs uses
+const launchMonday = (backWeeks = 0) => {
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: VOTING_ZONE }).format(Date.now());
   const d = new Date(`${today}T12:00:00Z`);
   d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7) - 7 * backWeeks);
   return d.toISOString().slice(0, 10);
 };
 
-test('seed --sample-date moves only the samples to a Pacific Monday that is open now (this-week) or closed (last-week); --no-images drops their images', () => {
+test('seed --sample-date moves only the samples to a launch-clock Monday that is open now (this-week) or closed (last-week); --no-images drops their images', () => {
   const now = seedDryRun(['--include-samples', '--sample-date', 'this-week', '--no-images']);
   assert.equal(now.status, 0, now.out.slice(0, 300));
   const dates = [...now.out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]);
-  assert.deepEqual(dates, Array(3).fill(pacificMonday(0)), 'all three samples are in this week');
+  assert.deepEqual(dates, Array(3).fill(launchMonday(0)), 'all three samples are in this week');
   assert.ok(!now.out.includes('/launches/sample-'), 'no sample image is referenced');
   const last = seedDryRun(['--include-samples', '--sample-date', 'last-week']);
-  assert.deepEqual([...last.out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill(pacificMonday(1)));
+  assert.deepEqual([...last.out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill(launchMonday(1)));
   assert.deepEqual([...seedDryRun(['--include-samples', '--sample-date', '2026-11-23']).out.matchAll(/week 1  (\d{4}-\d{2}-\d{2})  \(sample\)/g)].map(m => m[1]), Array(3).fill('2026-11-23'));   // only the samples (real Week 1 launches are listed too)
   const bad = seedDryRun(['--include-samples', '--sample-date', 'someday']);
   assert.equal(bad.status, 2);
@@ -164,6 +166,6 @@ test('seed --sample-date and --no-images never touch a real (non-sample) launch'
     const r = seedDryRun(['--include-samples', '--sample-date', 'this-week', '--no-images'], join(dir, 'launches.json'));
     assert.equal(r.status, 0, r.out.slice(0, 300));
     assert.match(r.out, /real-tool .*week 2  2026-12-07\n/, 'the real launch keeps its date');
-    assert.ok(r.out.includes(`sample-tool  [job]  week 1  ${pacificMonday(0)}  (sample)`), 'the sample moved');
+    assert.ok(r.out.includes(`sample-tool  [job]  week 1  ${launchMonday(0)}  (sample)`), 'the sample moved');
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

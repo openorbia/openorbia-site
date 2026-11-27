@@ -13,7 +13,7 @@ import { pickFeatured, renderFeatured } from '../lib/featured.js';
 import { footerHtml } from '../lib/footer.js';
 import { headerHtml } from '../lib/header.js';
 import { MARK, launchLockHead, jsonLdTag } from '../lib/layout.js';
-import { homeCategoriesHtml } from '../lib/categories.js';
+import { homeCategoriesHtml, categoryStats } from '../lib/categories.js';
 import { starStats, homeStarsHtml, listStarsHtml } from '../lib/stars.js';
 import { defaultCardsHtml, defaultRows } from '../public/assets/launch-list.js';
 import { renderFirstResultStrip } from '../lib/first-result.js';
@@ -21,6 +21,7 @@ import { launchOpensAt, launchClosesAt, weekdayLabel } from '../lib/time.js';
 import { FIRST_LAUNCH_WEEK } from '../lib/site.js';
 import { needsPaidService } from '../public/assets/facts.js';
 import { llmsTxt, llmsFullTxt } from '../lib/llms.js';
+import { closesPhrase } from '../lib/voting-window.js';
 
 const root = new URL('../', import.meta.url);
 const data = JSON.parse(readFileSync(new URL('data/free-facts.json', root), 'utf8'));
@@ -47,7 +48,7 @@ export const listCounts = () => { const paid = TOOLS.filter(t => needsPaidServic
 export function withListCounts(html, { free, paid } = listCounts()) {
   const swaps = [
     [/(<title>Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
-    [/(<meta name="description" content=")\d+( free and open-source AI tools that run without a paid service)/, `$1${free}$2`],
+    [/(<meta name="description" content=")\d+( free AI tools that run without a paid service)/, `$1${free}$2`],
     [/(<meta property="og:title" content="The OpenOrbia Launch List: )\d+( AI tools that run free)/, `$1${free}$2`],
     [/(<h1>)\d+( AI tools that run free,)/, `$1${free}$2`],
     [/(<p class="note">)\d+ more tools? needs? a paid service/, `$1${paid} more tool${paid === 1 ? ' needs' : 's need'} a paid service`],
@@ -110,6 +111,14 @@ export function withLaunchLock(html, page = 'page') {
   return html.replace(LOCK_RE, () => `<!-- launch-lock:start -->\n${launchLockHead()}<!-- launch-lock:end -->`);
 }
 
+// The homepage week intro's closing time (lib/voting-window.js), between <p class="week-intro" data-week-intro> and </p>
+export const WEEK_INTRO_RE = /(<p class="week-intro" data-week-intro>)[^<]*(<\/p>)/;
+export const weekIntroText = () => `New free AI tools launch every Monday. Upvote the ones you'd use until ${closesPhrase()}.`;
+export function withWeekIntro(html) {
+  if ((html.match(new RegExp(WEEK_INTRO_RE.source, 'g')) || []).length !== 1) throw new Error('public/index.html: expected one week-intro paragraph');
+  return html.replace(WEEK_INTRO_RE, (_, open, close) => `${open}${weekIntroText()}${close}`);
+}
+
 // The GitHub star lines (lib/stars.js), from data/stars.json (npm run fetch:stars)
 export const stats = () => starStats(TOOLS, JSON.parse(readFileSync(new URL('data/stars.json', root), 'utf8')));
 
@@ -123,9 +132,9 @@ function fill(html, name, inner, page = 'public/index.html') {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const home = new URL('public/index.html', root);
-  const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats()));
+  const filled = fill(fill(fill(fill(readFileSync(home, 'utf8'), 'featured', featuredHtml()), 'first-results', firstResultsHtml()), 'categories', homeCategoriesHtml()), 'stars', homeStarsHtml(stats(), categoryStats()));
   if (!LINEUP_RE.test(filled)) { console.error('public/index.html has no <p class="week-lineup" data-lineup-date>'); process.exit(1); }
-  writeFileSync(home, filled.replace(LINEUP_RE, lineupHtml()));
+  writeFileSync(home, withWeekIntro(filled.replace(LINEUP_RE, lineupHtml())));
   const list = new URL('public/launch-list/index.html', root);
   writeFileSync(list, fill(withListJsonLd(withListCards(withListChecked(withListCounts(readFileSync(list, 'utf8'))))), 'stars', listStarsHtml(stats()), 'public/launch-list/index.html'));
   for (const page of STATIC_PAGES) {
