@@ -72,8 +72,8 @@ test('the waitlist is for readers by default; "Your tool\'s website" shows only 
   assert.ok(js.includes("const syncTool=()=>{toolRow.hidden=form.role.value!=='maker';};") && js.includes('form.reset();syncTool();'));
 });
 
-test('hero: one badge with the date, short enough for one line; the week box keeps its heading but no second pill', () => {
-  assert.ok(home.includes('<span class="badge"><i></i>Launch Week 1 · Nov 23</span>'));
+test('hero: one badge, short enough for one line (launch.js puts in the week and its state); the week box keeps its heading but no second pill', () => {
+  assert.ok(home.includes('<span class="badge" id="hero-week"><i></i><span data-week-text>New launches every Monday</span></span>'));
   assert.ok(home.includes('<h2 id="week-h">This week\'s launches</h2>'));
   assert.ok(!home.includes('id="week-badge"'));
 });
